@@ -1,0 +1,8 @@
+# Documentation static site generator & deployment tool
+mkdocs>=1.4.3
+
+# Wikilinks support
+mkdocs-roamlinks-plugin>=0.3.2
+
+# Material theme
+mkdocs-material>=9.1.16

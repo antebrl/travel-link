@@ -1,0 +1,47 @@
+site_name: Flutter Demo Project
+#site_url: @ToDo adapt to your project https://hci-trapp.h-da.io/wise23-24-hci-lab-base-project/pages
+site_url: https://utrapp.gitlab.io/learning-flutter
+site_dir: public/docs
+docs_dir: ./docs
+
+plugins:
+  - search
+
+theme:
+  logo: https://fbi.h-da.de/Cms/Resources/Public/Design/i-lgo.svg
+  name: "material"
+  language: "en"
+  palette:
+    # Palette toggle for light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: light green
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+
+    # Palette toggle for dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: light green
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+# Extensions
+markdown_extensions:
+  - footnotes
+  - attr_list
+  - pymdownx.highlight
+  - pymdownx.superfences
+  - pymdownx.details
+  - pymdownx.magiclink
+  - pymdownx.tasklist
+  - pymdownx.emoji
+  - admonition
+  - toc:
+      permalink: true
+
+plugins:
+  - search
+  - roamlinks

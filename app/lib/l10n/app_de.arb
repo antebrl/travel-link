@@ -1,0 +1,20 @@
+{
+  "@@locale": "de",
+  "appTitle": "Demo-App mit Riverpod und go_router",
+  "ok": "Ok",
+  "cancel": "Abbrechen",
+  "yes": "Ja",
+  "no": "Nein",
+  "add": "Hinzufügen",
+  "save": "Speichern",
+  "error": "Sorry, da ist etwas schief gegangen...",
+  "loading": "Lade ...",
+  "select": "Auswahl",
+  "selected": "Ausgewählt",
+  "search": "Suche",
+  "counterLabel": "Du hast den Button sooft gedrückt:",
+  "fabMainTooltip": "erhöhen",
+  "placeholder": "placeholder",
+  "home": "Start",
+  "counter": "Zähler"
+}
