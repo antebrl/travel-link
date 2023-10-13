@@ -5,9 +5,9 @@ FROM ubuntu:latest
 # ENV -- define relevant versions
 ##########################
 # latest versions check at https://developer.android.com/studio#command-tools
-ENV ANDROID_TOOLS_VERSION "9477386"
+ENV ANDROID_TOOLS_VERSION "10406996"
 # latest version see https://docs.flutter.dev/release/archive?tab=linux
-ENV FLUTTER_VERSION="3.10.5"
+ENV FLUTTER_VERSION="3.13.7"
 
 # update all packages
 RUN apt-get update -y && \
