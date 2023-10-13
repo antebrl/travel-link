@@ -28,17 +28,26 @@ However, most of the corresponding material is publicly available under [HCI-Tra
 
 ## Getting started
 
+Some files contain hardcoded information of the repository and namespace of the app. Hence, to make everything work properly, you need to adapt some files and links. However, the pipeline should work at it is, just the links will not work. And if you go to your pages the embedded iframe shows the app of my repository. To be able to perform the following adaptions, you first need a successful pipeline.
+
+1. find the url of the gitlab pages of your repository: go to deploy --> pages --> access pages. Make sure the checkbox with _Use unique domain_ is checked and saved.
+
+2. adapt the relative path of your web app in the file .gitlab-ci.yml line 47 replace _/learning-flutter/app/_ by your relative path.
+
+   - e.g. if your pages url looks like https://utrapp.gitlab.io/weather/ you will replace it by _/weather/app/_
+   - e.g. if your pages url looks like https://hci-lab-stud-base-hci-trapp-b7d28e4b4e3781a4348b8736851ad75af0d.h-da.io/ you will replace it by _/app/_
+
+3. adapt all links (search & replace in all files)
+
+   - replace https://utrapp.gitlab.io/learning-flutter/ by your pages url
+   - replace https://gitlab.com/utrapp/learning-flutter by the url of your repository
+
+4. namespace of your app: (search&replace in all files com.example.ri_go_demo with a real namespace related to the web url of your company, e.g. de.hda.fbi.hci.trapp.demo)
+
 - work on the dev branch (no pipeline) for untested small commits, ...
 - work on the main branch to publish your work (full pipeline)
-- adapt the following files to your needs and to your repository
-  - namespace android app (search&replace in all files ...trapp... with your URL)
-  - HREF in web build in gitlab ci l 44 adapt to your project
-  - links
-    - replace https://utrapp.gitlab.io/learning-flutter/ by your pages (go to settings, ...)
-    - replace https://utrapp.gitlab.io/learning-flutter/ by your project URL
-    - start coding in the folder src
-    - start filling the pages in the folder docs
-- replace default namespace com.example. with your namespace (android, ...), e.g.
+- start coding in the folder src
+- start filling the pages in the folder docs
 - use riverpod generate to automatically update generated files on changes
 
 ```
@@ -46,12 +55,18 @@ flutter pub run build_runner watch -d
 ```
 
 - code quality: go to cid/cd --> pipelines --> click a pipeline --> code quality, see [gitlab code quality](https://docs.gitlab.com/ee/ci/testing/code_quality.html)
+- check regularly for new lib versions `flutter pub outdated`
 
 ## Building/starting docker container locally
 
+Open a command shell and navigate to the path with the file Dockerfile. And make sure docker is running, test with _docker ps_.
+
 - in windows cmd shell use `%cd%/app/` for the current path, in linux shell use `$(pwd)/app/` instead and within a powershell use `${pwd}/app/`
 - `docker build -f ./Dockerfile -t "flutter_project_builder" .` builds the docker image locally
-- `docker run -it -v %cd%/app/:/home/app/ flutter_project_builder bash` runs the docker image and mounts the app folder for further testing of building the app, e.g. go to the folder /home/app and run `flutter build apk`
+- `docker run -it -v %cd%:/home flutter_project_builder bash` runs the docker image and mounts the current path to the folder /home in the container
+  - go to the folder /home/app and run `flutter pub get` and `flutter build apk`
+  - got to the folder /home and run `mkdocs build --strict --verbose` to check if the docs creation works
+- `docker run -p 0.0.0.0:8080:8080 -v  $(pwd):/home -w /home -it flutter_project_builder mkdocs serve -a 0.0.0.0:8080` will run the mkdocs server and your docs are available at http://127.0.0.1:8080/learning-flutter/labs/flutter/
 
 ## Video tutorials
 
