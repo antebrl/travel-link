@@ -44,7 +44,7 @@ build-web-app:
     - flutter config --enable-web
     - flutter pub get
   script:
-    - flutter build web --base-href /learning-flutter/app/
+    - flutter build web --base-href /app/
   rules:
     - if: $CI_COMMIT_BRANCH == "main"
   artifacts:
