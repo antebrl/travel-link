@@ -1,6 +1,6 @@
 # Learning Flutter
 
-![Build Status](https://gitlab.com/utrapp/learning-flutter/badges/main/pipeline.svg)
+![Build Status](https://code.fbi.h-da.de/hci-trapp/hci-lab-stud-base/badges/main/pipeline.svg)
 
 This repo contains a base project, that
 
