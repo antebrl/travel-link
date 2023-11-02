@@ -60,6 +60,9 @@ ENV PATH="${FLUTTER_SDK_ROOT}/bin:${FLUTTER_SDK_ROOT}/bin/cache/dart-sdk/bin:${P
 
 RUN flutter config --enable-web
 RUN flutter config --enable-android
+RUN flutter config --no-enable-linux-desktop
+RUN flutter config --android-sdk ${ANDROID_SDK_ROOT}
+RUN flutter channel ${FLUTTER_CHANNEL}
 RUN flutter precache
 RUN flutter doctor
 RUN flutter upgrade
