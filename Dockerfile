@@ -6,8 +6,7 @@ FROM ubuntu:latest
 ##########################
 # latest versions check at https://developer.android.com/studio#command-tools
 ENV ANDROID_TOOLS_VERSION "10406996"
-# latest version see https://docs.flutter.dev/release/archive?tab=linux
-ENV FLUTTER_VERSION="3.13.7"
+ENV FLUTTER_CHANNEL="stable"
 
 # update all packages
 RUN apt-get update -y && \
@@ -59,6 +58,8 @@ RUN git clone https://github.com/flutter/flutter.git ${FLUTTER_SDK_ROOT}
 
 ENV PATH="${FLUTTER_SDK_ROOT}/bin:${FLUTTER_SDK_ROOT}/bin/cache/dart-sdk/bin:${PATH}"
 
+RUN flutter config --enable-web
+RUN flutter config --enable-android
 RUN flutter precache
 RUN flutter doctor
 RUN flutter upgrade
