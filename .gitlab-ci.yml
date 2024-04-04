@@ -8,7 +8,8 @@ stages:
   - publish
 
 variables: 
-  DOCKER_REGISTRY: "registry.code.fbi.h-da.de/hci-trapp/hci-lab-stud-base/stud_project_builder:latest" 
+  # must be a public project to be accessible by ci
+  DOCKER_REGISTRY: "registry.code.fbi.h-da.de/hci-trapp-public/hci-docker/stud_project_builder:latest" 
 
 # Jobs
 
