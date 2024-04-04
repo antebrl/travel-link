@@ -60,15 +60,15 @@ flutter pub run build_runner watch -d
 - check regularly for new lib versions `flutter pub outdated`
 
 ## Building/starting docker container locally
-Pull the container provided with `docker pull registry.code.fbi.h-da.de/hci-trapp/hci-lab-stud-base/stud_project_builder`.
+Pull the container provided with `docker pull registry.code.fbi.h-da.de/hci-trapp-public/hci-docker/stud_project_builder`.
 - navigate to your repository
 - for the next commands: in windows cmd shell use `%cd%` for the current path, in linux shell use `$(pwd)` instead and within a powershell use `${pwd}`
-- `docker run -it -v $(pwd):/home registry.code.fbi.h-da.de/hci-trapp/hci-lab-stud-base/stud_project_builder bash` runs the docker image, starts the bash and mounts the current path to the folder /home in the container
+- `docker run -it -v $(pwd):/home registry.code.fbi.h-da.de/hci-trapp-public/hci-docker/stud_project_builder bash` runs the docker image, starts the bash and mounts the current path to the folder /home in the container
   - go to the folder /home/app and run `flutter pub get` and `flutter build apk`, see a demo run below
   - got to the folder /home and run `mkdocs build --strict --verbose` to check if the docs creation works, see a demo run below
 
 ```
-ubuntu@Notebook-Trapp:/mnt/c/repos/hdagit/hci/hci-lab-stud-base$ docker run -it -v $(pwd):/home registry.code.fbi.h-da.de/hci-trapp/hci-lab-stud-base/stud_project_builder bash
+ubuntu@Notebook-Trapp:/mnt/c/repos/hdagit/hci/hci-lab-stud-base$ docker run -it -v $(pwd):/home registry.code.fbi.h-da.de/hci-trapp-public/hci-docker/stud_project_builder bash
 root@b0e6eb37052a:/home/mk-docs# cd ..
 root@b0e6eb37052a:/home# ls
 LICENSE  README.md  app  docs  learning  mk-docs  mkdocs.yml  public
@@ -89,7 +89,7 @@ INFO    -  Documentation built in 2.25 seconds
 root@41b82fe3bb9d:/home# exit 
 ```
   
-- `docker run -p 0.0.0.0:8080:8080 -v  $(pwd):/home -w /home -it registry.code.fbi.h-da.de/hci-trapp/hci-lab-stud-base/stud_project_builder mkdocs serve -a 0.0.0.0:8080` will run the mkdocs server and your docs are available at http://localhost:8080/
+- `docker run -p 0.0.0.0:8080:8080 -v  $(pwd):/home -w /home -it registry.code.fbi.h-da.de/hci-trapp-public/hci-docker/stud_project_builder mkdocs serve -a 0.0.0.0:8080` will run the mkdocs server and your docs are available at http://localhost:8080/
 
 ## Video tutorials
 
