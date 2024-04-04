@@ -1,16 +1,21 @@
 site_name: Flutter Demo Project
-#site_url: @ToDo adapt to your project https://hci-trapp.h-da.io/wise23-24-hci-lab-base-project/pages
+#site_url: @ToDo adapt to your project https://hci-trapp.h-da.io/sose24-hci-lab-base-project/pages
 site_url: https://utrapp.gitlab.io/learning-flutter
 site_dir: public/docs
 docs_dir: ./docs
 
 plugins:
   - search
+  - bibtex:
+      bib_file: "lit.bib"
+  - autorefs
+  - mermaid2
 
 theme:
   logo: https://fbi.h-da.de/Cms/Resources/Public/Design/i-lgo.svg
+  favicon: https://fbi.h-da.de/typo3conf/ext/hda/Resources/Public/Icons/favicon.ico
   name: "material"
-  language: "en"
+  language: "en" # change to de if you write in German
   palette:
     # Palette toggle for light mode
     - media: "(prefers-color-scheme: light)"
@@ -27,21 +32,37 @@ theme:
       toggle:
         icon: material/brightness-4
         name: Switch to light mode
+  features:
+    - navigation.indexes
+    - navigation.sections
+    - navigation.tracking
+    - navigation.expand
+    - toc.follow
+    - content.code.copy
 
 # Extensions
 markdown_extensions:
-  - footnotes
-  - attr_list
-  - pymdownx.highlight
-  - pymdownx.superfences
-  - pymdownx.details
-  - pymdownx.magiclink
-  - pymdownx.tasklist
-  - pymdownx.emoji
   - admonition
+  - codehilite:
+      linenums: true
+      guess_lang: true
   - toc:
-      permalink: true
+      permalink: false
+  - meta # needed for search
+  - md_in_html # for better formatting of images, e.g. use figure
+  - footnotes # for bibtex
+  - attr_list # needed by the following for emoji
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.superfences:
+      # make exceptions to highlighting of code:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:mermaid2.fence_mermaid_custom
 
-plugins:
-  - search
-  - roamlinks
+extra_javascript:
+  - https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.6.1/mermaid.min.js
+
+
