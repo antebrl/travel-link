@@ -27,9 +27,6 @@ To debug this application you need an installation of Flutter and Android
 
 If you have problems to start the application run in the terminal `flutter doctor`.
 
-## Build
-To build the application with the docker container provided run
-
 ## Edit
 If you edit any provider or freezed class make sure the builder is running 
 `dart run build_runner watch` 

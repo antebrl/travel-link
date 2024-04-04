@@ -3,39 +3,19 @@
 # - artifacts https://docs.gitlab.com/ee/ci/jobs/job_artifacts.html
 
 stages:
-  - docker-image
   - build
   - test
   - publish
 
-# Jobs
+variables: 
+  DOCKER_REGISTRY: "registry.code.fbi.h-da.de/hci-trapp/hci-lab-stud-base/stud_project_builder:latest" 
 
-# build docker image for all other jobs -- do not change anything here
-# see https://docs.gitlab.com/ee/ci/docker/using_kaniko.html
-# if you do not need mkdocs consider using one of the the following images
-# registry.gitlab.com/famedly/containers/flutter-dockerimages:stable
-# cirrusci/flutter
-docker-image:
-  stage: docker-image
-  image:
-    name: gcr.io/kaniko-project/executor:debug
-    entrypoint: [""]
-  script:
-    - mkdir -p /kaniko/.docker
-    - echo update container image ${CI_REGISTRY_IMAGE}/project_builder:latest
-    - echo "{\"auths\":{\"${CI_REGISTRY}\":{\"auth\":\"$(printf "%s:%s" "${CI_REGISTRY_USER}" "${CI_REGISTRY_PASSWORD}" | base64 | tr -d '\n')\"}}}" > /kaniko/.docker/config.json
-    - /kaniko/executor
-      --context "${CI_PROJECT_DIR}"
-      --dockerfile "${CI_PROJECT_DIR}/Dockerfile"
-      --destination "${CI_REGISTRY_IMAGE}/project_builder:latest"
-  rules:
-    - changes:
-        - Dockerfile
+# Jobs
 
 build-web-app:
   stage: build
   image:
-    name: ${CI_REGISTRY_IMAGE}/project_builder:latest
+    name: ${DOCKER_REGISTRY}
   before_script:
     - cd app
     - flutter clean
@@ -54,7 +34,7 @@ build-web-app:
 build-apk:
   stage: build
   image:
-    name: ${CI_REGISTRY_IMAGE}/project_builder:latest
+    name: ${DOCKER_REGISTRY}
   before_script:
     - cd app
     - flutter clean
@@ -72,22 +52,10 @@ build-apk:
     paths:
       - app/build/app/outputs/flutter-apk/app-release.apk
 
-# build-ios: access requested, could not be tested!, as it is suggested by docs
-# stage: build
-#tags:
-#  - saas-macos-medium-m1
-# image: macos-12-xcode-14 # check available images in settings ci
-# before_script:
-#  - cd app
-#  - flutter pub get
-# script:
-#- flutter build ios --no-codesign
-#- fastlane build
-
 build-mkdocs:
   stage: build
   image:
-    name: ${CI_REGISTRY_IMAGE}/project_builder:latest
+    name: ${DOCKER_REGISTRY}
   before_script:
     - mkdocs --version
   script:
@@ -102,7 +70,7 @@ build-mkdocs:
 code-quality:
   stage: test
   image:
-    name: ${CI_REGISTRY_IMAGE}/project_builder:latest
+    name: ${DOCKER_REGISTRY}
   before_script:
     - cd app
     - export PATH="$PATH":"$HOME/.pub-cache/bin"
@@ -122,7 +90,7 @@ code-quality:
 riverpod:
   stage: test
   image:
-    name: ${CI_REGISTRY_IMAGE}/project_builder:latest
+    name: ${DOCKER_REGISTRY}
   before_script:
     - cd app
   script:
@@ -133,29 +101,6 @@ riverpod:
       changes:
         - app/**/*
   allow_failure: true
-
-# see https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/ci/templates/Flutter.gitlab-ci.yml
-# not active at the moment, no tests implemented in final version
-# see example in https://gitlab.com/utrapp/learning-flutter/-/blob/v0.0.3/app/test/widget_test.dart
-# tests:
-#   stage: test
-#   image:
-#     name: ${CI_REGISTRY_IMAGE}/project_builder:latest
-#   before_script:
-#     - cd app
-#     - flutter pub global activate junitreport
-#     - export PATH="$PATH":"$HOME/.pub-cache/bin"
-#   script:
-#     - flutter pub get
-#     - flutter test --machine | tojunit -o report.xml
-#   artifacts:
-#     reports:
-#       junit: app/report.xml
-#   rules:
-#   - if: $CI_COMMIT_BRANCH == "main"
-#     changes:
-#       - app/**/*
-#   allow_failure: true
 
 pages:
   stage: publish

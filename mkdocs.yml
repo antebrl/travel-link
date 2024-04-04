@@ -7,7 +7,7 @@ docs_dir: ./docs
 plugins:
   - search
   - bibtex:
-      bib_file: "lit.bib"
+      bib_file: "docs/assets/lit.bib"
   - autorefs
   - mermaid2
 
