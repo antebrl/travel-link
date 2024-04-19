@@ -7,7 +7,7 @@ Document your user research (plan and findings).
 - ordered list with 1.
 - links with [mkdocs-material](https://squidfunk.github.io/mkdocs-material/reference/)
 - references defined in docs/lit.bib may be referenced with [@hciscript]
-- reference a chapter of your docs [demo](../2-Design#demo)
+- reference a chapter of your docs [demo](./3-Design.md#demo)
 - code snippets
 
 ```dart
@@ -20,9 +20,9 @@ Future<void> printOrderMessage() async {
 
 - You may include images like this
 
-![demo1](../assets/images/mobile.jpg)
+![demo1](assets/images/mobile.jpg)
 
-![demo2](../assets/images/mobile.jpg){: height="5em" width="5em"}
+![demo2](assets/images/mobile.jpg){: height="5em" width="5em"}
 ![fbi](https://fbi.h-da.de/Cms/Resources/Public/Design/i-lgo.svg)
 
 	
