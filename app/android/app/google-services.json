@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "645505180626",
+    "project_id": "travel-link1",
+    "storage_bucket": "travel-link1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:645505180626:android:1cf00fc0ecd669c31cde0b",
+        "android_client_info": {
+          "package_name": "de.h_da.travel_link"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBwVCuyHudxjZvQGTK9v6Po1H5HJ4HoIpU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
