@@ -73,3 +73,59 @@ graph LR
 	- :smile:
 	- :video_camera:
 	- :fontawesome-solid-user:
+
+# Preparation Lab2 User Research
+
+## Criteria/assumptions of your users
+- contious of budget
+- interested in new locations
+- user may work as a tour guide
+- interested in planning own trips
+- user may be a shy person
+- user maybe wants to travel with people in the same age groupe
+- travel groupe wants to share pictures of the trip
+- tour organizer wants to provide travel details
+- a group of friends want to plan a trip
+- family wants to plan a trip
+- user wants to do a day trip
+- group of friend wants to do a weekend trip
+- family is planning a vacation
+- user in interested in cultural trips
+- user wants to do a relaxing vacation
+- user wants to have as much fun as possible
+- additional users may want to join during the trip
+- user currently has no internet connection
+- user wants to plan trips during different seasons
+- users eyesight may be worse than yours
+- disabilities
+
+## hypotheses
+- Reseach Question: What are the benefits of planning a trip with a mobile app?
+  - Hypotheses: A likely advantage of planning trips with a mobie app will be the ease of sharing the planned trips with third paries.
+- Research Question: What length of trips are users more likely to choose?
+  - Hypotheses: A user is more likely to plan a one day trip instead of a whole vacation.
+- Reseach Question: Do online vacation planning tools improve the quality of your vacation?
+  - Hypotheses: The use of different tools, like Whatsapp for communication, or Dropbox for file sharing can significantly improve the quality of trips in general.
+
+## questions for the interview
+
+### Interview introduction:
+1. Verify if its a person of interest
+2. Introduction
+3. Goal of interview: Gather different perspective and needs
+
+### Questions:
+1. How do you currently plan your trips?
+2. What do you spend most of your time on planning a trip?
+3. What problems do you run into planning a trip?
+
+4. For what kind of goups do you plan you trips?
+5. Top 3 worst things planning a trip?
+6. What makes a good trip, what makes a bad one?
+
+7. What modes of transportation do you use during your trips?
+8. How many pictures/videos etc. do you share per trip?
+9. If you had a wish?
+
+### End of Interview:
+1. Thank person
