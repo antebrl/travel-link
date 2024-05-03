@@ -1,6 +1,6 @@
 site_name: Flutter Demo Project
 #site_url: @ToDo adapt to your project https://hci-trapp.h-da.io/sose24-hci-lab-base-project/pages
-site_url: https://utrapp.gitlab.io/learning-flutter
+site_url: https://hcimo4x-grey-trapp-hci-trapp-hci-lab-studi-sose2-e6afe3a1eb2adc.h-da.io/
 site_dir: public/docs
 docs_dir: ./docs
 

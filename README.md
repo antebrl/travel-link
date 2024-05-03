@@ -22,10 +22,10 @@ However, most of the corresponding material is publicly available under [HCI-Tra
 
 ## Pages
 
-- [check your docs](https://hci-lab-stud-base-hci-trapp-b7d28e4b4e3781a4348b8736851ad75af0d.h-da.io/docs/)
+- [check your docs](https://hcimo4x-grey-trapp-hci-trapp-hci-lab-studi-sose2-e6afe3a1eb2adc.h-da.io/docs/)
     - example syntax is provided in docs/1-UserResearch.md
     - further syntax see [mkdocs-material](https://squidfunk.github.io/mkdocs-material/reference/)
-- [check the app](https://hci-lab-stud-base-hci-trapp-b7d28e4b4e3781a4348b8736851ad75af0d.h-da.io/app/)
+- [check the app](https://hcimo4x-grey-trapp-hci-trapp-hci-lab-studi-sose2-e6afe3a1eb2adc.h-da.io/app/)
 
 ## Getting started
 
