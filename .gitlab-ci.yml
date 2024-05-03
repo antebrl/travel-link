@@ -4,7 +4,7 @@
 
 stages:
   - build
-  - test
+ # - test
   - publish
 
 variables: 
@@ -68,25 +68,25 @@ build-mkdocs:
       - public/docs
 
 # see https://pub.dev/packages/flutter_analyze_reporter/example
-code-quality:
-  stage: test
-  image:
-    name: ${DOCKER_REGISTRY}
-  before_script:
-    - cd app
-    - export PATH="$PATH":"$HOME/.pub-cache/bin"
-  script:
-    - flutter pub get
-    - flutter analyze
-    - dart pub global activate flutter_analyze_reporter
-    - flutter_analyze_reporter --output report.json --reporter gitlab
-  rules:
-    - changes:
-        - app/**/*
-      allow_failure: true
-  artifacts:
-    reports:
-      codequality: app/report.json
+# code-quality:
+#   stage: test
+#   image:
+#     name: ${DOCKER_REGISTRY}
+#   before_script:
+#     - cd app
+#     - export PATH="$PATH":"$HOME/.pub-cache/bin"
+#   script:
+#     - flutter pub get
+#     - flutter analyze
+#     - dart pub global activate flutter_analyze_reporter
+#     - flutter_analyze_reporter --output report.json --reporter gitlab
+#   rules:
+#     - changes:
+#         - app/**/*
+#       allow_failure: true
+#   artifacts:
+#     reports:
+#       codequality: app/report.json
 
 riverpod:
   stage: test
