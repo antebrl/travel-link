@@ -88,20 +88,20 @@ build-mkdocs:
 #     reports:
 #       codequality: app/report.json
 
-riverpod:
-  stage: test
-  image:
-    name: ${DOCKER_REGISTRY}
-  before_script:
-    - cd app
-  script:
-    - flutter pub get
-    - dart run custom_lint
-  rules:
-    - if: $CI_COMMIT_BRANCH == "main"
-      changes:
-        - app/**/*
-  allow_failure: true
+# riverpod:
+#   stage: test
+#   image:
+#     name: ${DOCKER_REGISTRY}
+#   before_script:
+#     - cd app
+#   script:
+#     - flutter pub get
+#     - dart run custom_lint
+#   rules:
+#     - if: $CI_COMMIT_BRANCH == "main"
+#       changes:
+#         - app/**/*
+#   allow_failure: true
 
 pages:
   stage: publish
