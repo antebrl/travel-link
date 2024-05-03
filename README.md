@@ -1,6 +1,6 @@
 # Learning Flutter
 
-![Build Status](https://code.fbi.h-da.de/hci-trapp/hci-lab-stud-base/badges/main/pipeline.svg)
+![Build Status](https://code.fbi.h-da.de/hci-trapp/hci-lab-studi-sose24/hci-Mi4x-grey/badges/main/pipeline.svg)
 
 This repo 
 
