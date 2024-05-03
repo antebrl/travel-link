@@ -1,5 +1,5 @@
-name: hello_world
-description: "A new Flutter project."
+name: travel_link
+description: "A Travel-App that helps you organize your trips with your friends"
 publish_to: 'none'
 version: 0.1.0
 
@@ -7,13 +7,76 @@ environment:
   sdk: '>=3.3.3 <4.0.0'
 
 dependencies:
+  cupertino_icons: ^1.0.6
   flutter:
     sdk: flutter
+  flutter_localization: ^0.2.0
+  intl: ^0.18.1
+  # riverpod stuff
+  flutter_riverpod: ^2.5.1
+  riverpod_annotation: ^2.3.5
+
+  dio: ^5.4.2+1
+  pretty_dio_logger: ^1.3.1
+  logger: ^2.2.0
+  go_router: ^13.2.2
+  gap: ^3.0.1
+  freezed: ^2.4.7
+  freezed_annotation: ^2.4.1
+  json_annotation: ^4.8.1
+  firebase_core: ^2.30.0
+  firebase_auth: ^4.19.2
+  cloud_firestore: ^4.17.0
+  firebase_ui_auth: ^1.13.1
+  equatable: ^2.0.5
+  transparent_image: ^2.0.1
+  google_fonts: ^6.2.1
+  html: ^0.15.4
+  url_launcher: ^6.2.6
+  get: ^4.6.6
+  flutter_svg: ^2.0.0
+  country_icons: ^3.0.0
+  get_storage: ^2.1.1
+  firebase_storage: ^11.7.4
+  connectivity_plus: ^6.0.3
+  font_awesome_flutter: ^10.7.0
+  cached_network_image: ^3.3.1
+  flutter_speed_dial: ^7.0.0
+  flag: ^7.0.0
+  image_picker: ^1.1.1
+  location: ^6.0.1
+  http: ^1.2.1
+  flutter_map: ^6.1.0
+  geocoding: ^3.0.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^3.0.0
-
+  build_runner: ^2.4.6
+  build_verify: ^3.1.0
+  very_good_analysis: ^5.1.0
+  # riverpod generator/dev stuff
+  riverpod_generator: ^2.4.0
+  riverpod_lint: ^2.3.10
+  
 flutter:
+  assets:
+      - assets/images/continents/Africa.png
+      - assets/images/continents/Asia.png
+      - assets/images/continents/Australia.png
+      - assets/images/continents/Europe.png
+      - assets/images/continents/NorthAmerica.png
+      - assets/images/continents/SouthAmerica.png
+      - assets/images/activities/camp-nou.jpg
+
   uses-material-design: true
+  # for localization
+  generate: true
+
+
+
+fonts:
+  - family: SocialIcons
+    fonts:
+      - asset: packages/firebase_ui_auth/fonts/SocialIcons.ttf
