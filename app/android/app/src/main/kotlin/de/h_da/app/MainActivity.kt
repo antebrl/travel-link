@@ -1,4 +1,4 @@
-package de.h_da.travel_link
+package de.h_da.app
 
 import io.flutter.embedding.android.FlutterActivity
 
