@@ -46,7 +46,7 @@ class TripsScreen extends ConsumerWidget {
             child: Text('Error loading trips. Please try again later.'),
           ),
         );
-      }
+      },
     );
   }
 }

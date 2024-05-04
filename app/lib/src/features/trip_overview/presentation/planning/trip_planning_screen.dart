@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:travel_link/src/features/explore_trips/domain/trip.dart';
 
@@ -77,7 +76,6 @@ class TripPlanningScreen extends StatelessWidget {
                   ),
                 ),
               ],
-            );
-            
+            );        
   }
 }

@@ -142,6 +142,7 @@ class _TripOverviewScreenState extends ConsumerState<TripOverviewScreen>
                       onPressed: () async {
                         // TODO(Ante): Use Controller to join Trip here
                         
+                        // ignore: unused_result
                         ref.refresh(fetchMyTripsProvider);
                       },
                       child: const Text('Join'),

@@ -9,8 +9,8 @@ This repo
   - in German:[Flutter-Tutorial (deutsch) mit Riverpod und GoRouter](https://www.youtube.com/playlist?list=PLosiZFS_rnz4QLGoivxmL8thtp9la79eW)
   - in English: [Flutter tutorial with Riverpod and GoRouter](https://www.youtube.com/playlist?list=PLosiZFS_rnz6GE9SJPoVrmHB3wndU6K_Q)
 - shows the publication with gitlab ci and gitlab pages of
-  - [documentation](https://hci-lab-stud-base-hci-trapp-b7d28e4b4e3781a4348b8736851ad75af0d.h-da.io/docs) written in md-files as supported by [obsidian](https://obsidian.md/) and realized using [mkdocs](https://www.mkdocs.org/)
-  - the running flutter app as a [web app](https://hci-lab-stud-base-hci-trapp-b7d28e4b4e3781a4348b8736851ad75af0d.h-da.io/app/)
+  - [documentation](https://hcimo4x-grey-trapp-hci-trapp-hci-lab-studi-sose2-e6afe3a1eb2adc.h-da.io/docs) written in md-files as supported by [obsidian](https://obsidian.md/) and realized using [mkdocs](https://www.mkdocs.org/)
+  - the running flutter app as a [web app](https://hcimo4x-grey-trapp-hci-trapp-hci-lab-studi-sose2-e6afe3a1eb2adc.h-da.io/app/)
 - shows ci of a flutter app
   - building the android APK-file (unsigned)
   - building the web app

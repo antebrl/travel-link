@@ -6,7 +6,6 @@ import 'package:travel_link/firebase_options.dart';
 import 'package:travel_link/src/utils/theme/theme.dart';
 import 'src/routing/app_router.dart';
 import 'src/utils/helpers/localization.dart';
-import 'package:travel_link/src/utils/theme/theme.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

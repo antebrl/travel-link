@@ -1,4 +1,4 @@
-package de.h_da.app
+package de.h_da.fbi.hci.app
 
 import io.flutter.embedding.android.FlutterActivity
 

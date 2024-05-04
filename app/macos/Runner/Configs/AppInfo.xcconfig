@@ -8,7 +8,7 @@
 PRODUCT_NAME = travel_link
 
 // The application's bundle identifier
-PRODUCT_BUNDLE_IDENTIFIER = de.h_da.travel_link
+PRODUCT_BUNDLE_IDENTIFIER = de.h_da.fbi.hci.travel_link
 
 // The copyright displayed in application information
-PRODUCT_COPYRIGHT = Copyright © 2024 de.h_da. All rights reserved.
+PRODUCT_COPYRIGHT = Copyright © 2024 de.h_da.fbi.hci. All rights reserved.

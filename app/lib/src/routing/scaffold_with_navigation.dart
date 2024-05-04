@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:travel_link/src/utils/helpers/helper_functions.dart';
-import 'package:travel_link/src/utils/theme/theme.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
+import 'package:travel_link/src/utils/helpers/helper_functions.dart';
 import 'package:travel_link/src/utils/helpers/localization.dart';
 
 // see https://github.com/flutter/packages/blob/main/packages/go_router/example/lib/stateful_shell_route.dart
