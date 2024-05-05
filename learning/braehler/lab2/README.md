@@ -2,6 +2,12 @@
 
 Die Anwendung wurde gemäß diesen Vorgaben aufgebaut
 
+- the first screen contains a greeting message, an image and a button
+- when you click on the button you will be navigated to the second screen
+- on the second screen there is an input text and a button
+- if you click on the button something should happen based on your input
+- your app should run in your browser
+
 ### Greetings Screen
 ![Greetings Screen](assets/docs/greeting_screen.png)
 
