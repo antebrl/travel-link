@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:travel_link/src/features/authentication/data/firebase_auth_repository.dart';
 import 'package:travel_link/src/features/explore_trips/data/trips_repository.dart';
 import 'package:travel_link/src/features/my_trips/data/my_trips_repository.dart';
+import 'package:travel_link/src/features/my_trips/presentation/my_trips_controller.dart';
 import 'package:travel_link/src/features/trip_overview/presentation/planning/trip_planning_screen.dart';
 import 'package:travel_link/src/utils/logging/logger.dart';
 
@@ -140,8 +141,20 @@ class _TripOverviewScreenState extends ConsumerState<TripOverviewScreen>
               userId != null && !trip.participants.contains(userId)
                   ? FloatingActionButton(
                       onPressed: () async {
-                        // TODO(Ante): Use Controller to join Trip here
-                        
+                        if (trip.participants.length >=
+                            (trip.maxParticipants ?? double.infinity)) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Trip is full'),
+                            ),
+                          );
+                          return;
+                        }
+                        // join Trip
+                        await ref
+                            .read(myTripsControllerProvider.notifier)
+                            .joinTrip(trip: trip);
+
                         // ignore: unused_result
                         ref.refresh(fetchMyTripsProvider);
                       },

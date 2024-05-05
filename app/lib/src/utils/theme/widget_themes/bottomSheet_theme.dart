@@ -3,23 +3,29 @@ import 'package:flutter/material.dart';
 class CustomBottomSheetTheme {
   CustomBottomSheetTheme._();
 
-  static BottomSheetThemeData lightBottomSheetTheme = BottomSheetThemeData(
+  static BottomSheetThemeData lightBottomSheetTheme = const BottomSheetThemeData(
     showDragHandle: true,
     backgroundColor: Colors.white,
     modalBackgroundColor: Colors.white,
-    constraints: const BoxConstraints(minWidth: double.infinity),
+    constraints: BoxConstraints(minWidth: double.infinity),
     shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(16),
+      borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(25),
+          topRight: Radius.circular(25),
+        ),
     ),
-  ); // BottomSheet ThemeData
+  ); 
 
-  static BottomSheetThemeData darkBottomSheetTheme = BottomSheetThemeData(
+  static BottomSheetThemeData darkBottomSheetTheme = const BottomSheetThemeData(
     showDragHandle: true,
     backgroundColor: Colors.black,
     modalBackgroundColor: Colors.black,
-    constraints: const BoxConstraints(minWidth: double.infinity),
+    constraints: BoxConstraints(minWidth: double.infinity),
     shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(16),
+      borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(25),
+          topRight: Radius.circular(25),
+        ),
     ),
   );
-}// BottomSheet ThemeData
+}
