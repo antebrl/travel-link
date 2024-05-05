@@ -26,12 +26,12 @@ build-web-app:
     - flutter pub get
   script:
     - flutter build web --base-href /app/
-  rules:
-    - if: $CI_COMMIT_BRANCH == "main"
   artifacts:
     paths:
       - app/build/web
-
+  # rules:
+  #   - if: $CI_COMMIT_BRANCH == "main"
+  
 build-apk:
   stage: build
   image:
