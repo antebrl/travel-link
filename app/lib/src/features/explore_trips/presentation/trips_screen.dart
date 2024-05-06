@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:travel_link/src/features/explore_trips/data/trips_repository.dart';
 import 'package:travel_link/src/features/my_trips/presentation/my_trip_tile.dart';
 import 'package:travel_link/src/utils/logging/logger.dart';
+import 'package:travel_link/src/utils/theme/widget_themes/appBar_theme.dart';
 
 class TripsScreen extends ConsumerWidget {
   const TripsScreen({super.key});

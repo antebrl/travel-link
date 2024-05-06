@@ -36,6 +36,8 @@ class AccountScreen extends ConsumerStatefulWidget {
 class _AccountScreenState extends ConsumerState<AccountScreen> {
   final double borderRadius = 10;
 
+  final String profilePictureUrl = 'https://i.pravatar.cc/500';
+
   Future<void> _showLogoutConfirmation() async {
 
     final auth = ref.watch(firebaseAuthProvider);
@@ -80,21 +82,8 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
 
     return Scaffold(
       backgroundColor: Colors.grey[100],
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(kToolbarHeight),
-        child: Container(
-          decoration: BoxDecoration(boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.1),
-              offset: const Offset(0, 2.0),
-              blurRadius: 4.0,
-            )
-          ]),
-          child: AppBar(
-            title: const Text('Profile'),
-            backgroundColor: Colors.white,
-          ),
-        ),
+      appBar: AppBar(
+        title: const Text('Account'),
       ),
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
@@ -118,7 +107,7 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
                             borderRadius: BorderRadius.circular(100),
                             child: FittedBox(
                               child: CachedNetworkImage(
-                                imageUrl: "https://via.placeholder.com/500",
+                                imageUrl: profilePictureUrl,
                                 placeholder: (context, url) =>
                                     const CircularProgressIndicator(),
                                 errorWidget: (context, url, error) =>
@@ -155,7 +144,7 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Expanded(
-                    child: Container(
+                    child: SizedBox(
                       height: 50,
                       width: 100,
                       //decoration: boxDecoration,
@@ -176,7 +165,7 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
                                     child: FittedBox(
                                       child: CachedNetworkImage(
                                         imageUrl:
-                                            'https://via.placeholder.com/300',
+                                            profilePictureUrl,
                                         placeholder: (context, url) =>
                                             const CircularProgressIndicator(),
                                         errorWidget: (context, url, error) =>
@@ -211,43 +200,38 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
               const SizedBox(height: 20),
               Ink(
                 decoration: boxDecoration,
-                child: Container(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      for (var i = 0; i < menuItems.length; i++) ...[
-                        InkWell(
-                          onTap: () => context.goNamed(AccountRoutes.settings.name),
-                          borderRadius: BorderRadius.circular(10),
-                          child: Ink(
-                            decoration: boxDecoration,
-                            child: Column(
-                              children: [
-                                ListTile(
-                                  title: Text(
-                                    menuItems[i]['label'] as String,
-                                    style: textTheme.bodySmall?.copyWith(
-                                      color: CustomColors.black,
-                                    ),
-                                  ),
-                                  leading: Icon(
-                                      menuItems[i]['icon'] as IconData?,
-                                      color: menuItems[i]['color'] as Color?),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    for (var i = 0; i < menuItems.length; i++) ...[
+                      InkWell(
+                        onTap: () => context.goNamed(AccountRoutes.settings.name),
+                        borderRadius: BorderRadius.circular(10),
+                        child: Column(
+                          children: [
+                            ListTile(
+                              title: Text(
+                                menuItems[i]['label'] as String,
+                                style: textTheme.bodySmall?.copyWith(
+                                  color: CustomColors.black,
                                 ),
-                                if (i != menuItems.length - 1)
-                                  const Divider(
-                                    endIndent: 10,
-                                    indent: 10,
-                                    thickness: 1,
-                                    height: 1,
-                                  ),
-                              ],
+                              ),
+                              leading: Icon(
+                                  menuItems[i]['icon'] as IconData?,
+                                  color: menuItems[i]['color'] as Color?),
                             ),
-                          ),
+                            if (i != menuItems.length - 1)
+                              const Divider(
+                                endIndent: 10,
+                                indent: 10,
+                                thickness: 1,
+                                height: 1,
+                              ),
+                          ],
                         ),
-                      ],
+                      ),
                     ],
-                  ),
+                  ],
                 ),
               ),
               const SizedBox(height: 5),
