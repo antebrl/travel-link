@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
 
 class CustomAppBarTheme {
+
   CustomAppBarTheme._();
+
   static const lightAppBarTheme = AppBarTheme(
-    elevation: 0,
+    elevation: 5,
     centerTitle: true,
     scrolledUnderElevation: 0,
-    backgroundColor: Colors.transparent,
-    surfaceTintColor: CustomColors.primary,
+    backgroundColor: CustomColors.white,
+    shadowColor: CustomColors.black,
+    surfaceTintColor: CustomColors.white,
     iconTheme: IconThemeData(color: CustomColors.primary, size: 40),
     actionsIconTheme: IconThemeData(color: CustomColors.primary, size: 40),
     titleTextStyle: TextStyle(
