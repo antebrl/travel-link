@@ -2,20 +2,29 @@
 
 # Project documentation
 
-Our project is an app that aims to make it easier and better to organize and plan trips of all kinds.
+## App idea
 
-Many trips are difficult to organize and in many cases cause displeasure and misunderstandings among travelers. With our app, tedious planning tasks can be solved easily and centrally. The app makes it easy to complete organizational tasks such as creating a travel plan with the activities to be visited. Planning is simplified by organizational elements such as checklists.
+Planning a trip involves considerable preparation and organization, from choosing the destination and accommodations to arranging transportation and creating an itinerary. But the struggle intensifies when you're coordinating a group adventure. Suddenly, you're not just considering your own preferences and needs, but those of multiple individuals with varying schedules, interests, and expectations. 
 
-Travel groups often encounter difficulties when it comes to allocating travel costs. Especially when many travellers are involved, organization and subsequent accounting can be difficult, as it can be challenging to keep track of all costs and expenses. For this reason, our app offers a cost analysis function that allows me to easily and clearly settle expenses with group members.
+Our app aims to facilitate the organization of trips and enhance collaboration within a travel group to make the planning process easier and faster. The app, therefore, includes valuable features such as:
 
-In order to maintain communication during the trip, the app offers elements such as chats, surveys and location histories so that all group members are always up to date and the trip runs smoothly.
+- Easily solving tedious planning tasks centrally with shared checklists and surveys.
+- Aggregating planned activities for a comprehensive overview by creating a travel plan with the activities to be visited.
+- Improving the communication with a group chat.
+- Simplifying the tracking of travel costs and allocation of expenses among group members.
+- Saving memories in a shared gallery directly linked to the trip.
 
-Even if you don't have any fellow travelers for a trip idea, that's no problem with our app. The app offers the possibility to create trips that are organized either privately or publicly. A search function allows other users to join public travel groups in order to find out details about the trip and join in if necessary.
+Even if you don't have any fellow travelers for an adventure trip, the app offers you the possibility to join or create publicly organized trips to connect with other travelers.
 
-- link to [app](https://hci-lab-stud-base-hci-trapp-b7d28e4b4e3781a4348b8736851ad75af0d.h-da.io/app/)
+
+## Analysis of the competitors
+
+TO BE DONE
 
 <div class="mobile-frame">
 <iframe src="https://hcimo4x-grey-trapp-hci-trapp-hci-lab-studi-sose2-e6afe3a1eb2adc.h-da.io/app/" seamless></iframe>
 </div>
 
 ## enjoy :)
+
+- link to [app](https://hci-lab-stud-base-hci-trapp-b7d28e4b4e3781a4348b8736851ad75af0d.h-da.io/app/)
