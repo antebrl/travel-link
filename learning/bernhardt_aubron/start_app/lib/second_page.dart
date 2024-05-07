@@ -100,6 +100,20 @@ class _SecondPageState extends State<SecondPage> {
                     featuredWorlds[worldIndex].alliance.quote,
                     style: const TextStyle(fontSize: 16.0),
                   ),
+                  const Padding(
+                    padding: EdgeInsets.all(20.0),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return CreatePlanetPopUp();
+                        },
+                      );
+                    },
+                    child: const Icon(Icons.add),
+                  ),
                 ],
               ),
             )
@@ -162,3 +176,72 @@ var tau = Faktions(
     "For the Greater Good!");
 
 List<PlanetaryInfo> featuredWorlds = [krieg, terra, macragge, tauWorld];
+
+class CreatePlanetPopUp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    TextEditingController _textFieldController1 = TextEditingController();
+    TextEditingController _textFieldController2 = TextEditingController();
+    TextEditingController _textFieldController3 = TextEditingController();
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Popup Button Example'),
+      ),
+      body: Center(
+        child: ElevatedButton(
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: Text('Popup Title'),
+                  content: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      TextField(
+                        controller: _textFieldController1,
+                        decoration: InputDecoration(labelText: 'World Name'),
+                      ),
+                      TextField(
+                        controller: _textFieldController2,
+                        decoration:
+                            InputDecoration(labelText: 'World Population'),
+                      ),
+                      TextField(
+                        controller: _textFieldController3,
+                        decoration: InputDecoration(labelText: 'World History'),
+                      ),
+                    ],
+                  ),
+                  actions: <Widget>[
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: Text('Cancel'),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        // Handle confirm button press here
+                        String worldName = _textFieldController1.text;
+                        String worldPop = _textFieldController2.text;
+                        String worldHist = _textFieldController3.text;
+                        var userPlanet = PlanetaryInfo(
+                            worldName, worldPop, imperium, worldHist);
+                        featuredWorlds.add(userPlanet);
+                        Navigator.of(context).pop();
+                      },
+                      child: Text('Confirm'),
+                    ),
+                  ],
+                );
+              },
+            );
+          },
+          child: Text('Open Popup'),
+        ),
+      ),
+    );
+  }
+}
