@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:travel_link/src/features/my_trips/data/my_trips_repository.dart';
+import 'package:travel_link/src/features/my_trips/presentation/create_trip_screen.dart';
 import 'package:travel_link/src/features/my_trips/presentation/my_trip_tile.dart';
 import 'package:travel_link/src/utils/logging/logger.dart';
+import 'package:travel_link/src/utils/theme/widget_themes/appBar_theme.dart';
 
 class MyTripsScreen extends ConsumerWidget {
   const MyTripsScreen({super.key});
@@ -31,7 +33,7 @@ class MyTripsScreen extends ConsumerWidget {
               showModalBottomSheet<void>( //specifies type of information the bottom sheet will return
                 context: context,
                 isScrollControlled: true,
-                builder: (context) => const Placeholder(),
+                builder: (context) => const CreateTripScreen(),
               );
             },
             child: const Icon(Icons.add),

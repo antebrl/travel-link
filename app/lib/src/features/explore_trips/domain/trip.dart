@@ -8,8 +8,9 @@ class Trip extends Equatable {
     required this.startDate,
     required this.endDate,
     required this.destination,
-    required this.participants, 
+    required this.participants,
     this.isPublic = false,
+    this.maxParticipants,
     //required this.image,
     //required this.activities,
   });
@@ -21,6 +22,7 @@ class Trip extends Equatable {
   final String destination;
   final bool isPublic;
   final List<String> participants;
+  final int? maxParticipants;
   //final String image;
   //final List<Activity> activities;
   //final int chatId;
@@ -33,7 +35,8 @@ class Trip extends Equatable {
         endDate,
         destination,
         isPublic,
-        participants
+        participants,
+        maxParticipants,
       ];
 
   @override
@@ -48,6 +51,7 @@ class Trip extends Equatable {
       destination: value['destination'] as String,
       isPublic: value['isPublic'] as bool,
       participants: (value['participants'] as List<dynamic>).cast<String>(),
+      maxParticipants: value['maxParticipants'] as int?,
     );
   }
 
@@ -59,6 +63,7 @@ class Trip extends Equatable {
       'destination': destination,
       'isPublic': isPublic,
       'participants': participants,
+      'maxParticipants': maxParticipants,
     };
   }
 }

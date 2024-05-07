@@ -15,7 +15,7 @@ Even if you don't have any fellow travelers for a trip idea, that's no problem w
 - link to [app](https://hci-lab-stud-base-hci-trapp-b7d28e4b4e3781a4348b8736851ad75af0d.h-da.io/app/)
 
 <div class="mobile-frame">
-<iframe src="https://hci-lab-stud-base-hci-trapp-b7d28e4b4e3781a4348b8736851ad75af0d.h-da.io/app/" seamless></iframe>
+<iframe src="https://hcimo4x-grey-trapp-hci-trapp-hci-lab-studi-sose2-e6afe3a1eb2adc.h-da.io/app/" seamless></iframe>
 </div>
 
 ## enjoy :)

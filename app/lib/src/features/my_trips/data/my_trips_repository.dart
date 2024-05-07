@@ -11,25 +11,50 @@ class MyTripsRepository {
 
   static String tripsBasePath = 'trips';
 
+  // create
+  Future<void> createTrip({
+    required String uid,
+    required String name,
+    required DateTime? start,
+    required DateTime? end,
+    required String destination,
+    bool isPublic = false,
+    int? maxParticipants,
+  }) =>
+      _firestore.collection(tripsBasePath).add({
+        'name': name,
+        'startDate': start != null ? Timestamp.fromDate(start) : null,
+        'endDate': end != null ? Timestamp.fromDate(end) : null,
+        'destination': destination,
+        'isPublic': isPublic,
+        'participants': [uid],
+        'maxParticipants': maxParticipants,
+      });
+
+  Future<void> joinTrip({required Trip trip, required String uid}) async {
+    final participants = trip.participants..add(uid);
+
+    await _firestore
+        .doc('$tripsBasePath/${trip.tripId}')
+        .update({'participants': participants});
+  }
 
   Future<List<Trip>> fetchMyTrips({required String uid}) async {
     final trips = await queryMyTrips(uid: uid).get();
     return trips.docs.map((doc) => doc.data()).toList();
   }
 
-
   //QUERIES
 
-  Query<Trip> queryMyTrips({required String uid}) =>
-    _firestore.collection(tripsBasePath)
+  Query<Trip> queryMyTrips({required String uid}) => _firestore
+      .collection(tripsBasePath)
       .where('participants', arrayContains: uid)
       .withConverter(
-          fromFirestore: (snapshot, _) =>
-              Trip.fromMap(snapshot.data()!, snapshot.id),
-          toFirestore: (trip, _) => trip.toMap(),
-        );
+        fromFirestore: (snapshot, _) =>
+            Trip.fromMap(snapshot.data()!, snapshot.id),
+        toFirestore: (trip, _) => trip.toMap(),
+      );
 }
-
 
 @Riverpod(keepAlive: true)
 MyTripsRepository myTripsRepository(MyTripsRepositoryRef ref) {

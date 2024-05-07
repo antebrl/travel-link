@@ -21,6 +21,7 @@ class _ActivitiesStartScreenState extends State<ActivitiesStartScreen> {
           title: const Text(
             'Explore Activities!',
           ),
+          
           bottom: TabBar(
             isScrollable: false,
             indicatorColor: CustomColors.primary,
