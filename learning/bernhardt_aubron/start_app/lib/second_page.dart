@@ -72,7 +72,7 @@ class _SecondPageState extends State<SecondPage> {
                   ),
                   const Padding(padding: EdgeInsets.all(8.0)),
                   const Text(
-                    "Faktion Name:",
+                    "Faction Name:",
                     style:
                         TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
                   ),
@@ -82,7 +82,7 @@ class _SecondPageState extends State<SecondPage> {
                   ),
                   const Padding(padding: EdgeInsets.all(8.0)),
                   const Text(
-                    "Faktion Goals:",
+                    "Faction Goals:",
                     style:
                         TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
                   ),
@@ -92,7 +92,7 @@ class _SecondPageState extends State<SecondPage> {
                   ),
                   const Padding(padding: EdgeInsets.all(8.0)),
                   const Text(
-                    "Notable Faktion Quote:",
+                    "Notable Faction Quote:",
                     style:
                         TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
                   ),
@@ -105,6 +105,9 @@ class _SecondPageState extends State<SecondPage> {
             )
           ],
         ),
+      ),
+      theme: ThemeData(
+        scaffoldBackgroundColor: Colors.transparent,
       ),
     );
   }

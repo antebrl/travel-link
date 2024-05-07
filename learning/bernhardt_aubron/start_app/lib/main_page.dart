@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'dart:io';
 
+// ignore: camel_case_types
 class Button_Page extends StatelessWidget {
+  const Button_Page({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -41,8 +44,50 @@ class Button_Page extends StatelessWidget {
 class Main_Page extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    String dissertationArchetekture =
-        '''The architecture of Holy Terra, the cradle of humanity in the grim darkness of the Warhammer 40,000 universe, is a reflection of its monumental history, spiritual significance, and the oppressive weight of millennia of imperial rule. Terra, also known as Earth, serves as the heart of the Imperium of Man, the seat of the God-Emperor's power, and the focal point of humanity's struggles against the myriad threats that besiege it from within and without.
+    return MaterialApp(
+      home: Stack(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: NetworkImage(
+                  'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pinterest.com%2Fpin%2F549931804496097060%2F&psig=AOvVaw1DSqjL-gmgN8DH3EUQ73S7&ust=1715177911876000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCNDai-Pd-4UDFQAAAAAdAAAAABAU',
+                ),
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          Scaffold(
+            appBar: AppBar(
+              title: Text(
+                'Dissertation of our use of Architecture in the Grim Darkness of the Far Future',
+              ),
+            ),
+            body: ListView(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        dissertationArchetekture,
+                        style: const TextStyle(fontSize: 16.0),
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+const String dissertationArchetekture =
+    """        '''The architecture of Holy Terra, the cradle of humanity in the grim darkness of the Warhammer 40,000 universe, is a reflection of its monumental history, spiritual significance, and the oppressive weight of millennia of imperial rule. Terra, also known as Earth, serves as the heart of the Imperium of Man, the seat of the God-Emperor's power, and the focal point of humanity's struggles against the myriad threats that besiege it from within and without.
 
 The architecture of Holy Terra is a fusion of ancient, Gothic, and futuristic elements, representing the layers of history and the convergence of cultures that have shaped the planet over tens of thousands of years. Towering spires, gothic arches, and massive cathedrals dominate the skyline, their intricate designs and imposing structures testaments to the grandeur and power of the Imperium.
 
@@ -85,31 +130,4 @@ In the wastelands, the architecture tells a story of hubris and folly, of empire
 The architecture of Holy Terra is a rich tapestry woven from the threads of history, culture, and faith. From the towering spires of the Imperial Palace to the dilapidated ruins of the wastelands, each structure tells a story of triumph and tragedy, of glory and decay.
 
 In the grim darkness of the far future, the architecture of Holy Terra stands as a testament to the enduring spirit of mankind, a silent witness to the eternal struggle against the encroaching darkness. It is a reminder of humanity's resilience, its capacity for greatness, and its inexorable march towards an uncertain destiny.''';
-
-    return MaterialApp(
-        home: Scaffold(
-      appBar: AppBar(
-        title: const Text(
-            'Disertation of our use of Archetikture in the Grim Darknes of the Far Future'),
-      ),
-      body: ListView(
-        children: <Widget>[
-          //Button_Page(),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  dissertationArchetekture,
-                  style: const TextStyle(fontSize: 16.0),
-                ),
-                //Image(image: AssetImage('images/terra.jpg'))
-              ],
-            ),
-          )
-        ],
-      ),
-    ));
-  }
-}
+""";
