@@ -19,7 +19,22 @@ Even if you don't have any fellow travelers for an adventure trip, the app offer
 
 ## Analysis of the competitors
 
-TO BE DONE
+| Features | Expedia | Wanderlog | TripIt | Going Solo | Our App |
+| :------: | :---------: | :------: | :------: | :------: | :------: |
+| Downloads (Android) | 50+ Miollion | 1+ Miollion | 5+ Miollion | 10+ Thousand | - |
+| Discover Activities | ✅<br>Show activities filtered by city. Grouped by bestsellers, culture, and entertainment. | ✅<br>Activities with user reviews | ❌ | ❌ | ✅ |
+| My Trips  | ✅<br>❗But only if booked through Expedia. | ✅ | ✅ | ✅ | ✅ |
+| Group Trips | ✅ | ✅ | ✅ | ✅ | ✅ |
+| In-App Bookings | ✅ | ❌<br>Shows available accommodations, but forwards to external booking platform. | ❌ | ❌ | ❌ |
+| Checklists | ❌ | ✅<br>Has pre-built backpack lists. | ❌ | ❌ | ✅ |
+| Expense Plannung | ❌ | ✅<br>Assign expenses to planned activities. | ❌ | ❌ | ✅ |
+| Itineraries | ✅<br>Assign activities to a specific day. | ❌ | ✅<br>See trip progress. | ❌ | ✅ |
+| Surveys | ❌ | ❌ | ❌ | ❌ | ✅ |
+| Map | ✅<br>Shows nearby accommodations. | ✅<br>Shows nearby activities and allows users to add these to the trip plan. | ❌ | ❌ | ✅ |
+| Group Chat | ❌ | ❌ | ❌ | ✅ | ✅ |
+| Profile Customization | ❌ | ✅ | ❌ | ✅ | ✅ |
+| Shared Gallery | ❌ | ❌ | ❌ | ✅<br>❗Only through chat. | ✅ |
+| Public Trips | ❌ | ❌ | ❌ | ✅<br> Private and public trips. | ✅ |
 
 <div class="mobile-frame">
 <iframe src="https://hcimo4x-grey-trapp-hci-trapp-hci-lab-studi-sose2-e6afe3a1eb2adc.h-da.io/app/" seamless></iframe>
