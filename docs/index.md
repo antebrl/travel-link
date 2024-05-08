@@ -21,11 +21,11 @@ Even if you don't have any fellow travelers for an adventure trip, the app offer
 
 | Features | Expedia | Wanderlog | TripIt | Going Solo | Our App |
 | :------: | :---------: | :------: | :------: | :------: | :------: |
-| Downloads (Android) | 50+ Miollion | 1+ Miollion | 5+ Miollion | 10+ Thousand | - |
+| Downloads (Android) | 50+ Million | 1+ Million | 5+ Million | 10+ Thousand | - |
 | Discover Activities | ✅<br>Show activities filtered by city. Grouped by bestsellers, culture, and entertainment. | ✅<br>Activities with user reviews | ❌ | ❌ | ✅ |
 | My Trips  | ✅<br>❗But only if booked through Expedia. | ✅ | ✅ | ✅ | ✅ |
 | Group Trips | ✅ | ✅ | ✅ | ✅ | ✅ |
-| In-App Bookings | ✅ | ❌<br>Shows available accommodations, but forwards to external booking platform. | ❌ | ❌ | ❌ |
+| In-App Bookings | ✅ | ❌<br>Shows available accommodations, but forwards to an external booking platform. | ❌ | ❌ | ❌ |
 | Checklists | ❌ | ✅<br>Has pre-built backpack lists. | ❌ | ❌ | ✅ |
 | Expense Plannung | ❌ | ✅<br>Assign expenses to planned activities. | ❌ | ❌ | ✅ |
 | Itineraries | ✅<br>Assign activities to a specific day. | ❌ | ✅<br>See trip progress. | ❌ | ✅ |
