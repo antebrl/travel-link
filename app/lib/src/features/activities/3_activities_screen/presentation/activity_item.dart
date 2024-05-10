@@ -70,18 +70,18 @@ class _ActivityItemState extends State<ActivityItem> {
                         Row(
                           children: <Widget>[
                             Text(
-                              widget.activity.country,
+                              widget.activity.location.country,
                               style: CustomTextTheme.lightTextTheme.bodySmall,
                             ),
                             const SizedBox(width: 5),
-                            if (widget.activity.city.isNotEmpty)
+                            if (widget.activity.location.city.isNotEmpty)
                               Text(
                                 '·',
                                 style:
                                     CustomTextTheme.lightTextTheme.bodySmall!.copyWith(fontWeight: FontWeight.bold),
                               ),
                             const SizedBox(width: 5),
-                            Text(widget.activity.city,
+                            Text(widget.activity.location.city,
                                 style:
                                     CustomTextTheme.lightTextTheme.bodySmall),
                           ],
