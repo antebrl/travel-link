@@ -4,7 +4,8 @@ import 'package:travel_link/src/features/authentication/data/firebase_auth_repos
 import 'package:travel_link/src/features/explore_trips/data/trips_repository.dart';
 import 'package:travel_link/src/features/my_trips/data/my_trips_repository.dart';
 import 'package:travel_link/src/features/my_trips/presentation/my_trips_controller.dart';
-import 'package:travel_link/src/features/trip_overview/presentation/planning/trip_planning_screen.dart';
+import 'package:travel_link/src/features/trip_overview/presentation/chat/group_chat_screen.dart';
+import 'package:travel_link/src/features/trip_overview/presentation/plan/trip_planning_screen.dart';
 import 'package:travel_link/src/utils/logging/logger.dart';
 
 class TripOverviewScreen extends ConsumerStatefulWidget {
@@ -47,7 +48,7 @@ class _TripOverviewScreenState extends ConsumerState<TripOverviewScreen>
           body: Column(
             children: [
               Container(
-                margin: const EdgeInsets.fromLTRB(27, 0, 27, 15),
+                margin: const EdgeInsets.fromLTRB(27, 10, 27, 15),
                 width: 356,
                 height: 50,
                 child: TabBar(
@@ -85,7 +86,7 @@ class _TripOverviewScreenState extends ConsumerState<TripOverviewScreen>
                         ),
                         child: const Center(
                           child: Text(
-                            'Planning',
+                            'Plan',
                           ),
                         ),
                       ),
@@ -126,9 +127,7 @@ class _TripOverviewScreenState extends ConsumerState<TripOverviewScreen>
                   controller: _tabController,
                   children: [
                     TripPlanningScreen(trip: trip),
-                    const Center(
-                      child: Text('Group Chat'),
-                    ),
+                    GroupChatScreen(trip: trip),
                     const Center(
                       child: Text('Gallery'),
                     ),
