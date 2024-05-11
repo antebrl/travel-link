@@ -129,3 +129,76 @@ graph LR
 
 ### End of Interview:
 1. Thank person
+
+
+# NZSE User Research
+[Based on Prof. Dr. Stefan Zander](https://www.youtube.com/watch?v=qA0DlfghMAY&t=1s)
+## 1. User list
+- Jakob
+- Julian
+- Morten
+- Mats
+
+## 2. Criteria list
+- Age 
+- Wealth
+- adventurousness
+- leisure time
+- languages
+- travel experience
+- planning experience
+- smartphone/pc experience
+- education
+
+### 2.1 Operationalization
+We have decided to quantify the criteria on a scale from 0 to 10 so that it is easier to compare the values later on
+- e.g. Age: ~20=3 ~40=5 ~80=10
+- e.g. languages: native language + basic second language = 3. 3 languages = 6. 5+ languages = 10
+- etc. 
+
+## 3. Create Matrix 
+|             | Age | Wealth | adven\-turous\-ness | leisure time|languages|travel experience|planning experience|technical experience| education|
+|-------------|--|--|--|--|--|--|--|--|--|
+| Jakob       |3 |3 |4 |6 |3 |7 |5 |7 |6 |
+| Julian      |3 |5 |2 |6 |3 |4 |4 |7 |6 |
+| Morten      |3 |2 |4 |8 |4 |5 |6 |8 |7 |
+| Mats        |3 |1 |6 |8 |4 |7 |6 |7 |7 |
+| NAME        | | | | | | | | | |
+| NAME        | | | | | | | | | |
+| NAME        | | | | | | | | | |
+| NAME        | | | | | | | | | |
+| NAME        | | | | | | | | | |
+| NAME        | | | | | | | | | |
+| NAME        | | | | | | | | | |
+| NAME        | | | | | | | | | |
+| NAME        | | | | | | | | | |
+| NAME        | | | | | | | | | |
+| NAME        | | | | | | | | | |
+| NAME        | | | | | | | | | |
+| NAME        | | | | | | | | | |
+| NAME        | | | | | | | | | |
+| NAME        | | | | | | | | | |
+| NAME        | | | | | | | | | |
+| NAME        | | | | | | | | | |
+| NAME        | | | | | | | | | |
+| NAME        | | | | | | | | | |
+| NAME        | | | | | | | | | |
+| NAME        | | | | | | | | | |
+| NAME        | | | | | | | | | |
+| NAME        | | | | | | | | | |
+| NAME        | | | | | | | | | |
+| NAME        | | | | | | | | | |
+| NAME        | | | | | | | | | |
+
+## 4. N-Dimentional Vector Space
+For a three dimentional vector space we choose the criterias: **age**, **adventurousness** and **travel experience**
+
+*Hier wird dann das Koordinatensystem eingefügt*
+
+## 4.1 Persona
+We choose the most extreme User for each criteria, as highlighted in the image above. Now we will create a Persona describtion for every persona.
+
+
+
+# Partially standardized interviews
+# Requirement scenarios
