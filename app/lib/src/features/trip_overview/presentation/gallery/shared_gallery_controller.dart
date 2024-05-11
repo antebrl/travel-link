@@ -1,20 +1,22 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:typed_data';
+
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:travel_link/src/features/authentication/data/firebase_auth_repository.dart';
-import 'package:travel_link/src/features/trip_overview/data/chat/group_chat_repository.dart';
+import 'package:travel_link/src/features/trip_overview/data/gallery/shared_gallery_repository.dart';
 import 'package:travel_link/src/utils/logging/logger.dart';
 
-part 'group_chat_controller.g.dart';
+part 'shared_gallery_controller.g.dart';
 
 @riverpod
-class GroupChatController extends _$GroupChatController {
+class SharedGalleryController extends _$SharedGalleryController {
   @override
   FutureOr<void> build() async {
     //
   }
 
-  Future<bool> postMessage({
-    required String message,
+  Future<bool> postPicture({
+    required String description,
+    required Uint8List picture,
     required String tripId,
   }) async {
     final currentUser = ref.read(firebaseAuthProvider).currentUser;
@@ -22,15 +24,14 @@ class GroupChatController extends _$GroupChatController {
     //set state to loading
     state = const AsyncLoading();
 
-    final repository = ref.read(groupChatRepositoryProvider);
+    final repository = ref.read(sharedGalleryRepositoryProvider);
 
     state = await AsyncValue.guard(
-      () => repository.postMessage(
+      () => repository.postPicture(
+        description: description,
         uid: currentUser!.uid,
-        name: currentUser.displayName!,
-        message: message,
+        picture: picture,
         tripId: tripId,
-        timestamp: Timestamp.now(),
       ),
     );
 
