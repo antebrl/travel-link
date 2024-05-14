@@ -3,11 +3,11 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:travel_link/src/features/authentication/data/firebase_auth_repository.dart';
 import 'package:travel_link/src/features/explore_trips/domain/trip.dart';
+import 'package:travel_link/src/features/trip_overview/data/gallery/shared_gallery_repository.dart';
 import 'package:travel_link/src/features/trip_overview/presentation/gallery/shared_gallery_controller.dart';
 
 class AddPictureScreen extends ConsumerStatefulWidget {
@@ -40,8 +40,10 @@ class _AddPictureScreenState extends ConsumerState<AddPictureScreen> {
 
     if (success && mounted) {
       // ignore: unused_result
-      //ref.refresh(...);
-      context.pop();
+      ref.refresh(
+        fetchPicturePostsProvider(widget.trip.tripId),
+      );
+      Navigator.pop(context);
     }
   }
 
@@ -94,7 +96,7 @@ class _AddPictureScreenState extends ConsumerState<AddPictureScreen> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(30),
           child: Column(
             children: [
               SizedBox(
@@ -106,7 +108,9 @@ class _AddPictureScreenState extends ConsumerState<AddPictureScreen> {
                       //ACCESS PICTURE
                       final ImagePicker picker = ImagePicker();
                       final XFile? image = await picker.pickImage(
-                          source: ImageSource.gallery, imageQuality: 80,);
+                        source: ImageSource.gallery,
+                        imageQuality: 80,
+                      );
 
                       if (image != null) {
                         final CroppedFile? croppedFile =
@@ -161,14 +165,24 @@ class _AddPictureScreenState extends ConsumerState<AddPictureScreen> {
               ),
               Padding(
                 padding: const EdgeInsets.all(16),
-                child: TextField(
-                  controller: _controller,
-                  keyboardType: TextInputType.multiline,
-                  maxLines: 5,
-                  decoration: const InputDecoration(
-                    hintText: 'Add a caption',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                child: SizedBox(
+                  height: 140,
+                  child: TextField(
+                    controller: _controller,
+                    keyboardType: TextInputType.multiline,
+                    maxLines: 5,
+                    decoration: const InputDecoration(
+                      filled: true,
+                      fillColor: Colors.white,
+                      hintText: 'Add a caption',
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(16)),
+                        borderSide: BorderSide(color: Colors.lightBlue),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(16)),
+                        borderSide: BorderSide(color: Colors.grey),
+                      ),
                     ),
                   ),
                 ),
