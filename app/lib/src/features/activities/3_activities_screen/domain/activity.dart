@@ -7,8 +7,8 @@ class Activity {
     required this.continentType,
     required this.description,
     required this.imageAssetPath,
-    this.image,
-    required this.location,
+    required this.location, this.image,
+    this.isUserCreated = false,
   });
 
   final String name;
@@ -17,6 +17,7 @@ class Activity {
   final String imageAssetPath;
   File? image; // Optional Image
   final PlaceLocation location;
+  final bool isUserCreated;
 }
 
 class PlaceLocation {
