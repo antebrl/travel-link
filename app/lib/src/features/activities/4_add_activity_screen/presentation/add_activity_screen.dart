@@ -54,6 +54,7 @@ class _AddActivityScreenState extends ConsumerState<AddActivityScreen> {
             city: _selectedLocation!.city,
             country: _selectedLocation!.country,
           ),
+          isUserCreated: true,
         ),
       );
     }

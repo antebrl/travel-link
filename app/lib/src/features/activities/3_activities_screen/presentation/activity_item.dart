@@ -17,7 +17,8 @@ class _ActivityItemState extends State<ActivityItem> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => context.pushNamed(ActivitiesRoutes.activityDetails.name,extra: widget.activity),
+      onTap: () => context.pushNamed(ActivitiesRoutes.activityDetails.name,
+          extra: widget.activity),
       child: Container(
         width: MediaQuery.of(context).size.width,
         margin: const EdgeInsets.only(left: 20, top: 5, bottom: 15, right: 20),
@@ -36,24 +37,47 @@ class _ActivityItemState extends State<ActivityItem> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            ClipRRect(
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(10),
-                topRight: Radius.circular(10),
-              ),
-              child: widget.activity.imageAssetPath.trim().isEmpty
-                ? Image.file(
-                    widget.activity.image!,
-                    height: 125,
-                    width: double.infinity,
-                    fit: BoxFit.cover,
-                  )
-                : Image.asset(
-                    widget.activity.imageAssetPath,
-                    height: 125,
-                    width: double.infinity,
-                    fit: BoxFit.cover,
+            Stack(
+              children: [
+                ClipRRect(
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(10),
+                    topRight: Radius.circular(10),
                   ),
+                  child: widget.activity.imageAssetPath.trim().isEmpty
+                      ? Image.file(
+                          widget.activity.image!,
+                          height: 125,
+                          width: double.infinity,
+                          fit: BoxFit.cover,
+                        )
+                      : Image.asset(
+                          widget.activity.imageAssetPath,
+                          height: 125,
+                          width: double.infinity,
+                          fit: BoxFit.cover,
+                        ),
+                ),
+                if (widget.activity.isUserCreated)
+                  Positioned(
+                    top: 10,
+                    right: 10,
+                    child: Container(
+                      padding: const EdgeInsets.all(5),
+                      decoration: BoxDecoration(
+                        color: CustomColors.black.withOpacity(0.5),
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      child: const Text(
+                        'Created by User',
+                        style: TextStyle(
+                          color: CustomColors.white,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ),
+                  ),
+              ],
             ),
             Padding(
               padding:
@@ -79,15 +103,15 @@ class _ActivityItemState extends State<ActivityItem> {
                             if (widget.activity.location.city.isNotEmpty)
                               Text(
                                 '·',
-                                style:
-                                    CustomTextTheme.lightTextTheme.bodySmall!.copyWith(fontWeight: FontWeight.bold),
+                                style: CustomTextTheme.lightTextTheme.bodySmall!
+                                    .copyWith(fontWeight: FontWeight.bold),
                               ),
                             const SizedBox(width: 5),
                             Text(widget.activity.location.city,
                                 style:
                                     CustomTextTheme.lightTextTheme.bodySmall),
                           ],
-                        )
+                        ),
                       ],
                     ),
                   ),
@@ -99,12 +123,10 @@ class _ActivityItemState extends State<ActivityItem> {
                   )
                 ],
               ),
-            )
+            ),
           ],
         ),
       ),
     );
   }
 }
-
-

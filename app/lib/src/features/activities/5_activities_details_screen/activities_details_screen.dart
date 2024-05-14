@@ -74,6 +74,26 @@ class ActivitiesDetailsScreen extends StatelessWidget {
                     fit: BoxFit.fill,
                   ),
           ),
+          if (activity.isUserCreated)
+            Positioned(
+              top: 10,
+              right: 10,
+              child: Container(
+                padding: const EdgeInsets.all(5),
+                decoration: BoxDecoration(
+                  color: CustomColors.black.withOpacity(0.5),
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                child: const Text(
+                  'Created by User',
+                  style: TextStyle(
+                    color: CustomColors.white,
+                    fontSize: 14,
+                  ),
+                ),
+              ),
+            ),
+
           // Weiße Fläche mit abgerundeten Ecken und Schatten
           Positioned(
             top: 200, // Startpunkt für die weiße Fläche
