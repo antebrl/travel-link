@@ -4,7 +4,9 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:travel_link/src/features/account/presentation/account_screen.dart';
 import 'package:travel_link/src/features/activities/1_activities_start_screen/presentation/activitiesStart_screen.dart';
 import 'package:travel_link/src/features/activities/2_continents_screen/domain/continent.dart';
+import 'package:travel_link/src/features/activities/3_activities_screen/domain/activity.dart';
 import 'package:travel_link/src/features/activities/3_activities_screen/presentation/activities_screen.dart';
+import 'package:travel_link/src/features/activities/5_activities_details_screen/activities_details_screen.dart';
 import 'package:travel_link/src/features/authentication/data/firebase_auth_repository.dart';
 import 'package:travel_link/src/features/authentication/presentation/custom_sign_in_screen.dart';
 import 'package:travel_link/src/features/explore_trips/presentation/trips_screen.dart';
@@ -22,7 +24,7 @@ part 'app_router.g.dart';
 // see https://pub.dev/documentation/go_router/latest/go_router/ShellRoute-class.html
 enum TopLevelDestinations { trips, myTrips, activities, profile, signIn }
 
-enum AccountRoutes { settings, security,  help, about}
+enum AccountRoutes { settings, security, help, about }
 
 enum ActivitiesRoutes { activityDetails, continent }
 
@@ -73,7 +75,8 @@ GoRouter goRouter(GoRouterRef ref) {
         path: '/',
         name: 'root',
         pageBuilder: (context, state) => const NoTransitionPage(
-          child: TripsScreen(), // Replace HomeScreen with your actual home screen widget
+          child:
+              TripsScreen(), // Replace HomeScreen with your actual home screen widget
         ),
       ),
       GoRoute(
@@ -144,14 +147,16 @@ GoRouter goRouter(GoRouterRef ref) {
                 pageBuilder: (context, state) => NoTransitionPage(
                   key: state.pageKey,
                   child: const ActivitiesStartScreen(),
-                  //const ActivitiesContinentsScreen(),
                 ),
                 routes: <RouteBase>[
                   GoRoute(
                     path: 'details',
                     name: ActivitiesRoutes.activityDetails.name,
                     parentNavigatorKey: _rootNavigatorKey,
-                    builder: (BuildContext context, GoRouterState state) => const Placeholder(),
+                    builder: (BuildContext context, GoRouterState state) {
+                      final activity = state.extra as Activity?;
+                      return ActivitiesDetailsScreen(activity: activity!);
+                    },
                   ),
                   GoRoute(
                     path: 'continent/:continent',
