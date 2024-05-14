@@ -151,7 +151,7 @@ class CreateTripScreenState extends ConsumerState<CreateTripScreen> {
                                 children: [
                                   Icon(
                                     Icons.calendar_today,
-                                    color: Colors.black.withOpacity(0.8),
+                                    color: Colors.black.withOpacity(0.7),
                                   ),
                                   const SizedBox(width: 8),
                                   Text(
@@ -192,6 +192,7 @@ class CreateTripScreenState extends ConsumerState<CreateTripScreen> {
                   children: [
                     Switch(
                       activeColor: Theme.of(context).primaryColor,
+                      inactiveThumbColor: Colors.black.withOpacity(0.7),
                       value: _isPublic,
                       onChanged: (value) {
                         setState(() {
