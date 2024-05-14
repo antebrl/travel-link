@@ -5,7 +5,7 @@ import 'package:travel_link/src/features/explore_trips/data/trips_repository.dar
 import 'package:travel_link/src/features/my_trips/data/my_trips_repository.dart';
 import 'package:travel_link/src/features/my_trips/presentation/my_trips_controller.dart';
 import 'package:travel_link/src/features/trip_overview/presentation/chat/group_chat_screen.dart';
-import 'package:travel_link/src/features/trip_overview/presentation/gallery/add_picture_screen.dart';
+import 'package:travel_link/src/features/trip_overview/presentation/gallery/shared_gallery.dart';
 import 'package:travel_link/src/features/trip_overview/presentation/plan/trip_planning_screen.dart';
 import 'package:travel_link/src/utils/logging/logger.dart';
 
@@ -129,7 +129,7 @@ class _TripOverviewScreenState extends ConsumerState<TripOverviewScreen>
                   children: [
                     TripPlanningScreen(trip: trip,),
                     GroupChatScreen(trip: trip,),
-                    AddPictureScreen(trip: trip,),
+                    SharedGalleryScreen(trip: trip,),
                   ],
                 ),
               ),

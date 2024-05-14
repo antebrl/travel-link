@@ -30,6 +30,7 @@ class SharedGalleryController extends _$SharedGalleryController {
       () => repository.postPicture(
         description: description,
         uid: currentUser!.uid,
+        username: currentUser.displayName,
         picture: picture,
         tripId: tripId,
       ),
