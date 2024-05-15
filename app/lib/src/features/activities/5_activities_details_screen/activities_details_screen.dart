@@ -60,15 +60,15 @@ class ActivitiesDetailsScreen extends StatelessWidget {
             left: 0,
             right: 0,
             height: 250, // Höhe des Bildes anpassen
-            child: activity.imageAssetPath.trim().isEmpty
+            child: activity.imagePath.trim().isEmpty
                 ? Image.file(
                     activity.image!,
                     height: 200,
                     width: double.infinity,
                     fit: BoxFit.fill,
                   )
-                : Image.asset(
-                    activity.imageAssetPath,
+                : Image.network(
+                    activity.imagePath,
                     height: 200,
                     width: double.infinity,
                     fit: BoxFit.fill,

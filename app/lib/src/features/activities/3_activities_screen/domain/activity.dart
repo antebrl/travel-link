@@ -6,15 +6,17 @@ class Activity {
     required this.name,
     required this.continentType,
     required this.description,
-    required this.imageAssetPath,
-    required this.location, this.image,
+    required this.imagePath,
+    required this.location,
+    this.image,
     this.isUserCreated = false,
   });
 
   final String name;
   final ContinentType continentType;
   final String description;
-  final String imageAssetPath;
+  String imagePath;
+
   File? image; // Optional Image
   final PlaceLocation location;
   final bool isUserCreated;

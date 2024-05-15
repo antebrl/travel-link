@@ -8,7 +8,7 @@ List<Activity> activityData = [
     continentType: ContinentType.northAmerica,
     description:
         'A vibrant intersection and tourist destination in New York City.',
-    imageAssetPath: 'assets/images/activities/camp-nou.jpg',
+    imagePath: '',
     location: const PlaceLocation(
         latitude: 40.758896,
         longitude: -73.985130,
@@ -22,7 +22,7 @@ List<Activity> activityData = [
     continentType: ContinentType.northAmerica,
     description:
         'Powerful waterfalls on the border between Canada and the United States.',
-    imageAssetPath: 'assets/images/activities/camp-nou.jpg',
+    imagePath: '',
     location: const PlaceLocation(
         latitude: 43.0790555,
         longitude: -79.0747579,
@@ -36,7 +36,7 @@ List<Activity> activityData = [
     continentType: ContinentType.northAmerica,
     description:
         'Iconic symbol of freedom and democracy located in New York Harbor.',
-    imageAssetPath: 'assets/images/activities/camp-nou.jpg',
+    imagePath: '',
     location: PlaceLocation(
       street: 'Liberty Island',
       city: 'New York Harbor',
@@ -50,7 +50,7 @@ List<Activity> activityData = [
     continentType: ContinentType.northAmerica,
     description:
         'Massive canyon carved by the Colorado River in the state of Arizona.',
-    imageAssetPath: 'assets/images/activities/camp-nou.jpg',
+    imagePath: '',
     location: PlaceLocation(
       street: 'Arizona',
       city: '',
@@ -64,7 +64,7 @@ List<Activity> activityData = [
     continentType: ContinentType.northAmerica,
     description:
         'Famous suspension bridge spanning the Golden Gate Strait in California.',
-    imageAssetPath: 'assets/images/activities/camp-nou.jpg',
+    imagePath: '',
     location: PlaceLocation(
       street: 'San Francisco',
       city: 'California',
@@ -77,7 +77,7 @@ List<Activity> activityData = [
     name: 'Central Park',
     continentType: ContinentType.northAmerica,
     description: 'Iconic urban park in Manhattan, New York City.',
-    imageAssetPath: 'assets/images/activities/camp-nou.jpg',
+    imagePath: '',
     location: PlaceLocation(
       street: 'Manhattan',
       city: 'New York City',
@@ -90,7 +90,7 @@ List<Activity> activityData = [
     name: 'Disneyland',
     continentType: ContinentType.northAmerica,
     description: 'Famous theme park and resort located in California.',
-    imageAssetPath: 'assets/images/activities/camp-nou.jpg',
+    imagePath: '',
     location: PlaceLocation(
       street: 'Anaheim',
       city: 'California',
@@ -104,7 +104,7 @@ List<Activity> activityData = [
     continentType: ContinentType.northAmerica,
     description:
         'First national park in the world, known for its geothermal features and wildlife.',
-    imageAssetPath: 'assets/images/activities/camp-nou.jpg',
+    imagePath: '',
     location: PlaceLocation(
       street: 'Wyoming, Montana & Idaho',
       city: '',
@@ -118,7 +118,7 @@ List<Activity> activityData = [
     continentType: ContinentType.northAmerica,
     description:
         'Sidewalk along Hollywood Boulevard with embedded stars honoring celebrities.',
-    imageAssetPath: 'assets/images/activities/camp-nou.jpg',
+    imagePath: '',
     location: PlaceLocation(
       street: 'Hollywood Boulevard',
       city: 'Los Angeles',
@@ -127,27 +127,14 @@ List<Activity> activityData = [
       longitude: -118.3410,
     ),
   ),
-  Activity(
-    name: 'Mount Rushmore National Memorial',
-    continentType: ContinentType.northAmerica,
-    description:
-        'Iconic sculpture featuring the faces of four US presidents carved into the mountainside.',
-    imageAssetPath: 'assets/images/activities/camp-nou.jpg',
-    location: PlaceLocation(
-      street: 'South Dakota',
-      city: '',
-      country: 'USA',
-      latitude: 43.8791,
-      longitude: -103.4591,
-    ),
-  ),
+
 
 // South America
   Activity(
     name: 'Machu Picchu',
     continentType: ContinentType.southAmerica,
     description: 'An ancient Inca citadel set high in the Andes mountains.',
-    imageAssetPath: 'assets/images/activities/camp-nou.jpg',
+    imagePath: '',
     location: PlaceLocation(
       street: 'Cusco Region',
       city: '',
@@ -156,26 +143,13 @@ List<Activity> activityData = [
       longitude: -72.5450,
     ),
   ),
-  Activity(
-    name: 'Christ the Redeemer',
-    continentType: ContinentType.southAmerica,
-    description:
-        'A colossal statue of Jesus Christ overlooking Rio de Janeiro.',
-    imageAssetPath: 'assets/images/activities/camp-nou.jpg',
-    location: PlaceLocation(
-      street: 'Corcovado Mountain',
-      city: 'Rio de Janeiro',
-      country: 'Brazil',
-      latitude: -22.9519,
-      longitude: -43.2105,
-    ),
-  ),
+
   Activity(
     name: 'Iguazu Falls',
     continentType: ContinentType.southAmerica,
     description:
         'Spectacular waterfalls on the border between Argentina, Brazil, and Paraguay.',
-    imageAssetPath: 'assets/images/activities/camp-nou.jpg',
+    imagePath: '',
     location: PlaceLocation(
       street: '',
       city: '',
@@ -185,11 +159,11 @@ List<Activity> activityData = [
     ),
   ),
   Activity(
-    name: 'Amazon Rainforest',
+    name: 'Amazon rainforest',
     continentType: ContinentType.southAmerica,
     description:
         'The world\'s largest tropical rainforest, home to diverse wildlife and ecosystems.',
-    imageAssetPath: 'assets/images/activities/camp-nou.jpg',
+    imagePath: '',
     location: PlaceLocation(
       street: 'Various locations across South America',
       city: '',
@@ -203,7 +177,7 @@ List<Activity> activityData = [
     continentType: ContinentType.southAmerica,
     description:
         'The world\'s largest salt flat, creating a mesmerizing reflective surface.',
-    imageAssetPath: 'assets/images/activities/camp-nou.jpg',
+    imagePath: '',
     location: PlaceLocation(
       street: 'Potosí & Oruro Departments',
       city: '',
@@ -217,7 +191,7 @@ List<Activity> activityData = [
     continentType: ContinentType.southAmerica,
     description:
         'Archipelago of volcanic islands famous for their unique wildlife and role in Darwin\'s theory of evolution.',
-    imageAssetPath: 'assets/images/activities/camp-nou.jpg',
+    imagePath: '',
     location: PlaceLocation(
       street: 'Pacific Ocean',
       city: 'Ecuador',
@@ -231,7 +205,7 @@ List<Activity> activityData = [
     continentType: ContinentType.southAmerica,
     description:
         'Breathtaking national park known for its granite peaks, glaciers, and lakes.',
-    imageAssetPath: 'assets/images/activities/camp-nou.jpg',
+    imagePath: '',
     location: PlaceLocation(
       street: 'Magallanes Region',
       city: 'Chile',
@@ -245,7 +219,7 @@ List<Activity> activityData = [
     continentType: ContinentType.southAmerica,
     description:
         'The world\'s highest uninterrupted waterfall, cascading from Auyán-tepui in the Guiana Highlands.',
-    imageAssetPath: 'assets/images/activities/camp-nou.jpg',
+    imagePath: '',
     location: PlaceLocation(
       street: 'Canaima National Park',
       city: '',
@@ -259,7 +233,7 @@ List<Activity> activityData = [
     continentType: ContinentType.southAmerica,
     description:
         'A surreal desert landscape with salt flats, geysers, and lunar-like terrain.',
-    imageAssetPath: 'assets/images/activities/camp-nou.jpg',
+    imagePath: '',
     location: PlaceLocation(
       street: 'Various locations in Chile',
       city: '',
@@ -273,7 +247,7 @@ List<Activity> activityData = [
     continentType: ContinentType.southAmerica,
     description:
         'A sparsely populated region at the southern end of South America known for its stunning landscapes, including mountains, glaciers, and fjords.',
-    imageAssetPath: 'assets/images/activities/camp-nou.jpg',
+    imagePath: '',
     location: PlaceLocation(
       street: 'Argentina & Chile',
       city: '',
@@ -285,10 +259,10 @@ List<Activity> activityData = [
 
   // Africa
   Activity(
-    name: 'Great Pyramids of Giza',
+    name: 'Great Pyramid of Giza',
     continentType: ContinentType.africa,
     description: 'One of the Seven Wonders of the Ancient World.',
-    imageAssetPath: 'assets/images/activities/camp-nou.jpg',
+    imagePath: '',
     location: PlaceLocation(
       street: 'Giza Necropolis',
       city: '',
@@ -301,7 +275,7 @@ List<Activity> activityData = [
     name: 'Kruger National Park',
     continentType: ContinentType.africa,
     description: 'A large safari park known for its diverse wildlife.',
-    imageAssetPath: 'assets/images/activities/camp-nou.jpg',
+    imagePath: '',
     location: PlaceLocation(
       street: 'Limpopo & Mpumalanga Provinces',
       city: '',
@@ -314,7 +288,7 @@ List<Activity> activityData = [
     name: 'Victoria Falls',
     continentType: ContinentType.africa,
     description: 'One of the largest and most famous waterfalls in the world.',
-    imageAssetPath: 'assets/images/activities/camp-nou.jpg',
+    imagePath: '',
     location: PlaceLocation(
       street: 'Zambia & Zimbabwe',
       city: '',
@@ -328,7 +302,7 @@ List<Activity> activityData = [
     continentType: ContinentType.africa,
     description:
         'Renowned for its annual migration of wildebeest and other animals.',
-    imageAssetPath: 'assets/images/activities/camp-nou.jpg',
+    imagePath: '',
     location: PlaceLocation(
       street: 'Tanzania',
       city: '',
@@ -341,7 +315,7 @@ List<Activity> activityData = [
     name: 'Mount Kilimanjaro',
     continentType: ContinentType.africa,
     description: 'Africa\'s highest peak, a popular destination for climbers.',
-    imageAssetPath: 'assets/images/activities/camp-nou.jpg',
+    imagePath: '',
     location: PlaceLocation(
       street: 'Kilimanjaro Region',
       city: '',
@@ -351,11 +325,11 @@ List<Activity> activityData = [
     ),
   ),
   Activity(
-    name: 'Maasai Mara National Reserve',
+    name: 'Maasai Mara',
     continentType: ContinentType.africa,
     description:
         'Famous for its population of lions, cheetahs, and annual wildebeest migration.',
-    imageAssetPath: 'assets/images/activities/camp-nou.jpg',
+    imagePath: '',
     location: PlaceLocation(
       street: 'Narok County',
       city: '',
@@ -365,11 +339,11 @@ List<Activity> activityData = [
     ),
   ),
   Activity(
-    name: 'Pyramids of Meroe',
+    name: 'Pyramids of Meroë',
     continentType: ContinentType.africa,
     description:
         'Ancient Nubian pyramids located near the banks of the Nile River.',
-    imageAssetPath: 'assets/images/activities/camp-nou.jpg',
+    imagePath: '',
     location: PlaceLocation(
       street: 'Nile River',
       city: '',
@@ -383,7 +357,7 @@ List<Activity> activityData = [
     continentType: ContinentType.africa,
     description:
         'Iconic flat-topped mountain offering stunning views of Cape Town.',
-    imageAssetPath: 'assets/images/activities/camp-nou.jpg',
+    imagePath: '',
     location: PlaceLocation(
       street: 'Cape Town',
       city: '',
@@ -397,7 +371,7 @@ List<Activity> activityData = [
     continentType: ContinentType.africa,
     description:
         'A unique inland delta in the middle of the Kalahari Desert, known for its rich wildlife.',
-    imageAssetPath: 'assets/images/activities/camp-nou.jpg',
+    imagePath: '',
     location: PlaceLocation(
       street: 'Botswana',
       city: '',
@@ -411,7 +385,7 @@ List<Activity> activityData = [
     continentType: ContinentType.africa,
     description:
         'Second-highest mountain in Africa, known for its glaciers and diverse ecosystems.',
-    imageAssetPath: 'assets/images/activities/camp-nou.jpg',
+    imagePath: '',
     location: PlaceLocation(
       street: 'Eastern Province',
       city: '',
@@ -427,7 +401,7 @@ List<Activity> activityData = [
     continentType: ContinentType.europe,
     description:
         'An ancient Roman amphitheater, once a site for gladiatorial contests.',
-    imageAssetPath: 'assets/images/activities/camp-nou.jpg',
+    imagePath: '',
     location: PlaceLocation(
         street: 'Piazza del Colosseo',
         city: 'Rome',
@@ -436,35 +410,11 @@ List<Activity> activityData = [
         longitude: 0),
   ),
   Activity(
-    name: 'Eiffel Tower',
-    continentType: ContinentType.europe,
-    description: 'A wrought-iron lattice tower on the Champ de Mars in Paris.',
-    imageAssetPath: 'assets/images/activities/camp-nou.jpg',
-    location: PlaceLocation(
-        street: 'Champ de Mars',
-        city: 'Paris',
-        country: 'France',
-        latitude: 0,
-        longitude: 0),
-  ),
-  Activity(
-    name: 'Sagrada Familia',
-    continentType: ContinentType.europe,
-    description: 'A large unfinished Roman Catholic church in Barcelona.',
-    imageAssetPath: 'assets/images/activities/camp-nou.jpg',
-    location: PlaceLocation(
-        street: 'Carrer de Mallorca, 401',
-        city: 'Barcelona',
-        country: 'Spain',
-        latitude: 0,
-        longitude: 0),
-  ),
-  Activity(
     name: 'Colosseum',
     continentType: ContinentType.europe,
     description:
         'An ancient Roman amphitheater, once a site for gladiatorial contests.',
-    imageAssetPath: 'assets/images/activities/camp-nou.jpg',
+    imagePath: '',
     location: PlaceLocation(
       street: 'Piazza del Colosseo',
       city: 'Rome',
@@ -477,7 +427,7 @@ List<Activity> activityData = [
     name: 'Eiffel Tower',
     continentType: ContinentType.europe,
     description: 'A wrought-iron lattice tower on the Champ de Mars in Paris.',
-    imageAssetPath: 'assets/images/activities/camp-nou.jpg',
+    imagePath: '',
     location: PlaceLocation(
       street: 'Champ de Mars',
       city: 'Paris',
@@ -487,10 +437,10 @@ List<Activity> activityData = [
     ),
   ),
   Activity(
-    name: 'Sagrada Familia',
+    name: 'Sagrada Família',
     continentType: ContinentType.europe,
     description: 'A large unfinished Roman Catholic church in Barcelona.',
-    imageAssetPath: 'assets/images/activities/camp-nou.jpg',
+    imagePath: '',
     location: PlaceLocation(
       street: 'Carrer de Mallorca, 401',
       city: 'Barcelona',
@@ -504,7 +454,7 @@ List<Activity> activityData = [
     continentType: ContinentType.europe,
     description:
         'An ancient citadel located on a rocky outcrop above the city of Athens.',
-    imageAssetPath: 'assets/images/activities/camp-nou.jpg',
+    imagePath: '',
     location: PlaceLocation(
       street: 'Athens',
       city: 'Athens',
@@ -517,7 +467,7 @@ List<Activity> activityData = [
     name: 'Brandenburg Gate',
     continentType: ContinentType.europe,
     description: 'An 18th-century neoclassical monument in Berlin.',
-    imageAssetPath: 'assets/images/activities/camp-nou.jpg',
+    imagePath: '',
     location: PlaceLocation(
       street: 'Pariser Platz',
       city: 'Berlin',
@@ -530,7 +480,7 @@ List<Activity> activityData = [
     name: 'Tower Bridge',
     continentType: ContinentType.europe,
     description: 'A combined bascule and suspension bridge in London.',
-    imageAssetPath: 'assets/images/activities/camp-nou.jpg',
+    imagePath: '',
     location: PlaceLocation(
       street: 'Tower Bridge Rd',
       city: 'London',
@@ -540,11 +490,11 @@ List<Activity> activityData = [
     ),
   ),
   Activity(
-    name: 'The Louvre',
+    name: 'Louvre',
     continentType: ContinentType.europe,
     description:
         'The world\'s largest art museum and a historic monument in Paris.',
-    imageAssetPath: 'assets/images/activities/camp-nou.jpg',
+    imagePath: '',
     location: PlaceLocation(
       street: 'Rue de Rivoli',
       city: 'Paris',
@@ -558,7 +508,7 @@ List<Activity> activityData = [
     continentType: ContinentType.europe,
     description:
         'A 19th-century Romanesque Revival palace on a rugged hill above the village of Hohenschwangau near Füssen in southwest Bavaria.',
-    imageAssetPath: 'assets/images/activities/camp-nou.jpg',
+    imagePath: '',
     location: PlaceLocation(
       street: 'Neuschwansteinstraße 20',
       city: 'Schwangau',
@@ -568,24 +518,11 @@ List<Activity> activityData = [
     ),
   ),
   Activity(
-    name: 'Dubrovnik Old Town',
-    continentType: ContinentType.europe,
-    description: 'A well-preserved medieval walled city in Croatia.',
-    imageAssetPath: 'assets/images/activities/camp-nou.jpg',
-    location: PlaceLocation(
-      street: 'Old Town',
-      city: 'Dubrovnik',
-      country: 'Croatia',
-      latitude: 42.6407,
-      longitude: 18.1100,
-    ),
-  ),
-  Activity(
-    name: 'Amsterdam Canals',
+    name: 'Canals of Amsterdam',
     continentType: ContinentType.europe,
     description:
         'A UNESCO World Heritage site consisting of a network of canals in Amsterdam.',
-    imageAssetPath: 'assets/images/activities/camp-nou.jpg',
+    imagePath: '',
     location: PlaceLocation(
       street: 'Amsterdam',
       city: 'Amsterdam',
@@ -601,7 +538,7 @@ List<Activity> activityData = [
     continentType: ContinentType.asia,
     description:
         'An ancient series of fortifications made of stone, brick, wood, and earth.',
-    imageAssetPath: 'assets/images/activities/camp-nou.jpg',
+    imagePath: '',
     location: PlaceLocation(
       street: 'Various locations across China',
       city: 'China',
@@ -615,7 +552,7 @@ List<Activity> activityData = [
     continentType: ContinentType.asia,
     description:
         'An ivory-white marble mausoleum on the south bank of the Yamuna river.',
-    imageAssetPath: 'assets/images/activities/camp-nou.jpg',
+    imagePath: '',
     location: PlaceLocation(
       street: 'Agra, Uttar Pradesh',
       city: 'Agra',
@@ -628,7 +565,7 @@ List<Activity> activityData = [
     name: 'Mount Everest',
     continentType: ContinentType.asia,
     description: 'The world\'s highest mountain, located in the Himalayas.',
-    imageAssetPath: 'assets/images/activities/camp-nou.jpg',
+    imagePath: '',
     location: PlaceLocation(
       street: 'Himalayas',
       city: 'Nepal',
@@ -642,7 +579,7 @@ List<Activity> activityData = [
     continentType: ContinentType.asia,
     description:
         'A historical and archaeological city famous for its rock-cut architecture.',
-    imageAssetPath: 'assets/images/activities/camp-nou.jpg',
+    imagePath: '',
     location: PlaceLocation(
       street: 'Petra, Wadi Musa',
       city: 'Petra',
@@ -656,7 +593,7 @@ List<Activity> activityData = [
     continentType: ContinentType.asia,
     description:
         'A temple complex and the largest religious monument in the world.',
-    imageAssetPath: 'assets/images/activities/camp-nou.jpg',
+    imagePath: '',
     location: PlaceLocation(
       street: 'Krong Siem Reap',
       city: 'Siem Reap',
@@ -666,10 +603,10 @@ List<Activity> activityData = [
     ),
   ),
   Activity(
-    name: 'The Forbidden City',
+    name: 'Forbidden City',
     continentType: ContinentType.asia,
     description: 'A palace complex in central Beijing, China.',
-    imageAssetPath: 'assets/images/activities/camp-nou.jpg',
+    imagePath: '',
     location: PlaceLocation(
       street: '4 Jingshan Front St, Dongcheng, Beijing',
       city: 'Beijing',
@@ -679,39 +616,11 @@ List<Activity> activityData = [
     ),
   ),
   Activity(
-    name: 'The Maldives',
-    continentType: ContinentType.asia,
-    description:
-        'A tropical paradise known for its beaches, blue lagoons, and extensive reefs.',
-    imageAssetPath: 'assets/images/activities/camp-nou.jpg',
-    location: PlaceLocation(
-      street: 'South Asia',
-      city: 'Maldives',
-      country: 'Maldives',
-      latitude: 3.2028,
-      longitude: 73.2207,
-    ),
-  ),
-  Activity(
-    name: 'Giant Panda Breeding Research Base',
-    continentType: ContinentType.asia,
-    description:
-        'A facility dedicated to the conservation of the giant panda in Chengdu, China.',
-    imageAssetPath: 'assets/images/activities/camp-nou.jpg',
-    location: PlaceLocation(
-      street: '1375 Xiongmao Ave',
-      city: 'Chengdu',
-      country: 'China',
-      latitude: 30.7398,
-      longitude: 104.0395,
-    ),
-  ),
-  Activity(
     name: 'Borobudur',
     continentType: ContinentType.asia,
     description:
         'A 9th-century Mahayana Buddhist temple in Magelang, Central Java, Indonesia.',
-    imageAssetPath: 'assets/images/activities/camp-nou.jpg',
+    imagePath: '',
     location: PlaceLocation(
       street: 'Jl. Badrawati, Kw. Candi Borobudur',
       city: 'Magelang',
@@ -725,7 +634,7 @@ List<Activity> activityData = [
     continentType: ContinentType.asia,
     description:
         'A broadcasting and observation tower in Sumida, Tokyo, Japan.',
-    imageAssetPath: 'assets/images/activities/camp-nou.jpg',
+    imagePath: '',
     location: PlaceLocation(
       street: '1 Chome-1-2 Oshiage',
       city: 'Tokyo',
@@ -740,7 +649,7 @@ List<Activity> activityData = [
     continentType: ContinentType.australia,
     description:
         'The world\'s largest coral reef system, located off the coast of Queensland.',
-    imageAssetPath: 'assets/images/activities/camp-nou.jpg',
+    imagePath: '',
     location: PlaceLocation(
       street: 'Queensland',
       city: 'Queensland',
@@ -754,7 +663,7 @@ List<Activity> activityData = [
     continentType: ContinentType.australia,
     description:
         'A large sandstone rock formation in the Northern Territory of Australia.',
-    imageAssetPath: 'assets/images/activities/camp-nou.jpg',
+    imagePath: '',
     location: PlaceLocation(
       street: 'Uluru-Kata Tjuta National Park, Petermann NT 0872',
       city: 'Petermann',
@@ -767,7 +676,7 @@ List<Activity> activityData = [
     name: 'Sydney Harbour Bridge',
     continentType: ContinentType.australia,
     description: 'A steel through arch bridge across Sydney Harbour.',
-    imageAssetPath: 'assets/images/activities/camp-nou.jpg',
+    imagePath: '',
     location: PlaceLocation(
       street: 'Sydney, New South Wales',
       city: 'Sydney',
@@ -781,7 +690,7 @@ List<Activity> activityData = [
     continentType: ContinentType.australia,
     description:
         'A popular beach and the name of the surrounding suburb in Sydney, New South Wales.',
-    imageAssetPath: 'assets/images/activities/camp-nou.jpg',
+    imagePath: '',
     location: PlaceLocation(
       street: 'Bondi Beach, New South Wales',
       city: 'Sydney',
@@ -795,7 +704,7 @@ List<Activity> activityData = [
     continentType: ContinentType.australia,
     description:
         'A protected area in the Northern Territory of Australia, known for its cultural and natural significance.',
-    imageAssetPath: 'assets/images/activities/camp-nou.jpg',
+    imagePath: '',
     location: PlaceLocation(
       street: 'Jabiru NT 0886',
       city: 'Jabiru',
@@ -809,7 +718,7 @@ List<Activity> activityData = [
     continentType: ContinentType.australia,
     description:
         'A tropical rainforest region on the north east coast of Queensland.',
-    imageAssetPath: 'assets/images/activities/camp-nou.jpg',
+    imagePath: '',
     location: PlaceLocation(
       street: 'Daintree QLD 4873',
       city: 'Daintree',
@@ -823,7 +732,7 @@ List<Activity> activityData = [
     continentType: ContinentType.australia,
     description:
         'A collection of continental islands off the coast of Queensland, Australia.',
-    imageAssetPath: 'assets/images/activities/camp-nou.jpg',
+    imagePath: '',
     location: PlaceLocation(
       street: 'Queensland',
       city: 'Queensland',
@@ -837,7 +746,7 @@ List<Activity> activityData = [
     continentType: ContinentType.australia,
     description:
         'A rugged region west of Sydney in New South Wales, known for its dramatic scenery.',
-    imageAssetPath: 'assets/images/activities/camp-nou.jpg',
+    imagePath: '',
     location: PlaceLocation(
       street: 'New South Wales',
       city: 'New South Wales',
@@ -847,11 +756,11 @@ List<Activity> activityData = [
     ),
   ),
   Activity(
-    name: 'Melbourne Cricket Ground (MCG)',
+    name: 'Melbourne Cricket Ground',
     continentType: ContinentType.australia,
     description:
         'One of the largest stadiums in the world, located in Melbourne, Victoria.',
-    imageAssetPath: 'assets/images/activities/camp-nou.jpg',
+    imagePath: '',
     location: PlaceLocation(
       street: 'Brunton Ave, Richmond VIC 3002',
       city: 'Melbourne',
