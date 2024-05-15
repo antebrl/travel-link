@@ -1,4 +1,6 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:go_router/go_router.dart';
 import 'package:travel_link/src/features/activities/3_activities_screen/domain/activity.dart';
 import 'package:travel_link/src/routing/app_router.dart';
@@ -14,6 +16,49 @@ class ActivityItem extends StatefulWidget {
 }
 
 class _ActivityItemState extends State<ActivityItem> {
+  late Future<String> _imageFuture;
+  String formattedLink = '';
+  static final Map<String, String> _imageCache = {}; // Cache für Bilder
+  @override
+  void initState() {
+    super.initState();
+    // Überprüfe, ob das Bild im Cache vorhanden ist
+    if (_imageCache.containsKey(widget.activity.name)) {
+      final imageName = _imageCache[widget.activity.name];
+      if (imageName != null) {
+        setState(() {
+          widget.activity.imagePath = imageName; // Aktualisiere den Bildnamen
+        });
+      }
+      _imageFuture =
+          Future.value(imageName); // Verwende den Bildnamen für die Future
+    } else {
+      _imageFuture = fetchImage(widget.activity.name);
+    }
+  }
+
+  Future<String> fetchImage(String activityName) async {
+    final formattedName = activityName.replaceAll(' ', '_');
+    final formattedLink =
+        'https://en.wikipedia.org/w/api.php?action=query&titles=$formattedName&prop=pageimages&format=json&pithumbsize=1000';
+    final response = await http.get(Uri.parse(formattedLink));
+    final Map<String, dynamic> data =
+        json.decode(response.body) as Map<String, dynamic>;
+    final pages = data['query']['pages'];
+    final pageId = pages.keys.first;
+    final imageUrl = pages[pageId]['thumbnail']['source'] as String;
+
+    // Speichere den Bildnamen im Cache
+    _imageCache[activityName] = imageUrl;
+
+    // Aktualisiere den Bildnamen in der Activity-Instanz
+    setState(() {
+      widget.activity.imagePath = imageUrl;
+    });
+
+    return imageUrl;
+  }
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -37,47 +82,51 @@ class _ActivityItemState extends State<ActivityItem> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Stack(
-              children: [
-                ClipRRect(
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(10),
-                    topRight: Radius.circular(10),
-                  ),
-                  child: widget.activity.imageAssetPath.trim().isEmpty
-                      ? Image.file(
-                          widget.activity.image!,
-                          height: 125,
-                          width: double.infinity,
-                          fit: BoxFit.cover,
-                        )
-                      : Image.asset(
-                          widget.activity.imageAssetPath,
+            FutureBuilder<String>(
+              future: _imageFuture,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const CircularProgressIndicator();
+                } else if (snapshot.hasError) {
+                  return Text('Fehler: ${snapshot.error}');
+                } else {
+                  return Stack(
+                    children: [
+                      ClipRRect(
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(10),
+                          topRight: Radius.circular(10),
+                        ),
+                        child: Image.network(
+                          snapshot.data!,
                           height: 125,
                           width: double.infinity,
                           fit: BoxFit.cover,
                         ),
-                ),
-                if (widget.activity.isUserCreated)
-                  Positioned(
-                    top: 10,
-                    right: 10,
-                    child: Container(
-                      padding: const EdgeInsets.all(5),
-                      decoration: BoxDecoration(
-                        color: CustomColors.black.withOpacity(0.5),
-                        borderRadius: BorderRadius.circular(5),
                       ),
-                      child: const Text(
-                        'Created by User',
-                        style: TextStyle(
-                          color: CustomColors.white,
-                          fontSize: 14,
+                      if (widget.activity.isUserCreated)
+                        Positioned(
+                          top: 10,
+                          right: 10,
+                          child: Container(
+                            padding: const EdgeInsets.all(5),
+                            decoration: BoxDecoration(
+                              color: CustomColors.black.withOpacity(0.5),
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            child: const Text(
+                              'Created by User',
+                              style: TextStyle(
+                                color: CustomColors.white,
+                                fontSize: 14,
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                  ),
-              ],
+                    ],
+                  );
+                }
+              },
             ),
             Padding(
               padding:

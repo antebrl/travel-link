@@ -45,7 +45,7 @@ class _AddActivityScreenState extends ConsumerState<AddActivityScreen> {
           //continentType: _enteredcontinentType,
           continentType: getContinentFromCountry(_selectedLocation!.country),
           description: _enteredDescription,
-          imageAssetPath: '',
+          imagePath: '',
           image: _selectedImage,
           location: PlaceLocation(
             latitude: _selectedLocation!.latitude,
