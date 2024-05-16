@@ -78,20 +78,20 @@ graph LR
 See [here] (./2-UserResearch.md#Partially standardized interviews) for the Partially standardized interview.
 
 ## Criteria/assumptions of your users
-- contious of budget
+- conscious of budget
 - interested in new locations
 - user may work as a tour guide
 - interested in planning own trips
 - user may be a shy person
-- user maybe wants to travel with people in the same age groupe
-- travel groupe wants to share pictures of the trip
+- user wants to travel with people in the same age group
+- travel group wants to share pictures of the trip
 - tour organizer wants to provide travel details
 - a group of friends want to plan a trip
 - family wants to plan a trip
 - user wants to do a day trip
 - group of friend wants to do a weekend trip
-- family is planning a vacation
-- user in interested in cultural trips
+- family is planning their vacation
+- user is interested in cultural trips
 - user wants to do a relaxing vacation
 - user wants to have as much fun as possible
 - additional users may want to join during the trip
@@ -197,7 +197,7 @@ For a three dimentional vector space we choose the criterias: **age**, **adventu
 *Hier wird dann das Koordinatensystem eingefügt*
 
 ## 4.1 Persona
-We choose the most extreme User for each criteria, as highlighted in the image above. Now we will create a Persona describtion for every persona.
+We choose the most extreme user for each criteria, as highlighted in the image above. Now we will create a persona describtion for every persona.
 
 
 
@@ -227,7 +227,7 @@ Wide questions:
 
 semi-wide questions:
 
-1. For what kind of goups do you plan you trips?
+1. For what kind of goups do you plan your trips?
 2. Top 3 worst things planning a trip?
 3. What makes a good trip, what makes a bad one?
 4. Important subjects while travelling
@@ -238,8 +238,8 @@ tight questions:
 1. What modes of transportation do you use during your trips?
 2. How many pictures/videos etc. do you share per trip?
 3. What kind of vacation do you most frequently take?
-4. Have you been outside of europ already? 
-5. Rank the follwing aspects: persons, activitys, hotel/resting place
+4. Have you been outside of europe already? 
+5. Rank the importance of follwing aspects: persons, activitys, hotel/resting place
 6. ranking of features:
   - Monitary Management
   - Travel souveniers (picutres/videos)
@@ -260,3 +260,13 @@ tight questions:
 1. Thank person
 
 # Requirement scenarios
+
+# User Scenarios
+!!! abstract "Discover activities, meet new people"
+	Steve wants to go on vacation, but his friends are unavailable. He's keen on visiting Barcelona but isn't enthusiastic about traveling alone. So, he picks up his phone and searches for public group trips to Barcelona using an app. He explores the app for activities in Barcelona, and potential travel companions, communicating with them via chat in the app.
+
+!!! abstract "Plan and organize a trip"
+	Steffi and her friends are planning a vacation but haven't decided on a destination yet. They search for fun activities in various travel destinations. After deliberation, they settle on London and create a private trip within the app. To ensure a smooth trip, they meticulously plan every aspect through the app, including selecting activities, organizing expenses, and creating checklists. Each friend actively participates in the trip planning process via the app. During their vacation, they use the app to collectively store pictures taken in London as shared memories.
+
+!!! abstract "Publish activities and conduct tours"
+	Rudi, an experienced tour guide familiar with local activities and attractions in London, shares his knowledge by posting these activities within the app. On Saturdays, he conducts guided tours of London. To organize these tours efficiently, he creates private trips within the app and invites the participants. Using the app, he facilitates communication and decision-making among participants, also providing a platform for sharing information and photos taken during the tour.
