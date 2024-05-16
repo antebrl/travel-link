@@ -75,6 +75,7 @@ graph LR
 	- :fontawesome-solid-user:
 
 # Preparation Lab2 User Research
+See [here] (./2-UserResearch.md#Partially standardized interviews) for the Partially standardized interview.
 
 ## Criteria/assumptions of your users
 - contious of budget
@@ -201,4 +202,61 @@ We choose the most extreme User for each criteria, as highlighted in the image a
 
 
 # Partially standardized interviews
+
+### Interview introduction:
+1. Verify if its a person of interest
+2. Introduction
+3. Goal of interview: Gather different perspective and needs
+
+### Questions:
+**Personal Question**:
+- Name
+- Age
+- Latest travel destination
+- Travel frequency
+- Preference for forest or sea
+
+**Funnel Questions**:
+
+Wide questions:
+
+1. How do you currently plan your trips?
+2. What do you spend most of your time on planning a trip?
+3. What problems do you run into planning a trip?
+4. Important aspects of a planning app?
+
+semi-wide questions:
+
+1. For what kind of goups do you plan you trips?
+2. Top 3 worst things planning a trip?
+3. What makes a good trip, what makes a bad one?
+4. Important subjects while travelling
+5. Used Communication Method
+
+tight questions:
+
+1. What modes of transportation do you use during your trips?
+2. How many pictures/videos etc. do you share per trip?
+3. What kind of vacation do you most frequently take?
+4. Have you been outside of europ already? 
+5. Rank the follwing aspects: persons, activitys, hotel/resting place
+6. ranking of features:
+  - Monitary Management
+  - Travel souveniers (picutres/videos)
+  - Checklis
+  - Weather for travel time period
+  - chat
+  - voting
+  - travel documents
+  - flight/transportation details
+  - Map with planned activies
+  - planned activities for the day
+
+**ending question**:
+
+1. If you had a wish?
+
+### End of Interview:
+1. Thank person
+
 # Requirement scenarios
