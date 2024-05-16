@@ -164,9 +164,9 @@ We have decided to quantify the criteria on a scale from 0 to 10 so that it is e
 | Julian      |3 |5 |2 |6 |3 |4 |4 |7 |6 |
 | Morten      |3 |2 |4 |8 |4 |5 |6 |8 |7 |
 | Mats        |3 |1 |6 |8 |4 |7 |6 |7 |7 |
-| NAME        | | | | | | | | | |
-| NAME        | | | | | | | | | |
-| NAME        | | | | | | | | | |
+| Marc        |3 |3 |2 |2 |5 |6 |6 |6 |7 |
+| Leo         |4 |5 |7 |5 |3 |6 |6 |8 |9 |
+| Janosch     |4 |5 |7 |3 |6 |7 |7 |9 |9 |
 | NAME        | | | | | | | | | |
 | NAME        | | | | | | | | | |
 | NAME        | | | | | | | | | |
