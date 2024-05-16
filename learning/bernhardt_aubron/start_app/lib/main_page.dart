@@ -50,7 +50,9 @@ class Main_Page extends StatelessWidget {
           Container(
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage('assets/hive_city.jpg'),
+                image: NetworkImage(
+                  'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pinterest.com%2Fpin%2F549931804496097060%2F&psig=AOvVaw1DSqjL-gmgN8DH3EUQ73S7&ust=1715177911876000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCNDai-Pd-4UDFQAAAAAdAAAAABAU',
+                ),
                 fit: BoxFit.cover,
               ),
             ),
@@ -97,7 +99,7 @@ Beyond the hive cities lie the wastelands of Terra, desolate plains and ruined c
 
 In the skies above Terra, massive voidships ply the heavens, their sleek hulls and imposing silhouettes a stark contrast to the crumbling edifices below. These vessels are the lifeblood of the Imperium, ferrying troops, supplies, and pilgrims to every corner of the galaxy in the eternal crusade to reclaim humanity's lost glory.
 
-The architecture of Holy Terra is a reflection of humanity's triumphs and tribulations, its grandeur and its decay. It is a testament to the enduring spirit of mankind, the relentless pursuit of power and glory, and the ever-present specter of damnation and oblivion. In the grim darkness of the far future, there is only war, and the architecture of Holy Terra stands as a silent witness to the eternal struggle of humanity against the encroaching darkness. Let's delve deeper into the architecture of Holy Terra, exploring its various elements, historical significance, and the cultural tapestry that has shaped it over millennia.
+The architecture of Holy Terra is a reflection of humanity's triumphs and tribulations, its grandeur and its decay. It is a testament to the enduring spirit of mankind, the relentless pursuit of power and glory, and the ever-present specter of damnation and oblivion. In the grim darkness of the far future, there is only war, and the architecture of Holy Terra stands as a silent witness to the eternal struggle of humanity against the encroaching darkness.Certainly! Let's delve deeper into the architecture of Holy Terra, exploring its various elements, historical significance, and the cultural tapestry that has shaped it over millennia.
 
 **The Imperial Palace:**
 

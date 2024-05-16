@@ -10,5 +10,5 @@ extension StringHardcoded on String {
 
 //thanks to https://codewithandrea.com/articles/flutter-localization-build-context-extension/
 extension LocalizedBuildContext on BuildContext {
-  AppLocalizations get loc => AppLocalizations.of(this);
+ AppLocalizations get loc => AppLocalizations.of(this);
 }
