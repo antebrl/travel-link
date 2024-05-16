@@ -25,8 +25,6 @@ class CustomAppTheme {
     fontFamily: GoogleFonts.poppins().fontFamily,
     brightness: Brightness.light,
     primaryColor: CustomColors.primary,
-    // ignore: deprecated_member_use
-    backgroundColor: Colors.grey.shade100,
     scaffoldBackgroundColor: Colors.grey.shade100,
     textTheme: CustomTextTheme.lightTextTheme,
     chipTheme: CustomChipTheme.lightChipTheme,
@@ -44,8 +42,6 @@ class CustomAppTheme {
     brightness: Brightness.dark,
     primaryColor: CustomColors.primary,
     scaffoldBackgroundColor: CustomColors.black,
-        // ignore: deprecated_member_use
-    backgroundColor: CustomColors.black,
     textTheme: CustomTextTheme.darkTextTheme,
     chipTheme: CustomChipTheme.darkChipTheme,
     appBarTheme: CustomAppBarTheme.darkAppBarTheme,
@@ -53,6 +49,6 @@ class CustomAppTheme {
     bottomSheetTheme: CustomBottomSheetTheme.darkBottomSheetTheme,
     elevatedButtonTheme: CustomElevatedButtonTheme.darkElevatedButtonTheme,
     outlinedButtonTheme: CustomOutlinedButtonTheme.darkOutlinedButtonTheme,
-    inputDecorationTheme: CustomTextFormFieldTheme.darkInputDecorationTheme,
+    inputDecorationTheme: CustomTextFormFieldTheme.darkInputDecorationTheme, 
   );
 }

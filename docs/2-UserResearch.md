@@ -75,6 +75,7 @@ graph LR
 	- :fontawesome-solid-user:
 
 # Preparation Lab2 User Research
+See [here] (./2-UserResearch.md#Partially standardized interviews) for the Partially standardized interview.
 
 ## Criteria/assumptions of your users
 - contious of budget
@@ -129,3 +130,133 @@ graph LR
 
 ### End of Interview:
 1. Thank person
+
+
+# NZSE User Research
+[Based on Prof. Dr. Stefan Zander](https://www.youtube.com/watch?v=qA0DlfghMAY&t=1s)
+## 1. User list
+- Jakob
+- Julian
+- Morten
+- Mats
+
+## 2. Criteria list
+- Age 
+- Wealth
+- adventurousness
+- leisure time
+- languages
+- travel experience
+- planning experience
+- smartphone/pc experience
+- education
+
+### 2.1 Operationalization
+We have decided to quantify the criteria on a scale from 0 to 10 so that it is easier to compare the values later on
+- e.g. Age: ~20=3 ~40=5 ~80=10
+- e.g. languages: native language + basic second language = 3. 3 languages = 6. 5+ languages = 10
+- etc. 
+
+## 3. Create Matrix 
+|             | Age | Wealth | adven\-turous\-ness | leisure time|languages|travel experience|planning experience|technical experience| education|
+|-------------|--|--|--|--|--|--|--|--|--|
+| Jakob       |3 |3 |4 |6 |3 |7 |5 |7 |6 |
+| Julian      |3 |5 |2 |6 |3 |4 |4 |7 |6 |
+| Morten      |3 |2 |4 |8 |4 |5 |6 |8 |7 |
+| Mats        |3 |1 |6 |8 |4 |7 |6 |7 |7 |
+| Marc        |3 |3 |2 |2 |5 |6 |6 |6 |7 |
+| Leo         |4 |5 |7 |5 |3 |6 |6 |8 |9 |
+| Janosch     |4 |5 |7 |3 |6 |7 |7 |9 |9 |
+| NAME        | | | | | | | | | |
+| NAME        | | | | | | | | | |
+| NAME        | | | | | | | | | |
+| NAME        | | | | | | | | | |
+| NAME        | | | | | | | | | |
+| NAME        | | | | | | | | | |
+| NAME        | | | | | | | | | |
+| NAME        | | | | | | | | | |
+| NAME        | | | | | | | | | |
+| NAME        | | | | | | | | | |
+| NAME        | | | | | | | | | |
+| NAME        | | | | | | | | | |
+| NAME        | | | | | | | | | |
+| NAME        | | | | | | | | | |
+| NAME        | | | | | | | | | |
+| NAME        | | | | | | | | | |
+| NAME        | | | | | | | | | |
+| NAME        | | | | | | | | | |
+| NAME        | | | | | | | | | |
+| NAME        | | | | | | | | | |
+| NAME        | | | | | | | | | |
+| NAME        | | | | | | | | | |
+| NAME        | | | | | | | | | |
+
+## 4. N-Dimentional Vector Space
+For a three dimentional vector space we choose the criterias: **age**, **adventurousness** and **travel experience**
+
+*Hier wird dann das Koordinatensystem eingefügt*
+
+## 4.1 Persona
+We choose the most extreme User for each criteria, as highlighted in the image above. Now we will create a Persona describtion for every persona.
+
+
+
+# Partially standardized interviews
+
+### Interview introduction:
+1. Verify if its a person of interest
+2. Introduction
+3. Goal of interview: Gather different perspective and needs
+
+### Questions:
+**Personal Question**:
+- Name
+- Age
+- Latest travel destination
+- Travel frequency
+- Preference for forest or sea
+
+**Funnel Questions**:
+
+Wide questions:
+
+1. How do you currently plan your trips?
+2. What do you spend most of your time on planning a trip?
+3. What problems do you run into planning a trip?
+4. Important aspects of a planning app?
+
+semi-wide questions:
+
+1. For what kind of goups do you plan you trips?
+2. Top 3 worst things planning a trip?
+3. What makes a good trip, what makes a bad one?
+4. Important subjects while travelling
+5. Used Communication Method
+
+tight questions:
+
+1. What modes of transportation do you use during your trips?
+2. How many pictures/videos etc. do you share per trip?
+3. What kind of vacation do you most frequently take?
+4. Have you been outside of europ already? 
+5. Rank the follwing aspects: persons, activitys, hotel/resting place
+6. ranking of features:
+  - Monitary Management
+  - Travel souveniers (picutres/videos)
+  - Checklis
+  - Weather for travel time period
+  - chat
+  - voting
+  - travel documents
+  - flight/transportation details
+  - Map with planned activies
+  - planned activities for the day
+
+**ending question**:
+
+1. If you had a wish?
+
+### End of Interview:
+1. Thank person
+
+# Requirement scenarios

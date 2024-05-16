@@ -86,14 +86,14 @@ class _CalendarPopupViewState extends State<CalendarPopupView>
                     padding: const EdgeInsets.all(24),
                     child: Container(
                       decoration: BoxDecoration(
-                        color: CustomAppTheme.lightTheme.backgroundColor,
+                        color:  Colors.white,
                         borderRadius:
                             const BorderRadius.all(Radius.circular(24)),
                         boxShadow: <BoxShadow>[
                           BoxShadow(
                               color: Colors.grey.withOpacity(0.2),
                               offset: const Offset(4, 4),
-                              blurRadius: 8),
+                              blurRadius: 8,),
                         ],
                       ),
                       child: InkWell(
