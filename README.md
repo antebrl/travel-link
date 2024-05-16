@@ -1,3 +1,11 @@
+# Vision Statement
+For **group travelers**, <br>
+Who are **overwhelmed** by trip planning complexities <br>
+Our travel-app is a **comprehensive travel organization tool** <br>
+That makes planning a group trip **easier** and **faster**. <br>
+Setting us apart from widespread apps like Expedia with integrated **collaboration** features, <br>
+Bringing ease and unity to every adventure.
+
 # Learning Flutter
 
 ![Build Status](https://code.fbi.h-da.de/hci-trapp/hci-lab-studi-sose24/hci-Mi4x-grey/badges/main/pipeline.svg)

@@ -272,3 +272,11 @@ Tight questions:
 
 !!! abstract "Publish activities and conduct tours"
 	Rudi, an experienced tour guide familiar with local activities and attractions in London, shares his knowledge by posting these activities within the app. On Saturdays, he conducts guided tours of London. To organize these tours efficiently, he creates private trips within the app and invites the participants. Using the app, he facilitates communication and decision-making among participants, also providing a platform for sharing information and photos taken during the tour.
+
+# Vision Statement
+For **group travelers**, <br>
+Who are **overwhelmed** by trip planning complexities <br>
+Our travel-app is a **comprehensive travel organization tool** <br>
+That makes planning a group trip **easier** and **faster**. <br>
+Setting us apart from widespread apps like Expedia with integrated **collaboration** features, <br>
+Bringing ease and unity to every adventure.
