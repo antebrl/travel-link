@@ -1,8 +1,13 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'dart:typed_data';
+
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:travel_link/src/features/account/data/account_repository.dart';
+import 'package:travel_link/src/features/account/presentation/account_controller.dart';
 import 'package:travel_link/src/features/authentication/data/firebase_auth_repository.dart';
 import 'package:travel_link/src/routing/app_router.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
@@ -20,10 +25,30 @@ var menuItems = <Map<String, dynamic>>[
     'color': CustomColors.primary
   },
   //{'label': 'Privacy', 'icon': Icons.privacy_tip, 'color': Colors.blue},
-  {'option': AccountRoutes.security, 'label': 'Security', 'icon': Icons.security, 'color': CustomColors.primary},
-  {'option': AccountRoutes.settings, 'label': 'Settings', 'icon': Icons.settings, 'color': CustomColors.primary},
-  {'option': AccountRoutes.help, 'label': 'Help', 'icon': Icons.help, 'color': CustomColors.primary},
-  {'option': AccountRoutes.about, 'label': 'About', 'icon': Icons.info, 'color': CustomColors.primary},
+  {
+    'option': AccountRoutes.security,
+    'label': 'Security',
+    'icon': Icons.security,
+    'color': CustomColors.primary
+  },
+  {
+    'option': AccountRoutes.settings,
+    'label': 'Settings',
+    'icon': Icons.settings,
+    'color': CustomColors.primary
+  },
+  {
+    'option': AccountRoutes.help,
+    'label': 'Help',
+    'icon': Icons.help,
+    'color': CustomColors.primary
+  },
+  {
+    'option': AccountRoutes.about,
+    'label': 'About',
+    'icon': Icons.info,
+    'color': CustomColors.primary
+  },
 ];
 
 class AccountScreen extends ConsumerStatefulWidget {
@@ -36,12 +61,11 @@ class AccountScreen extends ConsumerStatefulWidget {
 class _AccountScreenState extends ConsumerState<AccountScreen> {
   final double borderRadius = 10;
 
-  final String profilePictureUrl = 'https://i.pravatar.cc/500';
+  final String defaultProfilePictureUrl = 'https://via.placeholder.com/150';
+  final String defaultName = 'User Name';
+  final String defaultDescription = 'Shine bright like a diamond💎';
 
-  Future<void> _showLogoutConfirmation() async {
-
-    final auth = ref.watch(firebaseAuthProvider);
-
+  Future<void> _showLogoutConfirmation({required FirebaseAuth auth}) async {
     return showDialog<void>(
       context: context,
       barrierDismissible: true, // user must tap button!
@@ -57,13 +81,20 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
           ),
           actions: <Widget>[
             TextButton(
-              child: Text('Cancel', style: Theme.of(context).textTheme.bodyMedium),
+              child:
+                  Text('Cancel', style: Theme.of(context).textTheme.bodyMedium),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-              child: Text('Sign Out', style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.red),),
+              child: Text(
+                'Sign Out',
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyMedium
+                    ?.copyWith(color: Colors.red),
+              ),
               onPressed: () {
                 Navigator.of(context).pop();
                 context.goNamed(TopLevelDestinations.trips.name);
@@ -76,9 +107,48 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
     );
   }
 
+  Future<String?> _showEditPopup(
+      {required String label, String intialValue = ''}) async {
+    final TextEditingController controller =
+        TextEditingController(text: intialValue);
+    return showDialog<String>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Edit $label'),
+        content: TextField(
+          controller: controller,
+          autofocus: true,
+          decoration: InputDecoration(labelText: 'Enter new $label'),
+          onChanged: (value) {
+            // Handle text changes
+          },
+        ),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(controller.text);
+            },
+            child: const Text('Save'),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    var textTheme = Theme.of(context).textTheme;
+    final auth = ref.watch(firebaseAuthProvider);
+
+    final accountController = ref.watch(accountControllerProvider.notifier);
+    var userData = ref.watch(fetchUserProvider(auth.currentUser!.uid));
+
+    final textTheme = Theme.of(context).textTheme;
 
     return Scaffold(
       backgroundColor: Colors.grey[100],
@@ -100,18 +170,41 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
                     padding: const EdgeInsets.all(10),
                     child: Row(
                       children: [
-                        Container(
-                          padding: const EdgeInsets.only(right: 10),
-                          height: 100,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(100),
-                            child: FittedBox(
-                              child: CachedNetworkImage(
-                                imageUrl: profilePictureUrl,
-                                placeholder: (context, url) =>
-                                    const CircularProgressIndicator(),
-                                errorWidget: (context, url, error) =>
-                                    const Icon(Icons.error, color: Colors.red),
+                        GestureDetector(
+                          onTap: () async {
+                            final ImagePicker picker = ImagePicker();
+                            final XFile? image = await picker.pickImage(
+                              source: ImageSource.gallery,
+                              imageQuality: 80,
+                            );
+                            if (image == null) return;
+                            final Uint8List bytes = await image.readAsBytes();
+                            await accountController.updateProfilePicture(
+                                picture: bytes);
+
+                            userData = ref.refresh(
+                              fetchUserProvider(
+                                auth.currentUser!.uid,
+                              ),
+                            );
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.only(right: 15),
+                            height: 80,
+                            width: 80,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(100),
+                              child: FittedBox(
+                                child: userData.when(
+                                  data: (userAccount) => CachedNetworkImage(
+                                    imageUrl: userAccount?.pictureUrl ??
+                                        defaultProfilePictureUrl,
+                                  ),
+                                  loading: () =>
+                                      const CircularProgressIndicator(),
+                                  error: (_, __) => const Icon(Icons.error,
+                                      color: Colors.red),
+                                ),
                               ),
                             ),
                           ),
@@ -120,16 +213,71 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                'Funnyuser0815',
-                                style:
-                                    Theme.of(context).textTheme.headlineSmall,
-                                overflow: TextOverflow.fade,
+                              TextButton.icon(
+                                onPressed: () async {
+                                  final newName = await _showEditPopup(
+                                    label: 'Username',
+                                    intialValue:
+                                        userData.asData?.value?.displayName ??
+                                            defaultName,
+                                  );
+                                  if (newName != null) {
+                                    await accountController.updateDisplayName(
+                                      displayName: newName,
+                                    );
+                                  }
+                                  userData = ref.refresh(
+                                    fetchUserProvider(
+                                      auth.currentUser!.uid,
+                                    ),
+                                  );
+                                },
+                                icon: const Icon(Icons.edit),
+                                label: userData.when(
+                                  data: (userAccount) => Text(
+                                    userAccount?.displayName ?? defaultName,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headlineSmall,
+                                    overflow: TextOverflow.fade,
+                                  ),
+                                  loading: () =>
+                                      const CircularProgressIndicator(),
+                                  error: (_, __) => const Text('Error'),
+                                ),
                               ),
                               const SizedBox(height: 5),
-                              Text(
-                                'Shine bright like a diamond💎',
-                                style: Theme.of(context).textTheme.bodySmall,
+                              TextButton.icon(
+                                onPressed: () async {
+                                  final newDescription = await _showEditPopup(
+                                    label: 'Description',
+                                    intialValue:
+                                        userData.asData?.value?.description ??
+                                            defaultDescription,
+                                  );
+                                  if (newDescription != null) {
+                                    await accountController.updateDescription(
+                                      description: newDescription,
+                                    );
+                                  }
+                                  userData = ref.refresh(
+                                    fetchUserProvider(
+                                      auth.currentUser!.uid,
+                                    ),
+                                  );
+                                },
+                                icon: const Icon(Icons.edit),
+                                label: userData.when(
+                                  data: (userAccount) => Text(
+                                    userAccount?.description ??
+                                        defaultDescription,
+                                    style:
+                                        Theme.of(context).textTheme.bodySmall,
+                                  ),
+                                  loading: () =>
+                                      const CircularProgressIndicator(),
+                                  error: (_, __) => const Text('Error'),
+                                ),
                               ),
                             ],
                           ),
@@ -158,22 +306,27 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
                             children: [
                               // Profile Picture
                               Container(
-                                  width: 40,
-                                  padding: const EdgeInsets.only(left: 10),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(20),
-                                    child: FittedBox(
-                                      child: CachedNetworkImage(
-                                        imageUrl:
-                                            profilePictureUrl,
-                                        placeholder: (context, url) =>
-                                            const CircularProgressIndicator(),
-                                        errorWidget: (context, url, error) =>
-                                            const Icon(Icons.error,
-                                                color: Colors.red),
+                                width: 40,
+                                height: 40,
+                                padding: const EdgeInsets.only(left: 10),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(20),
+                                  child: FittedBox(
+                                    child: userData.when(
+                                      data: (userAccount) => CachedNetworkImage(
+                                        imageUrl: userAccount?.pictureUrl ??
+                                            defaultProfilePictureUrl,
+                                      ),
+                                      loading: () =>
+                                          const CircularProgressIndicator(),
+                                      error: (_, __) => const Icon(
+                                        Icons.error,
+                                        color: Colors.red,
                                       ),
                                     ),
-                                  )),
+                                  ),
+                                ),
+                              ),
                               Container(
                                 padding: const EdgeInsets.only(left: 5),
                                 child: Text(
@@ -186,8 +339,10 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
                               ),
                               const Spacer(),
                               Container(
-                                child: const Icon(Icons.arrow_forward_ios),
                                 padding: const EdgeInsets.only(right: 10),
+                                child: const Icon(
+                                  Icons.arrow_forward_ios,
+                                ),
                               ),
                             ],
                           ),
@@ -205,7 +360,8 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
                   children: [
                     for (var i = 0; i < menuItems.length; i++) ...[
                       InkWell(
-                        onTap: () => context.goNamed(AccountRoutes.settings.name),
+                        onTap: () =>
+                            context.goNamed(AccountRoutes.settings.name),
                         borderRadius: BorderRadius.circular(10),
                         child: Column(
                           children: [
@@ -217,8 +373,9 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
                                 ),
                               ),
                               leading: Icon(
-                                  menuItems[i]['icon'] as IconData?,
-                                  color: menuItems[i]['color'] as Color?),
+                                menuItems[i]['icon'] as IconData?,
+                                color: menuItems[i]['color'] as Color?,
+                              ),
                             ),
                             if (i != menuItems.length - 1)
                               const Divider(
@@ -244,7 +401,7 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
                 onTap: () {
                   print('Logout pressed');
                   //auth.signOut();
-                  _showLogoutConfirmation();
+                  _showLogoutConfirmation(auth: auth);
                 },
               ),
             ],
