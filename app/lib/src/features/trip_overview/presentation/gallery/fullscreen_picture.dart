@@ -1,17 +1,22 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/utils.dart';
+import 'package:travel_link/src/features/account/data/account_repository.dart';
 import 'package:travel_link/src/features/trip_overview/domain/picture_post.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
+import 'package:travel_link/src/utils/constants/image_strings.dart';
 import 'package:travel_link/src/utils/formatters/formatter.dart';
 
-class FullscreenPicture extends StatelessWidget {
+class FullscreenPicture extends ConsumerWidget {
   const FullscreenPicture({required this.picturePost, super.key});
 
   final PicturePost picturePost;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final author = ref.watch(fetchUserProvider(picturePost.uid));
+
     return Stack(
       fit: StackFit.expand,
       children: [
@@ -39,10 +44,19 @@ class FullscreenPicture extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  const CircleAvatar(
+                  CircleAvatar(
                     radius: 23,
-                    backgroundImage: NetworkImage(
-                      'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg',
+                    backgroundImage: author.when(
+                      data: (userAccount) => NetworkImage(
+                        userAccount?.pictureUrl ??
+                            CustomImages.defaultProfilePictureUrl,
+                      ),
+                      loading: () => const NetworkImage(
+                        CustomImages.defaultProfilePictureUrl,
+                      ),
+                      error: (_, __) => const NetworkImage(
+                        CustomImages.defaultProfilePictureUrl,
+                      ),
                     ),
                   ),
                   const SizedBox(width: 10),
@@ -50,7 +64,12 @@ class FullscreenPicture extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        picturePost.username ?? 'Anonym User',
+                        author.when(
+                          data: (userAccount) =>
+                              userAccount?.displayName ?? 'Anonym User',
+                          loading: () => 'Anonym User',
+                          error: (_, __) => 'Anonym User',
+                        ),
                         style: context.textTheme.bodyLarge?.copyWith(
                           color: CustomColors.primary,
                           fontWeight: FontWeight.bold,

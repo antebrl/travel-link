@@ -6,7 +6,6 @@ class PicturePost extends Equatable {
     required this.id,
     required this.description,
     required this.uid,
-    required this.username,
     required this.picture,
     required this.timestamp,
   });
@@ -14,7 +13,6 @@ class PicturePost extends Equatable {
   final String id;
   final String description;
   final String uid;
-  final String? username;
   final String picture;
   final DateTime timestamp;
 
@@ -23,7 +21,6 @@ class PicturePost extends Equatable {
         id,
         description,
         uid,
-        username,
         picture,
         timestamp
       ];
@@ -36,7 +33,6 @@ class PicturePost extends Equatable {
       id: id,
       description: value['description'] as String,
       uid: value['uid'] as String,
-      username: value['username'] as String?,
       picture: value['picture'] as String,
       timestamp: (value['timestamp'] as Timestamp).toDate(),
     );
@@ -46,7 +42,6 @@ class PicturePost extends Equatable {
     return <String, dynamic>{
       'description': description,
       'uid': uid,
-      'username': username,
       'picture': picture,
       'timestamp': Timestamp.fromDate(timestamp),
     };

@@ -17,7 +17,6 @@ class SharedGalleryRepository {
   Future<void> postPicture({
     required String description,
     required String uid,
-    required String? username,
     required Uint8List picture,
     required String tripId,
   }) async {
@@ -33,7 +32,6 @@ class SharedGalleryRepository {
     return _firestore.collection(tripGalleryPath(tripId)).doc(pictureId).set({
       'description': description,
       'uid': uid,
-      'username': username,
       'picture': pictureUrl,
       'timestamp': timestamp,
     });
