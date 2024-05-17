@@ -14,13 +14,11 @@ class GroupChatRepository {
   // create
   Future<void> postMessage({
     required String uid,
-    required String name,
     required String message,
     required Timestamp timestamp,
     required String tripId
   }) =>
       _firestore.collection(tripChatPath(tripId)).add({
-        'name': name,
         'uid': uid,
         'message': message,
         'timestamp': timestamp,

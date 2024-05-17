@@ -28,10 +28,33 @@ class AccountController extends _$AccountController {
       () => repository.updateProfilePicture(
         user: currentUser!,
         picture: picture,
-        ),
+      ),
     );
 
-    if(state.hasError) logger.e(state.error);
+    if (state.hasError) logger.e(state.error);
+    return state.hasError == false;
+  }
+
+  Future<bool> updateDisplayName({required String displayName}) async {
+    final currentUser = ref.read(firebaseAuthProvider).currentUser;
+
+    //set state to loading
+    state = const AsyncLoading();
+
+    final repository = ref.read(accountRepositoryProvider);
+
+    await currentUser!.updateDisplayName(displayName);
+
+    state = await AsyncValue.guard(
+      () => repository.updateFirestoreUserData(
+        uid: currentUser.uid,
+        data: {
+          'displayName': displayName,
+        },
+      ),
+    );
+
+    if (state.hasError) logger.e(state.error);
     return state.hasError == false;
   }
 
@@ -49,24 +72,20 @@ class AccountController extends _$AccountController {
       () => repository.updateFirestoreUserData(
         uid: currentUser!.uid,
         data: data,
-        ),
+      ),
     );
 
-    if(state.hasError) logger.e(state.error);
+    if (state.hasError) logger.e(state.error);
     return state.hasError == false;
   }
 
-
   // Explicit functions to set user data
 
-  Future<bool> updateDisplayName({required String displayName}) {
-    return updateUserData(data: {
-      'displayName': displayName,
-    },);
-  }
   Future<bool> updateDescription({required String description}) {
-    return updateUserData(data: {
-      'description': description,
-    },);
+    return updateUserData(
+      data: {
+        'description': description,
+      },
+    );
   }
 }

@@ -27,7 +27,6 @@ class GroupChatController extends _$GroupChatController {
     state = await AsyncValue.guard(
       () => repository.postMessage(
         uid: currentUser!.uid,
-        name: currentUser.displayName!,
         message: message,
         tripId: tripId,
         timestamp: Timestamp.now(),
