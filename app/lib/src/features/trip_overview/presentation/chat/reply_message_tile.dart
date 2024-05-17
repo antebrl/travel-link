@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:travel_link/src/features/account/data/account_repository.dart';
+import 'package:travel_link/src/utils/constants/image_strings.dart';
 import 'package:travel_link/src/utils/formatters/formatter.dart';
 
 class ReplyMessageTile extends ConsumerWidget {
@@ -43,13 +44,13 @@ class ReplyMessageTile extends ConsumerWidget {
               backgroundImage: author!.when(
                 data: (userAccount) => NetworkImage(
                   userAccount?.pictureUrl ??
-                      'https://www.dav-siegerland.de/public/platzhalter/87989/image-thumb__87989__person/person-placeholder.jpg',
+                      CustomImages.defaultProfilePictureUrl,
                 ),
                 loading: () => const NetworkImage(
-                  'https://www.dav-siegerland.de/public/platzhalter/87989/image-thumb__87989__person/person-placeholder.jpg',
+                  CustomImages.defaultProfilePictureUrl,
                 ),
                 error: (_, __) => const NetworkImage(
-                  'https://www.dav-siegerland.de/public/platzhalter/87989/image-thumb__87989__person/person-placeholder.jpg',
+                  CustomImages.defaultProfilePictureUrl,
                 ),
               ),
             ),

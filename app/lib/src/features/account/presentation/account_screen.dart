@@ -1,6 +1,5 @@
 import 'dart:typed_data';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -11,6 +10,7 @@ import 'package:travel_link/src/features/account/presentation/account_controller
 import 'package:travel_link/src/features/authentication/data/firebase_auth_repository.dart';
 import 'package:travel_link/src/routing/app_router.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
+import 'package:travel_link/src/utils/constants/image_strings.dart';
 import 'package:travel_link/src/utils/theme/widget_themes/boxDecoration_theme.dart';
 
 var menuItems = <Map<String, dynamic>>[
@@ -61,7 +61,6 @@ class AccountScreen extends ConsumerStatefulWidget {
 class _AccountScreenState extends ConsumerState<AccountScreen> {
   final double borderRadius = 10;
 
-  final String defaultProfilePictureUrl = 'https://via.placeholder.com/150';
   final String defaultName = 'User Name';
   final String defaultDescription = 'Shine bright like a diamond💎';
 
@@ -188,24 +187,18 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
                               ),
                             );
                           },
-                          child: Container(
-                            padding: const EdgeInsets.only(right: 15),
-                            height: 80,
-                            width: 80,
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(100),
-                              child: FittedBox(
-                                child: userData.when(
-                                  data: (userAccount) => CachedNetworkImage(
-                                    imageUrl: userAccount?.pictureUrl ??
-                                        defaultProfilePictureUrl,
-                                  ),
-                                  loading: () =>
-                                      const CircularProgressIndicator(),
-                                  error: (_, __) => const Icon(Icons.error,
-                                      color: Colors.red),
+                          child: Padding(
+                            padding: const EdgeInsets.only(right: 5),
+                            child: userData.when(
+                              data: (userAccount) => CircleAvatar(
+                                radius: 40,
+                                backgroundImage: NetworkImage(
+                                  userAccount?.pictureUrl ??
+                                      CustomImages.defaultProfilePictureUrl,
                                 ),
                               ),
+                              loading: () => const CircularProgressIndicator(),
+                              error: (_, __) => const Text('Error'),
                             ),
                           ),
                         ),
@@ -305,27 +298,19 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
                           child: Row(
                             children: [
                               // Profile Picture
-                              Container(
-                                width: 40,
-                                height: 40,
+                              Padding(
                                 padding: const EdgeInsets.only(left: 10),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(20),
-                                  child: FittedBox(
-                                    child: userData.when(
-                                      data: (userAccount) => CachedNetworkImage(
-                                        imageUrl: userAccount?.pictureUrl ??
-                                            defaultProfilePictureUrl,
-                                      ),
-                                      loading: () =>
-                                          const CircularProgressIndicator(),
-                                      error: (_, __) => const Icon(
-                                        Icons.error,
-                                        color: Colors.red,
-                                      ),
-                                    ),
-                                  ),
+                                child: userData.when(
+                              data: (userAccount) => CircleAvatar(
+                                radius: 8,
+                                backgroundImage: NetworkImage(
+                                  userAccount?.pictureUrl ??
+                                      CustomImages.defaultProfilePictureUrl,
                                 ),
+                              ),
+                              loading: () => const CircularProgressIndicator(),
+                              error: (_, __) => const Text('Error'),
+                            ),
                               ),
                               Container(
                                 padding: const EdgeInsets.only(left: 5),
