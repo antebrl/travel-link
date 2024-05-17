@@ -36,6 +36,8 @@ class AccountRepository {
     );
     final pictureUrl = await firestorageRef.getDownloadURL();
 
+    await user.updatePhotoURL(pictureUrl);
+
     return updateFirestoreUserData(
         uid: user.uid,
         data: {
@@ -66,7 +68,8 @@ AccountRepository accountRepository(
       FirebaseFirestore.instance, FirebaseStorage.instance,);
 }
 
-@riverpod
+//cache users (used everywhere)
+@Riverpod(keepAlive: true)
 Future<UserAccount?> fetchUser(FetchUserRef ref, String uid) {
   final repository = ref.watch(accountRepositoryProvider);
   return repository.fetchUser(uid: uid);

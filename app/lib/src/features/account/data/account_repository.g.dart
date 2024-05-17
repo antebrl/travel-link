@@ -21,7 +21,7 @@ final accountRepositoryProvider = Provider<AccountRepository>.internal(
 );
 
 typedef AccountRepositoryRef = ProviderRef<AccountRepository>;
-String _$fetchUserHash() => r'95abe965d4f998263e3f500d5b0ca59c71d8f7ca';
+String _$fetchUserHash() => r'aad9e14f4087079ec04c77e676a56ae80f07d7ae';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -87,7 +87,7 @@ class FetchUserFamily extends Family<AsyncValue<UserAccount?>> {
 }
 
 /// See also [fetchUser].
-class FetchUserProvider extends AutoDisposeFutureProvider<UserAccount?> {
+class FetchUserProvider extends FutureProvider<UserAccount?> {
   /// See also [fetchUser].
   FetchUserProvider(
     String uid,
@@ -138,7 +138,7 @@ class FetchUserProvider extends AutoDisposeFutureProvider<UserAccount?> {
   }
 
   @override
-  AutoDisposeFutureProviderElement<UserAccount?> createElement() {
+  FutureProviderElement<UserAccount?> createElement() {
     return _FetchUserProviderElement(this);
   }
 
@@ -156,13 +156,13 @@ class FetchUserProvider extends AutoDisposeFutureProvider<UserAccount?> {
   }
 }
 
-mixin FetchUserRef on AutoDisposeFutureProviderRef<UserAccount?> {
+mixin FetchUserRef on FutureProviderRef<UserAccount?> {
   /// The parameter `uid` of this provider.
   String get uid;
 }
 
-class _FetchUserProviderElement
-    extends AutoDisposeFutureProviderElement<UserAccount?> with FetchUserRef {
+class _FetchUserProviderElement extends FutureProviderElement<UserAccount?>
+    with FetchUserRef {
   _FetchUserProviderElement(super.provider);
 
   @override

@@ -94,7 +94,7 @@ class _GroupChatScreenState extends ConsumerState<GroupChatScreen> {
                 DateTime? timestamp = chatMessage.timestamp;
                 if (nextChatMessage != null && 
                     nextChatMessage.uid == chatMessage.uid && 
-                    nextChatMessage.timestamp.difference(timestamp) <= const Duration(minutes: 3)) 
+                    nextChatMessage.timestamp.difference(timestamp) <= const Duration(minutes: 3,)) 
                   {
                   timestamp = null;
                 }
@@ -106,13 +106,13 @@ class _GroupChatScreenState extends ConsumerState<GroupChatScreen> {
                       16,
                       (nextChatMessage?.uid == chatMessage.uid) ? 4 : 25,
                     ),
-                  child: messages[i].uid != auth.currentUser?.uid
+                  child: chatMessage.uid != auth.currentUser?.uid
                       //Mesage by other group member
                       ? Align(
                           alignment: Alignment.topLeft,
                           child: isFirstInSequence
                               ? ReplyMessageTile.first(
-                                  username: chatMessage.name,
+                                  uid: chatMessage.uid,
                                   message: chatMessage.message,
                                   timestamp: timestamp,
                                   authorColor: userColor,
