@@ -110,7 +110,6 @@ class _InputScreenState extends State<InputScreen> {
                       if (_words.length == 1) {
                         setState(() {
                           _textEditingController.text += entry.text;
-                          _isTextFieldEditable = true;
                           _words.remove(entry);
                         });
                         await Future.delayed(const Duration(seconds: 1));
@@ -168,6 +167,9 @@ class _InputScreenState extends State<InputScreen> {
                             );
                           },
                         );
+                        setState(() {
+                          _isTextFieldEditable = true;
+                        });
                       } else {
                         setState(() {
                           _textEditingController.text += ('${entry.text} ');
