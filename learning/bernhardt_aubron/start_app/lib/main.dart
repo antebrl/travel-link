@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'main_page.dart';
 import 'second_page.dart';
+import 'map_page.dart';
 
 var pageIndex = 0;
 
@@ -63,6 +64,9 @@ class _MyHomePageState extends State<MyHomePage> {
       case 1:
         page = SecondPage();
         break;
+      case 2:
+        page = MapPage();
+        break;
       default:
         throw UnimplementedError('No Widget for $selectedIndex');
     }
@@ -73,11 +77,8 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          if (pageIndex == 0) {
-            pageIndex = 1;
-          } else if (pageIndex == 1) {
-            pageIndex = 0;
-          }
+          pageIndex = pageIndex + 1;
+          pageIndex = pageIndex % 3;
           setState(() {
             selectedIndex =
                 pageIndex; // Update selectedIndex when the button is pressed
