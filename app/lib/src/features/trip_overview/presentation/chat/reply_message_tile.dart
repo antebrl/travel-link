@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:travel_link/src/features/account/data/account_repository.dart';
+import 'package:travel_link/src/utils/constants/image_strings.dart';
 import 'package:travel_link/src/utils/formatters/formatter.dart';
 
-class ReplyMessageTile extends StatelessWidget {
+class ReplyMessageTile extends ConsumerWidget {
   const ReplyMessageTile.first({
     //required this.userImage,
-    required this.username,
+    required this.uid,
     required this.message,
     required this.timestamp,
     this.authorColor = Colors.blue,
@@ -18,26 +21,37 @@ class ReplyMessageTile extends StatelessWidget {
     super.key,
   })  : isFirstInSequence = false,
         //userImage = null,
-        username = null;
+        uid = null;
 
-  final String? username;
+  final String? uid;
   final String message;
   final DateTime? timestamp;
   final bool isFirstInSequence;
   final Color authorColor;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final author = isFirstInSequence ? ref.watch(fetchUserProvider(uid!)) : null;
+
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         if (isFirstInSequence)
-          const Padding(
-            padding: EdgeInsets.fromLTRB(0, 8, 8, 0),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(0, 8, 8, 0),
             child: CircleAvatar(
               radius: 20,
-              backgroundImage: NetworkImage(
-                'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg',
+              backgroundImage: author!.when(
+                data: (userAccount) => NetworkImage(
+                  userAccount?.pictureUrl ??
+                      CustomImages.defaultProfilePictureUrl,
+                ),
+                loading: () => const NetworkImage(
+                  CustomImages.defaultProfilePictureUrl,
+                ),
+                error: (_, __) => const NetworkImage(
+                  CustomImages.defaultProfilePictureUrl,
+                ),
               ),
             ),
           )
@@ -65,12 +79,16 @@ class ReplyMessageTile extends StatelessWidget {
                         14,
                         5,
                       ),
-                      child: Text(
-                        username!,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: authorColor,
+                      child: author!.when(
+                        data: (userAccount) => Text(
+                          userAccount?.displayName ?? 'Unknown',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: authorColor,
+                          ),
                         ),
+                        loading: () => const CircularProgressIndicator(),
+                        error: (_, __) => const Text('Error'),
                       ),
                     ),
                   Padding(

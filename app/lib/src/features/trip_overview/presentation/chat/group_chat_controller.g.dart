@@ -7,7 +7,7 @@ part of 'group_chat_controller.dart';
 // **************************************************************************
 
 String _$groupChatControllerHash() =>
-    r'809332dc97e6e73d10583ae7c665dbb9ace3c4b4';
+    r'ba9c773e3f14e1a89593945c04bf96fc0c68d8c4';
 
 /// See also [GroupChatController].
 @ProviderFor(GroupChatController)

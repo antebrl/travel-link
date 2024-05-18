@@ -1,27 +1,26 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'shared_gallery_controller.dart';
+part of 'account_controller.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$sharedGalleryControllerHash() =>
-    r'e6a8a7453f3452f8a0cb599579e57742bda96d78';
+String _$accountControllerHash() => r'349e83d30891ddfb1b7530cebb425e62f53d75dd';
 
-/// See also [SharedGalleryController].
-@ProviderFor(SharedGalleryController)
-final sharedGalleryControllerProvider =
-    AutoDisposeAsyncNotifierProvider<SharedGalleryController, void>.internal(
-  SharedGalleryController.new,
-  name: r'sharedGalleryControllerProvider',
+/// See also [AccountController].
+@ProviderFor(AccountController)
+final accountControllerProvider =
+    AutoDisposeAsyncNotifierProvider<AccountController, void>.internal(
+  AccountController.new,
+  name: r'accountControllerProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$sharedGalleryControllerHash,
+      : _$accountControllerHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$SharedGalleryController = AutoDisposeAsyncNotifier<void>;
+typedef _$AccountController = AutoDisposeAsyncNotifier<void>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
