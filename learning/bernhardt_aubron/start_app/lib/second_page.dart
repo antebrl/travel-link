@@ -12,11 +12,14 @@ class _SecondPageState extends State<SecondPage> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
+        backgroundColor: Colors.blueAccent,
         appBar: AppBar(
+          backgroundColor: Colors.blueAccent,
           title: const Center(
             child: Text(
               'A Look into our Dark Future',
               style: TextStyle(
+                backgroundColor: Colors.blueAccent,
                 fontSize: 23.0,
                 fontWeight: FontWeight.bold,
                 decoration: TextDecoration.underline, // Adding underline
@@ -32,6 +35,8 @@ class _SecondPageState extends State<SecondPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.blueAccent),
                     onPressed: () {
                       setState(() {
                         worldIndex = (worldIndex + 1) % featuredWorlds.length;
@@ -104,6 +109,8 @@ class _SecondPageState extends State<SecondPage> {
                     padding: EdgeInsets.all(20.0),
                   ),
                   ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.blueAccent),
                     onPressed: () {
                       showDialog(
                         context: context,
