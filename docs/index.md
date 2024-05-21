@@ -39,8 +39,9 @@ This comparison showcases several of the most popular travel planning apps. By h
 | Public Trips | ❌ | ❌ | ❌ | ✅<br> Private and public trips. | ✅ |
 
 <div class="mobile-frame">
-<iframe src="https://hcimo4x-grey-trapp-hci-trapp-hci-lab-studi-sose2-e6afe3a1eb2adc.h-da.io/app/" style="width:360px; height: 640px;" seamless></iframe>
+<iframe src="https://hcimo4x-grey-trapp-hci-trapp-hci-lab-studi-sose2-e6afe3a1eb2adc.h-da.io/app/" style="width:400px; height: 640px;" seamless></iframe>
 </div>
+
 
 ## enjoy :)
 
