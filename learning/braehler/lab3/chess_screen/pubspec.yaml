@@ -20,3 +20,4 @@ flutter:
   assets:
     - assets/appBar-top/
     - assets/navBar-bottom/
+    - assets/homepage/
