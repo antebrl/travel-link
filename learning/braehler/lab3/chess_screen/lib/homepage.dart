@@ -39,14 +39,14 @@ class Homepage extends StatelessWidget {
                     Row(
                       children: [
                         const Text('0', style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w900),),
-                        SizedBox(width: 80,),
+                        SizedBox(width: 90,),
                         SizedBox(height: 25,child: Image.asset('assets/homepage/next-puzzles.jpg'),),
                       ],
                     ),
                     const SizedBox(height: 3),
                     Container(
                       height: 15,
-                      width: 118,
+                      width: 128,
                       decoration: BoxDecoration(
                   color: const Color(0xFF464241),
                   borderRadius: BorderRadius.circular(12),

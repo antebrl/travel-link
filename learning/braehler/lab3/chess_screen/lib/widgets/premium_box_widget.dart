@@ -19,10 +19,10 @@ class PremiumBoxWidget extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(13),
                   child: Row(
                     children: [
-                      const SizedBox(width: 15,),
+                      const SizedBox(width: 12,),
                       SizedBox(height: 50, child: Image.asset('assets/homepage/premium.jpg')),
                       const SizedBox(width: 11,),
                         Column(
