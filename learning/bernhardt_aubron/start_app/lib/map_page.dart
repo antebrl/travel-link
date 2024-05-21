@@ -69,7 +69,7 @@ class _MapPageState extends State<MapPage> {
       backgroundColor: Colors.blueGrey,
       appBar: AppBar(
         backgroundColor: Colors.blueGrey,
-        title: Text('Places of Worship for the God Emperor'),
+        //title: Text('Places of Worship for the God Emperor'),
       ),
       body: Row(
         children: [
