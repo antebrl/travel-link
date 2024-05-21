@@ -12,6 +12,7 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
+        backgroundColor: const Color(0xFF312D2B),
         appBar: AppBar(
           leadingWidth: 105,
           leading:Row(
