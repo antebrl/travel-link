@@ -69,7 +69,7 @@ class MainApp extends StatelessWidget {
             ),
           ],
         ),
-        body: Center(
+        body: const Center(
           child: Homepage(),
         ),
       ),

@@ -1,5 +1,6 @@
 import 'package:chess_screen/widgets/game_mode_tile.dart';
 import 'package:chess_screen/widgets/premium_box_widget.dart';
+import 'package:chess_screen/widgets/ratings_slider.dart';
 import 'package:flutter/material.dart';
 
 class Homepage extends StatelessWidget {
@@ -10,11 +11,11 @@ class Homepage extends StatelessWidget {
     return Column(
       children: [
         const SizedBox(height: 16),
-        const PremiumBoxWidget(),
-        const SizedBox(height: 16),
         Expanded(
           child: ListView(
             children: [
+              const PremiumBoxWidget(),
+        const SizedBox(height: 16),
               GameModeTile(title: 'Online spielen', image: Image.asset('assets/homepage/standard-board.jpg'), description: '10 Min gegen Zufallsgegner', 
             child: Row(
               children: [
@@ -39,7 +40,7 @@ class Homepage extends StatelessWidget {
                     Row(
                       children: [
                         const Text('0', style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w900),),
-                        SizedBox(width: 90,),
+                        const SizedBox(width: 90,),
                         SizedBox(height: 25,child: Image.asset('assets/homepage/next-puzzles.jpg'),),
                       ],
                     ),
@@ -84,7 +85,9 @@ class Homepage extends StatelessWidget {
               ],
             )
           ),
-          const SizedBox(height: 14,),
+          const SizedBox(height: 25,),
+          const Expanded(child: RatingsSlider()),
+          const SizedBox(height: 20,),
             ],
           ),
         ),
