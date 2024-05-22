@@ -12,15 +12,30 @@ class RatingsSlider extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         children: [
           const SizedBox(width: 16),
-          RatingTile(title: 'Blitz', rating: '360', image: Image.asset('assets/homepage/rating/blitz.jpg')),
+          RatingTile(
+              title: 'Blitz',
+              rating: '360',
+              image: Image.asset('assets/homepage/rating/blitz.jpg')),
           const SizedBox(width: 16),
-          RatingTile(title: 'Schnellschach', rating: '810', image: Image.asset('assets/homepage/rating/rapid.jpg')),
+          RatingTile(
+              title: 'Schnellschach',
+              rating: '810',
+              image: Image.asset('assets/homepage/rating/rapid.jpg')),
           const SizedBox(width: 16),
-          RatingTile(title: 'Bullet', rating: '515', image: Image.asset('assets/homepage/rating/bullet.jpg')),
+          RatingTile(
+              title: 'Bullet',
+              rating: '515',
+              image: Image.asset('assets/homepage/rating/bullet.jpg')),
           const SizedBox(width: 16),
-          RatingTile(title: 'Täglich', rating: '911', image: Image.asset('assets/homepage/rating/sun.jpg')),
+          RatingTile(
+              title: 'Täglich',
+              rating: '911',
+              image: Image.asset('assets/homepage/rating/sun.jpg')),
           const SizedBox(width: 16),
-          RatingTile(title: 'Alle', rating: 'Statistiken', image: Image.asset('assets/homepage/rating/statistics.jpg')),
+          RatingTile(
+              title: 'Alle',
+              rating: 'Statistiken',
+              image: Image.asset('assets/homepage/rating/statistics.jpg')),
           const SizedBox(width: 20),
         ],
       ),
