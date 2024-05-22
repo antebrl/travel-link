@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:travel_link/src/features/checklists/presentation/checklists_screen.dart';
 import 'package:travel_link/src/features/explore_trips/domain/trip.dart';
+import 'package:travel_link/src/features/map/presentation/trip_map_screen.dart';
 
 class TripPlanningScreen extends StatelessWidget {
   const TripPlanningScreen({required this.trip, super.key});
@@ -53,12 +55,43 @@ class TripPlanningScreen extends StatelessWidget {
                 // Headings
                 const SizedBox(height: 20),
                 const Text(
-                  'Participants',
+                  'Costs',
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
+                GestureDetector(
+                  child: const Text(
+                    'Map',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute<TripMapScreen>(
+                          builder: (context) => const TripMapScreen(),
+                        ),
+                      );},),
+                const SizedBox(height: 10),
+                      GestureDetector(
+                  child: const Text(
+                    'Checklists',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute<ChecklistsScreen>(
+                          builder: (context) => const ChecklistsScreen(),
+                        ),
+                      );},),
                 const SizedBox(height: 10),
                 const Text(
                   'Costs',
