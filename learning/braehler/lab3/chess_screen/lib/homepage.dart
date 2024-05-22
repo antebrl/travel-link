@@ -86,7 +86,7 @@ class Homepage extends StatelessWidget {
             )
           ),
           const SizedBox(height: 25,),
-          const Expanded(child: RatingsSlider()),
+          const Flex(direction: Axis.horizontal, children: [ Expanded(child: RatingsSlider())],),
           const SizedBox(height: 20,),
             ],
           ),
