@@ -2,6 +2,7 @@ import 'package:chess_screen/widgets/game_mode_tile.dart';
 import 'package:chess_screen/widgets/premium_box_widget.dart';
 import 'package:chess_screen/widgets/ratings_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Homepage extends StatelessWidget {
   const Homepage({super.key});
@@ -89,6 +90,35 @@ class Homepage extends StatelessWidget {
           const Flex(direction: Axis.horizontal, children: [ Expanded(child: RatingsSlider())],),
           const SizedBox(height: 20,),
             ],
+          ),
+        ),
+        Container(
+          width: double.infinity,
+          height: 90,
+          color: const Color(0xFF252422),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
+            child: ElevatedButton(
+              onPressed: () {
+                // Add your button click logic here
+              },
+              style: ElevatedButton.styleFrom(
+                shadowColor: const Color(0xFF6C873C),
+                elevation: 6,
+                shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+                backgroundColor: const Color(0xFF86A94C),
+              ),
+              child: Text(
+                'Spielen',
+                style: GoogleFonts.poppins(
+            color: Colors.white,
+            fontSize: 25,
+            fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
           ),
         ),
       ],
