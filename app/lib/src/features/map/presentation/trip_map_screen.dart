@@ -7,7 +7,19 @@ import 'package:geocoding/geocoding.dart';
 import 'package:flutter_geocoder/geocoder.dart';
 import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
 
+import 'points.dart';
+
 LatLng pointOfView = const LatLng(49.8728, 8.6512);
+List<Marker> listOfAllUsers = [
+  createUserMarker(const LatLng(49.713088, 8.472136)),
+  createUserMarker(const LatLng(49.714890, 8.472440)),
+  createUserMarker(const LatLng(49.712380, 8.472030)),
+];
+List<Marker> listOfAllActivities = [
+  createLocationMarker(const LatLng(49.690025, 8.463075)),
+  createLocationMarker(const LatLng(49.691430, 8.463370)),
+  createLocationMarker(const LatLng(49.688520, 8.462580)),
+];
 
 Future<LatLng> getCurrentLocation() async {
   try {
@@ -38,6 +50,7 @@ class TripMapScreen extends StatefulWidget {
 }
 
 class _TripMapScreenState extends State<TripMapScreen> {
+  List<Marker> listOfMarkers = listOfAllActivities + listOfAllUsers;
   @override
   void initState() {
     super.initState();
@@ -49,12 +62,11 @@ class _TripMapScreenState extends State<TripMapScreen> {
       backgroundColor: const Color.fromARGB(255, 204, 219, 226),
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 204, 219, 226),
-        //title: Text('Places of Worship for the God Emperor'),
       ),
       body: Row(
         children: [
           Expanded(
-            flex: 3, // Increase this flex to allocate more space to the map
+            flex: 3,
             child: FlutterMap(
               options: MapOptions(
                 initialCenter: pointOfView,
@@ -104,6 +116,7 @@ class _TripMapScreenState extends State<TripMapScreen> {
                     ),
                   ),
                 ),
+                MarkerLayer(markers: listOfMarkers),
               ],
             ),
           ),
