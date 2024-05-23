@@ -7,16 +7,11 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       home: WhatsAppHome(),
-      theme: ThemeData(
-        primaryColor: Color(0xFF075E54),
-        //accentColor: Color(0xFF25D366),
-      ),
     );
   }
 }
-
 
 class WhatsAppHome extends StatelessWidget {
   const WhatsAppHome({super.key});
@@ -98,12 +93,13 @@ class WhatsAppHome extends StatelessWidget {
         floatingActionButton: FloatingActionButton(
           onPressed: () {},
           backgroundColor: const Color(0xFF21AA62),
-          child:Image.asset(
-                'chat2_icon.png',
-                height: 32,
-              ),
+          child: Image.asset(
+            'chat2_icon.png',
+            height: 32,
+          ),
         ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat, // Position unten rechts
+        floatingActionButtonLocation:
+            FloatingActionButtonLocation.endFloat,
       ),
     );
   }
@@ -195,9 +191,7 @@ class ChatList extends StatelessWidget {
             ),
           ),
         );
-        
       },
     );
-    
   }
 }
