@@ -4,7 +4,9 @@ import 'package:travel_link/src/features/activities/2_continents_screen/domain/c
 import 'package:travel_link/src/features/activities/3_activities_screen/domain/activity.dart';
 import 'package:travel_link/src/features/activities/3_activities_screen/presentation/activity_item.dart';
 import 'package:travel_link/src/features/activities/4_add_activity_screen/presentation/add_activity_screen.dart';
+import 'package:travel_link/src/features/activities/6_activities_filter_screen/activities_filter_screen.dart';
 import 'package:travel_link/src/features/activities/providers/activities_provider.dart';
+import 'package:travel_link/src/utils/constants/colors.dart';
 
 class ActivitiesScreen extends ConsumerStatefulWidget {
   ActivitiesScreen({
@@ -22,9 +24,10 @@ class ActivitiesScreen extends ConsumerStatefulWidget {
 }
 
 class _ActivitiesScreenState extends ConsumerState<ActivitiesScreen> {
+  late List<Activity> activitiesFromProvider;
   late List<Activity> filteredActivitiesByContinent;
   late List<Activity> filteredActivitiesBySearch;
-  late List<Activity> activitiesFromProvider;
+  List<Activity> filteredActivitiesByFilters = [];
 
   @override
   void initState() {
@@ -42,11 +45,24 @@ class _ActivitiesScreenState extends ConsumerState<ActivitiesScreen> {
     filteredActivitiesBySearch = filteredActivitiesByContinent;
   }
 
-  void filterActivities(String query) {
+  void filterActivitiesBySearch(String query) {
     // setState(() {
     // filteredActivities = widget.activities.where((activity) =>
     //     activity.name.toLowerCase().startsWith(query.toLowerCase())).toList();
-    final suggestions = filteredActivitiesByContinent.where((activity) {
+
+    print(filteredActivitiesByFilters);
+    print(filteredActivitiesByFilters.length);
+
+    List<Activity> originalString;
+    if (filteredActivitiesByFilters.isEmpty) {
+      originalString = filteredActivitiesByContinent;
+    } else {
+      originalString = filteredActivitiesByFilters!;
+      print(filteredActivitiesByFilters);
+      print(filteredActivitiesByFilters.length);
+    }
+
+    final suggestions = originalString.where((activity) {
       final activityName = activity.name.toLowerCase();
       final input = query.toLowerCase();
       return activityName.contains(input);
@@ -54,7 +70,16 @@ class _ActivitiesScreenState extends ConsumerState<ActivitiesScreen> {
     setState(() => filteredActivitiesBySearch = suggestions);
   }
 
-  void addActivity() async {
+  void filterActivitiesByFilters(String country) {
+    filteredActivitiesByFilters = filteredActivitiesByContinent
+        .where((activity) =>
+            country.toLowerCase() == activity.location.country.toLowerCase())
+        .toList();
+
+    setState(() => filteredActivitiesBySearch = filteredActivitiesByFilters);
+  }
+
+  Future<void> addActivity() async {
     final newActivity = await Navigator.of(context).push<Activity>(
       MaterialPageRoute(
         builder: (ctx) => const AddActivityScreen(),
@@ -77,8 +102,7 @@ class _ActivitiesScreenState extends ConsumerState<ActivitiesScreen> {
         ),
         actions: [
           IconButton(
-            onPressed: 
-                addActivity,
+            onPressed: addActivity,
             icon: const Icon(Icons.add_circle),
           ),
         ],
@@ -92,12 +116,35 @@ class _ActivitiesScreenState extends ConsumerState<ActivitiesScreen> {
                 const SizedBox(width: 5),
                 Expanded(
                   child: TextField(
-                    onChanged: filterActivities,
+                    onChanged: filterActivitiesBySearch,
                     decoration: const InputDecoration(
                       labelText: 'Search activities...',
                       border: OutlineInputBorder(),
                       prefixIcon: Icon(Icons.search),
                     ),
+                  ),
+                ),
+                IconButton(
+                  onPressed: () async {
+                    final result = await Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (BuildContext context) =>
+                            ActivitiesFilterScreen(
+                          continent: widget.continent,
+                        ),
+                      ),
+                    );
+                    if (result.toString().trim().isNotEmpty) {
+                      filterActivitiesByFilters(result as String);
+                    } else {
+                      filteredActivitiesByFilters.clear();
+                      filterActivitiesBySearch('');
+                    }
+                  },
+                  icon: const Icon(
+                    Icons.filter_alt,
+                    size: 40,
+                    color: CustomColors.primary,
                   ),
                 ),
               ],

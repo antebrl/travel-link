@@ -1,6 +1,17 @@
 import 'dart:io';
 import 'package:travel_link/src/features/activities/2_continents_screen/domain/continent.dart';
 
+enum ActivityType {
+  sight,
+  culture,
+  eatAndDrink,
+  shopping,
+  nightlife,
+  sports,
+  nature,
+  education,
+}
+
 class Activity {
   Activity({
     required this.name,
@@ -8,6 +19,7 @@ class Activity {
     required this.description,
     required this.imagePath,
     required this.location,
+    this.types, // Multiple ActivityTypes
     this.image,
     this.isUserCreated = false,
   });
@@ -20,6 +32,9 @@ class Activity {
   File? image; // Optional Image
   final PlaceLocation location;
   final bool isUserCreated;
+
+  //Später zu final machen + required
+  List<ActivityType>? types; // List of ActivityTypes
 }
 
 class PlaceLocation {
