@@ -18,8 +18,6 @@ Future<void> printOrderMessage() async {
 }
 ```
 
-- You may include images like this
-
 ![demo1](assets/images/mobile.jpg)
 
 ![demo2](assets/images/mobile.jpg){: height="5em" width="5em"}

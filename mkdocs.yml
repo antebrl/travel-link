@@ -1,4 +1,4 @@
-site_name: Flutter Demo Project
+site_name: Travel App
 #site_url: @ToDo adapt to your project https://hci-trapp.h-da.io/sose24-hci-lab-base-project/pages
 site_url: https://hcimo4x-grey-trapp-hci-trapp-hci-lab-studi-sose2-e6afe3a1eb2adc.h-da.io/
 site_dir: public/docs
@@ -20,7 +20,7 @@ theme:
     # Palette toggle for light mode
     - media: "(prefers-color-scheme: light)"
       scheme: default
-      primary: light green
+      primary: light blue
       toggle:
         icon: material/brightness-7
         name: Switch to dark mode
@@ -28,7 +28,7 @@ theme:
     # Palette toggle for dark mode
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
-      primary: light green
+      primary: light blue
       toggle:
         icon: material/brightness-4
         name: Switch to light mode
@@ -61,6 +61,10 @@ markdown_extensions:
         - name: mermaid
           class: mermaid
           format: !!python/name:mermaid2.fence_mermaid_custom
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
 
 extra_javascript:
   - https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.6.1/mermaid.min.js
