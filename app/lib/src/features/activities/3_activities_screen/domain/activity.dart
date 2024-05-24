@@ -2,14 +2,14 @@ import 'dart:io';
 import 'package:travel_link/src/features/activities/2_continents_screen/domain/continent.dart';
 
 enum ActivityType {
-  sight,
-  culture,
-  eatAndDrink,
-  shopping,
-  nightlife,
-  sports,
-  nature,
-  education,
+  Sight,
+  Culture,
+  EatAndDrink,
+  Shopping,
+  Nightlife,
+  Sports,
+  Nature,
+  Education,
 }
 
 class Activity {
@@ -34,7 +34,7 @@ class Activity {
   final bool isUserCreated;
 
   //Später zu final machen + required
-  List<ActivityType>? types; // List of ActivityTypes
+  Set<ActivityType>? types; // List of ActivityTypes
 }
 
 class PlaceLocation {

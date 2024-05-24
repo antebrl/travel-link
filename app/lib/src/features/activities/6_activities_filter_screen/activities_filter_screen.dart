@@ -1,7 +1,8 @@
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:travel_link/src/features/activities/2_continents_screen/domain/continent.dart';
+import 'package:travel_link/src/features/activities/3_activities_screen/domain/activity.dart';
+import 'package:travel_link/src/utils/constants/colors.dart';
 
 class ActivitiesFilterScreen extends StatefulWidget {
   const ActivitiesFilterScreen({super.key, required this.continent});
@@ -17,6 +18,7 @@ class _ActivitiesFilterScreenState extends State<ActivitiesFilterScreen> {
   List<String> countryList = [''];
 
   String countryName = '';
+  Set<ActivityType> filters = <ActivityType>{};
 
   @override
   void initState() {
@@ -273,17 +275,26 @@ class _ActivitiesFilterScreenState extends State<ActivitiesFilterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Filters')),
+      appBar: AppBar(title: const Text('Filters')),
       body: Center(
         child: Column(
           children: [
+            const SizedBox(height: 35),
+            const Text(
+              'Select country: ',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+                color: CustomColors.primary,
+              ),
+            ),
             const SizedBox(height: 15),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextField(
                 controller: _countryController,
                 readOnly: true,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Selected Country',
                   hintText: 'Tap to pick a country',
                   border: OutlineInputBorder(),
@@ -313,7 +324,7 @@ class _ActivitiesFilterScreenState extends State<ActivitiesFilterScreen> {
                           ),
                         ),
                       ),
-                      searchTextStyle: TextStyle(
+                      searchTextStyle: const TextStyle(
                         color: Colors.blue,
                         fontSize: 18,
                       ),
@@ -322,7 +333,46 @@ class _ActivitiesFilterScreenState extends State<ActivitiesFilterScreen> {
                 },
               ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 25),
+            const Text(
+              'Select categories: ',
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                  color: CustomColors.primary),
+            ),
+            const SizedBox(height: 15),
+            Wrap(
+              alignment: WrapAlignment.spaceEvenly,
+              spacing: 40,
+              runSpacing: 10,
+              children: ActivityType.values.map((ActivityType type) {
+                return FilterChip(
+                  selectedColor: CustomColors.primary,
+                  backgroundColor: CustomColors.white,
+                  side: const BorderSide(color: CustomColors.primary),
+                  label: Text(
+                    type.name,
+                    style: TextStyle(
+                      color: filters.contains(type)
+                          ? CustomColors.white
+                          : CustomColors.textPrimary,
+                    ),
+                  ),
+                  selected: filters.contains(type),
+                  onSelected: (bool selected) {
+                    setState(() {
+                      if (selected) {
+                        filters.add(type);
+                      } else {
+                        filters.remove(type);
+                      }
+                    });
+                  },
+                );
+              }).toList(),
+            ),
+            const SizedBox(height: 15),
             ElevatedButton(
               child: const Text('Search'),
               onPressed: () {
@@ -330,7 +380,7 @@ class _ActivitiesFilterScreenState extends State<ActivitiesFilterScreen> {
                 if (countryName == 'World Wide' || countryName.isEmpty) {
                   countryName = '';
                 }
-                Navigator.of(context).pop(countryName.trim());
+                Navigator.of(context).pop([countryName.trim(), filters]);
               },
             ),
           ],

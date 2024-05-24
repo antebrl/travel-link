@@ -49,17 +49,11 @@ class _ActivitiesScreenState extends ConsumerState<ActivitiesScreen> {
     // setState(() {
     // filteredActivities = widget.activities.where((activity) =>
     //     activity.name.toLowerCase().startsWith(query.toLowerCase())).toList();
-
-    print(filteredActivitiesByFilters);
-    print(filteredActivitiesByFilters.length);
-
     List<Activity> originalString;
     if (filteredActivitiesByFilters.isEmpty) {
       originalString = filteredActivitiesByContinent;
     } else {
-      originalString = filteredActivitiesByFilters!;
-      print(filteredActivitiesByFilters);
-      print(filteredActivitiesByFilters.length);
+      originalString = filteredActivitiesByFilters;
     }
 
     final suggestions = originalString.where((activity) {
@@ -70,14 +64,35 @@ class _ActivitiesScreenState extends ConsumerState<ActivitiesScreen> {
     setState(() => filteredActivitiesBySearch = suggestions);
   }
 
-  void filterActivitiesByFilters(String country) {
-    filteredActivitiesByFilters = filteredActivitiesByContinent
+void filterActivitiesByFilters(String? country, Set<ActivityType> filters) {
+  List<Activity> activitiesFilteredByCountry = [];
+
+  // Filtere Aktivitäten nach dem ausgewählten Land, wenn ein Land ausgewählt ist
+  if (country != null && country.isNotEmpty) {
+    activitiesFilteredByCountry = filteredActivitiesByContinent
         .where((activity) =>
             country.toLowerCase() == activity.location.country.toLowerCase())
         .toList();
-
-    setState(() => filteredActivitiesBySearch = filteredActivitiesByFilters);
+  } else {
+    activitiesFilteredByCountry = List.from(filteredActivitiesByContinent);
   }
+
+  // Filtere Aktivitäten nach den ausgewählten Filtern, wenn Filter vorhanden sind
+  if (filters.isNotEmpty) {
+    filteredActivitiesByFilters = activitiesFilteredByCountry
+        .where((activity) =>
+            activity.types != null && filters.any((type) => activity.types!.contains(type)))
+        .toList();
+  } else {
+    // Wenn keine Filter ausgewählt sind, behalte die Aktivitäten nach dem Land unverändert
+    filteredActivitiesByFilters = List.from(activitiesFilteredByCountry);
+  }
+
+  // Aktualisiere den Zustand, um die gefilterten Aktivitäten anzuzeigen
+  setState(() => filteredActivitiesBySearch = filteredActivitiesByFilters);
+}
+
+
 
   Future<void> addActivity() async {
     final newActivity = await Navigator.of(context).push<Activity>(
@@ -134,13 +149,43 @@ class _ActivitiesScreenState extends ConsumerState<ActivitiesScreen> {
                         ),
                       ),
                     );
-                    if (result.toString().trim().isNotEmpty) {
-                      filterActivitiesByFilters(result as String);
-                    } else {
-                      filteredActivitiesByFilters.clear();
-                      filterActivitiesBySearch('');
+                    if (result != null) {
+                      final List<dynamic> filterResult =
+                          result as List<dynamic>;
+                      final String countryName = filterResult[0] as String;
+                      final Set<ActivityType> filters =
+                          filterResult[1] as Set<ActivityType>;
+                      // Überprüfe, ob ein Ländername ausgewählt wurde
+                      // if (countryName.trim().isEmpty || filters.isEmpty) {
+                      //   filterActivitiesBySearch(countryName.trim());
+                      //   // Wenn kein Ländername ausgewählt wurde, entferne alle Filter und filtere nach den ursprünglichen Kriterien
+                      //   filteredActivitiesByFilters.clear();
+                       
+                      // }
+                      // Filtere die Aktivitäten basierend auf dem ausgewählten Land und den Filtern
+                      filterActivitiesByFilters(countryName.trim(), filters);
                     }
                   },
+                  //   if (result != null) {
+                  //     final List<dynamic> filterResult =
+                  //         result as List<dynamic>;
+                  //     final String countryName = filterResult[0] as String;
+                  //     final Set<ActivityType> filters =
+                  //         filterResult[1] as Set<ActivityType>;
+
+                  //     // Überprüfe, ob ein Ländername ausgewählt wurde
+                  //     if (countryName.trim().isNotEmpty) {
+                  //       filterActivitiesBySearch(countryName.trim());
+                  //     } else {
+                  //       // Wenn kein Ländername ausgewählt wurde, entferne alle Filter und filtere nach den ursprünglichen Kriterien
+                  //       filteredActivitiesByFilters.clear();
+                  //       filterActivitiesBySearch('');
+                  //     }
+
+                  //     // Filtere die Aktivitäten basierend auf den ausgewählten Filtern
+                  //     filterActivitiesByFilters(countryName, filters);
+                  //   }
+                  // },
                   icon: const Icon(
                     Icons.filter_alt,
                     size: 40,
@@ -155,6 +200,7 @@ class _ActivitiesScreenState extends ConsumerState<ActivitiesScreen> {
               itemCount: filteredActivitiesBySearch.length,
               shrinkWrap: true,
               itemBuilder: (context, index) => ActivityItem(
+                key: UniqueKey(),
                 activity: filteredActivitiesBySearch[index],
               ),
             ),
