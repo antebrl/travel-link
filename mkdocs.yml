@@ -11,6 +11,21 @@ plugins:
   - autorefs
   - mermaid2
 
+nav:
+  - Home: index.md
+  - User Research: 
+    - user-research/index.md
+    - Interview Guide: user-research/interview-guide.md
+    - NZSE User Research: user-research/nzse-user-research.md
+    - Survey: user-research/survey-evaluation.md
+    - Interviews: user-research/interviews.md
+    - Personas: user-research/personas.md
+    - Requirement Engineering: user-research/requirement-engineering.md
+  - Design: 3-Design.md
+  - Implementation: 4-Implementation.md
+  - Usability Evaluation: 6-UsabilityEvaluation.md
+  - Mkdocs Modules: test.md
+
 theme:
   logo: https://fbi.h-da.de/Cms/Resources/Public/Design/i-lgo.svg
   favicon: https://fbi.h-da.de/typo3conf/ext/hda/Resources/Public/Icons/favicon.ico
@@ -34,8 +49,8 @@ theme:
         name: Switch to light mode
   features:
     - navigation.indexes
-    - navigation.sections
     - navigation.tracking
+    - navigation.path
     - navigation.expand
     - toc.follow
     - content.code.copy
