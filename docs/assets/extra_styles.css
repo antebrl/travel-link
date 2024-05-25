@@ -13,3 +13,7 @@
   height: 90%;
   background-color: darkgray;
 }
+
+.md-typeset .grid {
+  grid-template-columns: repeat(auto-fit, minmax(0rem, 16rem))
+}
