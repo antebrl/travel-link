@@ -22,8 +22,6 @@
 .history
 .ionide
 
-docs/test.md
-
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode
 app/untranslated_messages.json
 app/tests.json
