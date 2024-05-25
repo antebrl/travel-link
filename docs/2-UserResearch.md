@@ -58,7 +58,4 @@ Tight questions:
 
 1. If you had a wish?
 
-### End of Interview:
-1. Thank the person.
-
 

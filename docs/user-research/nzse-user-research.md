@@ -8,6 +8,7 @@
 
 ## 2. Criteria list
 - Age 
+- Gender
 - Wealth
 - Adventurousness
 - Free time
