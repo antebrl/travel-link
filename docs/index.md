@@ -22,7 +22,7 @@ Even if you don't have any fellow travelers for an adventure trip, the app offer
 This comparison showcases several of the most popular travel planning apps. By highlighting their features, it demonstrates a clear market opportunity for our app, which offers a unique and valuable set of functionalities.
 
 | Features | Expedia | Wanderlog | TripIt | Going Solo | Our App |
-| :------: | :---------: | :------: | :------: | :------: | :------: |
+| :------ | :---------: | :------: | :------: | :------: | :------: |
 | Downloads (Android) | 50+ Million | 1+ Million | 5+ Million | 10+ Thousand | - |
 | Discover Activities | ✅<br>Show activities filtered by city. Grouped by bestsellers, culture, and entertainment. | ✅<br>Activities with user reviews | ❌ | ❌ | ✅ |
 | My Trips  | ✅<br>❗But only if booked through Expedia. | ✅ | ✅ | ✅ | ✅ |
