@@ -1,81 +1,9 @@
 # User Research
 
-Document your user research (plan and findings).
-
-## Mkdocs snippets
-- unordered list with - and four spaces for sub list
-- ordered list with 1.
-- links with [mkdocs-material](https://squidfunk.github.io/mkdocs-material/reference/)
-- references defined in docs/lit.bib may be referenced with [@hciscript]
-- reference a chapter of your docs [demo](./3-Design.md#demo)
-- code snippets
-
-```dart
-Future<void> printOrderMessage() async {
-  print('Awaiting user order...');
-  var order = await fetchUserOrder();
-  print('Your order is: $order');
-}
-```
-
-![demo1](assets/images/mobile.jpg)
-
-![demo2](assets/images/mobile.jpg){: height="5em" width="5em"}
-![fbi](https://fbi.h-da.de/Cms/Resources/Public/Design/i-lgo.svg)
-
-	
-<figure markdown="span">
-  ![UX Methods](https://media.nngroup.com/media/editor/2017/01/12/ux_methods_activities_nng_800px.png){width=200}
-  <figcaption>
-    <a href="https://www.nngroup.com/articles/ux-research-cheat-sheet/">UX Research Cheat Sheet</a>: UX Methods
-  </figcaption>
-</figure>
-
-- admonitions
-
-!!! note
-	this is a note
-	
-!!! abstract "title"
-	this is an admonition with title
-	
-!!! info ""
-	an info without title
-	
-!!! tip
-	a tip
-
-!!! example
-	an example
-
-
-!!! warning
-	a warning
-	
-!!! cite
-	"this is a cite"[@hciscript]
-
-- [mermaid graphics](https://mermaid.js.org/intro/)
-
-``` mermaid
-graph LR
-  A[Start] --> B[stakeholders] --> C[problem and context] --> D[classes of users] -->E[hypothesis] --> F[interview questions];
-  D --> G[persona];
-  F --> G;
-  C --> H[scenarios];
-  F --> H;
-  G --> H;
-```
-
-- [emojis](https://squidfunk.github.io/mkdocs-material/reference/icons-emojis/)
-	- :smile:
-	- :video_camera:
-	- :fontawesome-solid-user:
-
-# Preparation Lab2 User Research
+## Preparation Lab2 User Research
 See [here] (./2-UserResearch.md#Partially standardized interviews) for the Partially standardized interview.
 
-## Criteria/Assumptions of your users
+### Criteria/Assumptions of your users
 - Interested in new locations
 - Interested in planning own trips
 - A group of friends wants to plan a trip
@@ -99,7 +27,7 @@ See [here] (./2-UserResearch.md#Partially standardized interviews) for the Parti
 
 
 
-## Hypotheses
+### Hypotheses
 - Research Question: What are the benefits of planning a trip with a mobile app?
   - Hypotheses: A likely advantage of planning trips with a mobile app will be the ease of sharing the planned trips with third parties.
 - Research Question: What lengths of trips are users more likely to choose?
@@ -131,16 +59,16 @@ See [here] (./2-UserResearch.md#Partially standardized interviews) for the Parti
 1. Thank the person
 
 
-# NZSE User Research
+## NZSE User Research
 [Based on Prof. Dr. Stefan Zander](https://www.youtube.com/watch?v=qA0DlfghMAY&t=1s)
-## 1. User list
+### 1. User list
 - Jakob
 - Julian
 - Morten
 - Mats
 - (See the table below for more)
 
-## 2. Criteria list
+### 2. Criteria list
 - Age 
 - Wealth
 - Adventurousness
@@ -151,13 +79,13 @@ See [here] (./2-UserResearch.md#Partially standardized interviews) for the Parti
 - Smartphone/pc experience
 - Education
 
-### 2.1 Operationalization
+#### 2.1 Operationalization
 We have decided to quantify the criteria on a scale from 0 to 10 so that it is easier to compare the values later on
 - e.g. Age: ~20=3 ~40=5 ~80=10
 - e.g. languages: native language + basic second language = 3. 3 languages = 6. 5+ languages = 10
 - etc. 
 
-## 3. Create Matrix 
+### 3. Create Matrix 
 |             | Age | Wealth | Adven\-turous\-ness | Free time|Languages|Travel experience|Planning experience|Technical experience| Education|
 |-------------|--|--|--|--|--|--|--|--|--|
 | Jakob       |3 |3 |4 |6 |3 |7 |5 |7 |6 |
@@ -191,16 +119,16 @@ We have decided to quantify the criteria on a scale from 0 to 10 so that it is e
 | NAME        | | | | | | | | | |
 | NAME        | | | | | | | | | |
 
-## 4. N-Dimentional Vector Space
+### 4. N-Dimentional Vector Space
 For a three dimentional vector space we choose the criterias: **age**, **adventurousness** and **travel experience**
 
 *Hier wird dann das Koordinatensystem eingefügt*
 
-## 4.1 Persona
+### 4.1 Persona
 We choose the most extreme User for each criteria, as highlighted in the image above. Now we will create a Persona description for every persona.
 
 
-### Sebastian
+#### Sebastian
 
 - **Name:** Sebastian Ott
 - **Age:** 24
@@ -231,32 +159,32 @@ Sebastian is a trainer for a fencing Club and Planes the trips to the turnamants
 
 **Education** 7/10
 
-#### Motivators
+##### Motivators
 He wants to give his compagnions an unforgatable experiance and will do everything in his power to archieve this. 
 
 He wants to travel and see every aspekt of the World.
 
 He wants to continously educate himself and not remain onhis current level of knowledge. 
 
-#### Experience with Brands
+##### Experience with Brands
  - Doodle 
  - WhatsApp
  - Discord
  - Booking.com
 
 
-### Samuel
+#### Samuel
 
 - **Name:** Samuel Cruz
 - **Age:** 60
 - **Gender:** Male
 - **Location:** Darmstadt, Germany
 
-#### Background
+##### Background
 
 Sebastian is nearly in Retierement, only a little time is left. He worked as an Elementary School teaches because he likes to be close to the energy of the youth. He likes to read to educate himself but he doesn't do any major sports related activity in his free time. He likes to spend time with his family and especialy with his grand- children. 
 
-#### Personality
+##### Personality
 
 **Age**  60 - 70
 
@@ -276,7 +204,7 @@ Sebastian is nearly in Retierement, only a little time is left. He worked as an 
 
 **Education** 8/10
 
-#### Motivators
+##### Motivators
 He is inspired by the adventouresness and the vivit spirit of the children with which he frequently works with. 
 
 He loves languages and is interested in their preservation and wants to teach them to as many people as possible.
@@ -285,14 +213,14 @@ He wants to continously educate himself and not remain onhis current level of kn
 
 He is sad that he will soon quit the school and that he will no longer be teaching. 
 
-#### Experience with Brands
+##### Experience with Brands
  - Fax
  - SMS
  - Mail
  - Telephon
 
 
-# Partially standardized interviews
+## Partially standardized interviews
 
 ### Interview introduction:
 1. Verify if they are a person of interest
@@ -350,9 +278,9 @@ Tight questions:
 ### End of Interview:
 1. Thank the person.
 
-# Requirement scenarios
+## Requirement scenarios
 
-# User Scenarios
+## User Scenarios
 !!! abstract "Discover activities, meet new people"
 	Steve wants to go on vacation, but his friends are unavailable. He's keen on visiting Barcelona but isn't enthusiastic about traveling alone. So, he picks up his phone and searches for public group trips to Barcelona using an app. He explores the app for activities in Barcelona, and potential travel companions, communicating with them via chat in the app.
 
@@ -362,7 +290,7 @@ Tight questions:
 !!! abstract "Publish activities and conduct tours"
 	Rudi, an experienced tour guide familiar with local activities and attractions in London, shares his knowledge by posting these activities within the app. On Saturdays, he conducts guided tours of London. To organize these tours efficiently, he creates private trips within the app and invites the participants. Using the app, he facilitates communication and decision-making among participants, also providing a platform for sharing information and photos taken during the tour.
 
-# Vision Statement
+## Vision Statement
 For **group travelers**, <br>
 Who are **overwhelmed** by trip planning complexities <br>
 Our travel-app is a **comprehensive travel organization tool** <br>
@@ -370,9 +298,9 @@ That makes planning a group trip **easier** and **faster**. <br>
 Setting us apart from widespread apps like Expedia with integrated **collaboration** features, <br>
 Bringing ease and unity to every adventure.
 
-# Interviews
+## Interviews
 
-## Katarina (20)
+### Katarina (20)
 
 **Personal Questions**
 - Latest Travel: Japan
@@ -413,7 +341,7 @@ ___________________________
   - Voting
   - Chat
 
-## Andreas (48)
+### Andreas (48)
 
 **Personal Questions**
 - Latest Travel: Austria
