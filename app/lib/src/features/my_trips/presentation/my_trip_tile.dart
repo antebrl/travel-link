@@ -24,7 +24,7 @@ class MyTripTile extends StatelessWidget {
             style: TextStyle(
                 color: Colors.lightBlue[200], fontWeight: FontWeight.bold,),
           ),
-          subtitle: Text(trip.destination),
+          subtitle: Text(trip.destination.formatted),
           tileColor: CustomColors.white,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
