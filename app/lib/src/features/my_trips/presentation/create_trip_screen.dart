@@ -43,11 +43,14 @@ class CreateTripScreenState extends ConsumerState<CreateTripScreen> {
     if (response.statusCode == 200) {
       final destinations =
           json.decode(response.body)['results'] as List<dynamic>;
-      
-      return destinations.map((destination) => Destination.fromMap(destination as Map<dynamic, dynamic>));
+
+      return destinations.map((destination) =>
+          Destination.fromMap(destination as Map<dynamic, dynamic>));
     } else {
-      logger.e('Failed to load and parse destination suggestions',
-          error: response.body,);
+      logger.e(
+        'Failed to load and parse destination suggestions',
+        error: response.body,
+      );
       return [];
     }
   }
@@ -64,7 +67,8 @@ class CreateTripScreenState extends ConsumerState<CreateTripScreen> {
   Future<void> _submit() async {
     if (!_validateAndSaveForm()) return;
 
-    if(_selectedDestination == null || _selectedDestination!.formatted != _queryDestination) {
+    if (_selectedDestination == null ||
+        _selectedDestination!.formatted != _queryDestination) {
       _selectedDestination = Destination(formatted: _queryDestination ?? '');
     }
 
@@ -141,7 +145,8 @@ class CreateTripScreenState extends ConsumerState<CreateTripScreen> {
                           }
                           final Iterable<Destination> options =
                               await getDestinationSuggestion(
-                                  _queryDestination!,);
+                            _queryDestination!,
+                          );
 
                           // If the query has changed, don't update and wait for next options build
                           if (_queryDestination != textEditingValue.text) {
@@ -154,10 +159,12 @@ class CreateTripScreenState extends ConsumerState<CreateTripScreen> {
                         onSelected: (destination) {
                           _selectedDestination = destination;
                         },
-                        fieldViewBuilder: (BuildContext context,
-                            TextEditingController textEditingController,
-                            FocusNode focusNode,
-                            VoidCallback onFieldSubmitted,) {
+                        fieldViewBuilder: (
+                          BuildContext context,
+                          TextEditingController textEditingController,
+                          FocusNode focusNode,
+                          VoidCallback onFieldSubmitted,
+                        ) {
                           return TextFormField(
                             controller: textEditingController,
                             focusNode: focusNode,
@@ -169,9 +176,11 @@ class CreateTripScreenState extends ConsumerState<CreateTripScreen> {
                             ),
                           );
                         },
-                        optionsViewBuilder: (BuildContext context,
-                            AutocompleteOnSelected<Destination> onSelected,
-                            Iterable<Destination> options,) {
+                        optionsViewBuilder: (
+                          BuildContext context,
+                          AutocompleteOnSelected<Destination> onSelected,
+                          Iterable<Destination> options,
+                        ) {
                           final List<Destination> items = options.toList();
                           return Align(
                             alignment: Alignment.topLeft,

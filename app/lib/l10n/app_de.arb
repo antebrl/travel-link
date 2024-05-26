@@ -1,6 +1,6 @@
 {
   "@@locale": "de",
-  "appTitle": "Demo-App mit Riverpod und go_router",
+  "appTitle": "Travel Link",
   "ok": "Ok",
   "cancel": "Abbrechen",
   "yes": "Ja",
