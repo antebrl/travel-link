@@ -32,7 +32,7 @@ class TripPlanningScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          trip.destination,
+                          trip.destination.formatted,
                           style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
