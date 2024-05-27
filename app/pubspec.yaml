@@ -51,6 +51,7 @@ dependencies:
   geocoding: ^3.0.0
   very_good_analysis: ^5.1.0
   latlong2: ^0.9.1
+  country_picker: ^2.0.26
 
 dev_dependencies:
   flutter_test:
