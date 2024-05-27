@@ -24,7 +24,7 @@ class ActivitiesScreen extends ConsumerStatefulWidget {
 }
 
 class _ActivitiesScreenState extends ConsumerState<ActivitiesScreen> {
-  late List<Activity> activitiesFromProvider;
+  late List<Activity> activitiesFromProvider; //TODO: Refactor
   late List<Activity> filteredActivitiesByContinent;
   late List<Activity> filteredActivitiesBySearch;
   List<Activity> filteredActivitiesByFilters = [];
