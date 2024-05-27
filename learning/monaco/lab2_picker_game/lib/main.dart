@@ -105,6 +105,10 @@ class _GameHomePageState extends State<GameHomePage> {
           // wireframe for each widget.
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            const Text(
+              'Welcome to Picker Game!',
+            ),
+            const SizedBox(height: 20),
             SizedBox(
               width: 200,
               child: TextFormField(
