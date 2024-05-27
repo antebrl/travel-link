@@ -22,6 +22,7 @@ class Activity {
     this.types, // Multiple ActivityTypes
     this.image,
     this.isUserCreated = false,
+    this.isPublic = true,
   });
 
   final String name;
@@ -32,6 +33,7 @@ class Activity {
   File? image; // Optional Image
   final PlaceLocation location;
   final bool isUserCreated;
+  final bool isPublic;
 
   //Später zu final machen + required
   Set<ActivityType>? types; // List of ActivityTypes
