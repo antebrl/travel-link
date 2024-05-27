@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:travel_link/src/features/trip_overview/domain/chat_message.dart';
+import 'package:travel_link/src/features/chat/domain/chat_message.dart';
 
 part 'group_chat_repository.g.dart';
 

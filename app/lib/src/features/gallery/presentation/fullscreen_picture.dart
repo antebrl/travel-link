@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/utils.dart';
 import 'package:travel_link/src/features/account/data/account_repository.dart';
-import 'package:travel_link/src/features/trip_overview/domain/picture_post.dart';
+import 'package:travel_link/src/features/gallery/domain/picture_post.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
 import 'package:travel_link/src/utils/constants/image_strings.dart';
 import 'package:travel_link/src/utils/formatters/formatter.dart';
