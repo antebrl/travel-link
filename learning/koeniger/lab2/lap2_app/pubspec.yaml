@@ -25,3 +25,12 @@ flutter:
   uses-material-design: true
   assets:
     - assets/background.jpg
+    - assets/apple.jpg
+    - assets/msci_world.png
+    - assets/realty_income.png
+    - assets/microsoft.png
+    - assets/3m.png
+    - assets/uniliever.png
+    - assets/amazon.png
+    - assets/nike.png
+

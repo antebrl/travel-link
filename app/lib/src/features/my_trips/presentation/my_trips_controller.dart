@@ -2,6 +2,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:travel_link/src/features/authentication/data/firebase_auth_repository.dart';
 import 'package:travel_link/src/features/explore_trips/domain/trip.dart';
 import 'package:travel_link/src/features/my_trips/data/my_trips_repository.dart';
+import 'package:travel_link/src/features/my_trips/domain/destination.dart';
 
 part 'my_trips_controller.g.dart';
 
@@ -16,7 +17,7 @@ class MyTripsController extends _$MyTripsController {
     required String name,
     required DateTime? start,
     required DateTime? end,
-    required String destination,
+    required Destination destination,
     required bool isPublic,
     int? maxParticipants,
   }) async {
