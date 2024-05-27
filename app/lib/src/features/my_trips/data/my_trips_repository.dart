@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:travel_link/src/features/authentication/data/firebase_auth_repository.dart';
 import 'package:travel_link/src/features/explore_trips/domain/trip.dart';
+import 'package:travel_link/src/features/my_trips/domain/destination.dart';
 
 part 'my_trips_repository.g.dart';
 
@@ -17,7 +18,7 @@ class MyTripsRepository {
     required String name,
     required DateTime? start,
     required DateTime? end,
-    required String destination,
+    required Destination destination,
     bool isPublic = false,
     int? maxParticipants,
   }) =>
@@ -25,7 +26,7 @@ class MyTripsRepository {
         'name': name,
         'startDate': start != null ? Timestamp.fromDate(start) : null,
         'endDate': end != null ? Timestamp.fromDate(end) : null,
-        'destination': destination,
+        'destination': destination.toMap(),
         'isPublic': isPublic,
         'participants': [uid],
         'maxParticipants': maxParticipants,

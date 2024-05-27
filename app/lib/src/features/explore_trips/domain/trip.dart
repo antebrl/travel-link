@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
+import 'package:travel_link/src/features/my_trips/domain/destination.dart';
 
 class Trip extends Equatable {
   const Trip({
@@ -19,7 +20,7 @@ class Trip extends Equatable {
   final String name;
   final DateTime? startDate;
   final DateTime? endDate;
-  final String destination;
+  final Destination destination;
   final bool isPublic;
   final List<String> participants;
   final int? maxParticipants;
@@ -48,7 +49,7 @@ class Trip extends Equatable {
       name: value['name'] as String,
       startDate: (value['startDate'] as Timestamp?)?.toDate(),
       endDate: (value['endDate'] as Timestamp?)?.toDate(),
-      destination: value['destination'] as String,
+      destination: Destination.fromMap(value['destination'] as Map<dynamic, dynamic>),
       isPublic: value['isPublic'] as bool,
       participants: (value['participants'] as List<dynamic>).cast<String>(),
       maxParticipants: value['maxParticipants'] as int?,
