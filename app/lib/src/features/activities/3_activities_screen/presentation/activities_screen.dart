@@ -18,6 +18,7 @@ class ActivitiesScreen extends ConsumerStatefulWidget {
 
   final Continent continent;
   late final String title;
+  
 
   @override
   ConsumerState<ActivitiesScreen> createState() => _ActivitiesScreenState();

@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 
 class ApiActivity extends Equatable {
   const ApiActivity({
-    required this.name,
+    this.name,
     required this.country,
     required this.countryCode,
     required this.city,
@@ -10,15 +10,13 @@ class ApiActivity extends Equatable {
     required this.lat,
     required this.formatted,
     required this.categories,
-    required this.isWikiAndMedia,
-    this.wikiData, 
-    this.wikipediaName,
+    this.wikipediaUrl,
     this.openingHours,
     this.website,
     this.placeId,
   });
 
-  final String name;
+  final String? name;
   final String country;
   final String countryCode;
   final String city;
@@ -27,10 +25,8 @@ class ApiActivity extends Equatable {
   final String formatted;
 
   final List<String> categories;
-  final bool isWikiAndMedia; //will load picture from wikipedia
 
-  final String? wikipediaName;
-  final String? wikiData;
+  final String? wikipediaUrl;
 
   final String? openingHours;
   final String? website;
@@ -46,9 +42,7 @@ class ApiActivity extends Equatable {
         lat,
         formatted,
         categories,
-        isWikiAndMedia,
-        wikipediaName,
-        wikiData,
+        wikipediaUrl,
         openingHours,
         website,
         placeId,
@@ -58,18 +52,21 @@ class ApiActivity extends Equatable {
   bool get stringify => true;
 
   factory ApiActivity.fromMap(Map<String, dynamic> map) {
+    String? wikipediaUrl;
+    if(map.containsKey('wiki_and_media') && (map['wiki_and_media'] as Map<String, dynamic>).containsKey('wikipedia')) {
+      final wikipediaData = map['wiki_and_media']!['wikipedia']!.split(':');
+      wikipediaUrl = 'https://${wikipediaData[0]}.wikipedia.org/w/api.php?action=query&titles=${wikipediaData[1].replaceAll(' ', '_')}&prop=pageimages&format=json&pithumbsize=1000';
+    }
     return ApiActivity(
-      name: map['name'] as String,
+      name: map['name'] as String?,
       country: map['country'] as String,
       countryCode: map['country_code'] as String,
       city: map['city'] as String,
       lon: map['lon'] as double,
       lat: map['lat'] as double,
       formatted: map['formatted'] as String,
-      categories: map['categories'] as List<String>,
-      isWikiAndMedia: (map['details'] as List<String>).contains('details.wiki_and_media'),
-      wikiData: map['wiki_and_media']?['wikidata'] as String?,
-      wikipediaName: map['wiki_and_media']?['wikipedia'] as String?,
+      categories: (map['categories'] as List<dynamic>).cast<String>(),
+      wikipediaUrl: wikipediaUrl,
       openingHours: map['opening_hours'] as String?,
       website: map['website'] as String?,
       placeId: map['place_id'] as String?,

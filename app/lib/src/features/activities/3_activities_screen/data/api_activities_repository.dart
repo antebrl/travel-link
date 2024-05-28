@@ -17,12 +17,13 @@ class ApiActivitiesRepository {
 
   Future<List<ApiActivity>> getActivitiesInPlace({required String placeId}) async {
     final String url =
-        '${CustomApiConstants.placesBaseURL}?categories=entertainment&filter=place:$placeId&apiKey=${CustomApiConstants.geoapifySecretKey}&limit=3';
+        '${CustomApiConstants.placesBaseURL}?categories=entertainment&filter=place:$placeId&apiKey=${CustomApiConstants.geoapifySecretKey}&limit=20';
     final response = await http.get(Uri.parse(url));
 
     if (response.statusCode == 200) {
       final destinations =
           json.decode(response.body)['features'] as List<dynamic>;
+      logger.d(destinations);
 
       return destinations.map((activity) =>
           ApiActivity.fromMap(activity['properties'] as Map<String, dynamic>),).toList();
@@ -43,6 +44,6 @@ ApiActivitiesRepository apiActivitiesRepository(ApiActivitiesRepositoryRef ref) 
 
 @riverpod
 Future<List<ApiActivity>> fetchActivitiesFromAPI(FetchActivitiesFromAPIRef ref, String placeId) {
-  final repo = ref.read(apiActivitiesRepositoryProvider);
+  final repo = ref.watch(apiActivitiesRepositoryProvider);
   return repo.getActivitiesInPlace(placeId: placeId);
 }

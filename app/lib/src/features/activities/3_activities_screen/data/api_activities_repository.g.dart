@@ -24,7 +24,7 @@ final apiActivitiesRepositoryProvider =
 
 typedef ApiActivitiesRepositoryRef = ProviderRef<ApiActivitiesRepository>;
 String _$fetchActivitiesFromAPIHash() =>
-    r'f2c2986a2d6b379de726138619e3dd1544ae28a7';
+    r'721dd93a398d567b8b608fc98f62dcfb3bba0bb9';
 
 /// Copied from Dart SDK
 class _SystemHash {
