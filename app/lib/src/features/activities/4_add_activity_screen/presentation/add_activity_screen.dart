@@ -6,6 +6,7 @@ import 'package:travel_link/src/features/activities/3_activities_screen/domain/a
 import 'package:travel_link/src/features/activities/4_add_activity_screen/presentation/image_input.dart';
 import 'package:travel_link/src/features/activities/4_add_activity_screen/presentation/location_input.dart';
 import 'package:travel_link/src/features/activities/4_add_activity_screen/switch_continent.dart';
+import 'package:travel_link/src/utils/constants/colors.dart';
 
 class AddActivityScreen extends ConsumerStatefulWidget {
   const AddActivityScreen({super.key});
@@ -23,6 +24,8 @@ class _AddActivityScreenState extends ConsumerState<AddActivityScreen> {
   ContinentType _enteredcontinentType = ContinentType.northAmerica;
   File? _selectedImage;
   PlaceLocation? _selectedLocation;
+  bool _isPublic = true;
+  Set<ActivityType> _filters = <ActivityType>{};
 
   String? stringValidator(String? value) {
     if (value == null ||
@@ -55,6 +58,8 @@ class _AddActivityScreenState extends ConsumerState<AddActivityScreen> {
             country: _selectedLocation!.country,
           ),
           isUserCreated: true,
+          isPublic: _isPublic,
+          types: _filters,
         ),
       );
     }
@@ -164,11 +169,62 @@ class _AddActivityScreenState extends ConsumerState<AddActivityScreen> {
                       height: 20,
                     ),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        const SizedBox(
-                          width: 5,
+                        const SizedBox(width: 5),
+                        Switch(
+                          activeColor: Theme.of(context).primaryColor,
+                          inactiveThumbColor: Colors.black.withOpacity(0.7),
+                          value: _isPublic,
+                          onChanged: (value) {
+                            setState(() {
+                              print(_isPublic);
+                              _isPublic = value;
+                            });
+                          },
                         ),
+                        const SizedBox(width: 8),
+                        Text(
+                          _isPublic ? 'Private Activity' : 'Public Activity',
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 15),
+                    Wrap(
+                      alignment: WrapAlignment.spaceEvenly,
+                      spacing: 40,
+                      runSpacing: 10,
+                      children: ActivityType.values.map((ActivityType type) {
+                        return FilterChip(
+                          selectedColor: CustomColors.primary,
+                          backgroundColor: CustomColors.white,
+                          side: const BorderSide(color: CustomColors.primary),
+                          label: Text(
+                            type.name,
+                            style: TextStyle(
+                              color: _filters.contains(type)
+                                  ? CustomColors.white
+                                  : CustomColors.textPrimary,
+                            ),
+                          ),
+                          selected: _filters.contains(type),
+                          onSelected: (bool selected) {
+                            setState(() {
+                              if (selected) {
+                                _filters.add(type);
+                              } else {
+                                _filters.remove(type);
+                              }
+                            });
+                          },
+                        );
+                      }).toList(),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Row(
+                      children: [
                         Expanded(
                           child: ElevatedButton(
                             onPressed: _saveActivity,

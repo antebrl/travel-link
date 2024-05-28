@@ -21,7 +21,7 @@ final accountRepositoryProvider = Provider<AccountRepository>.internal(
 );
 
 typedef AccountRepositoryRef = ProviderRef<AccountRepository>;
-String _$fetchUserHash() => r'aad9e14f4087079ec04c77e676a56ae80f07d7ae';
+String _$fetchUserHash() => r'a8cb0cc9d2b2132c8ff57b17289286dd62c4c650';
 
 /// Copied from Dart SDK
 class _SystemHash {
