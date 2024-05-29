@@ -7,8 +7,8 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:travel_link/src/features/authentication/data/firebase_auth_repository.dart';
 import 'package:travel_link/src/features/explore_trips/domain/trip.dart';
-import 'package:travel_link/src/features/trip_overview/data/gallery/shared_gallery_repository.dart';
-import 'package:travel_link/src/features/trip_overview/presentation/gallery/shared_gallery_controller.dart';
+import 'package:travel_link/src/features/gallery/data/shared_gallery_repository.dart';
+import 'package:travel_link/src/features/gallery/presentation/shared_gallery_controller.dart';
 
 class AddPictureScreen extends ConsumerStatefulWidget {
   const AddPictureScreen({required this.trip, super.key});

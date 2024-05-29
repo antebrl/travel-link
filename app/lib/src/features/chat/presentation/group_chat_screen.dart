@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:travel_link/src/features/authentication/data/firebase_auth_repository.dart';
+import 'package:travel_link/src/features/chat/data/group_chat_repository.dart';
+import 'package:travel_link/src/features/chat/domain/chat_message.dart';
+import 'package:travel_link/src/features/chat/presentation/group_chat_controller.dart';
+import 'package:travel_link/src/features/chat/presentation/my_message_tile.dart';
+import 'package:travel_link/src/features/chat/presentation/reply_message_tile.dart';
 import 'package:travel_link/src/features/explore_trips/domain/trip.dart';
-import 'package:travel_link/src/features/trip_overview/data/chat/group_chat_repository.dart';
-import 'package:travel_link/src/features/trip_overview/domain/chat_message.dart';
-import 'package:travel_link/src/features/trip_overview/presentation/chat/group_chat_controller.dart';
-import 'package:travel_link/src/features/trip_overview/presentation/chat/my_message_tile.dart';
-import 'package:travel_link/src/features/trip_overview/presentation/chat/reply_message_tile.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
 import 'package:travel_link/src/utils/logging/logger.dart';
 
@@ -38,23 +38,24 @@ class _GroupChatScreenState extends ConsumerState<GroupChatScreen> {
     final chatMessages = ref.watch(tripChatStreamProvider(widget.trip.tripId));
 
     return chatMessages.when(
-        data: chatScreen,
-        loading: () => const Scaffold(
-              body: Center(
-                child: CircularProgressIndicator(),
-              ),
-            ),
-        error: (error, stackTrace) {
-          logger.e('Error loading chat', error: error, stackTrace: stackTrace);
-          return Scaffold(
-            appBar: AppBar(
-              title: const Text('Trip Group Chat'),
-            ),
-            body: const Center(
-              child: Text('Error loading chat. Please try again later.'),
-            ),
-          );
-        },);
+      data: chatScreen,
+      loading: () => const Scaffold(
+        body: Center(
+          child: CircularProgressIndicator(),
+        ),
+      ),
+      error: (error, stackTrace) {
+        logger.e('Error loading chat', error: error, stackTrace: stackTrace);
+        return Scaffold(
+          appBar: AppBar(
+            title: const Text('Trip Group Chat'),
+          ),
+          body: const Center(
+            child: Text('Error loading chat. Please try again later.'),
+          ),
+        );
+      },
+    );
   }
 
   Widget chatScreen(List<ChatMessage> messages) {
@@ -75,8 +76,7 @@ class _GroupChatScreenState extends ConsumerState<GroupChatScreen> {
                 final previousChatMessage =
                     i + 1 < messages.length ? messages[i + 1] : null;
 
-                final nextChatMessage =
-                    i > 0 ? messages[i - 1] : null;
+                final nextChatMessage = i > 0 ? messages[i - 1] : null;
 
                 // ignore: avoid_bool_literals_in_conditional_expressions
                 final isFirstInSequence = previousChatMessage != null
@@ -84,28 +84,29 @@ class _GroupChatScreenState extends ConsumerState<GroupChatScreen> {
                     : true;
 
                 final userColor = userColors.putIfAbsent(
-                  chatMessage.uid, 
-                  () => userNameColors.availableColors[
-                    userColors.length % userNameColors.availableColors.length
-                  ],
+                  chatMessage.uid,
+                  () => userNameColors.availableColors[userColors.length %
+                      userNameColors.availableColors.length],
                 );
 
                 //don't show timestamp if nextMessage was sent within 3 minutes
                 DateTime? timestamp = chatMessage.timestamp;
-                if (nextChatMessage != null && 
-                    nextChatMessage.uid == chatMessage.uid && 
-                    nextChatMessage.timestamp.difference(timestamp) <= const Duration(minutes: 3,)) 
-                  {
+                if (nextChatMessage != null &&
+                    nextChatMessage.uid == chatMessage.uid &&
+                    nextChatMessage.timestamp.difference(timestamp) <=
+                        const Duration(
+                          minutes: 3,
+                        )) {
                   timestamp = null;
                 }
 
                 return Padding(
-                    padding: EdgeInsets.fromLTRB(
-                      16,
-                      4,
-                      16,
-                      (nextChatMessage?.uid == chatMessage.uid) ? 4 : 25,
-                    ),
+                  padding: EdgeInsets.fromLTRB(
+                    16,
+                    4,
+                    16,
+                    (nextChatMessage?.uid == chatMessage.uid) ? 4 : 25,
+                  ),
                   child: chatMessage.uid != auth.currentUser?.uid
                       //Mesage by other group member
                       ? Align(
@@ -185,7 +186,8 @@ class _GroupChatScreenState extends ConsumerState<GroupChatScreen> {
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
                                 content: Text(
-                                    'Please sign in and assign yourself a name in your profile to send messages.'),
+                                  'Please sign in and assign yourself a name in your profile to send messages.',
+                                ),
                               ),
                             );
                             return;
