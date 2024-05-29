@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:travel_link/src/features/authentication/data/firebase_auth_repository.dart';
-import 'package:travel_link/src/features/trip_overview/data/chat/group_chat_repository.dart';
+import 'package:travel_link/src/features/chat/data/group_chat_repository.dart';
 import 'package:travel_link/src/utils/logging/logger.dart';
 
 part 'group_chat_controller.g.dart';

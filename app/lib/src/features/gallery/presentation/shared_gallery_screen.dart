@@ -2,9 +2,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:travel_link/src/features/explore_trips/domain/trip.dart';
-import 'package:travel_link/src/features/trip_overview/data/gallery/shared_gallery_repository.dart';
-import 'package:travel_link/src/features/trip_overview/presentation/gallery/add_picture_screen.dart';
-import 'package:travel_link/src/features/trip_overview/presentation/gallery/fullscreen_picture.dart';
+import 'package:travel_link/src/features/gallery/data/shared_gallery_repository.dart';
+import 'package:travel_link/src/features/gallery/presentation/add_picture_screen.dart';
+import 'package:travel_link/src/features/gallery/presentation/fullscreen_picture.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
 import 'package:travel_link/src/utils/logging/logger.dart';
 

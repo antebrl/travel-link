@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:travel_link/src/features/trip_overview/domain/picture_post.dart';
+import 'package:travel_link/src/features/gallery/domain/picture_post.dart';
 
 part 'shared_gallery_repository.g.dart';
 

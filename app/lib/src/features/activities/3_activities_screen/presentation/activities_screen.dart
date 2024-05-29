@@ -18,13 +18,14 @@ class ActivitiesScreen extends ConsumerStatefulWidget {
 
   final Continent continent;
   late final String title;
+  
 
   @override
   ConsumerState<ActivitiesScreen> createState() => _ActivitiesScreenState();
 }
 
 class _ActivitiesScreenState extends ConsumerState<ActivitiesScreen> {
-  late List<Activity> activitiesFromProvider;
+  late List<Activity> activitiesFromProvider; //TODO: Refactor
   late List<Activity> filteredActivitiesByContinent;
   late List<Activity> filteredActivitiesBySearch;
   List<Activity> filteredActivitiesByFilters = [];
