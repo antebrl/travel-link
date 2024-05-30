@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
 
 class ApiActivity extends Equatable {
-  const ApiActivity({
-    this.name,
+  ApiActivity({
+    required this.name,
     required this.country,
     required this.countryCode,
     required this.city,
@@ -14,9 +14,10 @@ class ApiActivity extends Equatable {
     this.openingHours,
     this.website,
     this.placeId,
+    this.imagePath = '',
   });
 
-  final String? name;
+  final String name;
   final String country;
   final String countryCode;
   final String city;
@@ -31,6 +32,8 @@ class ApiActivity extends Equatable {
   final String? openingHours;
   final String? website;
   final String? placeId;
+
+  String imagePath;
 
   @override
   List<Object?> get props => [
@@ -53,12 +56,16 @@ class ApiActivity extends Equatable {
 
   factory ApiActivity.fromMap(Map<String, dynamic> map) {
     String? wikipediaUrl;
-    if(map.containsKey('wiki_and_media') && (map['wiki_and_media'] as Map<String, dynamic>).containsKey('wikipedia')) {
+    if (map.containsKey('wiki_and_media') &&
+        (map['wiki_and_media'] as Map<String, dynamic>)
+            .containsKey('wikipedia')) {
       final wikipediaData = map['wiki_and_media']!['wikipedia']!.split(':');
-      wikipediaUrl = 'https://${wikipediaData[0]}.wikipedia.org/w/api.php?action=query&titles=${wikipediaData[1].replaceAll(' ', '_')}&prop=pageimages&format=json&pithumbsize=1000';
+      wikipediaUrl =
+          'https://${wikipediaData[0]}.wikipedia.org/w/api.php?action=query&titles=${wikipediaData[1].replaceAll(' ', '_')}&prop=pageimages&format=json&pithumbsize=1000';
     }
+
     return ApiActivity(
-      name: map['name'] as String?,
+      name: map['name'] as String,
       country: map['country'] as String,
       countryCode: map['country_code'] as String,
       city: map['city'] as String,
