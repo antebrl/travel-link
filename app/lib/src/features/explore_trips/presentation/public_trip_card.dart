@@ -1,133 +1,94 @@
 import 'package:flutter/material.dart';
+import 'package:travel_link/src/features/explore_trips/domain/trip.dart';
+import 'package:travel_link/src/utils/theme/widget_themes/boxDecoration_theme.dart';
 
 class PublicTripCard extends StatelessWidget {
-  const PublicTripCard({super.key});
+  const PublicTripCard({super.key, required this.onTap, required this.trip});
+
+  final VoidCallback onTap;
+  final Trip trip;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-          padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.only(top:25, bottom:25,),
+      child: Card(
+        elevation: 10,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        child: Container(
+          width: 390,
+          padding: const EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(20),
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                'Bevorstehend',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 10),
-              Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                elevation: 4,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Stack(
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(10),
-                            topRight: Radius.circular(10),
-                          ),
-                          child: Image.network(
-                            'https://placehold.co/600x400/EEE/31343C', // Hier die richtige Bild-URL einfügen
-                            height: 200,
-                            width: double.infinity,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                        Positioned(
-                          top: 10,
-                          left: 10,
-                          child: Container(
-                            padding: EdgeInsets.all(4),
-                            color: Colors.white,
-                            child: Text(
-                              'Tokyo Trip',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                          top: 10,
-                          right: 10,
-                          child: Icon(
-                            Icons.favorite_border,
-                            color: Colors.red,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Tokyo, Japan',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          SizedBox(height: 4),
-                          Row(
-                            children: [
-                              CircleAvatar(
-                                backgroundImage: NetworkImage(
-                                    'https://placehold.co/600x400/EEE/31343C'),
-                                radius: 12,
-                              ),
-                              SizedBox(width: 4),
-                              CircleAvatar(
-                                backgroundImage: NetworkImage(
-                                    'https://placehold.co/600x400/EEE/31343C'),
-                                radius: 12,
-                              ),
-                              SizedBox(width: 4),
-                              CircleAvatar(
-                                backgroundImage: NetworkImage(
-                                    'https://placehold.co/600x400/EEE/31343C'),
-                                radius: 12,
-                              ),
-                              SizedBox(width: 4),
-                              Text('3/16'),
-                            ],
-                          ),
-                          SizedBox(height: 4),
-                          Text(
-                            'Eine spannende Reise nach Japan. Tretet bei 🗾🎏🏯🍣',
-                            style: TextStyle(fontSize: 14),
-                          ),
-                          SizedBox(height: 8),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
-                                children: [
-                                  Icon(
-                                    Icons.star,
-                                    color: Colors.amber,
-                                  ),
-                                  SizedBox(width: 4),
-                                  Text('4.5'),
-                                ],
-                              ),
-                              Text('Coeurdes Alpes'),
-                            ],
-                          ),
-                        ],
-                      ),
+              Center(
+                child: Container(
+                  height: 320,
+                  width: 275,
+                  decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(40),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.blue.shade800.withOpacity(0.6),
+                      spreadRadius: 0.1,
+                      blurRadius: 23,
+                      offset: const Offset(1, 5),
                     ),
                   ],
+                  image: const DecorationImage(
+                    image: NetworkImage(
+                      'https://media.istockphoto.com/id/1998131648/de/foto/altstadt-von-burghausen-mit-burgberg.jpg?s=1024x1024&w=is&k=20&c=nvlz0e9DkNmf4_84ahASlYZVnGN-7NTKm9L3zppAOZI='),
+                    fit: BoxFit.cover,
+                  ),
+                  ),
+                ),
+                
+              ),
+              Text(
+                trip.name,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              const SizedBox(height: 5),
+              Text(
+                trip.name,
+                maxLines: 4,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w200,
+                ),
+              ),
+              const Spacer(),
+              ElevatedButton(
+                onPressed: onTap,
+                style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  fixedSize: const Size(double.maxFinite, 44),
+                ),
+                child: const Text(
+                  'ADD TO CART',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
             ],
           ),
-        );
+        ),
+      ),
+    );
   }
 }
