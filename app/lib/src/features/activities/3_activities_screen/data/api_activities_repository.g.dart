@@ -24,7 +24,7 @@ final apiActivitiesRepositoryProvider =
 
 typedef ApiActivitiesRepositoryRef = ProviderRef<ApiActivitiesRepository>;
 String _$fetchActivitiesFromAPIHash() =>
-    r'c0d1e947b3136b93929b8f482e46d6a5c76afe78';
+    r'7fe82b6c9c156ace66034642089bc38ce0da1ed4';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -61,7 +61,7 @@ class FetchActivitiesFromAPIFamily
   FetchActivitiesFromAPIProvider call({
     required double lon,
     required double lat,
-    List<String> categories = const ['entertainment'],
+    Set<String> categories = const {'entertainment'},
   }) {
     return FetchActivitiesFromAPIProvider(
       lon: lon,
@@ -102,7 +102,7 @@ class FetchActivitiesFromAPIProvider extends FutureProvider<List<ApiActivity>> {
   FetchActivitiesFromAPIProvider({
     required double lon,
     required double lat,
-    List<String> categories = const ['entertainment'],
+    Set<String> categories = const {'entertainment'},
   }) : this._internal(
           (ref) => fetchActivitiesFromAPI(
             ref as FetchActivitiesFromAPIRef,
@@ -138,7 +138,7 @@ class FetchActivitiesFromAPIProvider extends FutureProvider<List<ApiActivity>> {
 
   final double lon;
   final double lat;
-  final List<String> categories;
+  final Set<String> categories;
 
   @override
   Override overrideWith(
@@ -193,7 +193,7 @@ mixin FetchActivitiesFromAPIRef on FutureProviderRef<List<ApiActivity>> {
   double get lat;
 
   /// The parameter `categories` of this provider.
-  List<String> get categories;
+  Set<String> get categories;
 }
 
 class _FetchActivitiesFromAPIProviderElement
@@ -206,7 +206,7 @@ class _FetchActivitiesFromAPIProviderElement
   @override
   double get lat => (origin as FetchActivitiesFromAPIProvider).lat;
   @override
-  List<String> get categories =>
+  Set<String> get categories =>
       (origin as FetchActivitiesFromAPIProvider).categories;
 }
 // ignore_for_file: type=lint

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:travel_link/src/features/activities/2_continents_screen/presentation/activities_continents_screen.dart';
 import 'package:travel_link/src/features/activities/3_activities_screen/presentation/activities_api_screen.dart';
+import 'package:travel_link/src/features/activities/7_api_search_screen/search_screen.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
 import 'package:travel_link/src/utils/helpers/helper_functions.dart';
 
@@ -49,15 +50,16 @@ class _ActivitiesStartScreenState extends State<ActivitiesStartScreen> {
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (BuildContext context) =>
-                            APIActivitiesScreen(),
+                            //APIActivitiesScreen(),
+                            const ActivitiesContinentsScreen(),
                       ),
                     );
                   },
-                  child: Text('Testing'),
+                  child: Text('Continent'),
                 )
               ],
             ),
-            ActivitiesContinentsScreen(),
+            SearchScreen(),
           ],
         ),
       ),

@@ -34,17 +34,21 @@ class _APIActivityItemState extends State<APIActivityItem> {
           Future.value(imageName); // Verwende den Bildnamen für die Future
     } else {
       // Load a placeholder image for places without a wikipedia link
-      _imageFuture = widget.activity.wikipediaUrl != null ? fetchImage(widget.activity.wikipediaUrl!, widget.activity.name) : Future.value('https://via.placeholder.com/150');
+      _imageFuture = widget.activity.wikipediaUrl != null
+          ? fetchImage(widget.activity.wikipediaUrl!, widget.activity.name)
+          : Future.value(
+              'https://corsproxy.io/?https://via.placeholder.com/150');
     }
   }
 
   Future<String> fetchImage(String formattedLink, String activityName) async {
-    final response = await http.get(Uri.parse(formattedLink));
+    final response =
+        await http.get(Uri.parse('https://corsproxy.io/?$formattedLink'));
     final Map<String, dynamic> data =
         json.decode(response.body) as Map<String, dynamic>;
     final pages = data['query']['pages'];
     final pageId = pages.keys.first;
-    final imageUrl = pages[pageId]['thumbnail']['source'] as String;
+    final String imageUrl = pages[pageId]['thumbnail']['source'] as String;
 
     // Speichere den Bildnamen im Cache
     _imageCache[activityName] = imageUrl;
@@ -60,8 +64,10 @@ class _APIActivityItemState extends State<APIActivityItem> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => context.pushNamed(ActivitiesRoutes.activityDetails.name,
-          extra: widget.activity,),
+      onTap: () => context.pushNamed(
+        ActivitiesRoutes.activityDetails.name,
+        extra: widget.activity,
+      ),
       child: Container(
         width: MediaQuery.of(context).size.width,
         margin: const EdgeInsets.only(left: 20, top: 5, bottom: 15, right: 20),
