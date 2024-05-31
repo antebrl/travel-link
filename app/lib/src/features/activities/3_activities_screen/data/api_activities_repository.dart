@@ -15,9 +15,10 @@ class ApiActivitiesRepository {
   // }
 
   Future<List<ApiActivity>> getActivitiesInPlace(
-      {required double lon, required double lat}) async {
+      {required double lon, required double lat, required List<String> categories}) async {
+    final String categoriesString = categories.join(',');
     final String url =
-        '${CustomApiConstants.placesBaseURL}?categories=entertainment&filter=circle:$lon,$lat,5000&apiKey=${CustomApiConstants.geoapifySecretKey}&limit=50';
+        '${CustomApiConstants.placesBaseURL}?categories=$categoriesString&filter=circle:$lon,$lat,5000&apiKey=${CustomApiConstants.geoapifySecretKey}&limit=50';
     final response = await http.get(Uri.parse(url));
 
     if (response.statusCode == 200) {
@@ -50,7 +51,7 @@ ApiActivitiesRepository apiActivitiesRepository(
 
 @Riverpod(keepAlive: true)
 Future<List<ApiActivity>> fetchActivitiesFromAPI(
-    FetchActivitiesFromAPIRef ref, double lon, double lat) {
+    FetchActivitiesFromAPIRef ref, {required double lon, required double lat, List<String> categories = const ['entertainment']}) {
   final repo = ref.watch(apiActivitiesRepositoryProvider);
-  return repo.getActivitiesInPlace(lon: lon, lat: lat);
+  return repo.getActivitiesInPlace(lon: lon, lat: lat, categories: categories);
 }

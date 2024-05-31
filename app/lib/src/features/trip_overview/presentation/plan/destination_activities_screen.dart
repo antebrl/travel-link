@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:http/http.dart' as http;
 import 'package:travel_link/src/features/activities/3_activities_screen/data/api_activities_repository.dart';
 import 'package:travel_link/src/utils/logging/logger.dart';
 
@@ -23,8 +23,7 @@ class DestinationActivitiesScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    //TODO: Refactor placeId hardcoded value
-    final fetchedActivities = ref.watch(FetchActivitiesFromAPIProvider(lon ?? 13.3888599, lat ?? 52.5170365));
+    final fetchedActivities = ref.watch(FetchActivitiesFromAPIProvider(lon: lon ?? 13.3888599, lat: lat ?? 52.5170365));
 
     return fetchedActivities.when(data: (activities) => Scaffold(
       appBar: AppBar(

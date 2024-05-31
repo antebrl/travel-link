@@ -8,7 +8,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class APIActivityItem extends StatefulWidget {
-  const APIActivityItem({required this.activity, Key? key}) : super(key: key);
+  const APIActivityItem({required this.activity, super.key});
   final ApiActivity activity;
 
   @override
@@ -33,14 +33,12 @@ class _APIActivityItemState extends State<APIActivityItem> {
       _imageFuture =
           Future.value(imageName); // Verwende den Bildnamen für die Future
     } else {
-      _imageFuture = fetchImage(widget.activity.name);
+      // Load a placeholder image for places without a wikipedia link
+      _imageFuture = widget.activity.wikipediaUrl != null ? fetchImage(widget.activity.wikipediaUrl!, widget.activity.name) : Future.value('https://via.placeholder.com/150');
     }
   }
 
-  Future<String> fetchImage(String activityName) async {
-    final formattedName = activityName.replaceAll(' ', '_');
-    final formattedLink =
-        'https://en.wikipedia.org/w/api.php?action=query&titles=$formattedName&prop=pageimages&format=json&pithumbsize=1000';
+  Future<String> fetchImage(String formattedLink, String activityName) async {
     final response = await http.get(Uri.parse(formattedLink));
     final Map<String, dynamic> data =
         json.decode(response.body) as Map<String, dynamic>;

@@ -24,7 +24,7 @@ final apiActivitiesRepositoryProvider =
 
 typedef ApiActivitiesRepositoryRef = ProviderRef<ApiActivitiesRepository>;
 String _$fetchActivitiesFromAPIHash() =>
-    r'1120173168c3ca5a2c0d919b6cfee96dfa7add36';
+    r'c0d1e947b3136b93929b8f482e46d6a5c76afe78';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -58,13 +58,15 @@ class FetchActivitiesFromAPIFamily
   const FetchActivitiesFromAPIFamily();
 
   /// See also [fetchActivitiesFromAPI].
-  FetchActivitiesFromAPIProvider call(
-    double lon,
-    double lat,
-  ) {
+  FetchActivitiesFromAPIProvider call({
+    required double lon,
+    required double lat,
+    List<String> categories = const ['entertainment'],
+  }) {
     return FetchActivitiesFromAPIProvider(
-      lon,
-      lat,
+      lon: lon,
+      lat: lat,
+      categories: categories,
     );
   }
 
@@ -73,8 +75,9 @@ class FetchActivitiesFromAPIFamily
     covariant FetchActivitiesFromAPIProvider provider,
   ) {
     return call(
-      provider.lon,
-      provider.lat,
+      lon: provider.lon,
+      lat: provider.lat,
+      categories: provider.categories,
     );
   }
 
@@ -96,14 +99,16 @@ class FetchActivitiesFromAPIFamily
 /// See also [fetchActivitiesFromAPI].
 class FetchActivitiesFromAPIProvider extends FutureProvider<List<ApiActivity>> {
   /// See also [fetchActivitiesFromAPI].
-  FetchActivitiesFromAPIProvider(
-    double lon,
-    double lat,
-  ) : this._internal(
+  FetchActivitiesFromAPIProvider({
+    required double lon,
+    required double lat,
+    List<String> categories = const ['entertainment'],
+  }) : this._internal(
           (ref) => fetchActivitiesFromAPI(
             ref as FetchActivitiesFromAPIRef,
-            lon,
-            lat,
+            lon: lon,
+            lat: lat,
+            categories: categories,
           ),
           from: fetchActivitiesFromAPIProvider,
           name: r'fetchActivitiesFromAPIProvider',
@@ -116,6 +121,7 @@ class FetchActivitiesFromAPIProvider extends FutureProvider<List<ApiActivity>> {
               FetchActivitiesFromAPIFamily._allTransitiveDependencies,
           lon: lon,
           lat: lat,
+          categories: categories,
         );
 
   FetchActivitiesFromAPIProvider._internal(
@@ -127,10 +133,12 @@ class FetchActivitiesFromAPIProvider extends FutureProvider<List<ApiActivity>> {
     required super.from,
     required this.lon,
     required this.lat,
+    required this.categories,
   }) : super.internal();
 
   final double lon;
   final double lat;
+  final List<String> categories;
 
   @override
   Override overrideWith(
@@ -148,6 +156,7 @@ class FetchActivitiesFromAPIProvider extends FutureProvider<List<ApiActivity>> {
         debugGetCreateSourceHash: null,
         lon: lon,
         lat: lat,
+        categories: categories,
       ),
     );
   }
@@ -161,7 +170,8 @@ class FetchActivitiesFromAPIProvider extends FutureProvider<List<ApiActivity>> {
   bool operator ==(Object other) {
     return other is FetchActivitiesFromAPIProvider &&
         other.lon == lon &&
-        other.lat == lat;
+        other.lat == lat &&
+        other.categories == categories;
   }
 
   @override
@@ -169,6 +179,7 @@ class FetchActivitiesFromAPIProvider extends FutureProvider<List<ApiActivity>> {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
     hash = _SystemHash.combine(hash, lon.hashCode);
     hash = _SystemHash.combine(hash, lat.hashCode);
+    hash = _SystemHash.combine(hash, categories.hashCode);
 
     return _SystemHash.finish(hash);
   }
@@ -180,6 +191,9 @@ mixin FetchActivitiesFromAPIRef on FutureProviderRef<List<ApiActivity>> {
 
   /// The parameter `lat` of this provider.
   double get lat;
+
+  /// The parameter `categories` of this provider.
+  List<String> get categories;
 }
 
 class _FetchActivitiesFromAPIProviderElement
@@ -191,6 +205,9 @@ class _FetchActivitiesFromAPIProviderElement
   double get lon => (origin as FetchActivitiesFromAPIProvider).lon;
   @override
   double get lat => (origin as FetchActivitiesFromAPIProvider).lat;
+  @override
+  List<String> get categories =>
+      (origin as FetchActivitiesFromAPIProvider).categories;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
