@@ -120,7 +120,7 @@ class TripPlanningScreen extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute<ChecklistsScreen>(
-                builder: (context) => DestinationActivitiesScreen(placeId: trip.destination.placeId),
+                builder: (context) => DestinationActivitiesScreen(lon: trip.destination.lon, lat: trip.destination.lat),
               ),
             );
           },

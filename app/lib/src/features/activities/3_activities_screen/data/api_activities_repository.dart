@@ -9,15 +9,18 @@ import 'package:travel_link/src/utils/logging/logger.dart';
 part 'api_activities_repository.g.dart';
 
 class ApiActivitiesRepository {
-
   //TODO
   // Future<Person> getActivityDetailsById({required int placeId}) async {
-    
+
   // }
 
-  Future<List<ApiActivity>> getActivitiesInPlace({required String placeId}) async {
+  Future<List<ApiActivity>> getActivitiesInPlace(
+      {required double lon,
+      required double lat,
+      required Set<String> categories}) async {
+    final String categoriesString = categories.join(',');
     final String url =
-        '${CustomApiConstants.placesBaseURL}?categories=entertainment&filter=place:$placeId&apiKey=${CustomApiConstants.geoapifySecretKey}&limit=20';
+        '${CustomApiConstants.placesBaseURL}?categories=$categoriesString&filter=circle:$lon,$lat,5000&apiKey=${CustomApiConstants.geoapifySecretKey}&limit=50';
     final response = await http.get(Uri.parse(url));
 
     if (response.statusCode == 200) {
@@ -25,8 +28,14 @@ class ApiActivitiesRepository {
           json.decode(response.body)['features'] as List<dynamic>;
       logger.d(destinations);
 
-      return destinations.map((activity) =>
-          ApiActivity.fromMap(activity['properties'] as Map<String, dynamic>),).toList();
+      return destinations
+          .map(
+            (activity) => ApiActivity.fromMap(
+                activity['properties'] as Map<String, dynamic>),
+          )
+          .where((apiActivity) => apiActivity != null)
+          .cast<ApiActivity>()
+          .toList();
     } else {
       logger.e(
         'Failed to load and parse destination suggestions',
@@ -35,15 +44,20 @@ class ApiActivitiesRepository {
       return [];
     }
   }
-
 }
 
 @Riverpod(keepAlive: true)
-ApiActivitiesRepository apiActivitiesRepository(ApiActivitiesRepositoryRef ref) =>
+ApiActivitiesRepository apiActivitiesRepository(
+        ApiActivitiesRepositoryRef ref) =>
     ApiActivitiesRepository();
 
-@riverpod
-Future<List<ApiActivity>> fetchActivitiesFromAPI(FetchActivitiesFromAPIRef ref, String placeId) {
+@Riverpod(keepAlive: true)
+Future<List<ApiActivity>> fetchActivitiesFromAPI(
+  FetchActivitiesFromAPIRef ref, {
+  required double lon,
+  required double lat,
+  Set<String> categories = const {'entertainment'},
+}) {
   final repo = ref.watch(apiActivitiesRepositoryProvider);
-  return repo.getActivitiesInPlace(placeId: placeId);
+  return repo.getActivitiesInPlace(lon: lon, lat: lat, categories: categories);
 }
