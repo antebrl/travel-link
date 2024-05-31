@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:travel_link/src/features/activities/2_continents_screen/presentation/activities_continents_screen.dart';
+import 'package:travel_link/src/features/activities/3_activities_screen/presentation/activities_api_screen.dart';
+import 'package:travel_link/src/features/activities/7_api_search_screen/search_screen.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
 import 'package:travel_link/src/utils/helpers/helper_functions.dart';
 
@@ -21,7 +23,6 @@ class _ActivitiesStartScreenState extends State<ActivitiesStartScreen> {
           title: const Text(
             'Explore Activities!',
           ),
-          
           bottom: TabBar(
             isScrollable: false,
             indicatorColor: CustomColors.primary,
@@ -44,10 +45,21 @@ class _ActivitiesStartScreenState extends State<ActivitiesStartScreen> {
             Column(
               children: [
                 Text('Main'),
-                
+                OutlinedButton(
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (BuildContext context) =>
+                            //APIActivitiesScreen(),
+                            const ActivitiesContinentsScreen(),
+                      ),
+                    );
+                  },
+                  child: Text('Continent'),
+                )
               ],
             ),
-            ActivitiesContinentsScreen(),
+            SearchScreen(),
           ],
         ),
       ),
