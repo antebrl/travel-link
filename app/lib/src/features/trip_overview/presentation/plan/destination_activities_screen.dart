@@ -7,9 +7,10 @@ import 'package:travel_link/src/features/activities/3_activities_screen/data/api
 import 'package:travel_link/src/utils/logging/logger.dart';
 
 class DestinationActivitiesScreen extends ConsumerWidget {
-  const DestinationActivitiesScreen({required this.placeId, super.key});
+  const DestinationActivitiesScreen({this.lat, this.lon,super.key});
 
-  final String? placeId;
+  final double? lon;
+  final double? lat;
 
   Future<String> fetchImage(String wikipediaUrl) async{
       final response = await http.get(Uri.parse(wikipediaUrl));
@@ -23,7 +24,7 @@ class DestinationActivitiesScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     //TODO: Refactor placeId hardcoded value
-    final fetchedActivities = ref.watch(FetchActivitiesFromAPIProvider(placeId ?? '511640e7244ae52440599981caf8f7944940f00101f90115c9000000000000c0020b'));
+    final fetchedActivities = ref.watch(FetchActivitiesFromAPIProvider(lon ?? 13.3888599, lat ?? 52.5170365));
 
     return fetchedActivities.when(data: (activities) => Scaffold(
       appBar: AppBar(

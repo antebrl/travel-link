@@ -1,6 +1,4 @@
-import 'package:equatable/equatable.dart';
-
-class ApiActivity extends Equatable {
+class ApiActivity{
   ApiActivity({
     required this.name,
     required this.country,
@@ -35,26 +33,17 @@ class ApiActivity extends Equatable {
 
   String imagePath;
 
-  @override
-  List<Object?> get props => [
-        name,
-        country,
-        countryCode,
-        city,
-        lon,
-        lat,
-        formatted,
-        categories,
-        wikipediaUrl,
-        openingHours,
-        website,
-        placeId,
-      ];
+  static ApiActivity? fromMap(Map<String, dynamic> map) {
+    if (!(map.containsKey('name') && 
+          map.containsKey('country') &&
+          map.containsKey('country_code') &&
+          map.containsKey('city') &&
+          map.containsKey('lon') &&
+          map.containsKey('lat') &&
+          map.containsKey('formatted'))) {
+      return null;
+    }
 
-  @override
-  bool get stringify => true;
-
-  factory ApiActivity.fromMap(Map<String, dynamic> map) {
     String? wikipediaUrl;
     if (map.containsKey('wiki_and_media') &&
         (map['wiki_and_media'] as Map<String, dynamic>)

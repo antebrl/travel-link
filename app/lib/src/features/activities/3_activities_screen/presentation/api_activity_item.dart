@@ -63,7 +63,7 @@ class _APIActivityItemState extends State<APIActivityItem> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () => context.pushNamed(ActivitiesRoutes.activityDetails.name,
-          extra: widget.activity),
+          extra: widget.activity,),
       child: Container(
         width: MediaQuery.of(context).size.width,
         margin: const EdgeInsets.only(left: 20, top: 5, bottom: 15, right: 20),

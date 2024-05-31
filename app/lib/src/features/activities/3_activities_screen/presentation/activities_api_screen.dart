@@ -12,7 +12,7 @@ class APIActivitiesScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final fetchedTrips = ref.watch(FetchActivitiesFromAPIProvider("51040fc292616b014059402bd5aa02b14440f00101f9012e4f050000000000c00208"));
+    final fetchedTrips = ref.watch(FetchActivitiesFromAPIProvider(13.3888599, 52.5170365)); //lon, lat
 
     return fetchedTrips.when(
       data: (trips) {

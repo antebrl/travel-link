@@ -24,7 +24,7 @@ final apiActivitiesRepositoryProvider =
 
 typedef ApiActivitiesRepositoryRef = ProviderRef<ApiActivitiesRepository>;
 String _$fetchActivitiesFromAPIHash() =>
-    r'721dd93a398d567b8b608fc98f62dcfb3bba0bb9';
+    r'1120173168c3ca5a2c0d919b6cfee96dfa7add36';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -59,10 +59,12 @@ class FetchActivitiesFromAPIFamily
 
   /// See also [fetchActivitiesFromAPI].
   FetchActivitiesFromAPIProvider call(
-    String placeId,
+    double lon,
+    double lat,
   ) {
     return FetchActivitiesFromAPIProvider(
-      placeId,
+      lon,
+      lat,
     );
   }
 
@@ -71,7 +73,8 @@ class FetchActivitiesFromAPIFamily
     covariant FetchActivitiesFromAPIProvider provider,
   ) {
     return call(
-      provider.placeId,
+      provider.lon,
+      provider.lat,
     );
   }
 
@@ -91,15 +94,16 @@ class FetchActivitiesFromAPIFamily
 }
 
 /// See also [fetchActivitiesFromAPI].
-class FetchActivitiesFromAPIProvider
-    extends AutoDisposeFutureProvider<List<ApiActivity>> {
+class FetchActivitiesFromAPIProvider extends FutureProvider<List<ApiActivity>> {
   /// See also [fetchActivitiesFromAPI].
   FetchActivitiesFromAPIProvider(
-    String placeId,
+    double lon,
+    double lat,
   ) : this._internal(
           (ref) => fetchActivitiesFromAPI(
             ref as FetchActivitiesFromAPIRef,
-            placeId,
+            lon,
+            lat,
           ),
           from: fetchActivitiesFromAPIProvider,
           name: r'fetchActivitiesFromAPIProvider',
@@ -110,7 +114,8 @@ class FetchActivitiesFromAPIProvider
           dependencies: FetchActivitiesFromAPIFamily._dependencies,
           allTransitiveDependencies:
               FetchActivitiesFromAPIFamily._allTransitiveDependencies,
-          placeId: placeId,
+          lon: lon,
+          lat: lat,
         );
 
   FetchActivitiesFromAPIProvider._internal(
@@ -120,10 +125,12 @@ class FetchActivitiesFromAPIProvider
     required super.allTransitiveDependencies,
     required super.debugGetCreateSourceHash,
     required super.from,
-    required this.placeId,
+    required this.lon,
+    required this.lat,
   }) : super.internal();
 
-  final String placeId;
+  final double lon;
+  final double lat;
 
   @override
   Override overrideWith(
@@ -139,43 +146,51 @@ class FetchActivitiesFromAPIProvider
         dependencies: null,
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
-        placeId: placeId,
+        lon: lon,
+        lat: lat,
       ),
     );
   }
 
   @override
-  AutoDisposeFutureProviderElement<List<ApiActivity>> createElement() {
+  FutureProviderElement<List<ApiActivity>> createElement() {
     return _FetchActivitiesFromAPIProviderElement(this);
   }
 
   @override
   bool operator ==(Object other) {
-    return other is FetchActivitiesFromAPIProvider && other.placeId == placeId;
+    return other is FetchActivitiesFromAPIProvider &&
+        other.lon == lon &&
+        other.lat == lat;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, placeId.hashCode);
+    hash = _SystemHash.combine(hash, lon.hashCode);
+    hash = _SystemHash.combine(hash, lat.hashCode);
 
     return _SystemHash.finish(hash);
   }
 }
 
-mixin FetchActivitiesFromAPIRef
-    on AutoDisposeFutureProviderRef<List<ApiActivity>> {
-  /// The parameter `placeId` of this provider.
-  String get placeId;
+mixin FetchActivitiesFromAPIRef on FutureProviderRef<List<ApiActivity>> {
+  /// The parameter `lon` of this provider.
+  double get lon;
+
+  /// The parameter `lat` of this provider.
+  double get lat;
 }
 
 class _FetchActivitiesFromAPIProviderElement
-    extends AutoDisposeFutureProviderElement<List<ApiActivity>>
+    extends FutureProviderElement<List<ApiActivity>>
     with FetchActivitiesFromAPIRef {
   _FetchActivitiesFromAPIProviderElement(super.provider);
 
   @override
-  String get placeId => (origin as FetchActivitiesFromAPIProvider).placeId;
+  double get lon => (origin as FetchActivitiesFromAPIProvider).lon;
+  @override
+  double get lat => (origin as FetchActivitiesFromAPIProvider).lat;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
