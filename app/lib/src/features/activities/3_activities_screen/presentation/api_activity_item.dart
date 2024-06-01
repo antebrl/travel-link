@@ -16,7 +16,7 @@ class APIActivityItem extends StatefulWidget {
 }
 
 class _APIActivityItemState extends State<APIActivityItem> {
-  late Future<String> _imageFuture;
+  late Future<String?> _imageFuture;
   String formattedLink = '';
   static final Map<String, String> _imageCache = {}; // Cache für Bilder
   @override
@@ -37,17 +37,20 @@ class _APIActivityItemState extends State<APIActivityItem> {
       _imageFuture = widget.activity.wikipediaUrl != null
           ? fetchImage(widget.activity.wikipediaUrl!, widget.activity.name)
           : Future.value(
-              'https://corsproxy.io/?https://via.placeholder.com/150');
+              'https://corsproxy.io/?https://via.placeholder.com/150',
+            );
     }
   }
 
-  Future<String> fetchImage(String formattedLink, String activityName) async {
-    final response =
-        await http.get(Uri.parse('https://corsproxy.io/?$formattedLink'));
+  Future<String?> fetchImage(String formattedLink, String activityName) async {
+    final response = await http.get(Uri.parse(formattedLink));
     final Map<String, dynamic> data =
         json.decode(response.body) as Map<String, dynamic>;
     final pages = data['query']['pages'];
     final pageId = pages.keys.first;
+    if (!(pages[pageId] as Map<String, dynamic>).containsKey('thumbnail')) {
+      return null;
+    }
     final String imageUrl = pages[pageId]['thumbnail']['source'] as String;
 
     // Speichere den Bildnamen im Cache
@@ -86,13 +89,21 @@ class _APIActivityItemState extends State<APIActivityItem> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            FutureBuilder<String>(
+            FutureBuilder<String?>(
               future: _imageFuture,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const CircularProgressIndicator();
                 } else if (snapshot.hasError) {
                   return Text('Fehler: ${snapshot.error}');
+                } else if (snapshot.data == null) {
+                  return Image.network(
+                    //Wikipedia entry but no picture
+                    'https://corsproxy.io/?https://via.placeholder.com/150',
+                    height: 125,
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                  );
                 } else {
                   return Stack(
                     children: [
