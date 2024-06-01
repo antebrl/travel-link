@@ -24,7 +24,7 @@ final apiActivitiesRepositoryProvider =
 
 typedef ApiActivitiesRepositoryRef = ProviderRef<ApiActivitiesRepository>;
 String _$fetchActivitiesFromAPIHash() =>
-    r'7fe82b6c9c156ace66034642089bc38ce0da1ed4';
+    r'8e3434ca67d35bd500899a60d96d1c226b855e83';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -97,7 +97,8 @@ class FetchActivitiesFromAPIFamily
 }
 
 /// See also [fetchActivitiesFromAPI].
-class FetchActivitiesFromAPIProvider extends FutureProvider<List<ApiActivity>> {
+class FetchActivitiesFromAPIProvider
+    extends AutoDisposeFutureProvider<List<ApiActivity>> {
   /// See also [fetchActivitiesFromAPI].
   FetchActivitiesFromAPIProvider({
     required double lon,
@@ -162,7 +163,7 @@ class FetchActivitiesFromAPIProvider extends FutureProvider<List<ApiActivity>> {
   }
 
   @override
-  FutureProviderElement<List<ApiActivity>> createElement() {
+  AutoDisposeFutureProviderElement<List<ApiActivity>> createElement() {
     return _FetchActivitiesFromAPIProviderElement(this);
   }
 
@@ -185,7 +186,8 @@ class FetchActivitiesFromAPIProvider extends FutureProvider<List<ApiActivity>> {
   }
 }
 
-mixin FetchActivitiesFromAPIRef on FutureProviderRef<List<ApiActivity>> {
+mixin FetchActivitiesFromAPIRef
+    on AutoDisposeFutureProviderRef<List<ApiActivity>> {
   /// The parameter `lon` of this provider.
   double get lon;
 
@@ -197,7 +199,7 @@ mixin FetchActivitiesFromAPIRef on FutureProviderRef<List<ApiActivity>> {
 }
 
 class _FetchActivitiesFromAPIProviderElement
-    extends FutureProviderElement<List<ApiActivity>>
+    extends AutoDisposeFutureProviderElement<List<ApiActivity>>
     with FetchActivitiesFromAPIRef {
   _FetchActivitiesFromAPIProviderElement(super.provider);
 

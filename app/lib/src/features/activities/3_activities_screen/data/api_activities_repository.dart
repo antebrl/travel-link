@@ -20,13 +20,14 @@ class ApiActivitiesRepository {
       required Set<String> categories}) async {
     final String categoriesString = categories.join(',');
     final String url =
-        '${CustomApiConstants.placesBaseURL}?categories=$categoriesString&filter=circle:$lon,$lat,5000&apiKey=${CustomApiConstants.geoapifySecretKey}&limit=50';
+        '${CustomApiConstants.placesBaseURL}?categories=$categoriesString&filter=circle:$lon,$lat,5000&apiKey=${CustomApiConstants.geoapifySecretKey}&limit=500';
     final response = await http.get(Uri.parse(url));
 
     if (response.statusCode == 200) {
       final destinations =
           json.decode(response.body)['features'] as List<dynamic>;
-      logger.d(destinations);
+      //logger.d(destinations);
+      logger.d('Loaded all');
 
       return destinations
           .map(
@@ -51,7 +52,7 @@ ApiActivitiesRepository apiActivitiesRepository(
         ApiActivitiesRepositoryRef ref) =>
     ApiActivitiesRepository();
 
-@Riverpod(keepAlive: true)
+@riverpod
 Future<List<ApiActivity>> fetchActivitiesFromAPI(
   FetchActivitiesFromAPIRef ref, {
   required double lon,
