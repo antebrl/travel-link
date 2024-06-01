@@ -31,7 +31,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
   Future<Iterable<Destination>> getDestinationSuggestion(String input) async {
     // TODO: Request with language code
     final String request =
-        '${CustomApiConstants.autocompleteBaseURL}?text=$input&apiKey=${CustomApiConstants.geoapifySecretKey}&limit=3&format=json';
+        '${CustomApiConstants.autocompleteBaseURL}?type=city&text=$input&apiKey=${CustomApiConstants.geoapifySecretKey}&limit=3&format=json';
     final response = await http.get(Uri.parse(request));
 
     if (response.statusCode == 200) {
@@ -127,6 +127,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                       Autocomplete<Destination>(
                         optionsBuilder:
                             (TextEditingValue textEditingValue) async {
+
                           _queryDestination = textEditingValue.text;
                           if (_queryDestination == '') {
                             return const Iterable<Destination>.empty();
@@ -135,6 +136,9 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                               await getDestinationSuggestion(
                             _queryDestination!,
                           );
+
+                          if(_queryDestination == _selectedDestination?.formatted) 
+                            return [];
                   
                           // If the query has changed, don't update and wait for next options build
                           if (_queryDestination != textEditingValue.text) {
@@ -160,8 +164,6 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                               onFieldSubmitted();
                             },
                             decoration: InputDecoration(
-                              labelText:
-                                  null, // Setze den Platzhaltertext auf null
                               hintText:
                                   'City...', // Nutze hintText statt labelText
                               fillColor: CustomColors.white,
