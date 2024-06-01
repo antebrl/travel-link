@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:http/http.dart' as http;
 import 'package:travel_link/src/common_widgets/calendar_popup_view.dart';
+import 'package:travel_link/src/features/activities/3_activities_screen/domain/api_activity.dart';
 import 'package:travel_link/src/features/activities/3_activities_screen/presentation/activities_api_screen.dart';
 import 'package:travel_link/src/features/my_trips/data/my_trips_repository.dart';
 import 'package:travel_link/src/features/my_trips/domain/destination.dart';
@@ -25,7 +26,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
   String? _queryDestination;
   late Iterable<Destination> _destinationSuggestions = <Destination>[];
   Destination? _selectedDestination;
-  Set<String> _categoryList = {'education'};
+  Set<String> _categoryList = {};
 
   Future<Iterable<Destination>> getDestinationSuggestion(String input) async {
     // TODO: Request with language code
@@ -154,6 +155,38 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
               },
             ),
           ),
+          const SizedBox(height: 15),
+          Wrap(
+            alignment: WrapAlignment.spaceEvenly,
+            spacing: 40,
+            runSpacing: 10,
+            children: activityTypes.map((type) {
+              return FilterChip(
+                selectedColor: CustomColors.primary,
+                backgroundColor: CustomColors.white,
+                side: const BorderSide(color: CustomColors.primary),
+                label: Text(
+                  type,
+                  style: TextStyle(
+                    color: _categoryList.contains(type)
+                        ? CustomColors.white
+                        : CustomColors.textPrimary,
+                  ),
+                ),
+                selected: _categoryList.contains(type),
+                onSelected: (bool selected) {
+                  setState(() {
+                    if (selected) {
+                      _categoryList.add(type);
+                    } else {
+                      _categoryList.remove(type);
+                    }
+                  });
+                },
+              );
+            }).toList(),
+          ),
+          const SizedBox(height: 15),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: ElevatedButton(

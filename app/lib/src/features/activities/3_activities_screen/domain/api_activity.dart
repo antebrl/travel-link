@@ -1,4 +1,4 @@
-class ApiActivity{
+class ApiActivity {
   ApiActivity({
     required this.name,
     required this.country,
@@ -34,13 +34,20 @@ class ApiActivity{
   String imagePath;
 
   static ApiActivity? fromMap(Map<String, dynamic> map) {
-    if (!(map.containsKey('name') && 
-          map.containsKey('country') &&
-          map.containsKey('country_code') &&
-          map.containsKey('city') &&
-          map.containsKey('lon') &&
-          map.containsKey('lat') &&
-          map.containsKey('formatted'))) {
+    if (!(map.containsKey('name') &&
+            map.containsKey('country') &&
+            map.containsKey('country_code') &&
+            map.containsKey('city') &&
+            map.containsKey('lon') &&
+            map.containsKey('lat') &&
+            map.containsKey('formatted')
+        // Don´t load activities with no wiki_and_media entry
+        // &&
+        // map.containsKey('wiki_and_media') &&
+        // (map['wiki_and_media'] as Map<String, dynamic>)
+        //     .containsKey('wikipedia')
+        ) ||
+        map['name'] is int) {
       return null;
     }
 
@@ -69,3 +76,17 @@ class ApiActivity{
     );
   }
 }
+
+Set<String> activityTypes = {
+  'accommodation',
+  'activity',
+  'catering',
+  'education',
+  'entertainment',
+  'leisure',
+  'natural',
+  'tourism',
+  'religion',
+  'camping',
+  'sport',
+};
