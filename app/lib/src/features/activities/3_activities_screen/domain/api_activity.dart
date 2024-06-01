@@ -78,15 +78,15 @@ class ApiActivity {
 }
 
 Set<String> activityTypes = {
-  'accommodation',
+  'entertainment',
   'activity',
   'catering',
   'education',
-  'entertainment',
   'leisure',
   'natural',
   'tourism',
   'religion',
   'camping',
   'sport',
+  'accommodation',
 };
