@@ -36,9 +36,9 @@ class _APIActivitiesScreenState extends ConsumerState<APIActivitiesScreen> {
         print(trips.length);
         //Sort activities: With wiki_and_media entry at the top
         trips.sort((a, b) {
-          if (a.wikipediaUrl != null && b.wikipediaUrl == null) {
+          if (a.wikidataUrl != null && b.wikidataUrl == null) {
             return -1; // a should come before b
-          } else if (a.wikipediaUrl == null && b.wikipediaUrl != null) {
+          } else if (a.wikidataUrl == null && b.wikidataUrl != null) {
             return 1; // b should come before a
           } else {
             return 0; // a and b are equal in terms of sorting

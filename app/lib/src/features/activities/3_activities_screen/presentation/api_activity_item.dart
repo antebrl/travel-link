@@ -16,9 +16,9 @@ class APIActivityItem extends StatefulWidget {
 }
 
 class _APIActivityItemState extends State<APIActivityItem> {
-  late Future<String?> _imageFuture;
+  late Future<List<String>?> _imageFuture;
   String formattedLink = '';
-  static final Map<String, String> _imageCache = {}; // Cache für Bilder
+  static final Map<String, List<String>> _imageCache = {}; // Cache für Bilder
   @override
   void initState() {
     super.initState();
@@ -26,42 +26,51 @@ class _APIActivityItemState extends State<APIActivityItem> {
     if (_imageCache.containsKey(widget.activity.name)) {
       final imageName = _imageCache[widget.activity.name];
       if (imageName != null) {
-        setState(() {
-          widget.activity.imagePath = imageName; // Aktualisiere den Bildnamen
-        });
+        widget.activity.imagePaths = imageName;
       }
       _imageFuture =
           Future.value(imageName); // Verwende den Bildnamen für die Future
     } else {
       // Load a placeholder image for places without a wikipedia link
-      _imageFuture = widget.activity.wikipediaUrl != null
-          ? fetchImage(widget.activity.wikipediaUrl!, widget.activity.name)
-          : Future.value(
+      _imageFuture = widget.activity.wikidataUrl != null
+          ? fetchImageAndDescription(widget.activity.wikidataUrl!, widget.activity.name,  widget.activity.wikidataId!)
+          : Future.value([
               'https://corsproxy.io/?https://via.placeholder.com/150',
-            );
+            ]);
     }
   }
 
-  Future<String?> fetchImage(String formattedLink, String activityName) async {
+  Future<List<String>?> fetchImageAndDescription(String formattedLink, String activityName, String wikidataId) async {
     final response = await http.get(Uri.parse(formattedLink));
     final Map<String, dynamic> data =
         json.decode(response.body) as Map<String, dynamic>;
-    final pages = data['query']['pages'];
-    final pageId = pages.keys.first;
-    if (!(pages[pageId] as Map<String, dynamic>).containsKey('thumbnail')) {
-      return null;
-    }
-    final String imageUrl = pages[pageId]['thumbnail']['source'] as String;
 
-    // Speichere den Bildnamen im Cache
-    _imageCache[activityName] = imageUrl;
+    final descriptions = data['entities'][wikidataId]['descriptions'];
+    //TODO: Check if description is available in other languages
+    final description = descriptions['en'] != null ? descriptions['en']['value'] : 'No description available';
+
+
+    // Extract images (P18 is the property for images in Wikidata)
+    final claims = data['entities'][wikidataId]['claims'] as Map<String, dynamic>;
+    final imageUrls = <String>[];
+    if (claims.containsKey('P18')) {
+      for (var claim in claims['P18'] as List) {
+        final imageFile = claim['mainsnak']['datavalue']['value'] as String;
+
+        // Construct the image URL
+        final imageUrl = 'https://commons.wikimedia.org/w/index.php?title=Special:Redirect/file/${imageFile.replaceAll(' ', '_')}';
+
+        imageUrls.add(imageUrl);
+      }
+    }
+
+    // Store image name in cache
+    _imageCache[activityName] = imageUrls;
 
     // Aktualisiere den Bildnamen in der Activity-Instanz
-    setState(() {
-      widget.activity.imagePath = imageUrl;
-    });
+    widget.activity.imagePaths = imageUrls;
 
-    return imageUrl;
+    return imageUrls;
   }
 
   @override
@@ -89,7 +98,7 @@ class _APIActivityItemState extends State<APIActivityItem> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            FutureBuilder<String?>(
+            FutureBuilder<List<String>?>(
               future: _imageFuture,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
@@ -113,7 +122,7 @@ class _APIActivityItemState extends State<APIActivityItem> {
                           topRight: Radius.circular(10),
                         ),
                         child: Image.network(
-                          snapshot.data!,
+                          snapshot.data![0],
                           height: 125,
                           width: double.infinity,
                           fit: BoxFit.cover,
