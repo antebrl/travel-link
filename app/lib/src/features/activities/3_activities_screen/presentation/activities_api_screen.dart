@@ -4,6 +4,7 @@ import 'package:travel_link/src/features/activities/3_activities_screen/data/api
 import 'package:travel_link/src/features/activities/3_activities_screen/presentation/api_activity_item.dart';
 import 'package:travel_link/src/features/my_trips/domain/destination.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
+import 'package:travel_link/src/utils/helpers/helper_functions.dart';
 import 'package:travel_link/src/utils/logging/logger.dart';
 
 class APIActivitiesScreen extends ConsumerStatefulWidget {
@@ -44,76 +45,86 @@ class _APIActivitiesScreenState extends ConsumerState<APIActivitiesScreen> {
             return 0; // a and b are equal in terms of sorting
           }
         });
-        return Scaffold(
-          appBar: AppBar(
-            title: const Text(
-              'Explore Activities!',
+        return DefaultTabController(
+          length: 2,
+          child: Scaffold(
+            appBar: AppBar(
+              title: const Text(
+                'Explore Activities!',
+              ),
+              bottom: TabBar(
+                isScrollable: false,
+                indicatorColor: CustomColors.primary,
+                unselectedLabelColor: CustomColors.darkGrey,
+                labelColor: CustomHelperFunctions.isDarkMode(context)
+                    ? CustomColors.white
+                    : CustomColors.primary,
+                tabs: const [
+                  Tab(
+                    child: Text('Search'),
+                  ),
+                  Tab(
+                    child: Text('Map'),
+                  ),
+                ],
+              ),
             ),
-          ),
-          body: CustomScrollView(
-            slivers: [
-              SliverToBoxAdapter(
-                child: Column(
-                  children: [
-                    const SizedBox(height: 15),
-                    Text(
-                      'Activities in ${widget.destination.formatted}',
-                      style: Theme.of(context)
-                          .textTheme
-                          .headlineSmall!
-                          .copyWith(color: CustomColors.primary),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: Wrap(
-                        alignment: WrapAlignment.spaceAround,
-                        spacing: 10.0, // Abstand zwischen den Chips
-                        runSpacing: 5.0, // Abstand zwischen den Zeilen
-                        children: widget.categoryList.map((category) {
-                          return Chip(
-                            side: const BorderSide(color: CustomColors.primary),
-                            backgroundColor: CustomColors.white,
-                            labelStyle:
-                                const TextStyle(color: CustomColors.primary),
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 12, vertical: 12),
-                            label: Text(
-                              category,
-                              style:
-                                  const TextStyle(color: CustomColors.primary),
+            body: TabBarView(
+              children: [
+                CustomScrollView(
+                  slivers: [
+                    SliverToBoxAdapter(
+                      child: Column(
+                        children: [
+                          const SizedBox(height: 15),
+                          Text(
+                            'Activities in ${widget.destination.formatted}',
+                            style: Theme.of(context)
+                                .textTheme
+                                .headlineSmall!
+                                .copyWith(color: CustomColors.primary),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(10),
+                            child: Wrap(
+                              alignment: WrapAlignment.spaceAround,
+                              spacing: 10.0, // Abstand zwischen den Chips
+                              runSpacing: 5.0, // Abstand zwischen den Zeilen
+                              children: widget.categoryList.map((category) {
+                                return Chip(
+                                  side: const BorderSide(
+                                      color: CustomColors.primary),
+                                  backgroundColor: CustomColors.white,
+                                  labelStyle: const TextStyle(
+                                      color: CustomColors.primary),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 12, vertical: 12),
+                                  label: Text(
+                                    category,
+                                    style: const TextStyle(
+                                        color: CustomColors.primary),
+                                  ),
+                                );
+                              }).toList(),
                             ),
-                          );
-                        }).toList(),
+                          ),
+                        ],
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        left: 10,
-                        right: 10,
-                        bottom: 10,
-                      ),
-                      child: TextField(
-                        onChanged: (string) {},
-                        decoration: const InputDecoration(
-                          labelText: 'Search activities...',
-                          border: OutlineInputBorder(),
-                          prefixIcon: Icon(Icons.search),
+                    SliverList(
+                      delegate: SliverChildBuilderDelegate(
+                        (context, index) => APIActivityItem(
+                          key: UniqueKey(),
+                          activity: trips[index],
                         ),
+                        childCount: trips.length,
                       ),
                     ),
                   ],
                 ),
-              ),
-              SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  (context, index) => APIActivityItem(
-                    key: UniqueKey(),
-                    activity: trips[index],
-                  ),
-                  childCount: trips.length,
-                ),
-              ),
-            ],
+                Text('Map'),
+              ],
+            ),
           ),
         );
       },
