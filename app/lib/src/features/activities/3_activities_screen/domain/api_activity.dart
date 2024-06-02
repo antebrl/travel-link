@@ -8,11 +8,13 @@ class ApiActivity {
     required this.lat,
     required this.formatted,
     required this.categories,
-    this.wikipediaUrl,
+    this.wikidataUrl,
+    this.wikidataId, 
     this.openingHours,
     this.website,
     this.placeId,
-    this.imagePath = '',
+    this.imagePaths = const [],
+    this.description = '',
   });
 
   final String name;
@@ -25,13 +27,15 @@ class ApiActivity {
 
   final List<String> categories;
 
-  final String? wikipediaUrl;
+  final String? wikidataUrl;
+  final String? wikidataId;
 
   final String? openingHours;
   final String? website;
   final String? placeId;
 
-  String imagePath;
+  List<String> imagePaths;
+  String description;
 
   static ApiActivity? fromMap(Map<String, dynamic> map) {
     if (!(map.containsKey('name') &&
@@ -41,23 +45,18 @@ class ApiActivity {
             map.containsKey('lon') &&
             map.containsKey('lat') &&
             map.containsKey('formatted')
-        // Don´t load activities with no wiki_and_media entry
-        // &&
-        // map.containsKey('wiki_and_media') &&
-        // (map['wiki_and_media'] as Map<String, dynamic>)
-        //     .containsKey('wikipedia')
         ) ||
         map['name'] is int) {
       return null;
     }
 
-    String? wikipediaUrl;
+    String? wikidataUrl, wikidataId;
     if (map.containsKey('wiki_and_media') &&
         (map['wiki_and_media'] as Map<String, dynamic>)
-            .containsKey('wikipedia')) {
-      final wikipediaData = map['wiki_and_media']!['wikipedia']!.split(':');
-      wikipediaUrl =
-          'https://${wikipediaData[0]}.wikipedia.org/w/api.php?action=query&titles=${wikipediaData[1].replaceAll(' ', '_')}&prop=pageimages&format=json&pithumbsize=1000';
+            .containsKey('wikidata')) {
+      wikidataId = map['wiki_and_media']['wikidata'] as String;
+      wikidataUrl =
+          'https://www.wikidata.org/w/api.php?action=wbgetentities&ids=$wikidataId&format=json&props=descriptions|claims';
     }
 
     return ApiActivity(
@@ -69,7 +68,8 @@ class ApiActivity {
       lat: map['lat'] as double,
       formatted: map['formatted'] as String,
       categories: (map['categories'] as List<dynamic>).cast<String>(),
-      wikipediaUrl: wikipediaUrl,
+      wikidataUrl: wikidataUrl,
+      wikidataId: wikidataId,
       openingHours: map['opening_hours'] as String?,
       website: map['website'] as String?,
       placeId: map['place_id'] as String?,
