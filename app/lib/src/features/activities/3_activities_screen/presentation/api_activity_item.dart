@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:travel_link/src/features/activities/3_activities_screen/domain/api_activity.dart';
+import 'package:travel_link/src/features/activities/5_activities_details_screen/api_activities_details_screen.dart';
 import 'package:travel_link/src/routing/app_router.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
 import 'package:travel_link/src/utils/theme/widget_themes/text_theme.dart';
@@ -67,10 +68,17 @@ class _APIActivityItemState extends State<APIActivityItem> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => context.pushNamed(
-        ActivitiesRoutes.activityDetails.name,
-        extra: widget.activity,
-      ),
+      onTap: () {
+        // => context.pushNamed(
+        //   ActivitiesRoutes.ApiActivitiesDetailsScreen.name,
+        //   extra: widget.activity,
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (BuildContext context) =>
+                ApiActivitiesDetailsScreen(activity: widget.activity),
+          ),
+        );
+      },
       child: Container(
         width: MediaQuery.of(context).size.width,
         margin: const EdgeInsets.only(left: 20, top: 5, bottom: 15, right: 20),
