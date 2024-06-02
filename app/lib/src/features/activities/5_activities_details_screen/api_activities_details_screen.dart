@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:travel_link/src/features/activities/3_activities_screen/domain/activity.dart';
 import 'package:travel_link/src/features/activities/3_activities_screen/domain/api_activity.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
 
@@ -64,7 +63,8 @@ class ApiActivitiesDetailsScreen extends StatelessWidget {
             right: 0,
             height: 250, // Höhe des Bildes anpassen
             child: Image.network(
-              activity.imagePath,
+              //check edge cases: imagePaths == null && imagePaths.isEmpty -> load placeholder
+              activity.imagePaths[0], //load all images
               height: 200,
               width: double.infinity,
               fit: BoxFit.fill,
@@ -125,7 +125,10 @@ class ApiActivitiesDetailsScreen extends StatelessWidget {
                                     .bodyLarge!
                                     .copyWith(color: CustomColors.primary),
                               ),
-                              //Text(activity.),
+                              Text(
+                                  activity.description, 
+                                  style: Theme.of(context).textTheme.bodyLarge,
+                                ),
                               const SizedBox(height: 10),
                               if (activity.openingHours != null) ...[
                                 Text(

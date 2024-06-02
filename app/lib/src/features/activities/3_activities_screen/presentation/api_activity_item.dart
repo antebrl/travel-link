@@ -1,13 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:http/http.dart' as http;
 import 'package:travel_link/src/features/activities/3_activities_screen/domain/api_activity.dart';
 import 'package:travel_link/src/features/activities/5_activities_details_screen/api_activities_details_screen.dart';
-import 'package:travel_link/src/routing/app_router.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
 import 'package:travel_link/src/utils/helpers/crypto.dart';
 import 'package:travel_link/src/utils/theme/widget_themes/text_theme.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 
 class APIActivityItem extends StatefulWidget {
   const APIActivityItem({required this.activity, super.key});
@@ -87,7 +86,7 @@ class _APIActivityItemState extends State<APIActivityItem> {
         //   ActivitiesRoutes.ApiActivitiesDetailsScreen.name,
         //   extra: widget.activity,
         Navigator.of(context).push(
-          MaterialPageRoute(
+          MaterialPageRoute<ApiActivitiesDetailsScreen>(
             builder: (BuildContext context) =>
                 ApiActivitiesDetailsScreen(activity: widget.activity),
           ),
