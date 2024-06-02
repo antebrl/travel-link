@@ -141,7 +141,7 @@ class _ActivitiesScreenState extends ConsumerState<ActivitiesScreen> {
                 IconButton(
                   onPressed: () async {
                     final result = await Navigator.of(context).push(
-                      MaterialPageRoute(
+                      MaterialPageRoute<ActivitiesFilterScreen>(
                         builder: (BuildContext context) =>
                             ActivitiesFilterScreen(
                           continent: widget.continent,

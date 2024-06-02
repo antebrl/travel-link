@@ -1,12 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:http/http.dart' as http;
 import 'package:travel_link/src/features/activities/3_activities_screen/domain/api_activity.dart';
 import 'package:travel_link/src/features/activities/5_activities_details_screen/api_activities_details_screen.dart';
-import 'package:travel_link/src/routing/app_router.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
+import 'package:travel_link/src/utils/helpers/crypto.dart';
 import 'package:travel_link/src/utils/theme/widget_themes/text_theme.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 
 class APIActivityItem extends StatefulWidget {
   const APIActivityItem({required this.activity, super.key});
@@ -17,9 +17,9 @@ class APIActivityItem extends StatefulWidget {
 }
 
 class _APIActivityItemState extends State<APIActivityItem> {
-  late Future<String?> _imageFuture;
+  late Future<List<String>?> _imageFuture;
   String formattedLink = '';
-  static final Map<String, String> _imageCache = {}; // Cache für Bilder
+  static final Map<String, List<String>> _imageCache = {}; // Cache für Bilder
   @override
   void initState() {
     super.initState();
@@ -27,42 +27,55 @@ class _APIActivityItemState extends State<APIActivityItem> {
     if (_imageCache.containsKey(widget.activity.name)) {
       final imageName = _imageCache[widget.activity.name];
       if (imageName != null) {
-        setState(() {
-          widget.activity.imagePath = imageName; // Aktualisiere den Bildnamen
-        });
+        widget.activity.imagePaths = imageName;
       }
       _imageFuture =
           Future.value(imageName); // Verwende den Bildnamen für die Future
     } else {
       // Load a placeholder image for places without a wikipedia link
-      _imageFuture = widget.activity.wikipediaUrl != null
-          ? fetchImage(widget.activity.wikipediaUrl!, widget.activity.name)
-          : Future.value(
+      _imageFuture = widget.activity.wikidataUrl != null
+          ? fetchImageAndDescription(widget.activity.wikidataUrl!, widget.activity.name,  widget.activity.wikidataId!)
+          : Future.value([
               'https://corsproxy.io/?https://via.placeholder.com/150',
-            );
+            ]);
     }
   }
 
-  Future<String?> fetchImage(String formattedLink, String activityName) async {
-    final response = await http.get(Uri.parse(formattedLink));
+  Future<List<String>?> fetchImageAndDescription(String formattedLink, String activityName, String wikidataId) async {
+    final response = await http.get(Uri.parse('https://corsproxy.io/?$formattedLink'));
     final Map<String, dynamic> data =
         json.decode(response.body) as Map<String, dynamic>;
-    final pages = data['query']['pages'];
-    final pageId = pages.keys.first;
-    if (!(pages[pageId] as Map<String, dynamic>).containsKey('thumbnail')) {
-      return null;
-    }
-    final String imageUrl = pages[pageId]['thumbnail']['source'] as String;
 
-    // Speichere den Bildnamen im Cache
-    _imageCache[activityName] = imageUrl;
+    final descriptions = data['entities'][wikidataId]['descriptions'];
+    //TODO: Check if description is available in other languages
+    if(descriptions['en'] != null) {
+      widget.activity.description = descriptions['en']['value'] as String;
+    }
+
+
+    // Extract images (P18 is the property for images in Wikidata)
+    final claims = data['entities'][wikidataId]['claims'] as Map<String, dynamic>;
+    final imageUrls = <String>[];
+    if (claims.containsKey('P18')) {
+      for (var claim in claims['P18'] as List) {
+        final imageName = claim['mainsnak']['datavalue']['value'] as String;
+        final imageFileName = imageName.replaceAll(' ', '_');
+        final imageNameHash = CryptoHelper.md5(imageFileName);
+
+        // Construct the image URL
+        final imageUrl = 'https://upload.wikimedia.org/wikipedia/commons/${imageNameHash[0]}/${imageNameHash.substring(0, 2)}/$imageFileName';
+
+        imageUrls.add(imageUrl);
+      }
+    }
+
+    // Store image name in cache
+    _imageCache[activityName] = imageUrls;
 
     // Aktualisiere den Bildnamen in der Activity-Instanz
-    setState(() {
-      widget.activity.imagePath = imageUrl;
-    });
+    widget.activity.imagePaths = imageUrls;
 
-    return imageUrl;
+    return imageUrls;
   }
 
   @override
@@ -73,7 +86,7 @@ class _APIActivityItemState extends State<APIActivityItem> {
         //   ActivitiesRoutes.ApiActivitiesDetailsScreen.name,
         //   extra: widget.activity,
         Navigator.of(context).push(
-          MaterialPageRoute(
+          MaterialPageRoute<ApiActivitiesDetailsScreen>(
             builder: (BuildContext context) =>
                 ApiActivitiesDetailsScreen(activity: widget.activity),
           ),
@@ -97,14 +110,14 @@ class _APIActivityItemState extends State<APIActivityItem> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            FutureBuilder<String?>(
+            FutureBuilder<List<String>?>(
               future: _imageFuture,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const CircularProgressIndicator();
                 } else if (snapshot.hasError) {
                   return Text('Fehler: ${snapshot.error}');
-                } else if (snapshot.data == null) {
+                } else if (snapshot.data == null || snapshot.data!.isEmpty) {
                   return Image.network(
                     //Wikipedia entry but no picture
                     'https://corsproxy.io/?https://via.placeholder.com/150',
@@ -121,7 +134,7 @@ class _APIActivityItemState extends State<APIActivityItem> {
                           topRight: Radius.circular(10),
                         ),
                         child: Image.network(
-                          snapshot.data!,
+                          snapshot.data![0],
                           height: 125,
                           width: double.infinity,
                           fit: BoxFit.cover,

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:travel_link/src/features/activities/3_activities_screen/presentation/activities_api_screen.dart';
 import 'package:travel_link/src/features/checklists/presentation/checklists_screen.dart';
 import 'package:travel_link/src/features/explore_trips/domain/trip.dart';
 import 'package:travel_link/src/features/map/presentation/trip_map_screen.dart';
-import 'package:travel_link/src/features/trip_overview/presentation/plan/destination_activities_screen.dart';
 
 class TripPlanningScreen extends StatelessWidget {
   const TripPlanningScreen({required this.trip, super.key});
@@ -120,7 +120,7 @@ class TripPlanningScreen extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute<ChecklistsScreen>(
-                builder: (context) => DestinationActivitiesScreen(lon: trip.destination.lon, lat: trip.destination.lat),
+                builder: (context) => APIActivitiesScreen(destination: trip.destination, categoryList: {'entertainment'},),
               ),
             );
           },
