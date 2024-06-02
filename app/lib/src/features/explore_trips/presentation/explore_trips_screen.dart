@@ -24,6 +24,7 @@ class _ExploreTripsScreenState extends ConsumerState<ExploreTripsScreen> {
 
     return Scaffold(
       appBar: AppBar(
+        toolbarHeight: 80,
         titleSpacing: 0,
         centerTitle: true,
         title: Column(
@@ -56,7 +57,7 @@ class _ExploreTripsScreenState extends ConsumerState<ExploreTripsScreen> {
         elevation: 0,
         leadingWidth: 90,
         leading: Padding(
-          padding: const EdgeInsets.fromLTRB(10, 5, 5, 0),
+          padding: const EdgeInsets.fromLTRB(10, 15, 5, 0),
           child: Align(
             alignment: Alignment.bottomLeft,
             child: GestureDetector(
@@ -83,7 +84,7 @@ class _ExploreTripsScreenState extends ConsumerState<ExploreTripsScreen> {
         ),
         actions: [
           Padding(
-            padding: const EdgeInsets.fromLTRB(5, 5, 10, 0),
+            padding: const EdgeInsets.fromLTRB(5, 15, 10, 0),
             child: Align(
               alignment: Alignment.bottomRight,
               child: GestureDetector(
@@ -113,7 +114,7 @@ class _ExploreTripsScreenState extends ConsumerState<ExploreTripsScreen> {
         data: (tripsList) => CarouselSlider(
           carouselController: carouselController,
           options: CarouselOptions(
-              viewportFraction: 0.8,
+              viewportFraction: 0.83,
               enlargeFactor: 0.25,
               enlargeCenterPage: true,
               height: 700,
