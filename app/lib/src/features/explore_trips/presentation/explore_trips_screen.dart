@@ -124,7 +124,6 @@ class _ExploreTripsScreenState extends ConsumerState<ExploreTripsScreen> {
               }),
           items: tripsList.map((i) {
             return PublicTripCard(
-              onTap: () {},
               trip: i,
             );
           }).toList(),
