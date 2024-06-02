@@ -9,6 +9,7 @@ import 'package:travel_link/src/features/activities/3_activities_screen/presenta
 import 'package:travel_link/src/features/activities/5_activities_details_screen/activities_details_screen.dart';
 import 'package:travel_link/src/features/authentication/data/firebase_auth_repository.dart';
 import 'package:travel_link/src/features/authentication/presentation/custom_sign_in_screen.dart';
+import 'package:travel_link/src/features/explore_trips/presentation/explore_trips_screen.dart';
 import 'package:travel_link/src/features/explore_trips/presentation/trips_screen.dart';
 import 'package:travel_link/src/features/my_trips/presentation/my_trips_screen.dart';
 import 'package:travel_link/src/features/trip_overview/presentation/trip_overview_screen.dart';
@@ -118,7 +119,7 @@ GoRouter goRouter(GoRouterRef ref) {
                 name: TopLevelDestinations.trips.name,
                 pageBuilder: (context, state) => NoTransitionPage(
                   key: state.pageKey,
-                  child: const TripsScreen(),
+                  child: const ExploreTripsScreen(),
                 ),
                 routes: [
                   GoRoute(
