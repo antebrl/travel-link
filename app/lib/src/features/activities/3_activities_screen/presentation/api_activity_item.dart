@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:travel_link/src/features/activities/3_activities_screen/domain/api_activity.dart';
 import 'package:travel_link/src/routing/app_router.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
+import 'package:travel_link/src/utils/helpers/crypto.dart';
 import 'package:travel_link/src/utils/theme/widget_themes/text_theme.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -41,13 +42,15 @@ class _APIActivityItemState extends State<APIActivityItem> {
   }
 
   Future<List<String>?> fetchImageAndDescription(String formattedLink, String activityName, String wikidataId) async {
-    final response = await http.get(Uri.parse(formattedLink));
+    final response = await http.get(Uri.parse('https://corsproxy.io/?$formattedLink'));
     final Map<String, dynamic> data =
         json.decode(response.body) as Map<String, dynamic>;
 
     final descriptions = data['entities'][wikidataId]['descriptions'];
     //TODO: Check if description is available in other languages
-    final description = descriptions['en'] != null ? descriptions['en']['value'] : 'No description available';
+    if(descriptions['en'] != null) {
+      widget.activity.description = descriptions['en']['value'] as String;
+    }
 
 
     // Extract images (P18 is the property for images in Wikidata)
@@ -55,10 +58,12 @@ class _APIActivityItemState extends State<APIActivityItem> {
     final imageUrls = <String>[];
     if (claims.containsKey('P18')) {
       for (var claim in claims['P18'] as List) {
-        final imageFile = claim['mainsnak']['datavalue']['value'] as String;
+        final imageName = claim['mainsnak']['datavalue']['value'] as String;
+        final imageFileName = imageName.replaceAll(' ', '_');
+        final imageNameHash = CryptoHelper.md5(imageFileName);
 
         // Construct the image URL
-        final imageUrl = 'https://commons.wikimedia.org/w/index.php?title=Special:Redirect/file/${imageFile.replaceAll(' ', '_')}';
+        final imageUrl = 'https://upload.wikimedia.org/wikipedia/commons/${imageNameHash[0]}/${imageNameHash.substring(0, 2)}/$imageFileName';
 
         imageUrls.add(imageUrl);
       }
@@ -105,7 +110,7 @@ class _APIActivityItemState extends State<APIActivityItem> {
                   return const CircularProgressIndicator();
                 } else if (snapshot.hasError) {
                   return Text('Fehler: ${snapshot.error}');
-                } else if (snapshot.data == null) {
+                } else if (snapshot.data == null || snapshot.data!.isEmpty) {
                   return Image.network(
                     //Wikipedia entry but no picture
                     'https://corsproxy.io/?https://via.placeholder.com/150',

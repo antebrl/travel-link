@@ -54,6 +54,7 @@ dependencies:
   country_picker: ^2.0.26
   carousel_slider: ^4.2.1
   flutter_image_stack: ^0.0.7
+  crypto: ^3.0.3
 
 dev_dependencies:
   flutter_test:
