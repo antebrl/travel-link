@@ -37,7 +37,7 @@ class MyTripsController extends _$MyTripsController {
               .containsKey('wikidata')) {
         final wikidataId = placeDetails['wiki_and_media']['wikidata'] as String;
         final wikidataUrl =
-            'https://www.wikidata.org/w/api.php?action=wbgetentities&ids=$wikidataId&format=json&props=claims';
+            'https://www.wikidata.org/w/api.php?action=wbgetentities&ids=$wikidataId&format=json&props=claims&origin=*';
 
         //fetch wikidata to get ImageURLs
         final response = await http.get(Uri.parse(wikidataUrl));

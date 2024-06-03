@@ -121,39 +121,41 @@ class PublicTripCard extends ConsumerWidget {
                       ],
                     ),
                     const SizedBox(height: 10),
-                    RichText(
-                      //Trip description
-                      text: TextSpan(
-                        style: TextStyle(
-                          color: Colors.grey.shade800,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w200,
+                    Center(
+                      child: RichText(
+                        //Trip description
+                        text: TextSpan(
+                          style: TextStyle(
+                            color: Colors.grey.shade800,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w200,
+                          ),
+                          children: [
+                            const TextSpan(
+                              text: '„',
+                              style: TextStyle(
+                                fontSize: 27,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.blue,
+                              ),
+                            ),
+                            TextSpan(
+                              text: trip.description,
+                            ),
+                            const TextSpan(
+                              text: '”',
+                              style: TextStyle(
+                                fontSize: 27,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.blue,
+                              ),
+                            ),
+                          ],
                         ),
-                        children: [
-                          const TextSpan(
-                            text: '„',
-                            style: TextStyle(
-                              fontSize: 27,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.blue,
-                            ),
-                          ),
-                          TextSpan(
-                            text: trip.description,
-                          ),
-                          const TextSpan(
-                            text: '”',
-                            style: TextStyle(
-                              fontSize: 27,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.blue,
-                            ),
-                          ),
-                        ],
+                        maxLines: 4,
+                        textAlign: TextAlign.center,
+                        overflow: TextOverflow.ellipsis,
                       ),
-                      maxLines: 4,
-                      textAlign: TextAlign.center,
-                      overflow: TextOverflow.ellipsis,
                     ),
                     const SizedBox(height: 15),
                     Center(
