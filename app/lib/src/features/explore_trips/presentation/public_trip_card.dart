@@ -147,12 +147,12 @@ class PublicTripCard extends ConsumerWidget {
                               color: Colors.blue.shade600.withOpacity(0.8),
                               spreadRadius: 0.1,
                               blurRadius: 20,
-                              offset: const Offset(1, 5),
+                              offset: const Offset(1, 8),
                             ),
                           ],
-                          image: const DecorationImage(
+                          image: DecorationImage(
                             image: NetworkImage(
-                              'https://media.istockphoto.com/id/1998131648/de/foto/altstadt-von-burghausen-mit-burgberg.jpg?s=1024x1024&w=is&k=20&c=nvlz0e9DkNmf4_84ahASlYZVnGN-7NTKm9L3zppAOZI=',
+                              trip.images[0] ?? 'https://media.istockphoto.com/id/1998131648/de/foto/altstadt-von-burghausen-mit-burgberg.jpg?s=1024x1024&w=is&k=20&c=nvlz0e9DkNmf4_84ahASlYZVnGN-7NTKm9L3zppAOZI=',
                             ),
                             fit: BoxFit.cover,
                           ),

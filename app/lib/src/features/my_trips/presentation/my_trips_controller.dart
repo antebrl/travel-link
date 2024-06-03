@@ -40,7 +40,7 @@ class MyTripsController extends _$MyTripsController {
             'https://www.wikidata.org/w/api.php?action=wbgetentities&ids=$wikidataId&format=json&props=claims';
 
         //fetch wikidata to get ImageURLs
-        final response = await http.get(Uri.parse('https://corsproxy.io/?$wikidataUrl'));
+        final response = await http.get(Uri.parse(wikidataUrl));
         final Map<String, dynamic> data =
             json.decode(response.body) as Map<String, dynamic>;
 

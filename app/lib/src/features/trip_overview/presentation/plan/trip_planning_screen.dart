@@ -17,9 +17,12 @@ class TripPlanningScreen extends StatelessWidget {
         // Placeholder for picture
         Stack(
           children: [
-            Container(
-              height: 200,
-              color: Colors.grey,
+            Image.network(
+              //Wikipedia entry but no picture
+              trip.images[0],
+              height: 125,
+              width: double.infinity,
+              fit: BoxFit.cover,
             ),
             Positioned(
               bottom: 20,
@@ -120,7 +123,10 @@ class TripPlanningScreen extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute<ChecklistsScreen>(
-                builder: (context) => APIActivitiesScreen(destination: trip.destination, categoryList: {'entertainment'},),
+                builder: (context) => APIActivitiesScreen(
+                  destination: trip.destination,
+                  categoryList: {'entertainment'},
+                ),
               ),
             );
           },

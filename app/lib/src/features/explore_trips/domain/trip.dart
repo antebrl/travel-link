@@ -10,6 +10,7 @@ class Trip extends Equatable {
     required this.endDate,
     required this.destination,
     required this.participants,
+    required this.images,
     this.isPublic = false,
     this.maxParticipants,
     //required this.image,
@@ -22,6 +23,7 @@ class Trip extends Equatable {
   final DateTime? endDate;
   final Destination destination;
   final bool isPublic;
+  final List<String> images;
   final List<String> participants;
   final int? maxParticipants;
   //final String image;
@@ -36,6 +38,7 @@ class Trip extends Equatable {
         endDate,
         destination,
         isPublic,
+        images,
         participants,
         maxParticipants,
       ];
@@ -51,6 +54,7 @@ class Trip extends Equatable {
       endDate: (value['endDate'] as Timestamp?)?.toDate(),
       destination: Destination.fromMap(value['destination'] as Map<dynamic, dynamic>),
       isPublic: value['isPublic'] as bool,
+      images: (value['images'] as List<dynamic>).cast<String>(),
       participants: (value['participants'] as List<dynamic>).cast<String>(),
       maxParticipants: value['maxParticipants'] as int?,
     );
@@ -63,6 +67,7 @@ class Trip extends Equatable {
       'endDate': endDate != null ? Timestamp.fromDate(endDate!) : null,
       'destination': destination,
       'isPublic': isPublic,
+      'images': images,
       'participants': participants,
       'maxParticipants': maxParticipants,
     };
