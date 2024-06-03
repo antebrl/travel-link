@@ -27,6 +27,7 @@ class CreateTripScreenState extends ConsumerState<CreateTripScreen> {
   DateTime? _endDate;
   DateTime? _startDate;
   String? _name;
+  String? _description;
 
   final DestinationController _controller = DestinationController();
 
@@ -74,6 +75,7 @@ class CreateTripScreenState extends ConsumerState<CreateTripScreen> {
     final success =
         await ref.read(myTripsControllerProvider.notifier).createTrip(
               name: _name ?? '',
+              description: _description,
               destination: _controller.selectedDestination!,
               start: _startDate,
               end: _endDate,
@@ -90,11 +92,11 @@ class CreateTripScreenState extends ConsumerState<CreateTripScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
+    //final textTheme = Theme.of(context).textTheme;
     final state = ref.watch(myTripsControllerProvider);
     return DraggableScrollableSheet(
       expand: false,
-      initialChildSize: 0.62,
+      initialChildSize: 0.68,
       builder: (BuildContext context, ScrollController scrollController) {
         return SingleChildScrollView(
           controller: scrollController,
@@ -122,13 +124,27 @@ class CreateTripScreenState extends ConsumerState<CreateTripScreen> {
                       padding: const EdgeInsets.symmetric(horizontal: 18),
                       child: TextFormField(
                         onSaved: (value) => _name = value,
-                        maxLength: 30,
+                        maxLength: 20,
                         maxLengthEnforcement: MaxLengthEnforcement.enforced,
                         validator: (value) => (value ?? '').isNotEmpty
                             ? null
                             : "Name can't be empty",
                         decoration: const InputDecoration(
                           labelText: 'Name',
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 18),
+                      child: TextFormField(
+                        onSaved: (value) => _description = value,
+                        maxLength: 70,
+                        maxLengthEnforcement: MaxLengthEnforcement.enforced,
+                        validator: (value) => (value ?? '').isNotEmpty 
+                            ? null
+                            : _isPublic ? "Description can't be empty if the trip is public" : null,
+                        decoration: const InputDecoration(
+                          labelText: 'Description',
                         ),
                       ),
                     ),

@@ -17,9 +17,12 @@ class TripPlanningScreen extends StatelessWidget {
         // Placeholder for picture
         Stack(
           children: [
-            Container(
-              height: 200,
-              color: Colors.grey,
+            Image.network(
+              //Wikipedia entry but no picture
+              trip.images[0],
+              height: 125,
+              width: double.infinity,
+              fit: BoxFit.cover,
             ),
             Positioned(
               bottom: 20,
@@ -54,9 +57,44 @@ class TripPlanningScreen extends StatelessWidget {
             ),
           ],
         ),
-
+    
         // Headings
         const SizedBox(height: 20),
+        RichText(
+                      //Trip description
+                      text: TextSpan(
+                        style: TextStyle(
+                          color: Colors.grey.shade800,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w200,
+                        ),
+                        children: [
+                          const TextSpan(
+                            text: '„',
+                            style: TextStyle(
+                              fontSize: 27,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.blue,
+                            ),
+                          ),
+                          TextSpan(
+                            text: trip.description,
+                          ),
+                          const TextSpan(
+                            text: '”',
+                            style: TextStyle(
+                              fontSize: 27,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.blue,
+                            ),
+                          ),
+                        ],
+                      ),
+                      maxLines: 4,
+                      textAlign: TextAlign.center,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+        const SizedBox(height: 10),
         const Text(
           'Costs',
           style: TextStyle(
@@ -120,7 +158,10 @@ class TripPlanningScreen extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute<ChecklistsScreen>(
-                builder: (context) => APIActivitiesScreen(destination: trip.destination, categoryList: {'entertainment'},),
+                builder: (context) => APIActivitiesScreen(
+                  destination: trip.destination,
+                  categoryList: {'entertainment'},
+                ),
               ),
             );
           },
