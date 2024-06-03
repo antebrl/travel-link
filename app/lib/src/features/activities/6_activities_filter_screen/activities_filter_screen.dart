@@ -20,8 +20,17 @@ class _ActivitiesFilterScreenState extends State<ActivitiesFilterScreen> {
   List<String> countryList = [''];
 
   String countryName = '';
-  Set<String> filters = <String>{};
 
+  Set<String> _categoryList = {};
+  void _toggleSelectAll() {
+    setState(() {
+      if (_categoryList.length == activityTypes.length) {
+        _categoryList.clear();
+      } else {
+        _categoryList = activityTypes.toSet();
+      }
+    });
+  }
   @override
   void initState() {
     super.initState();
@@ -389,13 +398,33 @@ class _ActivitiesFilterScreenState extends State<ActivitiesFilterScreen> {
                           ),
                         ),
                         const SizedBox(height: 25),
-                        const Text(
-                          'Select categories:',
-                          style: TextStyle(
-                            color: CustomColors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
+                        Row(
+                          children: [
+                            const Text(
+                              'Select categories:',
+                              style: TextStyle(
+                                color: CustomColors.white,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Spacer(),
+                          OutlinedButton(
+                            onPressed: _toggleSelectAll,
+                            style: ElevatedButton.styleFrom(
+                                //backgroundColor: Colors.white,
+                                side: BorderSide(color: Colors.white)),
+                            child: Text(
+                              _categoryList.length == activityTypes.length
+                                  ? 'Unselect All'
+                                  : 'Select All',
+                              style: const TextStyle(
+                                  color: CustomColors.white,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.normal),
+                            ),
                           ),
+                          ],
                         ),
                         const SizedBox(height: 15),
                         Wrap(
@@ -415,18 +444,18 @@ class _ActivitiesFilterScreenState extends State<ActivitiesFilterScreen> {
                               label: Text(
                                 type,
                                 style: TextStyle(
-                                  color: filters.contains(type)
+                                  color: _categoryList.contains(type)
                                       ? CustomColors.primary
                                       : CustomColors.primary,
                                 ),
                               ),
-                              selected: filters.contains(type),
+                              selected: _categoryList.contains(type),
                               onSelected: (bool selected) {
                                 setState(() {
                                   if (selected) {
-                                    filters.add(type);
+                                    _categoryList.add(type);
                                   } else {
-                                    filters.remove(type);
+                                    _categoryList.remove(type);
                                   }
                                 });
                               },
@@ -441,7 +470,7 @@ class _ActivitiesFilterScreenState extends State<ActivitiesFilterScreen> {
                               countryName = '';
                             }
                             Navigator.of(context)
-                                .pop([countryName.trim(), filters]);
+                                .pop([countryName.trim(), _categoryList]);
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: CustomColors.white,
