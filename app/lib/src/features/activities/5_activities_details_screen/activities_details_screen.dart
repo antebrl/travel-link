@@ -116,69 +116,61 @@ class ActivitiesDetailsScreen extends StatelessWidget {
                 ],
               ),
               padding: const EdgeInsets.all(16),
-              child: CustomScrollView(
-                slivers: [
-                  SliverFillRemaining(
-                    hasScrollBody: false,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(16),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.all(16),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Center(
-                                child: Text(
-                                  'Explore: ${activity.name}',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .headlineSmall!
-                                      .copyWith(
-                                        color: CustomColors.primary,
-                                        fontSize: 20,
-                                      ),
+                        Center(
+                          child: Text(
+                            'Explore: ${activity.name}',
+                            style: Theme.of(context)
+                                .textTheme
+                                .headlineSmall!
+                                .copyWith(
+                                  color: CustomColors.primary,
+                                  fontSize: 20,
                                 ),
-                              ),
-                              const SizedBox(height: 20),
-                              Text(
-                                'Description: ',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyLarge!
-                                    .copyWith(color: CustomColors.primary),
-                              ),
-                              Text(activity.description),
-                              const SizedBox(height: 10),
-                              Text(
-                                'Location: ',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyLarge!
-                                    .copyWith(color: CustomColors.primary),
-                              ),
-                              Text(
-                                '${activity.location.country}'
-                                '${activity.location.city.trim().isNotEmpty ? ', ${activity.location.city}' : ''}'
-                                '${activity.location.street.trim().isNotEmpty ? ', ${activity.location.street}' : ''}',
-                                style: Theme.of(context).textTheme.bodyLarge,
-                              ),
-                              const SizedBox(height: 10),
-                              Container(
-                                height: 250,
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                    width: 5,
-                                    color:
-                                        CustomColors.primary.withOpacity(0.5),
-                                  ),
-                                ),
-                                alignment: Alignment.center,
-                                child: content,
-                              ),
-                            ],
                           ),
+                        ),
+                        const SizedBox(height: 20),
+                        Text(
+                          'Description: ',
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyLarge!
+                              .copyWith(color: CustomColors.primary),
+                        ),
+                        Text(activity.description),
+                        const SizedBox(height: 10),
+                        Text(
+                          'Location: ',
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyLarge!
+                              .copyWith(color: CustomColors.primary),
+                        ),
+                        Text(
+                          '${activity.location.country}'
+                          '${activity.location.city.trim().isNotEmpty ? ', ${activity.location.city}' : ''}'
+                          '${activity.location.street.trim().isNotEmpty ? ', ${activity.location.street}' : ''}',
+                          style: Theme.of(context).textTheme.bodyLarge,
+                        ),
+                        const SizedBox(height: 10),
+                        Container(
+                          height: 250,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              width: 5,
+                              color: CustomColors.primary.withOpacity(0.5),
+                            ),
+                          ),
+                          alignment: Alignment.center,
+                          child: content,
                         ),
                       ],
                     ),

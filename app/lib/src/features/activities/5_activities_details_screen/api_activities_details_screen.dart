@@ -118,17 +118,19 @@ class ApiActivitiesDetailsScreen extends StatelessWidget {
                                 ),
                               ),
                               const SizedBox(height: 20),
-                              Text(
-                                'Description: ',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyLarge!
-                                    .copyWith(color: CustomColors.primary),
-                              ),
-                              Text(
-                                  activity.description, 
+                              if (activity.description != null) ...[
+                                Text(
+                                  'Description: ',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge!
+                                      .copyWith(color: CustomColors.primary),
+                                ),
+                                Text(
+                                  activity.description,
                                   style: Theme.of(context).textTheme.bodyLarge,
                                 ),
+                              ],
                               const SizedBox(height: 10),
                               if (activity.openingHours != null) ...[
                                 Text(
