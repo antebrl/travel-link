@@ -68,8 +68,9 @@ class PublicTripCard extends ConsumerWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
+                            if(trip.startDate != null && trip.endDate != null)
                             Text(
-                              '15/12 - 30/12',
+                              '${trip.startDate?.day}/${trip.startDate?.month} - ${trip.endDate?.day}/${trip.endDate?.month}',
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 color: Colors.blue[800],

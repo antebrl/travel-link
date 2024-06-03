@@ -19,6 +19,7 @@ class MyTripsRepository {
     required DateTime? start,
     required DateTime? end,
     required Destination destination,
+    required List<String> images,
     bool isPublic = false,
     int? maxParticipants,
   }) =>
@@ -30,6 +31,7 @@ class MyTripsRepository {
         'isPublic': isPublic,
         'participants': [uid],
         'maxParticipants': maxParticipants,
+        'images': images,
       });
 
   Future<void> joinTrip({required Trip trip, required String uid}) async {

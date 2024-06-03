@@ -10,6 +10,7 @@ class CustomImages {
 
   //TODO(Ante): store locally
   static const String defaultProfilePictureUrl = 'https://www.dav-siegerland.de/public/platzhalter/87989/image-thumb__87989__person/person-placeholder.jpg';
+  static const String destinationImagePlaceholderUrl = 'https://corsproxy.io/?https://via.placeholder.com/150';
 
 }
 
