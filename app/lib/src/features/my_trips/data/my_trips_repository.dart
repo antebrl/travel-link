@@ -16,20 +16,24 @@ class MyTripsRepository {
   Future<void> createTrip({
     required String uid,
     required String name,
+    required String? description,
     required DateTime? start,
     required DateTime? end,
     required Destination destination,
+    required List<String> images,
     bool isPublic = false,
     int? maxParticipants,
   }) =>
       _firestore.collection(tripsBasePath).add({
         'name': name,
+        'description': description,
         'startDate': start != null ? Timestamp.fromDate(start) : null,
         'endDate': end != null ? Timestamp.fromDate(end) : null,
         'destination': destination.toMap(),
         'isPublic': isPublic,
         'participants': [uid],
         'maxParticipants': maxParticipants,
+        'images': images,
       });
 
   Future<void> joinTrip({required Trip trip, required String uid}) async {

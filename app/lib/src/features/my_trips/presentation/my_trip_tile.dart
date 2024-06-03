@@ -18,7 +18,7 @@ class MyTripTile extends StatelessWidget {
       child: Container(
         decoration: boxDecoration,
         child: ListTile(
-          leading: Image.network('https://via.placeholder.com/150'),
+          leading: Image.network(trip.images.isEmpty ? 'https://via.placeholder.com/150' : trip.images[0]),
           title: Text(
             trip.name,
             style: TextStyle(

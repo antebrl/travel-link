@@ -37,7 +37,7 @@ class _ExploreTripsScreenState extends ConsumerState<ExploreTripsScreen> {
                 style: TextStyle(
                     fontSize: 26,
                     fontWeight: FontWeight.bold,
-                    color: Colors.black)),
+                    color: Colors.black,),),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -48,7 +48,7 @@ class _ExploreTripsScreenState extends ConsumerState<ExploreTripsScreen> {
                 ),
                 const Text('Bevorstehend',
                     style:
-                        TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+                        TextStyle(fontSize: 15, fontWeight: FontWeight.bold,),),
               ],
             ),
           ],
