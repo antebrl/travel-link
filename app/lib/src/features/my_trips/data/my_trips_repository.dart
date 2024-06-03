@@ -16,6 +16,7 @@ class MyTripsRepository {
   Future<void> createTrip({
     required String uid,
     required String name,
+    required String? description,
     required DateTime? start,
     required DateTime? end,
     required Destination destination,
@@ -25,6 +26,7 @@ class MyTripsRepository {
   }) =>
       _firestore.collection(tripsBasePath).add({
         'name': name,
+        'description': description,
         'startDate': start != null ? Timestamp.fromDate(start) : null,
         'endDate': end != null ? Timestamp.fromDate(end) : null,
         'destination': destination.toMap(),

@@ -60,6 +60,7 @@ class MyTripsController extends _$MyTripsController {
 
   Future<bool> createTrip({
     required String name,
+    required String? description,
     required DateTime? start,
     required DateTime? end,
     required Destination destination,
@@ -79,6 +80,7 @@ class MyTripsController extends _$MyTripsController {
       () => repository.createTrip(
         uid: currentUser!.uid,
         name: name,
+        description: description,
         start: start,
         end: end,
         destination: destination,

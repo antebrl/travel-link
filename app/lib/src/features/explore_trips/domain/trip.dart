@@ -11,6 +11,7 @@ class Trip extends Equatable {
     required this.destination,
     required this.participants,
     required this.images,
+    this.description,
     this.isPublic = false,
     this.maxParticipants,
     //required this.image,
@@ -19,6 +20,7 @@ class Trip extends Equatable {
 
   final String tripId;
   final String name;
+  final String? description;
   final DateTime? startDate;
   final DateTime? endDate;
   final Destination destination;
@@ -33,7 +35,9 @@ class Trip extends Equatable {
 
   @override
   List<Object?> get props => [
+        tripId,
         name,
+        description,
         startDate,
         endDate,
         destination,
@@ -50,6 +54,7 @@ class Trip extends Equatable {
     return Trip(
       tripId: tripId,
       name: value['name'] as String,
+      description: value['description'] as String?,
       startDate: (value['startDate'] as Timestamp?)?.toDate(),
       endDate: (value['endDate'] as Timestamp?)?.toDate(),
       destination: Destination.fromMap(value['destination'] as Map<dynamic, dynamic>),
@@ -63,6 +68,7 @@ class Trip extends Equatable {
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'name': name,
+      'description': description,
       'startDate': startDate != null ? Timestamp.fromDate(startDate!) : null,
       'endDate': endDate != null ? Timestamp.fromDate(endDate!) : null,
       'destination': destination,

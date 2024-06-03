@@ -68,15 +68,15 @@ class PublicTripCard extends ConsumerWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            if(trip.startDate != null && trip.endDate != null)
-                            Text(
-                              '${trip.startDate?.day}/${trip.startDate?.month} - ${trip.endDate?.day}/${trip.endDate?.month}',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.blue[800],
-                                fontSize: 17,
+                            if (trip.startDate != null && trip.endDate != null)
+                              Text(
+                                '${trip.startDate?.day}/${trip.startDate?.month} - ${trip.endDate?.day}/${trip.endDate?.month}',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.blue[800],
+                                  fontSize: 17,
+                                ),
                               ),
-                            ),
                             FlutterImageStack(
                               imageList: const [
                                 'https://images.unsplash.com/photo-1593642532842-98d0fd5ebc1a?ixid=MXwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2250&q=80',
@@ -107,8 +107,8 @@ class PublicTripCard extends ConsumerWidget {
                           fontSize: 18,
                           fontWeight: FontWeight.w200,
                         ),
-                        children: const [
-                          TextSpan(
+                        children: [
+                          const TextSpan(
                             text: '„',
                             style: TextStyle(
                               fontSize: 27,
@@ -117,10 +117,9 @@ class PublicTripCard extends ConsumerWidget {
                             ),
                           ),
                           TextSpan(
-                            text:
-                                'Eine spannende Reise nach Japan oder. Tretet bei 👺🗾🏯🍣',
+                            text: trip.description,
                           ),
-                          TextSpan(
+                          const TextSpan(
                             text: '”',
                             style: TextStyle(
                               fontSize: 27,
@@ -152,7 +151,9 @@ class PublicTripCard extends ConsumerWidget {
                           ],
                           image: DecorationImage(
                             image: NetworkImage(
-                              trip.images[0] ?? 'https://media.istockphoto.com/id/1998131648/de/foto/altstadt-von-burghausen-mit-burgberg.jpg?s=1024x1024&w=is&k=20&c=nvlz0e9DkNmf4_84ahASlYZVnGN-7NTKm9L3zppAOZI=',
+                              trip.images.isEmpty
+                                  ? 'https://media.istockphoto.com/id/1998131648/de/foto/altstadt-von-burghausen-mit-burgberg.jpg?s=1024x1024&w=is&k=20&c=nvlz0e9DkNmf4_84ahASlYZVnGN-7NTKm9L3zppAOZI='
+                                  : trip.images[0],
                             ),
                             fit: BoxFit.cover,
                           ),
