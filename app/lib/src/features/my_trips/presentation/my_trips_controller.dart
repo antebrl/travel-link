@@ -41,14 +41,14 @@ class MyTripsController extends _$MyTripsController {
 
         //fetch wikidata to get ImageURLs
         final response = await http.get(Uri.parse(wikidataUrl));
-        final Map<String, dynamic> data =
+        if(response.statusCode == 200) {
+          final Map<String, dynamic> data =
             json.decode(response.body) as Map<String, dynamic>;
 
-        return WikidataParser.getImagesFromWikidataEntity(data: data, wikidataId: wikidataId);
-        
-      } else {
-        return [CustomImages.destinationImagePlaceholderUrl];
+          return WikidataParser.getImagesFromWikidataEntity(data: data, wikidataId: wikidataId);        
+        }
       }
+      return [CustomImages.destinationImagePlaceholderUrl];
     } else {
       logger.e(
         'Failed to load and parse destination images',
