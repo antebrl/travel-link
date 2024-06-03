@@ -44,7 +44,7 @@ class MyTripsController extends _$MyTripsController {
         final Map<String, dynamic> data =
             json.decode(response.body) as Map<String, dynamic>;
 
-        return WikidataParser.getImagesFromWikidataEntity(data, wikidataId);
+        return WikidataParser.getImagesFromWikidataEntity(data: data, wikidataId: wikidataId);
         
       } else {
         return [CustomImages.destinationImagePlaceholderUrl];

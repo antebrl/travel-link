@@ -5,7 +5,6 @@ import 'package:http/http.dart' as http;
 import 'package:travel_link/src/features/activities/3_activities_screen/domain/api_activity.dart';
 import 'package:travel_link/src/features/activities/5_activities_details_screen/api_activities_details_screen.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
-import 'package:travel_link/src/utils/helpers/crypto.dart';
 import 'package:travel_link/src/utils/helpers/wikidata.dart';
 import 'package:travel_link/src/utils/theme/widget_themes/text_theme.dart';
 
@@ -53,7 +52,7 @@ class _APIActivityItemState extends State<APIActivityItem> {
       widget.activity.description = descriptions['en']['value'] as String;
     }
 
-    final imageUrls = WikidataParser.getImagesFromWikidataEntity(data, wikidataId);
+    final imageUrls = WikidataParser.getImagesFromWikidataEntity(data: data, wikidataId: wikidataId);
 
     // Store image name in cache
     _imageCache[activityName] = imageUrls;

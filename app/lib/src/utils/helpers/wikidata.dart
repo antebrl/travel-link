@@ -1,7 +1,7 @@
 import 'package:travel_link/src/utils/helpers/crypto.dart';
 
 class WikidataParser {
-  static List<String> getImagesFromWikidataEntity(Map<String, dynamic> data, String wikidataId) {
+  static List<String> getImagesFromWikidataEntity({required Map<String, dynamic> data, required String wikidataId, int? width}) {
     // Extract images (P18 is the property for images in Wikidata)
     final claims = data['entities'][wikidataId]['claims'] as Map<String, dynamic>;
     final imageUrls = <String>[];
@@ -12,7 +12,9 @@ class WikidataParser {
         final imageNameHash = CryptoHelper.md5(imageFileName);
 
         // Construct the image URL
-        final imageUrl = 'https://upload.wikimedia.org/wikipedia/commons/${imageNameHash[0]}/${imageNameHash.substring(0, 2)}/$imageFileName';
+        final imageUrl = width != null ? 
+        'https://upload.wikimedia.org/wikipedia/commons/thumb/${imageNameHash[0]}/${imageNameHash.substring(0, 2)}/$imageFileName/${width}px-$imageFileName'
+        : 'https://upload.wikimedia.org/wikipedia/commons/${imageNameHash[0]}/${imageNameHash.substring(0, 2)}/$imageFileName';
 
         imageUrls.add(imageUrl);
       }
