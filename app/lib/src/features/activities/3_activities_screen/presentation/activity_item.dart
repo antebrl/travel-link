@@ -40,7 +40,7 @@ class _ActivityItemState extends State<ActivityItem> {
   Future<String> fetchImage(String activityName) async {
     final formattedName = activityName.replaceAll(' ', '_');
     final formattedLink =
-        'https://corsproxy.io/?https://en.wikipedia.org/w/api.php?action=query&titles=$formattedName&prop=pageimages&format=json&pithumbsize=1000';
+        'https://en.wikipedia.org/w/api.php?action=query&titles=$formattedName&prop=pageimages&format=json&pithumbsize=1000';
     final response = await http.get(Uri.parse(formattedLink));
     final Map<String, dynamic> data =
         json.decode(response.body) as Map<String, dynamic>;

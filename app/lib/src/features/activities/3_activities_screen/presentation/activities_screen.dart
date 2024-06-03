@@ -64,7 +64,7 @@ class _ActivitiesScreenState extends ConsumerState<ActivitiesScreen> {
     setState(() => filteredActivitiesBySearch = suggestions);
   }
 
-  void filterActivitiesByFilters(String? country, Set<ActivityType> filters) {
+  void filterActivitiesByFilters(String? country, Set<String> filters) {
     List<Activity> activitiesFilteredByCountry = [];
 
     // Filtere Aktivitäten nach dem ausgewählten Land, wenn ein Land ausgewählt ist
@@ -141,7 +141,7 @@ class _ActivitiesScreenState extends ConsumerState<ActivitiesScreen> {
                 IconButton(
                   onPressed: () async {
                     final result = await Navigator.of(context).push(
-                      MaterialPageRoute<ActivitiesFilterScreen>(
+                      MaterialPageRoute(
                         builder: (BuildContext context) =>
                             ActivitiesFilterScreen(
                           continent: widget.continent,
@@ -152,8 +152,8 @@ class _ActivitiesScreenState extends ConsumerState<ActivitiesScreen> {
                       final List<dynamic> filterResult =
                           result as List<dynamic>;
                       final String countryName = filterResult[0] as String;
-                      final Set<ActivityType> filters =
-                          filterResult[1] as Set<ActivityType>;
+                      final Set<String> filters =
+                          filterResult[1] as Set<String>;
                       // Überprüfe, ob ein Ländername ausgewählt wurde
                       // if (countryName.trim().isEmpty || filters.isEmpty) {
                       //   filterActivitiesBySearch(countryName.trim());

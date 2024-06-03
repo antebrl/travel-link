@@ -1,17 +1,6 @@
 import 'dart:io';
 import 'package:travel_link/src/features/activities/2_continents_screen/domain/continent.dart';
 
-enum ActivityType {
-  Sight,
-  Culture,
-  EatAndDrink,
-  Shopping,
-  Nightlife,
-  Sports,
-  Nature,
-  Education,
-}
-
 class Activity {
   Activity({
     required this.name,
@@ -36,7 +25,7 @@ class Activity {
   final bool isPublic;
 
   //Später zu final machen + required
-  Set<ActivityType>? types; // List of ActivityTypes
+  Set<String>? types; // List of ActivityTypes
 }
 
 class PlaceLocation {

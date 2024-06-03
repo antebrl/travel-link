@@ -15,7 +15,7 @@ List<Activity> activityData = [
         street: 'Broadway',
         city: 'New York City',
         country: 'USA'),
-    types: {ActivityType.Sight}.toSet(),
+    types: {'activity'}.toSet(),
   ),
 
   Activity(
@@ -30,7 +30,7 @@ List<Activity> activityData = [
         street: 'Niagara Pkwy',
         city: 'Niagara Falls',
         country: 'Canada & USA'),
-    types: {ActivityType.Nature}.toSet(),
+    types: {'natural'}.toSet(),
   ),
 
   Activity(
@@ -476,7 +476,7 @@ List<Activity> activityData = [
       latitude: 52.5163,
       longitude: 13.3777,
     ),
-    types: {ActivityType.Culture}.toSet(),
+    types: {'culture'}.toSet(),
   ),
   Activity(
     name: 'Tower Bridge',
@@ -518,7 +518,7 @@ List<Activity> activityData = [
       latitude: 47.5576,
       longitude: 10.7498,
     ),
-    types: {ActivityType.Sight, ActivityType.Culture}.toSet(),
+    types: {'accomodation'}.toSet(),
   ),
   Activity(
     name: 'Canals of Amsterdam',

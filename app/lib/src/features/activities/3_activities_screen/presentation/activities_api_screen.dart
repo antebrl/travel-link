@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:travel_link/src/features/activities/3_activities_screen/data/api_activities_repository.dart';
+import 'package:travel_link/src/features/activities/3_activities_screen/domain/api_activity.dart';
 import 'package:travel_link/src/features/activities/3_activities_screen/presentation/api_activity_item.dart';
+import 'package:travel_link/src/features/activities/4_add_activity_screen/presentation/map_screen.dart';
+import 'package:travel_link/src/features/activities/8_map_screen/map_screen.dart';
 import 'package:travel_link/src/features/my_trips/domain/destination.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
 import 'package:travel_link/src/utils/helpers/helper_functions.dart';
@@ -122,7 +125,8 @@ class _APIActivitiesScreenState extends ConsumerState<APIActivitiesScreen> {
                     ),
                   ],
                 ),
-                Text('Map'),
+                MapScreenWithActivities(
+                    fetchedActivities: fetchedActivities),
               ],
             ),
           ),

@@ -34,27 +34,30 @@ class _APIActivityItemState extends State<APIActivityItem> {
     } else {
       // Load a placeholder image for places without a wikipedia link
       _imageFuture = widget.activity.wikidataUrl != null
-          ? fetchImageAndDescription(widget.activity.wikidataUrl!, widget.activity.name,  widget.activity.wikidataId!)
+          ? fetchImageAndDescription(widget.activity.wikidataUrl!,
+              widget.activity.name, widget.activity.wikidataId!)
           : Future.value([
               'https://corsproxy.io/?https://via.placeholder.com/150',
             ]);
     }
   }
 
-  Future<List<String>?> fetchImageAndDescription(String formattedLink, String activityName, String wikidataId) async {
-    final response = await http.get(Uri.parse('https://corsproxy.io/?$formattedLink'));
+  Future<List<String>?> fetchImageAndDescription(
+      String formattedLink, String activityName, String wikidataId) async {
+    final response =
+        await http.get(Uri.parse('https://corsproxy.io/?$formattedLink'));
     final Map<String, dynamic> data =
         json.decode(response.body) as Map<String, dynamic>;
 
     final descriptions = data['entities'][wikidataId]['descriptions'];
     //TODO: Check if description is available in other languages
-    if(descriptions['en'] != null) {
+    if (descriptions['en'] != null) {
       widget.activity.description = descriptions['en']['value'] as String;
     }
 
-
     // Extract images (P18 is the property for images in Wikidata)
-    final claims = data['entities'][wikidataId]['claims'] as Map<String, dynamic>;
+    final claims =
+        data['entities'][wikidataId]['claims'] as Map<String, dynamic>;
     final imageUrls = <String>[];
     if (claims.containsKey('P18')) {
       for (var claim in claims['P18'] as List) {
@@ -63,7 +66,8 @@ class _APIActivityItemState extends State<APIActivityItem> {
         final imageNameHash = CryptoHelper.md5(imageFileName);
 
         // Construct the image URL
-        final imageUrl = 'https://upload.wikimedia.org/wikipedia/commons/${imageNameHash[0]}/${imageNameHash.substring(0, 2)}/$imageFileName';
+        final imageUrl =
+            'https://upload.wikimedia.org/wikipedia/commons/${imageNameHash[0]}/${imageNameHash.substring(0, 2)}/$imageFileName';
 
         imageUrls.add(imageUrl);
       }
@@ -114,7 +118,9 @@ class _APIActivityItemState extends State<APIActivityItem> {
               future: _imageFuture,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const CircularProgressIndicator();
+                  return const CircularProgressIndicator(
+                    color: CustomColors.primary,
+                  );
                 } else if (snapshot.hasError) {
                   return Text('Fehler: ${snapshot.error}');
                 } else if (snapshot.data == null || snapshot.data!.isEmpty) {

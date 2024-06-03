@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:travel_link/src/features/activities/2_continents_screen/domain/continent.dart';
 import 'package:travel_link/src/features/activities/3_activities_screen/domain/activity.dart';
+import 'package:travel_link/src/features/activities/3_activities_screen/domain/api_activity.dart';
 import 'package:travel_link/src/features/activities/4_add_activity_screen/presentation/image_input.dart';
 import 'package:travel_link/src/features/activities/4_add_activity_screen/presentation/location_input.dart';
 import 'package:travel_link/src/features/activities/4_add_activity_screen/switch_continent.dart';
@@ -25,7 +26,7 @@ class _AddActivityScreenState extends ConsumerState<AddActivityScreen> {
   File? _selectedImage;
   PlaceLocation? _selectedLocation;
   bool _isPublic = true;
-  Set<ActivityType> _filters = <ActivityType>{};
+  Set<String> _filters = <String>{};
 
   String? stringValidator(String? value) {
     if (value == null ||
@@ -194,13 +195,13 @@ class _AddActivityScreenState extends ConsumerState<AddActivityScreen> {
                       alignment: WrapAlignment.spaceEvenly,
                       spacing: 40,
                       runSpacing: 10,
-                      children: ActivityType.values.map((ActivityType type) {
+                      children: activityTypes.map((type) {
                         return FilterChip(
                           selectedColor: CustomColors.primary,
                           backgroundColor: CustomColors.white,
                           side: const BorderSide(color: CustomColors.primary),
                           label: Text(
-                            type.name,
+                            type,
                             style: TextStyle(
                               color: _filters.contains(type)
                                   ? CustomColors.white
