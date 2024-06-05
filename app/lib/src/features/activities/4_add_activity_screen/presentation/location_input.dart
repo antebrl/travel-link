@@ -5,6 +5,7 @@ import 'package:geocoding/geocoding.dart' as gecoding;
 import 'package:latlong2/latlong.dart';
 import 'package:location/location.dart';
 import 'package:travel_link/src/features/activities/3_activities_screen/domain/activity.dart';
+import 'package:travel_link/src/features/activities/3_activities_screen/domain/api_activity.dart';
 import 'package:travel_link/src/features/activities/4_add_activity_screen/presentation/map_screen.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
 
@@ -24,33 +25,39 @@ class _LocationInput extends State<LocationInput> {
   var _isGettingLocation = false;
 
   Future<void> _savePlace(double latitude, double longitude) async {
+    print('start');
     try {
       final List<gecoding.Placemark> placemarks =
           await gecoding.placemarkFromCoordinates(latitude, longitude);
       // Extrahiere die Adresse aus dem Placemark
       final gecoding.Placemark placemark = placemarks[0];
-      final String street = placemark.street!;
+      //final String street = placemark.street!;
       final String city = placemark.locality!;
       final String country = placemark.country!;
-      print(country);
+      final String countryCode = placemark.isoCountryCode!;
 
       final String address =
           '${placemark.street}, ${placemark.locality}, ${placemark.country}';
 
       setState(() {
         _pickedLocation = PlaceLocation(
-            latitude: latitude,
-            longitude: longitude,
-            street: street,
-            city: city,
-            country: country);
+          lat: latitude,
+          lon: longitude,
+          city: city,
+          country: country,
+          formatted: address,
+          countryCode: countryCode,
+        );
         _isGettingLocation = false;
       });
 
       widget.onSelectLocation(_pickedLocation!);
+      print('mnid');
     } catch (e) {
+      print(e);
       return;
     }
+    print('end');
   }
 
   Future<void> _getCurrentLocation() async {
@@ -113,7 +120,7 @@ class _LocationInput extends State<LocationInput> {
         // Disable all user interactions
       ),
       children: [
-        openStreetMapTileLater,
+        openStreetMapTileLayer,
         MarkerLayer(
           markers: [
             Marker(
@@ -130,7 +137,7 @@ class _LocationInput extends State<LocationInput> {
     );
   }
 
-  TileLayer get openStreetMapTileLater => TileLayer(
+  TileLayer get openStreetMapTileLayer => TileLayer(
         urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
         userAgentPackageName: 'dev.fleaflet.flutter_map.exaple',
       );
@@ -152,8 +159,8 @@ class _LocationInput extends State<LocationInput> {
     }
 
     if (_pickedLocation != null) {
-      content =
-          _createMap(_pickedLocation!.latitude, _pickedLocation!.longitude);
+      print(_pickedLocation);
+      content = _createMap(_pickedLocation!.lat, _pickedLocation!.lon);
     }
 
     return Column(

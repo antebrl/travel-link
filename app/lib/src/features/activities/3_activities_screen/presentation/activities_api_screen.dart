@@ -125,8 +125,7 @@ class _APIActivitiesScreenState extends ConsumerState<APIActivitiesScreen> {
                     ),
                   ],
                 ),
-                MapScreenWithActivities(
-                    fetchedActivities: fetchedActivities),
+                MapScreenWithActivities(fetchedActivities: fetchedActivities),
               ],
             ),
           ),

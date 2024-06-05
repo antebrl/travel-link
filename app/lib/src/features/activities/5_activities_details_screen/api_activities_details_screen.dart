@@ -46,7 +46,7 @@ class ApiActivitiesDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     Widget content;
 
-    content = _createMap(activity.lat, activity.lon);
+    content = _createMap(activity.location.lat, activity.location.lon);
 
     return Scaffold(
       appBar: AppBar(
@@ -62,13 +62,19 @@ class ApiActivitiesDetailsScreen extends StatelessWidget {
             left: 0,
             right: 0,
             height: 250, // Höhe des Bildes anpassen
-            child: Image.network(
-              //check edge cases: imagePaths == null && imagePaths.isEmpty -> load placeholder
-              activity.imagePaths[0], //load all images
-              height: 200,
-              width: double.infinity,
-              fit: BoxFit.fill,
-            ),
+            child: activity.imagePaths.isEmpty
+                ? Image.file(
+                    activity.image!,
+                    height: 200,
+                    width: double.infinity,
+                    fit: BoxFit.fill,
+                  )
+                : Image.network(
+                    activity.imagePaths[0],
+                    height: 200,
+                    width: double.infinity,
+                    fit: BoxFit.fill,
+                  ),
           ),
 
           // Weiße Fläche mit abgerundeten Ecken und Schatten
@@ -118,7 +124,7 @@ class ApiActivitiesDetailsScreen extends StatelessWidget {
                                 ),
                               ),
                               const SizedBox(height: 20),
-                              if (activity.description != null) ...[
+                              if (activity.description.isEmpty) ...[
                                 Text(
                                   'Description: ',
                                   style: Theme.of(context)
@@ -154,7 +160,7 @@ class ApiActivitiesDetailsScreen extends StatelessWidget {
                                     .copyWith(color: CustomColors.primary),
                               ),
                               Text(
-                                activity.formatted,
+                                activity.location.formatted,
                                 style: Theme.of(context).textTheme.bodyLarge,
                               ),
                               const SizedBox(height: 10),

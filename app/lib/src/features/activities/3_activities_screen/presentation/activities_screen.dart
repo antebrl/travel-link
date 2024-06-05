@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:travel_link/src/features/activities/2_continents_screen/domain/continent.dart';
 import 'package:travel_link/src/features/activities/3_activities_screen/domain/activity.dart';
+import 'package:travel_link/src/features/activities/3_activities_screen/domain/api_activity.dart';
 import 'package:travel_link/src/features/activities/3_activities_screen/presentation/activity_item.dart';
 import 'package:travel_link/src/features/activities/4_add_activity_screen/presentation/add_activity_screen.dart';
 import 'package:travel_link/src/features/activities/6_activities_filter_screen/activities_filter_screen.dart';
@@ -24,10 +25,10 @@ class ActivitiesScreen extends ConsumerStatefulWidget {
 }
 
 class _ActivitiesScreenState extends ConsumerState<ActivitiesScreen> {
-  late List<Activity> activitiesFromProvider; //TODO: Refactor
-  late List<Activity> filteredActivitiesByContinent;
-  late List<Activity> filteredActivitiesBySearch;
-  List<Activity> filteredActivitiesByFilters = [];
+  late List<ApiActivity> activitiesFromProvider; //TODO: Refactor
+  late List<ApiActivity> filteredActivitiesByContinent;
+  late List<ApiActivity> filteredActivitiesBySearch;
+  List<ApiActivity> filteredActivitiesByFilters = [];
 
   @override
   void initState() {
@@ -49,7 +50,7 @@ class _ActivitiesScreenState extends ConsumerState<ActivitiesScreen> {
     // setState(() {
     // filteredActivities = widget.activities.where((activity) =>
     //     activity.name.toLowerCase().startsWith(query.toLowerCase())).toList();
-    List<Activity> originalString;
+    List<ApiActivity> originalString;
     if (filteredActivitiesByFilters.isEmpty) {
       originalString = filteredActivitiesByContinent;
     } else {
@@ -65,7 +66,7 @@ class _ActivitiesScreenState extends ConsumerState<ActivitiesScreen> {
   }
 
   void filterActivitiesByFilters(String? country, Set<String> filters) {
-    List<Activity> activitiesFilteredByCountry = [];
+    List<ApiActivity> activitiesFilteredByCountry = [];
 
     // Filtere Aktivitäten nach dem ausgewählten Land, wenn ein Land ausgewählt ist
     if (country != null && country.isNotEmpty) {
@@ -81,8 +82,8 @@ class _ActivitiesScreenState extends ConsumerState<ActivitiesScreen> {
     if (filters.isNotEmpty) {
       filteredActivitiesByFilters = activitiesFilteredByCountry
           .where((activity) =>
-              activity.types != null &&
-              filters.any((type) => activity.types!.contains(type)))
+              activity.categories != null &&
+              filters.any((type) => activity.categories!.contains(type)))
           .toList();
     } else {
       // Wenn keine Filter ausgewählt sind, behalte die Aktivitäten nach dem Land unverändert
@@ -94,7 +95,7 @@ class _ActivitiesScreenState extends ConsumerState<ActivitiesScreen> {
   }
 
   Future<void> addActivity() async {
-    final newActivity = await Navigator.of(context).push<Activity>(
+    final newActivity = await Navigator.of(context).push<ApiActivity>(
       MaterialPageRoute(
         builder: (ctx) => const AddActivityScreen(),
       ),

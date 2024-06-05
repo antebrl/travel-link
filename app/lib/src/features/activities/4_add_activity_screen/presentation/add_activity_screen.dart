@@ -44,25 +44,38 @@ class _AddActivityScreenState extends ConsumerState<AddActivityScreen> {
         _selectedLocation != null) {
       _formKey.currentState!.save();
       Navigator.of(context).pop(
-        Activity(
+        ApiActivity(
           name: _enteredName,
-          //continentType: _enteredcontinentType,
-          continentType: getContinentFromCountry(_selectedLocation!.country),
+          categories: _filters.toList(),
           description: _enteredDescription,
-          imagePath: '',
           image: _selectedImage,
+          continentType: _enteredcontinentType,
           location: PlaceLocation(
-            latitude: _selectedLocation!.latitude,
-            longitude: _selectedLocation!.longitude,
-            street: _selectedLocation!.street,
-            city: _selectedLocation!.city,
-            country: _selectedLocation!.country,
-          ),
-          isUserCreated: true,
-          isPublic: _isPublic,
-          types: _filters,
+              lat: _selectedLocation!.lat,
+              lon: _selectedLocation!.lon,
+              city: _selectedLocation!.city,
+              country: _selectedLocation!.country,
+              formatted: _selectedLocation!.formatted,
+              countryCode: _selectedLocation!.countryCode),
         ),
       );
+      //   name: _enteredName,
+      //   //continentType: _enteredcontinentType,
+      //   continentType: getContinentFromCountry(_selectedLocation!.country),
+      //   description: _enteredDescription,
+      //   imagePath: '',
+      //   image: _selectedImage,
+      //   location: PlaceLocation(
+      //     latitude: _selectedLocation!.latitude,
+      //     longitude: _selectedLocation!.longitude,
+      //     street: _selectedLocation!.street,
+      //     city: _selectedLocation!.city,
+      //     country: _selectedLocation!.country,
+      //   ),
+      //   isUserCreated: true,
+      //   isPublic: _isPublic,
+      //   types: _filters,
+      // ),
     }
   }
 

@@ -5,6 +5,8 @@ import 'package:travel_link/src/features/account/presentation/account_screen.dar
 import 'package:travel_link/src/features/activities/1_activities_start_screen/presentation/activitiesStart_screen.dart';
 import 'package:travel_link/src/features/activities/2_continents_screen/domain/continent.dart';
 import 'package:travel_link/src/features/activities/3_activities_screen/domain/activity.dart';
+import 'package:travel_link/src/features/activities/3_activities_screen/domain/api_activity.dart';
+import 'package:travel_link/src/features/activities/3_activities_screen/presentation/activities_api_screen.dart';
 import 'package:travel_link/src/features/activities/3_activities_screen/presentation/activities_screen.dart';
 import 'package:travel_link/src/features/activities/5_activities_details_screen/activities_details_screen.dart';
 import 'package:travel_link/src/features/authentication/data/firebase_auth_repository.dart';
@@ -150,15 +152,15 @@ GoRouter goRouter(GoRouterRef ref) {
                   child: const ActivitiesStartScreen(),
                 ),
                 routes: <RouteBase>[
-                  GoRoute(
-                    path: 'details',
-                    name: ActivitiesRoutes.activityDetails.name,
-                    parentNavigatorKey: _rootNavigatorKey,
-                    builder: (BuildContext context, GoRouterState state) {
-                      final activity = state.extra as Activity?;
-                      return ActivitiesDetailsScreen(activity: activity!);
-                    },
-                  ),
+                  // GoRoute(
+                  //   path: 'details',
+                  //   name: ActivitiesRoutes.activityDetails.name,
+                  //   parentNavigatorKey: _rootNavigatorKey,
+                  //   builder: (BuildContext context, GoRouterState state) {
+                  //     final activity = state.extra as ApiActivity?;
+                  //     return;
+                  //   },
+                  // ),
                   GoRoute(
                     path: 'continent/:continent',
                     name: ActivitiesRoutes.continent.name,
