@@ -124,7 +124,7 @@ class ApiActivitiesDetailsScreen extends StatelessWidget {
                                 ),
                               ),
                               const SizedBox(height: 20),
-                              if (activity.description.isEmpty) ...[
+                              if (activity.description.isNotEmpty) ...[
                                 Text(
                                   'Description: ',
                                   style: Theme.of(context)
