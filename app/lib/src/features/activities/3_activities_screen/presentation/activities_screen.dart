@@ -94,20 +94,6 @@ class _ActivitiesScreenState extends ConsumerState<ActivitiesScreen> {
     setState(() => filteredActivitiesBySearch = filteredActivitiesByFilters);
   }
 
-  Future<void> addActivity() async {
-    final newActivity = await Navigator.of(context).push<ApiActivity>(
-      MaterialPageRoute(
-        builder: (ctx) => const AddActivityScreen(),
-      ),
-    );
-    if (newActivity == null) return;
-
-    setState(() {
-      ref.watch(activitiesProvider.notifier).addActivity(newActivity);
-      filterActivitiesByContinent();
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -115,12 +101,6 @@ class _ActivitiesScreenState extends ConsumerState<ActivitiesScreen> {
         title: Text(
           widget.title,
         ),
-        actions: [
-          IconButton(
-            onPressed: addActivity,
-            icon: const Icon(Icons.add_circle),
-          ),
-        ],
       ),
       body: Column(
         children: [

@@ -59,23 +59,6 @@ class _AddActivityScreenState extends ConsumerState<AddActivityScreen> {
               countryCode: _selectedLocation!.countryCode),
         ),
       );
-      //   name: _enteredName,
-      //   //continentType: _enteredcontinentType,
-      //   continentType: getContinentFromCountry(_selectedLocation!.country),
-      //   description: _enteredDescription,
-      //   imagePath: '',
-      //   image: _selectedImage,
-      //   location: PlaceLocation(
-      //     latitude: _selectedLocation!.latitude,
-      //     longitude: _selectedLocation!.longitude,
-      //     street: _selectedLocation!.street,
-      //     city: _selectedLocation!.city,
-      //     country: _selectedLocation!.country,
-      //   ),
-      //   isUserCreated: true,
-      //   isPublic: _isPublic,
-      //   types: _filters,
-      // ),
     }
   }
 
@@ -115,53 +98,7 @@ class _AddActivityScreenState extends ConsumerState<AddActivityScreen> {
                         _enteredDescription = value!;
                       },
                     ),
-                    const SizedBox(height: 40),
-                    // DropdownButtonFormField(
-                    //   value: _enteredcontinentType,
-                    //   style: Theme.of(context)
-                    //       .textTheme
-                    //       .labelMedium!
-                    //       .copyWith(fontWeight: FontWeight.bold),
-                    //   onChanged: (newValue) {
-                    //     setState(() {
-                    //       _enteredcontinentType = newValue!;
-                    //     });
-                    //   },
-                    //   items: const [
-                    //     DropdownMenuItem(
-                    //       value: ContinentType.northAmerica,
-                    //       child: Text('North America'),
-                    //     ),
-                    //     DropdownMenuItem(
-                    //       value: ContinentType.southAmerica,
-                    //       child: Text('South America'),
-                    //     ),
-                    //     DropdownMenuItem(
-                    //       value: ContinentType.africa,
-                    //       child: Text('Africa'),
-                    //     ),
-                    //     DropdownMenuItem(
-                    //       value: ContinentType.europe,
-                    //       child: Text('Europe'),
-                    //     ),
-                    //     DropdownMenuItem(
-                    //       value: ContinentType.asia,
-                    //       child: Text('Asia'),
-                    //     ),
-                    //     DropdownMenuItem(
-                    //       value: ContinentType.australia,
-                    //       child: Text('Australia'),
-                    //     ),
-                    //   ],
-                    //   decoration: const InputDecoration(
-                    //     labelText: 'Continent',
-                    //   ),
-                    //   validator: (value) =>
-                    //       value == null ? 'Please select a continent' : null,
-                    //   onSaved: (value) {
-                    //     _enteredcontinentType = value!;
-                    //   },
-                    // ),
+
                     const SizedBox(
                       height: 20,
                     ),
