@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:travel_link/src/features/activities/3_activities_screen/domain/api_activity.dart';
 import 'package:travel_link/src/features/activities/5_activities_details_screen/api_activities_details_screen.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
+import 'package:travel_link/src/utils/constants/image_strings.dart';
 import 'package:travel_link/src/utils/helpers/wikidata.dart';
 import 'package:travel_link/src/utils/theme/widget_themes/text_theme.dart';
 
@@ -37,7 +38,7 @@ class _APIActivityItemState extends State<APIActivityItem> {
           ? fetchImageAndDescription(widget.activity.wikidataUrl!,
               widget.activity.name, widget.activity.wikidataId!)
           : Future.value([
-              'https://corsproxy.io/?https://via.placeholder.com/150',
+              CustomImages.destinationImagePlaceholderUrl,
             ]);
     }
   }
@@ -45,7 +46,7 @@ class _APIActivityItemState extends State<APIActivityItem> {
   Future<List<String>?> fetchImageAndDescription(
       String formattedLink, String activityName, String wikidataId) async {
     final response =
-        await http.get(Uri.parse('https://corsproxy.io/?$formattedLink'));
+        await http.get(Uri.parse(formattedLink));
     final Map<String, dynamic> data =
         json.decode(response.body) as Map<String, dynamic>;
 
@@ -110,7 +111,7 @@ class _APIActivityItemState extends State<APIActivityItem> {
                 } else if (snapshot.data == null || snapshot.data!.isEmpty) {
                   return Image.network(
                     //Wikipedia entry but no picture
-                    'https://corsproxy.io/?https://via.placeholder.com/150',
+                    CustomImages.destinationImagePlaceholderUrl,
                     height: 125,
                     width: double.infinity,
                     fit: BoxFit.cover,

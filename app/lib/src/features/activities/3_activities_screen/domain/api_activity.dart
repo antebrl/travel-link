@@ -55,7 +55,7 @@ class ApiActivity {
             .containsKey('wikidata')) {
       wikidataId = map['wiki_and_media']['wikidata'] as String;
       wikidataUrl =
-          'https://www.wikidata.org/w/api.php?action=wbgetentities&ids=$wikidataId&format=json&props=descriptions|claims';
+          'https://www.wikidata.org/w/api.php?action=wbgetentities&ids=$wikidataId&origin=*&format=json&props=descriptions|claims';
     }
 
     return ApiActivity(
