@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
@@ -50,19 +51,21 @@ class _ImageInputState extends State<ImageInput> {
 
   @override
   Widget build(BuildContext context) {
-    Widget content = Text(
-      'Add Image',
-      textAlign: TextAlign.center,
-      style: Theme.of(context).textTheme.bodyLarge
-    );
+    Widget content = Text('Add Image',
+        textAlign: TextAlign.center,
+        style: Theme.of(context).textTheme.bodyLarge);
 
     if (_selectedImage != null) {
-      content = Image.file(
-        _selectedImage!,
-        fit: BoxFit.cover,
-        width: double.infinity,
-        height: double.infinity,
-      );
+      if (kIsWeb) {
+        content = Image.network(_selectedImage!.path);
+      } else {
+        content = Image.file(
+          _selectedImage!,
+          fit: BoxFit.cover,
+          width: double.infinity,
+          height: double.infinity,
+        );
+      }
     }
 
     return Column(

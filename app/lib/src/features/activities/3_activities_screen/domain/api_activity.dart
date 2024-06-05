@@ -1,31 +1,26 @@
+import 'dart:io';
+
+import 'package:travel_link/src/features/activities/2_continents_screen/domain/continent.dart';
+
 class ApiActivity {
   ApiActivity({
     required this.name,
-    required this.country,
-    required this.countryCode,
-    required this.city,
-    required this.lon,
-    required this.lat,
-    required this.formatted,
     required this.categories,
+    required this.location,
     this.wikidataUrl,
-    this.wikidataId, 
+    this.wikidataId,
     this.openingHours,
     this.website,
     this.placeId,
     this.imagePaths = const [],
     this.description = '',
+    this.continentType = ContinentType.none,
+    this.image,
   });
 
   final String name;
-  final String country;
-  final String countryCode;
-  final String city;
-  final double lon;
-  final double lat;
-  final String formatted;
 
-  final List<String> categories;
+  List<String> categories;
 
   final String? wikidataUrl;
   final String? wikidataId;
@@ -37,6 +32,11 @@ class ApiActivity {
   List<String> imagePaths;
   String description;
 
+//from normal activity
+  ContinentType continentType;
+  final PlaceLocation location;
+  File? image; // Optional Image
+
   static ApiActivity? fromMap(Map<String, dynamic> map) {
     if (!(map.containsKey('name') &&
             map.containsKey('country') &&
@@ -44,8 +44,7 @@ class ApiActivity {
             map.containsKey('city') &&
             map.containsKey('lon') &&
             map.containsKey('lat') &&
-            map.containsKey('formatted')
-        ) ||
+            map.containsKey('formatted')) ||
         map['name'] is int) {
       return null;
     }
@@ -61,12 +60,14 @@ class ApiActivity {
 
     return ApiActivity(
       name: map['name'] as String,
-      country: map['country'] as String,
-      countryCode: map['country_code'] as String,
-      city: map['city'] as String,
-      lon: map['lon'] as double,
-      lat: map['lat'] as double,
-      formatted: map['formatted'] as String,
+      location: PlaceLocation(
+        lat: map['lat'] as double,
+        lon: map['lon'] as double,
+        city: map['city'] as String,
+        country: map['country'] as String,
+        formatted: map['formatted'] as String,
+        countryCode: map['country_code'] as String,
+      ),
       categories: (map['categories'] as List<dynamic>).cast<String>(),
       wikidataUrl: wikidataUrl,
       wikidataId: wikidataId,
@@ -90,3 +91,23 @@ Set<String> activityTypes = {
   'sport',
   'accommodation',
 };
+
+class PlaceLocation {
+  const PlaceLocation({
+    required this.lat,
+    required this.lon,
+    //required this.street,
+    required this.city,
+    required this.country,
+    required this.formatted,
+    required this.countryCode,
+  });
+
+  final double lat;
+  final double lon;
+  //final String street;
+  final String city;
+  final String country;
+  final String formatted;
+  final String countryCode;
+}

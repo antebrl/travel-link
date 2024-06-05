@@ -16,6 +16,15 @@ class SearchScreen extends ConsumerStatefulWidget {
 class _SearchScreenState extends ConsumerState<SearchScreen> {
   final DestinationController _controller = DestinationController();
   Set<String> _categoryList = {};
+  void _toggleSelectAll() {
+    setState(() {
+      if (_categoryList.length == activityTypes.length) {
+        _categoryList.clear();
+      } else {
+        _categoryList = activityTypes.toSet();
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -115,13 +124,33 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                         ),
                       ),
                       const SizedBox(height: 15),
-                      const Text(
-                        'Select Categories: ',
-                        style: TextStyle(
-                          color: CustomColors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
+                      Row(
+                        children: [
+                          const Text(
+                            'Select Categories: ',
+                            style: TextStyle(
+                              color: CustomColors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Spacer(),
+                          OutlinedButton(
+                            onPressed: _toggleSelectAll,
+                            style: ElevatedButton.styleFrom(
+                                //backgroundColor: Colors.white,
+                                side: BorderSide(color: Colors.white)),
+                            child: Text(
+                              _categoryList.length == activityTypes.length
+                                  ? 'Unselect All'
+                                  : 'Select All',
+                              style: const TextStyle(
+                                  color: CustomColors.white,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.normal),
+                            ),
+                          ),
+                        ],
                       ),
                       const SizedBox(height: 5),
                       Wrap(

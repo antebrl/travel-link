@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:travel_link/src/features/activities/2_continents_screen/domain/continent.dart';
 import 'package:travel_link/src/features/activities/3_activities_screen/domain/activity.dart';
+import 'package:travel_link/src/features/activities/3_activities_screen/domain/api_activity.dart';
 import 'package:travel_link/src/features/activities/4_add_activity_screen/presentation/image_input.dart';
 import 'package:travel_link/src/features/activities/4_add_activity_screen/presentation/location_input.dart';
 import 'package:travel_link/src/features/activities/4_add_activity_screen/switch_continent.dart';
@@ -25,7 +26,7 @@ class _AddActivityScreenState extends ConsumerState<AddActivityScreen> {
   File? _selectedImage;
   PlaceLocation? _selectedLocation;
   bool _isPublic = true;
-  Set<ActivityType> _filters = <ActivityType>{};
+  Set<String> _filters = <String>{};
 
   String? stringValidator(String? value) {
     if (value == null ||
@@ -43,23 +44,19 @@ class _AddActivityScreenState extends ConsumerState<AddActivityScreen> {
         _selectedLocation != null) {
       _formKey.currentState!.save();
       Navigator.of(context).pop(
-        Activity(
+        ApiActivity(
           name: _enteredName,
-          //continentType: _enteredcontinentType,
-          continentType: getContinentFromCountry(_selectedLocation!.country),
+          categories: _filters.toList(),
           description: _enteredDescription,
-          imagePath: '',
           image: _selectedImage,
+          continentType: _enteredcontinentType,
           location: PlaceLocation(
-            latitude: _selectedLocation!.latitude,
-            longitude: _selectedLocation!.longitude,
-            street: _selectedLocation!.street,
-            city: _selectedLocation!.city,
-            country: _selectedLocation!.country,
-          ),
-          isUserCreated: true,
-          isPublic: _isPublic,
-          types: _filters,
+              lat: _selectedLocation!.lat,
+              lon: _selectedLocation!.lon,
+              city: _selectedLocation!.city,
+              country: _selectedLocation!.country,
+              formatted: _selectedLocation!.formatted,
+              countryCode: _selectedLocation!.countryCode),
         ),
       );
     }
@@ -101,53 +98,7 @@ class _AddActivityScreenState extends ConsumerState<AddActivityScreen> {
                         _enteredDescription = value!;
                       },
                     ),
-                    const SizedBox(height: 40),
-                    // DropdownButtonFormField(
-                    //   value: _enteredcontinentType,
-                    //   style: Theme.of(context)
-                    //       .textTheme
-                    //       .labelMedium!
-                    //       .copyWith(fontWeight: FontWeight.bold),
-                    //   onChanged: (newValue) {
-                    //     setState(() {
-                    //       _enteredcontinentType = newValue!;
-                    //     });
-                    //   },
-                    //   items: const [
-                    //     DropdownMenuItem(
-                    //       value: ContinentType.northAmerica,
-                    //       child: Text('North America'),
-                    //     ),
-                    //     DropdownMenuItem(
-                    //       value: ContinentType.southAmerica,
-                    //       child: Text('South America'),
-                    //     ),
-                    //     DropdownMenuItem(
-                    //       value: ContinentType.africa,
-                    //       child: Text('Africa'),
-                    //     ),
-                    //     DropdownMenuItem(
-                    //       value: ContinentType.europe,
-                    //       child: Text('Europe'),
-                    //     ),
-                    //     DropdownMenuItem(
-                    //       value: ContinentType.asia,
-                    //       child: Text('Asia'),
-                    //     ),
-                    //     DropdownMenuItem(
-                    //       value: ContinentType.australia,
-                    //       child: Text('Australia'),
-                    //     ),
-                    //   ],
-                    //   decoration: const InputDecoration(
-                    //     labelText: 'Continent',
-                    //   ),
-                    //   validator: (value) =>
-                    //       value == null ? 'Please select a continent' : null,
-                    //   onSaved: (value) {
-                    //     _enteredcontinentType = value!;
-                    //   },
-                    // ),
+
                     const SizedBox(
                       height: 20,
                     ),
@@ -194,13 +145,13 @@ class _AddActivityScreenState extends ConsumerState<AddActivityScreen> {
                       alignment: WrapAlignment.spaceEvenly,
                       spacing: 40,
                       runSpacing: 10,
-                      children: ActivityType.values.map((ActivityType type) {
+                      children: activityTypes.map((type) {
                         return FilterChip(
                           selectedColor: CustomColors.primary,
                           backgroundColor: CustomColors.white,
                           side: const BorderSide(color: CustomColors.primary),
                           label: Text(
-                            type.name,
+                            type,
                             style: TextStyle(
                               color: _filters.contains(type)
                                   ? CustomColors.white
