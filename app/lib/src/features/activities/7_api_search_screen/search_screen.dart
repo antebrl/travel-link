@@ -89,13 +89,37 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const Text(
-                        'Search Activities in: ',
-                        style: TextStyle(
-                          color: CustomColors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
+                      Row(
+                        children: [
+                          const Text(
+                            'Search Activities in: ',
+                            style: TextStyle(
+                              color: CustomColors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Spacer(), // Hinzugefügt, um den Button ganz rechts zu platzieren
+                          OutlinedButton(
+                            onPressed: () {
+                              setState(() {
+                                //clearInput(); // Eingabefeld leeren
+                                _categoryList
+                                    .clear(); // CategoryList zurücksetzen
+                              });
+                            },
+                            style: ElevatedButton.styleFrom(
+                                side: const BorderSide(color: Colors.white)),
+                            child: const Text(
+                              'Clear',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 14,
+                                fontWeight: FontWeight.normal,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                       const SizedBox(height: 10),
                       AutoCompleteSearch(
@@ -191,7 +215,26 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                       const SizedBox(height: 15),
                       ElevatedButton(
                         onPressed: () {
-                          if (_controller.selectedDestination != null) {
+                          ScaffoldMessenger.of(context).clearSnackBars();
+                          if (_controller.selectedDestination == null) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text(
+                                  'Please enter a valid city.',
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            );
+                          } else if (_categoryList.isEmpty) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text(
+                                  'Please select at least one category.',
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            );
+                          } else {
                             Navigator.of(context).push(
                               MaterialPageRoute<APIActivitiesScreen>(
                                 builder: (context) => APIActivitiesScreen(
