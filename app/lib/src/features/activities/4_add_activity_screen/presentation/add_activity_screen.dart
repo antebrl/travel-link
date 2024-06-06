@@ -7,6 +7,7 @@ import 'package:travel_link/src/features/activities/4_add_activity_screen/presen
 import 'package:travel_link/src/features/activities/4_add_activity_screen/presentation/location_input.dart';
 import 'package:travel_link/src/features/activities/4_add_activity_screen/switch_continent.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
+import 'package:another_flushbar/flushbar.dart';
 
 class AddActivityScreen extends ConsumerStatefulWidget {
   const AddActivityScreen({super.key});
@@ -25,7 +26,7 @@ class _AddActivityScreenState extends ConsumerState<AddActivityScreen> {
   File? _selectedImage;
   PlaceLocation? _selectedLocation;
   bool _isPublic = false;
-  Set<String> _filters = <String>{};
+  final Set<String> _filters = <String>{};
 
   String? stringValidator(String? value) {
     if (value == null ||
@@ -40,7 +41,8 @@ class _AddActivityScreenState extends ConsumerState<AddActivityScreen> {
   void _saveActivity() {
     if (_formKey.currentState!.validate() &&
         _selectedImage != null &&
-        _selectedLocation != null) {
+        _selectedLocation != null &&
+        _filters.isNotEmpty) {
       _formKey.currentState!.save();
       Navigator.of(context).pop(
         ApiActivity(
@@ -62,6 +64,17 @@ class _AddActivityScreenState extends ConsumerState<AddActivityScreen> {
           ),
         ),
       );
+    } else {
+      ScaffoldMessenger.of(context).clearSnackBars();
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'Please fill out all required fields.',
+          ),
+          duration: Duration(seconds: 3),
+        ),
+      );
+
     }
   }
 
