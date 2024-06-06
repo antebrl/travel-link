@@ -60,18 +60,20 @@ class _ApiActivitiesDetailsScreenState
     super.initState();
     if (widget.activity.imagePaths.isNotEmpty) {
       imageSliders = widget.activity.imagePaths
-          .map((item) => Container(
-                margin: const EdgeInsets.all(5),
-                child: ClipRRect(
-                    borderRadius: const BorderRadius.all(Radius.circular(5)),
-                    child: Stack(
-                      children: <Widget>[
-                        Image.network(item,
-                            fit: BoxFit.fill, width: double.infinity),
-                      ],
-                    )),
-              ))
-          .toList();
+          .map((i) {
+              return Builder(
+                builder: (BuildContext context) {
+                  return Container(
+                    width: MediaQuery.of(context).size.width,
+                    height:220,
+                    child: Image.network(
+                      i, 
+                      fit: BoxFit.cover,
+                    ),
+                  );
+                },
+              );
+            }).toList();
     }
   }
 
@@ -99,27 +101,26 @@ class _ApiActivitiesDetailsScreenState
             child: widget.activity.imagePaths.isEmpty
                 ? Image.file(
                     widget.activity.image!,
-                    height: 200,
+                    height: 220,
                     width: double.infinity,
-                    fit: BoxFit.fill,
+                    fit: BoxFit.cover,
                   )
                 : widget.activity.imagePaths.length > 1
                     ? Stack(
                         children: [
-                          Expanded(
-                            child: CarouselSlider(
-                              items: imageSliders,
-                              carouselController: _controller,
-                              options: CarouselOptions(
-                                  autoPlay: true,
-                                  enlargeCenterPage: true,
-                                  aspectRatio: 2,
-                                  onPageChanged: (index, reason) {
-                                    setState(() {
-                                      _current = index;
-                                    });
-                                  }),
-                            ),
+                          CarouselSlider(
+                            items: imageSliders,
+                            carouselController: _controller,
+                            options: CarouselOptions(
+                              autoPlayInterval: const Duration(seconds: 6),
+                                autoPlay: true,
+                                height: 220,
+                                viewportFraction: 1,
+                                onPageChanged: (index, reason) {
+                                  setState(() {
+                                    _current = index;
+                                  });
+                                }),
                           ),
                           Positioned(
                             left: 0,
