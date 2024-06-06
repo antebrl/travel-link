@@ -99,11 +99,11 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          const Spacer(), 
+                          const Spacer(),
                           OutlinedButton(
                             onPressed: () {
                               setState(() {
-                                _controller.textEditingController.clear(); 
+                                _controller.textEditingController.clear();
                                 _controller.selectedDestination = null;
                                 _categoryList
                                     .clear(); // CategoryList zurücksetzen
@@ -236,14 +236,22 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                               ),
                             );
                           } else {
-                            Navigator.of(context).push(
+                            Navigator.of(context)
+                                .push(
                               MaterialPageRoute<APIActivitiesScreen>(
                                 builder: (context) => APIActivitiesScreen(
                                   destination: _controller.selectedDestination!,
                                   categoryList: _categoryList,
                                 ),
                               ),
-                            );
+                            )
+                                .then((_) {
+                              setState(() {
+                                _controller.textEditingController.clear();
+                                _controller.selectedDestination = null;
+                                _categoryList.clear();
+                              });
+                            });
                           }
                         },
                         style: ElevatedButton.styleFrom(
