@@ -77,7 +77,7 @@ class FullscreenPicture extends ConsumerWidget {
                         ),
                       ),
                       Text(
-                        CustomFormatter.formatDate(picturePost.timestamp),
+                        CustomFormatter.formatDateChat(picturePost.timestamp),
                         style: context.textTheme.bodySmall?.copyWith(
                           color: Colors.grey[800],
                         ),

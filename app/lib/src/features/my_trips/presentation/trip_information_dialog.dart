@@ -79,15 +79,21 @@ class TripPrivacyInformationDialog extends StatelessWidget {
             child: Align(
               alignment: Alignment.topRight,
               child: Container(
+                width: 30,
+                height: 30,
                 decoration: BoxDecoration(
                   color: Colors.white.withOpacity(0.7),
-                  borderRadius: BorderRadius.circular(14),
+                  shape: BoxShape.circle,
                 ),
-                child: const Icon(
-                  Icons.close,
-                  weight: 150,
-                  size: 27,
-                  color: CustomColors.primary,
+                child: IconButton(
+                  padding: EdgeInsets.zero,
+                  iconSize: 25,
+                  icon: const Icon(
+                    Icons.close,
+                    weight: 150,
+                    color: CustomColors.primary,
+                  ),
+                  onPressed: () => Navigator.of(context).pop(),
                 ),
               ),
             ),

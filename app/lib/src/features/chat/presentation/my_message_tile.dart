@@ -46,7 +46,7 @@ class MyMessageTile extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.fromLTRB(8, 4, 8, 2),
             child: Text(
-              CustomFormatter.formatDate(timestamp!),
+              CustomFormatter.formatDateChat(timestamp!),
               style: const TextStyle(
                 color: Colors.grey,
                 fontSize: 12,
