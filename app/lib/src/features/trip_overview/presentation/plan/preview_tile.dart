@@ -1,14 +1,19 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
 
 class PreviewTile extends StatelessWidget {
-  const PreviewTile({required this.title, required this.preview, required this.detailsPageBuilder, super.key});
+  const PreviewTile({
+    required this.title,
+    required this.preview,
+    required this.detailsPageBuilder,
+    this.showAsModalSheet = false,
+    super.key,
+  });
 
   final String title;
   final Widget preview;
   final WidgetBuilder detailsPageBuilder;
+  final bool showAsModalSheet;
 
   @override
   Widget build(BuildContext context) {
@@ -19,6 +24,13 @@ class PreviewTile extends StatelessWidget {
         children: [
           GestureDetector(
             onTap: () {
+              if (showAsModalSheet) {
+                showModalBottomSheet<void>(
+                  context: context,
+                  builder: detailsPageBuilder,
+                );
+                return;
+              }
               Navigator.push(
                 context,
                 MaterialPageRoute<void>(

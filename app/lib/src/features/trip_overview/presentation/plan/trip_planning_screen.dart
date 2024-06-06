@@ -29,7 +29,7 @@ class _TripPlanningScreenState extends State<TripPlanningScreen> {
       children: [
         // pictures of trip/destination
         buildImageSlider(),
-    
+
         // Headings
         const SizedBox(height: 20),
         //Trip description
@@ -69,8 +69,14 @@ class _TripPlanningScreenState extends State<TripPlanningScreen> {
         const SizedBox(height: 10),
         PreviewTile(
           title: 'Participants',
-          preview: ParticipantsPreview(participants: widget.trip.participants, maxParticipants: widget.trip.maxParticipants,),
-          detailsPageBuilder: (context) => const ParticipantListView(),
+          preview: ParticipantsPreview(
+            participants: widget.trip.participants,
+            maxParticipants: widget.trip.maxParticipants,
+          ),
+          detailsPageBuilder: (context) => ParticipantListView(
+            participants: widget.trip.participants,
+          ),
+          showAsModalSheet: true,
         ),
         const SizedBox(height: 10),
         PreviewTile(
@@ -152,10 +158,12 @@ class _TripPlanningScreenState extends State<TripPlanningScreen> {
                       widget.trip.startDate != null
                           ? CustomFormatter.formatDateRange(
                               startDate: widget.trip.startDate!,
-                              endDate: widget.trip.endDate!)
+                              endDate: widget.trip.endDate!,
+                            )
                           : 'flexible Dates',
                       style: const TextStyle(
                         fontSize: 14,
+                        fontWeight: FontWeight.bold,
                         color: CustomColors.primary,
                       ),
                     ),
@@ -172,7 +180,7 @@ class _TripPlanningScreenState extends State<TripPlanningScreen> {
               items: widget.trip.images.map((i) {
                 return Builder(
                   builder: (BuildContext context) {
-                    return Container(
+                    return SizedBox(
                       width: MediaQuery.of(context).size.width,
                       height: 180,
                       child: Image.network(
@@ -185,7 +193,9 @@ class _TripPlanningScreenState extends State<TripPlanningScreen> {
               }).toList(),
               carouselController: _carouselController,
               options: CarouselOptions(
-                autoPlayInterval: const Duration(seconds: 6),
+                autoPlayInterval: const Duration(
+                  seconds: 6,
+                ),
                 autoPlay: true,
                 height: 180,
                 viewportFraction: 1,
@@ -211,7 +221,9 @@ class _TripPlanningScreenState extends State<TripPlanningScreen> {
                       width: 12,
                       height: 12,
                       margin: const EdgeInsets.symmetric(
-                          vertical: 8, horizontal: 4),
+                        vertical: 8,
+                        horizontal: 4,
+                      ),
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         color: (Theme.of(context).brightness == Brightness.dark
@@ -250,7 +262,8 @@ class _TripPlanningScreenState extends State<TripPlanningScreen> {
                       widget.trip.startDate != null
                           ? CustomFormatter.formatDateRange(
                               startDate: widget.trip.startDate!,
-                              endDate: widget.trip.endDate!)
+                              endDate: widget.trip.endDate!,
+                            )
                           : 'flexible Dates',
                       style: const TextStyle(
                         fontSize: 14,
