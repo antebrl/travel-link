@@ -13,4 +13,3 @@ class CustomImages {
   static const String destinationImagePlaceholderUrl = 'https://corsproxy.io/?https://via.placeholder.com/150';
 
 }
-

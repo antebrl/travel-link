@@ -192,7 +192,10 @@ class CreateTripScreenState extends ConsumerState<CreateTripScreen> {
                             ? Row(
                                 children: [
                                   Text(
-                                    CustomFormatter.formatDateRange(startDate: _startDate!, endDate: _endDate!),
+                                    CustomFormatter.formatDateRange(
+                                      startDate: _startDate!,
+                                      endDate: _endDate!,
+                                    ),
                                     style:
                                         Theme.of(context).textTheme.bodyMedium,
                                   ),
