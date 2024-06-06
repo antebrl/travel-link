@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:travel_link/src/features/authentication/data/firebase_auth_repository.dart';
 import 'package:travel_link/src/features/explore_trips/domain/trip.dart';
@@ -51,18 +50,6 @@ class _AddPictureScreenState extends ConsumerState<AddPictureScreen> {
   Widget build(BuildContext context) {
     final state = ref.watch(sharedGalleryControllerProvider);
     final auth = ref.watch(authRepositoryProvider);
-
-    final webSettings = WebUiSettings(
-      context: context,
-      viewPort: const CroppieViewPort(
-        width: 270, //9
-        height: 480, //16
-        type: 'rectangle',
-      ),
-      enableExif: true,
-      enableZoom: true,
-      showZoomer: true,
-    );
 
     return Scaffold(
       appBar: AppBar(
@@ -113,26 +100,12 @@ class _AddPictureScreenState extends ConsumerState<AddPictureScreen> {
                       );
 
                       if (image != null) {
-                        final CroppedFile? croppedFile =
-                            await ImageCropper().cropImage(
-                          sourcePath: image.path,
-                          aspectRatio: const CropAspectRatio(
-                            ratioX: 9,
-                            ratioY: 16,
-                          ),
-                          uiSettings: [
-                            webSettings,
-                          ],
-                        );
-
-                        if (croppedFile != null) {
                           final Uint8List imageBytes =
-                              await croppedFile.readAsBytes();
+                              await image.readAsBytes();
                           setState(() {
                             tempUploadImg = imageBytes;
-                            tempImg = croppedFile.path;
+                            tempImg = image.path;
                           });
-                        }
                       }
                     },
                     child: tempImg != null
