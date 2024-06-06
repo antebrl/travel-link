@@ -99,11 +99,12 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          Spacer(), // Hinzugefügt, um den Button ganz rechts zu platzieren
+                          const Spacer(), 
                           OutlinedButton(
                             onPressed: () {
                               setState(() {
-                                //clearInput(); // Eingabefeld leeren
+                                _controller.textEditingController.clear(); 
+                                _controller.selectedDestination = null;
                                 _categoryList
                                     .clear(); // CategoryList zurücksetzen
                               });

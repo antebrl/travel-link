@@ -91,6 +91,7 @@ class _AutoCompleteSearchState extends State<AutoCompleteSearch> {
         FocusNode focusNode,
         VoidCallback onFieldSubmitted,
       ) {
+        widget.controller.textEditingController = textEditingController;
         return TextFormField(
           controller: textEditingController,
           focusNode: focusNode,
@@ -161,4 +162,5 @@ class _AutoCompleteSearchState extends State<AutoCompleteSearch> {
 class DestinationController {
   Destination? selectedDestination;
   String? queryDestination;
+  TextEditingController textEditingController = TextEditingController();
 }
