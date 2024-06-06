@@ -10,6 +10,7 @@ import 'package:travel_link/src/common_widgets/calendar_popup_view.dart';
 import 'package:travel_link/src/features/my_trips/data/my_trips_repository.dart';
 import 'package:travel_link/src/features/my_trips/domain/destination.dart';
 import 'package:travel_link/src/features/my_trips/presentation/my_trips_controller.dart';
+import 'package:travel_link/src/features/my_trips/presentation/trip_information_dialog.dart';
 import 'package:travel_link/src/utils/constants/api_constants.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
 import 'package:travel_link/src/utils/logging/logger.dart';
@@ -68,8 +69,10 @@ class CreateTripScreenState extends ConsumerState<CreateTripScreen> {
     if (!_validateAndSaveForm()) return;
 
     if (_controller.selectedDestination == null ||
-        _controller.selectedDestination!.formatted != _controller.queryDestination) {
-      _controller.selectedDestination = Destination(formatted: _controller.queryDestination ?? '');
+        _controller.selectedDestination!.formatted !=
+            _controller.queryDestination) {
+      _controller.selectedDestination =
+          Destination(formatted: _controller.queryDestination ?? '');
     }
 
     final success =
@@ -140,9 +143,11 @@ class CreateTripScreenState extends ConsumerState<CreateTripScreen> {
                         onSaved: (value) => _description = value,
                         maxLength: 70,
                         maxLengthEnforcement: MaxLengthEnforcement.enforced,
-                        validator: (value) => (value ?? '').isNotEmpty 
+                        validator: (value) => (value ?? '').isNotEmpty
                             ? null
-                            : _isPublic ? "Description can't be empty if the trip is public" : null,
+                            : _isPublic
+                                ? "Description can't be empty if the trip is public"
+                                : null,
                         decoration: const InputDecoration(
                           labelText: 'Description',
                         ),
@@ -250,7 +255,21 @@ class CreateTripScreenState extends ConsumerState<CreateTripScreen> {
                       _isPublic ? 'Public Trip' : 'Private Trip',
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
-                    Expanded(child: Container()),
+                    IconButton(
+                      icon: Icon(
+                        Icons.info,
+                        color: CustomColors.primary.withOpacity(0.8),
+                      ),
+                      onPressed: () {
+                        showDialog<TripPrivacyInformationDialog>(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return const TripPrivacyInformationDialog();
+                          },
+                        );
+                      },
+                    ),
+                    const Spacer(),
                     if (_isPublic)
                       Row(
                         children: [
