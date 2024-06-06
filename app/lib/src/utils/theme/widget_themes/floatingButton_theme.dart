@@ -6,11 +6,11 @@ class CustomFloatingButtonTheme {
   CustomFloatingButtonTheme._();
 
   /// Light Theme
-  static final lightFloatingButtonTheme = FloatingActionButtonThemeData(
+  static final lightFloatingButtonTheme = const FloatingActionButtonThemeData(
     elevation: 8, // Adjust the elevation as needed
     foregroundColor: CustomColors.white,
     backgroundColor: CustomColors.primary,
 
-    shape: const CircleBorder(), // Circular shape for floating button
+    shape: CircleBorder(), // Circular shape for floating button
   );
 }

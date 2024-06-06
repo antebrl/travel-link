@@ -57,7 +57,9 @@ class Trip extends Equatable {
       description: value['description'] as String?,
       startDate: (value['startDate'] as Timestamp?)?.toDate(),
       endDate: (value['endDate'] as Timestamp?)?.toDate(),
-      destination: Destination.fromMap(value['destination'] as Map<dynamic, dynamic>),
+      destination: Destination.fromMap(
+        value['destination'] as Map<dynamic, dynamic>,
+      ),
       isPublic: value['isPublic'] as bool,
       images: (value['images'] as List<dynamic>).cast<String>(),
       participants: (value['participants'] as List<dynamic>).cast<String>(),
