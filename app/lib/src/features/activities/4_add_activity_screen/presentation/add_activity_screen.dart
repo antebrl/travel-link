@@ -25,7 +25,7 @@ class _AddActivityScreenState extends ConsumerState<AddActivityScreen> {
   File? _selectedImage;
   PlaceLocation? _selectedLocation;
   bool _isPublic = false;
-  Set<String> _filters = <String>{};
+  final Set<String> _filters = <String>{};
 
   String? stringValidator(String? value) {
     if (value == null ||
@@ -40,7 +40,8 @@ class _AddActivityScreenState extends ConsumerState<AddActivityScreen> {
   void _saveActivity() {
     if (_formKey.currentState!.validate() &&
         _selectedImage != null &&
-        _selectedLocation != null) {
+        _selectedLocation != null &&
+        _filters.isNotEmpty) {
       _formKey.currentState!.save();
       Navigator.of(context).pop(
         ApiActivity(
@@ -60,6 +61,16 @@ class _AddActivityScreenState extends ConsumerState<AddActivityScreen> {
             formatted: _selectedLocation!.formatted,
             countryCode: _selectedLocation!.countryCode,
           ),
+        ),
+      );
+    } else {
+      ScaffoldMessenger.of(context).clearSnackBars();
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'Please fill out all required fields.',
+          ),
+          duration: Duration(seconds: 3),
         ),
       );
     }
