@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:travel_link/src/features/activities/3_activities_screen/presentation/activities_api_screen.dart';
 import 'package:travel_link/src/features/checklists/presentation/checklists_screen.dart';
@@ -6,10 +7,18 @@ import 'package:travel_link/src/features/map/presentation/trip_map_screen.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
 import 'package:travel_link/src/utils/formatters/formatter.dart';
 
-class TripPlanningScreen extends StatelessWidget {
+class TripPlanningScreen extends StatefulWidget {
   const TripPlanningScreen({required this.trip, super.key});
 
   final Trip trip;
+
+  @override
+  State<TripPlanningScreen> createState() => _TripPlanningScreenState();
+}
+
+class _TripPlanningScreenState extends State<TripPlanningScreen> {
+  CarouselController? _carouselController = CarouselController();
+  int _currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -17,85 +26,44 @@ class TripPlanningScreen extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // pictures of trip/destination
-        Stack(
-          children: [
-            Image.network(
-              //Wikipedia entry but no picture
-              trip.images[0],
-              height: 145,
-              width: double.infinity,
-              fit: BoxFit.cover,
-            ),
-            Positioned(
-              bottom: 20,
-              left: 20,
-              child: Container(
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.8),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      trip.destination.formatted,
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 5),
-                    Text(
-                      trip.startDate != null ? CustomFormatter.formatDateRange(startDate: trip.startDate!, endDate: trip.endDate!) : 'flexible Dates',
-                      style: const TextStyle(
-                        fontSize: 14,
-                        color: CustomColors.primary,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-    
+        buildImageSlider(),
+
         // Headings
         const SizedBox(height: 20),
         RichText(
-                      //Trip description
-                      text: TextSpan(
-                        style: TextStyle(
-                          color: Colors.grey.shade800,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w200,
-                        ),
-                        children: [
-                          const TextSpan(
-                            text: '„',
-                            style: TextStyle(
-                              fontSize: 27,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.blue,
-                            ),
-                          ),
-                          TextSpan(
-                            text: trip.description,
-                          ),
-                          const TextSpan(
-                            text: '”',
-                            style: TextStyle(
-                              fontSize: 27,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.blue,
-                            ),
-                          ),
-                        ],
-                      ),
-                      maxLines: 4,
-                      textAlign: TextAlign.center,
-                      overflow: TextOverflow.ellipsis,
-                    ),
+          //Trip description
+          text: TextSpan(
+            style: TextStyle(
+              color: Colors.grey.shade800,
+              fontSize: 18,
+              fontWeight: FontWeight.w200,
+            ),
+            children: [
+              const TextSpan(
+                text: '„',
+                style: TextStyle(
+                  fontSize: 27,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.blue,
+                ),
+              ),
+              TextSpan(
+                text: widget.trip.description,
+              ),
+              const TextSpan(
+                text: '”',
+                style: TextStyle(
+                  fontSize: 27,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.blue,
+                ),
+              ),
+            ],
+          ),
+          maxLines: 4,
+          textAlign: TextAlign.center,
+          overflow: TextOverflow.ellipsis,
+        ),
         const SizedBox(height: 10),
         const Text(
           'Costs',
@@ -161,7 +129,7 @@ class TripPlanningScreen extends StatelessWidget {
               context,
               MaterialPageRoute<ChecklistsScreen>(
                 builder: (context) => APIActivitiesScreen(
-                  destination: trip.destination,
+                  destination: widget.trip.destination,
                   categoryList: {'entertainment'},
                 ),
               ),
@@ -171,4 +139,127 @@ class TripPlanningScreen extends StatelessWidget {
       ],
     );
   }
+
+  Widget buildImageSlider() {
+    switch(widget.trip.images.length) {
+      case 0:
+        return Container(
+          height: 180,
+          color: Colors.grey[300],
+          child: const Center(
+            child: Text(
+              'No images available',
+              style: TextStyle(
+                color: Colors.grey,
+                fontSize: 16,
+              ),
+            ),
+          ),
+        );
+      case 1:
+        return Image.network(
+            widget.trip.images.first,
+            fit: BoxFit.cover,
+            height: 180,
+            width: double.infinity,
+        );
+      default:
+        return Stack(
+          children: [
+            CarouselSlider(
+              items: widget.trip.images.map((i) {
+                return Builder(
+                  builder: (BuildContext context) {
+                    return Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: 180,
+                      child: Image.network(
+                        i,
+                        fit: BoxFit.cover,
+                      ),
+                    );
+                  },
+                );
+              }).toList(),
+              carouselController: _carouselController,
+              options: CarouselOptions(
+                  autoPlayInterval: const Duration(seconds: 6),
+                  autoPlay: true,
+                  height: 180,
+                  viewportFraction: 1,
+                  onPageChanged: (index, reason) {
+                    setState(() {
+                      _currentIndex = index;
+                    },);
+                  },),
+            ),
+            Positioned(
+              left: 0,
+              right: 0,
+              top: 10,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: widget.trip.images.asMap().entries.map((entry) {
+                  return GestureDetector(
+                    onTap: () => _carouselController?.animateToPage(entry.key),
+                    child: Container(
+                      width: 12,
+                      height: 12,
+                      margin: const EdgeInsets.symmetric(
+                          vertical: 8, horizontal: 4),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: (Theme.of(context).brightness == Brightness.dark
+                                ? Colors.white
+                                : CustomColors.primary)
+                            .withOpacity(
+                                _currentIndex == entry.key ? 0.9 : 0.4,),
+                      ),
+                    ),
+                  );
+                }).toList(),
+              ),
+            ),
+            
+            Positioned(
+              bottom: 20,
+              left: 20,
+              child: Container(
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.8),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      widget.trip.destination.formatted,
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 5),
+                    Text(
+                      widget.trip.startDate != null
+                          ? CustomFormatter.formatDateRange(
+                              startDate: widget.trip.startDate!,
+                              endDate: widget.trip.endDate!)
+                          : 'flexible Dates',
+                      style: const TextStyle(
+                        fontSize: 14,
+                        color: CustomColors.primary,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        );
+  }
+
+  }
+
 }
