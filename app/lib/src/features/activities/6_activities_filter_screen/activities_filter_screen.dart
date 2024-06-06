@@ -1,4 +1,3 @@
-
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:travel_link/src/features/activities/2_continents_screen/domain/continent.dart';
@@ -30,6 +29,7 @@ class _ActivitiesFilterScreenState extends State<ActivitiesFilterScreen> {
       }
     });
   }
+
   @override
   void initState() {
     super.initState();
@@ -338,13 +338,38 @@ class _ActivitiesFilterScreenState extends State<ActivitiesFilterScreen> {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        const Text(
-                          'Select country:',
-                          style: TextStyle(
-                            color: CustomColors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
+                        Row(
+                          children: [
+                            const Text(
+                              'Select country:',
+                              style: TextStyle(
+                                color: CustomColors.white,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const Spacer(),
+                            OutlinedButton(
+                              onPressed: () {
+                                setState(() {
+                                  _countryController.clear();
+
+                                  _categoryList
+                                      .clear(); // CategoryList zurücksetzen
+                                });
+                              },
+                              style: ElevatedButton.styleFrom(
+                                  side: const BorderSide(color: Colors.white)),
+                              child: const Text(
+                                'Clear',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.normal,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                         const SizedBox(height: 15),
                         Padding(
@@ -363,7 +388,6 @@ class _ActivitiesFilterScreenState extends State<ActivitiesFilterScreen> {
                             ),
                             onTap: () {
                               showCountryPicker(
-                                showWorldWide: true,
                                 context: context,
                                 countryFilter: countryList,
                                 onSelect: (Country country) {
@@ -408,21 +432,21 @@ class _ActivitiesFilterScreenState extends State<ActivitiesFilterScreen> {
                               ),
                             ),
                             Spacer(),
-                          OutlinedButton(
-                            onPressed: _toggleSelectAll,
-                            style: ElevatedButton.styleFrom(
-                                //backgroundColor: Colors.white,
-                                side: BorderSide(color: Colors.white)),
-                            child: Text(
-                              _categoryList.length == activityTypes.length
-                                  ? 'Unselect All'
-                                  : 'Select All',
-                              style: const TextStyle(
-                                  color: CustomColors.white,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.normal),
+                            OutlinedButton(
+                              onPressed: _toggleSelectAll,
+                              style: ElevatedButton.styleFrom(
+                                  //backgroundColor: Colors.white,
+                                  side: BorderSide(color: Colors.white)),
+                              child: Text(
+                                _categoryList.length == activityTypes.length
+                                    ? 'Unselect All'
+                                    : 'Select All',
+                                style: const TextStyle(
+                                    color: CustomColors.white,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.normal),
+                              ),
                             ),
-                          ),
                           ],
                         ),
                         const SizedBox(height: 15),

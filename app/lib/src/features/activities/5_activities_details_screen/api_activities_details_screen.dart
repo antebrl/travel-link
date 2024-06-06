@@ -3,15 +3,25 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:travel_link/src/features/activities/3_activities_screen/domain/api_activity.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
-class ApiActivitiesDetailsScreen extends StatelessWidget {
-  const ApiActivitiesDetailsScreen({required this.activity, super.key});
+class ApiActivitiesDetailsScreen extends StatefulWidget {
+  ApiActivitiesDetailsScreen({required this.activity, super.key});
 
   final ApiActivity activity;
 
-  FlutterMap _createMap(double latitude, double longitude) {
+  @override
+  State<ApiActivitiesDetailsScreen> createState() =>
+      _ApiActivitiesDetailsScreenState();
+}
+
+class _ApiActivitiesDetailsScreenState
+    extends State<ApiActivitiesDetailsScreen> {
+  int _current = 0;
+  final CarouselController _controller = CarouselController();
+
+  FlutterMap _createMapOneTime(double latitude, double longitude) {
     return FlutterMap(
-      key: UniqueKey(),
       options: MapOptions(
         initialCenter: LatLng(latitude, longitude),
         // interactionOptions: const InteractionOptions(
@@ -42,16 +52,40 @@ class ApiActivitiesDetailsScreen extends StatelessWidget {
         userAgentPackageName: 'dev.fleaflet.flutter_map.exaple',
       );
 
+  List<Widget> imageSliders = [];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if (widget.activity.imagePaths.isNotEmpty) {
+      imageSliders = widget.activity.imagePaths
+          .map((item) => Container(
+                margin: const EdgeInsets.all(5),
+                child: ClipRRect(
+                    borderRadius: const BorderRadius.all(Radius.circular(5)),
+                    child: Stack(
+                      children: <Widget>[
+                        Image.network(item,
+                            fit: BoxFit.fill, width: double.infinity),
+                      ],
+                    )),
+              ))
+          .toList();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     Widget content;
 
-    content = _createMap(activity.location.lat, activity.location.lon);
+    content = _createMapOneTime(
+        widget.activity.location.lat, widget.activity.location.lon);
 
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          activity.name,
+          widget.activity.name,
         ),
       ),
       body: Stack(
@@ -62,19 +96,72 @@ class ApiActivitiesDetailsScreen extends StatelessWidget {
             left: 0,
             right: 0,
             height: 250, // Höhe des Bildes anpassen
-            child: activity.imagePaths.isEmpty
+            child: widget.activity.imagePaths.isEmpty
                 ? Image.file(
-                    activity.image!,
+                    widget.activity.image!,
                     height: 200,
                     width: double.infinity,
                     fit: BoxFit.fill,
                   )
-                : Image.network(
-                    activity.imagePaths[0],
-                    height: 200,
-                    width: double.infinity,
-                    fit: BoxFit.fill,
-                  ),
+                : widget.activity.imagePaths.length > 1
+                    ? Stack(
+                        children: [
+                          Expanded(
+                            child: CarouselSlider(
+                              items: imageSliders,
+                              carouselController: _controller,
+                              options: CarouselOptions(
+                                  autoPlay: true,
+                                  enlargeCenterPage: true,
+                                  aspectRatio: 2,
+                                  onPageChanged: (index, reason) {
+                                    setState(() {
+                                      _current = index;
+                                    });
+                                  }),
+                            ),
+                          ),
+                          Positioned(
+                            left: 0,
+                            right: 0,
+                            top: 10,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: widget.activity.imagePaths
+                                  .asMap()
+                                  .entries
+                                  .map((entry) {
+                                return GestureDetector(
+                                  onTap: () =>
+                                      _controller.animateToPage(entry.key),
+                                  child: Container(
+                                    width: 12,
+                                    height: 12,
+                                    margin: const EdgeInsets.symmetric(
+                                        vertical: 8, horizontal: 4),
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: (Theme.of(context).brightness ==
+                                                  Brightness.dark
+                                              ? Colors.white
+                                              : CustomColors.primary)
+                                          .withOpacity(_current == entry.key
+                                              ? 0.9
+                                              : 0.4),
+                                    ),
+                                  ),
+                                );
+                              }).toList(),
+                            ),
+                          ),
+                        ],
+                      )
+                    : Image.network(
+                        widget.activity.imagePaths[0],
+                        height: 200,
+                        width: double.infinity,
+                        fit: BoxFit.fill,
+                      ),
           ),
 
           // Weiße Fläche mit abgerundeten Ecken und Schatten
@@ -113,7 +200,7 @@ class ApiActivitiesDetailsScreen extends StatelessWidget {
                             children: [
                               Center(
                                 child: Text(
-                                  'Explore: ${activity.name}',
+                                  'Explore: ${widget.activity.name}',
                                   style: Theme.of(context)
                                       .textTheme
                                       .headlineSmall!
@@ -124,7 +211,7 @@ class ApiActivitiesDetailsScreen extends StatelessWidget {
                                 ),
                               ),
                               const SizedBox(height: 20),
-                              if (activity.description.isNotEmpty) ...[
+                              if (widget.activity.description.isNotEmpty) ...[
                                 Text(
                                   'Description: ',
                                   style: Theme.of(context)
@@ -133,12 +220,12 @@ class ApiActivitiesDetailsScreen extends StatelessWidget {
                                       .copyWith(color: CustomColors.primary),
                                 ),
                                 Text(
-                                  activity.description,
+                                  widget.activity.description,
                                   style: Theme.of(context).textTheme.bodyLarge,
                                 ),
                               ],
                               const SizedBox(height: 10),
-                              if (activity.openingHours != null) ...[
+                              if (widget.activity.openingHours != null) ...[
                                 Text(
                                   'Opening hours: ',
                                   style: Theme.of(context)
@@ -147,7 +234,7 @@ class ApiActivitiesDetailsScreen extends StatelessWidget {
                                       .copyWith(color: CustomColors.primary),
                                 ),
                                 Text(
-                                  activity.openingHours!,
+                                  widget.activity.openingHours!,
                                   style: Theme.of(context).textTheme.bodyLarge,
                                 ),
                               ],
@@ -160,7 +247,7 @@ class ApiActivitiesDetailsScreen extends StatelessWidget {
                                     .copyWith(color: CustomColors.primary),
                               ),
                               Text(
-                                activity.location.formatted,
+                                widget.activity.location.formatted,
                                 style: Theme.of(context).textTheme.bodyLarge,
                               ),
                               const SizedBox(height: 10),
@@ -192,7 +279,8 @@ class ApiActivitiesDetailsScreen extends StatelessWidget {
                                   spacing: 10.0, // Abstand zwischen den Chips
                                   runSpacing:
                                       5.0, // Abstand zwischen den Zeilen
-                                  children: activity.categories.map((category) {
+                                  children: widget.activity.categories
+                                      .map((category) {
                                     return Chip(
                                       side: const BorderSide(
                                           color: CustomColors.primary),
