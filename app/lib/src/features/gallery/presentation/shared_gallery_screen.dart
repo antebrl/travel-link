@@ -1,10 +1,9 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:travel_link/src/features/explore_trips/domain/trip.dart';
 import 'package:travel_link/src/features/gallery/data/shared_gallery_repository.dart';
 import 'package:travel_link/src/features/gallery/presentation/add_picture_screen.dart';
-import 'package:travel_link/src/features/gallery/presentation/fullscreen_picture.dart';
+import 'package:travel_link/src/features/gallery/presentation/images_grid_view.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
 import 'package:travel_link/src/utils/logging/logger.dart';
 
@@ -31,39 +30,7 @@ class SharedGalleryScreen extends ConsumerWidget {
             },
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 6),
-              child: GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
-                  crossAxisSpacing: 5,
-                  mainAxisSpacing: 5,
-                  childAspectRatio: 9 / 16,
-                ),
-                itemCount: images.length,
-                itemBuilder: (context, index) {
-                  return GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute<FullscreenPicture>(
-                          builder: (context) => FullscreenPicture(
-                            picturePost: images[index],
-                          ),
-                        ),
-                      );
-                    },
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(12),
-                      child: CachedNetworkImage(
-                        imageUrl: images[index].picture,
-                        placeholder: (context, url) => const Center(
-                          child: CircularProgressIndicator(),
-                        ),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  );
-                },
-              ),
+              child: ImagesGridView(images: images),
             ),
           ),
           floatingActionButton: FloatingActionButton(
