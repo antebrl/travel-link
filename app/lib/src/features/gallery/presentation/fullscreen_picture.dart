@@ -17,12 +17,16 @@ class FullscreenPicture extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final author = ref.watch(fetchUserProvider(picturePost.uid));
 
+    final mediaQuery = MediaQuery.of(context);
+
+    final BoxFit fitType = mediaQuery.orientation == Orientation.portrait ? BoxFit.fitWidth : BoxFit.fitHeight;
+
     return Stack(
       fit: StackFit.expand,
       children: [
         CachedNetworkImage(
           imageUrl: picturePost.picture,
-          fit: BoxFit.cover,
+          fit: fitType,
         ),
         Container(
           decoration: const BoxDecoration(
