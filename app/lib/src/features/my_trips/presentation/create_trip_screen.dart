@@ -13,6 +13,7 @@ import 'package:travel_link/src/features/my_trips/presentation/my_trips_controll
 import 'package:travel_link/src/features/my_trips/presentation/trip_information_dialog.dart';
 import 'package:travel_link/src/utils/constants/api_constants.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
+import 'package:travel_link/src/utils/formatters/formatter.dart';
 import 'package:travel_link/src/utils/logging/logger.dart';
 
 class CreateTripScreen extends ConsumerStatefulWidget {
@@ -191,7 +192,7 @@ class CreateTripScreenState extends ConsumerState<CreateTripScreen> {
                             ? Row(
                                 children: [
                                   Text(
-                                    '${_startDate!.day}.${_startDate!.month}.${_startDate!.year} - ${_endDate!.day}.${_endDate!.month}.${_endDate!.year}',
+                                    CustomFormatter.formatDateRange(startDate: _startDate!, endDate: _endDate!),
                                     style:
                                         Theme.of(context).textTheme.bodyMedium,
                                   ),

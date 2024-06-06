@@ -3,6 +3,8 @@ import 'package:travel_link/src/features/activities/3_activities_screen/presenta
 import 'package:travel_link/src/features/checklists/presentation/checklists_screen.dart';
 import 'package:travel_link/src/features/explore_trips/domain/trip.dart';
 import 'package:travel_link/src/features/map/presentation/trip_map_screen.dart';
+import 'package:travel_link/src/utils/constants/colors.dart';
+import 'package:travel_link/src/utils/formatters/formatter.dart';
 
 class TripPlanningScreen extends StatelessWidget {
   const TripPlanningScreen({required this.trip, super.key});
@@ -14,13 +16,13 @@ class TripPlanningScreen extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Placeholder for picture
+        // pictures of trip/destination
         Stack(
           children: [
             Image.network(
               //Wikipedia entry but no picture
               trip.images[0],
-              height: 125,
+              height: 145,
               width: double.infinity,
               fit: BoxFit.cover,
             ),
@@ -45,10 +47,10 @@ class TripPlanningScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 5),
                     Text(
-                      trip.startDate.toString(),
+                      trip.startDate != null ? CustomFormatter.formatDateRange(startDate: trip.startDate!, endDate: trip.endDate!) : 'flexible Dates',
                       style: const TextStyle(
                         fontSize: 14,
-                        color: Colors.grey,
+                        color: CustomColors.primary,
                       ),
                     ),
                   ],
