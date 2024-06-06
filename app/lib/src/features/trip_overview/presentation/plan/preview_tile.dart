@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
 
@@ -38,7 +40,7 @@ class PreviewTile extends StatelessWidget {
                 const Icon(
                   Icons.arrow_forward_ios,
                   color: CustomColors.primary,
-                  size: 16,
+                  size: 20,
                 ),
               ],
             ),

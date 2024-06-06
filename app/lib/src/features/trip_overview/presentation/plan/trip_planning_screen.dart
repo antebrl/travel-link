@@ -4,6 +4,7 @@ import 'package:travel_link/src/features/activities/3_activities_screen/presenta
 import 'package:travel_link/src/features/checklists/presentation/checklists_screen.dart';
 import 'package:travel_link/src/features/explore_trips/domain/trip.dart';
 import 'package:travel_link/src/features/map/presentation/trip_map_screen.dart';
+import 'package:travel_link/src/features/trip_overview/presentation/plan/participants/participant_list_view.dart';
 import 'package:travel_link/src/features/trip_overview/presentation/plan/participants/participants_preview.dart';
 import 'package:travel_link/src/features/trip_overview/presentation/plan/preview_tile.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
@@ -68,8 +69,8 @@ class _TripPlanningScreenState extends State<TripPlanningScreen> {
         const SizedBox(height: 10),
         PreviewTile(
           title: 'Participants',
-          preview: ParticipantsPreview(widget.trip.participants),
-          detailsPageBuilder: (context) => const Placeholder(),
+          preview: ParticipantsPreview(participants: widget.trip.participants, maxParticipants: widget.trip.maxParticipants,),
+          detailsPageBuilder: (context) => const ParticipantListView(),
         ),
         const SizedBox(height: 10),
         PreviewTile(
