@@ -1,8 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image_stack/flutter_image_stack.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:travel_link/src/features/account/data/account_repository.dart';
 import 'package:travel_link/src/features/explore_trips/domain/trip.dart';
 import 'package:travel_link/src/routing/app_router.dart';
@@ -159,52 +161,66 @@ class PublicTripCard extends ConsumerWidget {
                     ),
                     const SizedBox(height: 15),
                     Center(
-                      child: Container(
-                        height: 375,
-                        width: 300,
-                        alignment: Alignment.bottomLeft,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(40),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.blue.shade600.withOpacity(0.8),
-                              spreadRadius: 0.1,
-                              blurRadius: 20,
-                              offset: const Offset(1, 8),
+                      child: CachedNetworkImage(
+                        imageUrl: trip.images.isEmpty
+                            ? 'https://media.istockphoto.com/id/1998131648/de/foto/altstadt-von-burghausen-mit-burgberg.jpg?s=1024x1024&w=is&k=20&c=nvlz0e9DkNmf4_84ahASlYZVnGN-7NTKm9L3zppAOZI='
+                            : trip.images[0],
+                        placeholder: (context, url) => Shimmer.fromColors(
+                          baseColor: Colors.grey[300]!,
+                          highlightColor: Colors.grey[100]!,
+                          child: Container(
+                            height: 375,
+                            width: 300,
+                            alignment: Alignment.bottomLeft,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(40),
+                              color: Colors.white,
                             ),
-                          ],
-                          image: DecorationImage(
-                            image: NetworkImage(
-                              trip.images.isEmpty
-                                  ? 'https://media.istockphoto.com/id/1998131648/de/foto/altstadt-von-burghausen-mit-burgberg.jpg?s=1024x1024&w=is&k=20&c=nvlz0e9DkNmf4_84ahASlYZVnGN-7NTKm9L3zppAOZI='
-                                  : trip.images[0],
-                            ),
-                            fit: BoxFit.cover,
                           ),
                         ),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 12,
-                            vertical: 25,
-                          ),
-                          child: DecoratedBox(
-                            decoration: BoxDecoration(
-                              color: const Color(0xFF4D5652).withOpacity(0.8),
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                vertical: 8,
-                                horizontal: 14,
+                        imageBuilder: (context, imageProvider) => Container(
+                          height: 375,
+                          width: 300,
+                          alignment: Alignment.bottomLeft,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(40),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.blue.shade600.withOpacity(0.8),
+                                spreadRadius: 0.1,
+                                blurRadius: 20,
+                                offset: const Offset(1, 8),
                               ),
-                              child: Text(
-                                trip.destination.formatted,
-                                style: GoogleFonts.adamina(
-                                  color: Colors.white, // Textfarbe
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
+                            ],
+                            image: DecorationImage(
+                              image: imageProvider,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 12,
+                              vertical: 25,
+                            ),
+                            child: DecoratedBox(
+                              decoration: BoxDecoration(
+                                color: const Color(0xFF4D5652).withOpacity(0.8),
+                                borderRadius: BorderRadius.circular(16),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 8,
+                                  horizontal: 14,
                                 ),
-                                textAlign: TextAlign.center,
+                                child: Text(
+                                  trip.destination.formatted,
+                                  style: GoogleFonts.adamina(
+                                    color: Colors.white, // Textfarbe
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
                               ),
                             ),
                           ),
