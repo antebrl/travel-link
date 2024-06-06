@@ -28,7 +28,7 @@ class _TripPlanningScreenState extends State<TripPlanningScreen> {
       children: [
         // pictures of trip/destination
         buildImageSlider(),
-
+    
         // Headings
         const SizedBox(height: 20),
         //Trip description
@@ -68,8 +68,8 @@ class _TripPlanningScreenState extends State<TripPlanningScreen> {
         const SizedBox(height: 10),
         PreviewTile(
           title: 'Participants',
-          preview: const ParticipantsPreview(),
-          detailsPageBuilder: (context) => const ParticipantsPreview(),
+          preview: ParticipantsPreview(widget.trip.participants),
+          detailsPageBuilder: (context) => const Placeholder(),
         ),
         const SizedBox(height: 10),
         PreviewTile(

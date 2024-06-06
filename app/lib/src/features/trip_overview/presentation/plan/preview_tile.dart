@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:travel_link/src/utils/constants/colors.dart';
 
 class PreviewTile extends StatelessWidget {
   const PreviewTile({required this.title, required this.preview, required this.detailsPageBuilder, super.key});
@@ -9,38 +10,43 @@ class PreviewTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        GestureDetector(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute<void>(
-                builder: detailsPageBuilder,
-              ),
-            );
-          },
-          child: Row(
-            children: [
-              Text(
-                title,
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
+    return Padding(
+      padding: const EdgeInsets.only(left: 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute<void>(
+                  builder: detailsPageBuilder,
                 ),
-              ),
-              const Icon(
-                Icons.arrow_forward_ios,
-                color: Colors.grey,
-                size: 16,
-              ),
-            ],
+              );
+            },
+            child: Row(
+              children: [
+                Text(
+                  title,
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: Colors.grey[700],
+                    fontWeight: FontWeight.w900,
+                  ),
+                ),
+                const SizedBox(width: 3),
+                const Icon(
+                  Icons.arrow_forward_ios,
+                  color: CustomColors.primary,
+                  size: 16,
+                ),
+              ],
+            ),
           ),
-        ),
-        const SizedBox(height: 5),
-        preview,
-      ],
+          const SizedBox(height: 5),
+          preview,
+        ],
+      ),
     );
   }
 }

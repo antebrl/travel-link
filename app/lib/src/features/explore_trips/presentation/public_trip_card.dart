@@ -18,6 +18,7 @@ class PublicTripCard extends ConsumerWidget {
   Future<List<String>> _fetchAvatars(WidgetRef ref) async {
     final List<String> avatars = [];
     var imagesCount = 0;
+    //only load the first 3 user avatars
     for (int i = 0; i < trip.participants.length && imagesCount < 4; i++) {
       final user =
           await ref.read(FetchUserProvider(trip.participants[i]).future);
@@ -101,8 +102,9 @@ class PublicTripCard extends ConsumerWidget {
                                       fontSize: 16,
                                       fontWeight: FontWeight.bold,
                                     ),
-                                    totalCount: 3,
+                                    totalCount: trip.participants.length,
                                     itemRadius: 40,
+                                    itemCount: trip.participants.length > 3 ? 3 : trip.participants.length,
                                   );
                                 } else {
                                   return FlutterImageStack(
