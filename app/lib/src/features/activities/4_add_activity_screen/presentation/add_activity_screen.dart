@@ -2,7 +2,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:travel_link/src/features/activities/2_continents_screen/domain/continent.dart';
-import 'package:travel_link/src/features/activities/3_activities_screen/domain/activity.dart';
 import 'package:travel_link/src/features/activities/3_activities_screen/domain/api_activity.dart';
 import 'package:travel_link/src/features/activities/4_add_activity_screen/presentation/image_input.dart';
 import 'package:travel_link/src/features/activities/4_add_activity_screen/presentation/location_input.dart';
@@ -25,7 +24,7 @@ class _AddActivityScreenState extends ConsumerState<AddActivityScreen> {
   ContinentType _enteredcontinentType = ContinentType.northAmerica;
   File? _selectedImage;
   PlaceLocation? _selectedLocation;
-  bool _isPublic = true;
+  bool _isPublic = false;
   Set<String> _filters = <String>{};
 
   String? stringValidator(String? value) {
@@ -50,13 +49,17 @@ class _AddActivityScreenState extends ConsumerState<AddActivityScreen> {
           description: _enteredDescription,
           image: _selectedImage,
           continentType: _enteredcontinentType,
+          createdByThisUser: 'HERE ENTER USER TOKEN',
+          isPublic: _isPublic,
+          isUserCreated: true,
           location: PlaceLocation(
-              lat: _selectedLocation!.lat,
-              lon: _selectedLocation!.lon,
-              city: _selectedLocation!.city,
-              country: _selectedLocation!.country,
-              formatted: _selectedLocation!.formatted,
-              countryCode: _selectedLocation!.countryCode),
+            lat: _selectedLocation!.lat,
+            lon: _selectedLocation!.lon,
+            city: _selectedLocation!.city,
+            country: _selectedLocation!.country,
+            formatted: _selectedLocation!.formatted,
+            countryCode: _selectedLocation!.countryCode,
+          ),
         ),
       );
     }
@@ -119,12 +122,22 @@ class _AddActivityScreenState extends ConsumerState<AddActivityScreen> {
                     const SizedBox(
                       height: 20,
                     ),
+                    Text(
+                      'Select Categories: ',
+                      style:
+                          Theme.of(context).textTheme.headlineSmall!.copyWith(
+                                color: CustomColors.primary,
+                              ),
+                    ),
                     Row(
                       children: [
                         const SizedBox(width: 5),
                         Switch(
                           activeColor: Theme.of(context).primaryColor,
                           inactiveThumbColor: Colors.black.withOpacity(0.7),
+                          inactiveTrackColor: CustomColors.white,
+                          trackOutlineColor:
+                              WidgetStateProperty.all(CustomColors.primary),
                           value: _isPublic,
                           onChanged: (value) {
                             setState(() {

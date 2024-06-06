@@ -1,5 +1,4 @@
 import 'package:travel_link/src/features/activities/2_continents_screen/domain/continent.dart';
-import 'package:travel_link/src/features/activities/3_activities_screen/domain/activity.dart';
 import 'package:travel_link/src/features/activities/3_activities_screen/domain/api_activity.dart';
 
 List<ApiActivity> activityData = [
