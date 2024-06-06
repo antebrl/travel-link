@@ -33,11 +33,14 @@ class _ExploreTripsScreenState extends ConsumerState<ExploreTripsScreen> {
             const SizedBox(
               height: 15,
             ),
-            const Text('Entdecke Reisen',
-                style: TextStyle(
-                    fontSize: 26,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,),),
+            const Text(
+              'Entdecke Reisen',
+              style: TextStyle(
+                fontSize: 26,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -46,9 +49,13 @@ class _ExploreTripsScreenState extends ConsumerState<ExploreTripsScreen> {
                   size: 17,
                   color: Colors.grey[800],
                 ),
-                const Text('Bevorstehend',
-                    style:
-                        TextStyle(fontSize: 15, fontWeight: FontWeight.bold,),),
+                const Text(
+                  'Bevorstehend',
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ],
             ),
           ],
@@ -70,13 +77,15 @@ class _ExploreTripsScreenState extends ConsumerState<ExploreTripsScreen> {
                     size: 21,
                   ),
                   Expanded(
-                      child: Text(
-                    'Germany',
-                    style: TextStyle(
+                    child: Text(
+                      'Germany',
+                      style: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: Colors.grey[800],
-                        fontSize: 14),
-                  ),),
+                        fontSize: 14,
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -99,9 +108,10 @@ class _ExploreTripsScreenState extends ConsumerState<ExploreTripsScreen> {
                     Text(
                       '15/12 - 30/12',
                       style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.grey[800],
-                          fontSize: 12,),
+                        fontWeight: FontWeight.bold,
+                        color: Colors.grey[800],
+                        fontSize: 12,
+                      ),
                     ),
                   ],
                 ),
@@ -114,14 +124,15 @@ class _ExploreTripsScreenState extends ConsumerState<ExploreTripsScreen> {
         data: (tripsList) => CarouselSlider(
           carouselController: carouselController,
           options: CarouselOptions(
-              viewportFraction: 0.83,
-              enlargeFactor: 0.25,
-              enlargeCenterPage: true,
-              height: 700,
-              onPageChanged: (index, reason) {
-                _currentIndex = index;
-                setState(() {});
-              }),
+            viewportFraction: 0.83,
+            enlargeFactor: 0.25,
+            enlargeCenterPage: true,
+            height: 700,
+            onPageChanged: (index, reason) {
+              _currentIndex = index;
+              setState(() {});
+            },
+          ),
           items: tripsList.map((i) {
             return PublicTripCard(
               trip: i,

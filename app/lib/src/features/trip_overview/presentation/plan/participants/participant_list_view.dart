@@ -52,7 +52,7 @@ class ParticipantListView extends ConsumerWidget {
           if (snapshot.connectionState == ConnectionState.waiting ||
               snapshot.data == null ||
               snapshot.data!.isEmpty) {
-            return const CircularProgressIndicator();
+            return const Center(child: CircularProgressIndicator());
           } else {
             final users = snapshot.data!;
             return ListView.separated(

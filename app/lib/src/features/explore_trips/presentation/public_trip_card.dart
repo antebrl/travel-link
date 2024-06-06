@@ -104,7 +104,9 @@ class PublicTripCard extends ConsumerWidget {
                                     ),
                                     totalCount: trip.participants.length,
                                     itemRadius: 40,
-                                    itemCount: trip.participants.length > 3 ? 3 : trip.participants.length,
+                                    itemCount: trip.participants.length > 3
+                                        ? 3
+                                        : trip.participants.length,
                                   );
                                 } else {
                                   return FlutterImageStack(
