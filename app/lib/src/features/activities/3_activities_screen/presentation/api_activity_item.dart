@@ -45,8 +45,7 @@ class _APIActivityItemState extends State<APIActivityItem> {
 
   Future<List<String>?> fetchImageAndDescription(
       String formattedLink, String activityName, String wikidataId) async {
-    final response =
-        await http.get(Uri.parse(formattedLink));
+    final response = await http.get(Uri.parse(formattedLink));
     final Map<String, dynamic> data =
         json.decode(response.body) as Map<String, dynamic>;
 
@@ -56,7 +55,8 @@ class _APIActivityItemState extends State<APIActivityItem> {
       widget.activity.description = descriptions['en']['value'] as String;
     }
 
-    final imageUrls = WikidataParser.getImagesFromWikidataEntity(data: data, wikidataId: wikidataId);
+    final imageUrls = WikidataParser.getImagesFromWikidataEntity(
+        data: data, wikidataId: wikidataId);
 
     // Store image name in cache
     _imageCache[activityName] = imageUrls;
@@ -172,12 +172,6 @@ class _APIActivityItemState extends State<APIActivityItem> {
                       ],
                     ),
                   ),
-                  const CircleAvatar(
-                    radius: 18,
-                    backgroundColor: CustomColors.primary,
-                    foregroundColor: CustomColors.white,
-                    child: Text('5.0'),
-                  )
                 ],
               ),
             ),

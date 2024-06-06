@@ -16,6 +16,9 @@ class ApiActivity {
     this.description = '',
     this.continentType = ContinentType.none,
     this.image,
+    this.isPublic = true,
+    this.isUserCreated = false,
+    this.createdByThisUser,
   });
 
   final String name;
@@ -31,6 +34,10 @@ class ApiActivity {
 
   List<String> imagePaths;
   String description;
+
+  bool isPublic;
+  bool isUserCreated;
+  String? createdByThisUser;
 
 //from normal activity
   ContinentType continentType;

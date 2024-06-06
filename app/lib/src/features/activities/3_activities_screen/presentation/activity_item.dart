@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:go_router/go_router.dart';
-import 'package:travel_link/src/features/activities/3_activities_screen/domain/activity.dart';
 import 'package:travel_link/src/features/activities/3_activities_screen/domain/api_activity.dart';
 import 'package:travel_link/src/features/activities/5_activities_details_screen/api_activities_details_screen.dart';
 import 'package:travel_link/src/routing/app_router.dart';
@@ -165,12 +164,7 @@ class _ActivityItemState extends State<ActivityItem> {
                       ],
                     ),
                   ),
-                  const CircleAvatar(
-                    radius: 18,
-                    backgroundColor: CustomColors.primary,
-                    foregroundColor: CustomColors.white,
-                    child: Text('5.0'),
-                  )
+
                 ],
               ),
             ),

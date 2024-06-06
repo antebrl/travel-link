@@ -91,8 +91,18 @@ class _APIActivitiesScreenState extends ConsumerState<APIActivitiesScreen> {
       data: (trips) {
         // Filtere Aktivitäten, die sich in der Nähe der Stadt befinden
         final List<ApiActivity> nearbyActivities = addedActivities
-            .where((activity) => isActivityNearDestination(
-                activity, widget.destination.lat!, widget.destination.lon!))
+            .where(
+              (activity) =>
+                  isActivityNearDestination(
+                    activity,
+                    widget.destination.lat!,
+                    widget.destination.lon!,
+                  ) &&
+                  activity.isUserCreated &&
+                  (activity.isPublic ||
+                      (!activity.isPublic &&
+                          activity.createdByThisUser == 'ME')),
+            )
             .toList();
         print(trips.length);
         //Sort activities: With wiki_and_media entry at the top
@@ -179,15 +189,15 @@ class _APIActivitiesScreenState extends ConsumerState<APIActivitiesScreen> {
                             ),
                           ),
                           if (nearbyActivities.isNotEmpty)
-                          Text(
-                            'Added by Users: ',
-                            style: Theme.of(context)
-                                .textTheme
-                                .headlineSmall!
-                                .copyWith(
-                                  color: CustomColors.primary,
-                                ),
-                          ),
+                            Text(
+                              'Added by Users: ',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headlineSmall!
+                                  .copyWith(
+                                    color: CustomColors.primary,
+                                  ),
+                            ),
                         ],
                       ),
                     ),
@@ -196,9 +206,9 @@ class _APIActivitiesScreenState extends ConsumerState<APIActivitiesScreen> {
                         delegate: SliverChildBuilderDelegate(
                           (context, index) => ActivityItem(
                             key: UniqueKey(),
-                            activity: addedActivities[index],
+                            activity: nearbyActivities[index],
                           ),
-                          childCount: addedActivities.length,
+                          childCount: nearbyActivities.length,
                         ),
                       ),
                     },
