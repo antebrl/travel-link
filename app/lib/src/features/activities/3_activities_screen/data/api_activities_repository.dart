@@ -9,10 +9,20 @@ import 'package:travel_link/src/utils/logging/logger.dart';
 part 'api_activities_repository.g.dart';
 
 class ApiActivitiesRepository {
-  //TODO
-  // Future<Person> getActivityDetailsById({required int placeId}) async {
+  Future<ApiActivity?> getActivityDetailsById({required String placeId}) async {
+    final String url =
+        '${CustomApiConstants.placeDetailsBaseURL}?id=$placeId&features=details&apiKey=${CustomApiConstants.geoapifySecretKey}';
+    final response = await http.get(Uri.parse(url));
+    print(url);
 
-  // }
+    if (response.statusCode == 200) {
+      final placeDetails = json.decode(response.body)['features'][0]
+          ['properties'] as Map<String, dynamic>;
+      return ApiActivity.fromMap(placeDetails);
+    } else {
+      return null;
+    }
+  }
 
   Future<List<ApiActivity>> getActivitiesInPlace(
       {required double lon,

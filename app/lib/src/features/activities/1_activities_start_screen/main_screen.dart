@@ -6,11 +6,15 @@ import 'package:travel_link/src/features/activities/1_activities_start_screen/pr
 import 'package:travel_link/src/features/activities/2_continents_screen/domain/continent.dart';
 import 'package:travel_link/src/features/activities/2_continents_screen/presentation/activities_continents_screen.dart';
 import 'package:travel_link/src/features/activities/3_activities_screen/data/activity_data.dart';
+import 'package:travel_link/src/features/activities/3_activities_screen/data/api_activities_repository.dart';
 import 'package:travel_link/src/features/activities/3_activities_screen/data/popular_activity_data.dart';
 import 'package:travel_link/src/features/activities/3_activities_screen/domain/api_activity.dart';
 import 'package:travel_link/src/features/activities/3_activities_screen/presentation/items/horizontal_activity_item.dart';
 import 'package:travel_link/src/features/activities/3_activities_screen/presentation/items/small_activity_item.dart';
+import 'package:travel_link/src/features/activities/5_activities_details_screen/api_activities_details_screen.dart';
+import 'package:travel_link/src/utils/constants/api_constants.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
+import 'package:http/http.dart' as http;
 
 class ActivitiesMainScreen extends StatefulWidget {
   const ActivitiesMainScreen({super.key});
@@ -20,7 +24,32 @@ class ActivitiesMainScreen extends StatefulWidget {
 }
 
 class _ActivitiesMainScreenState extends State<ActivitiesMainScreen> {
-  final DestinationController _controller = DestinationController();
+  late DestinationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectRandomContinent();
+    _controller = DestinationController(onSelected: (destination) async {
+      // Annahme: Die placeId des ausgewählten Ziels ist in destination.placeId gespeichert
+      final placeId = destination.placeId;
+      print(placeId);
+
+      // Rufe die Aktivitätsdetails basierend auf der placeId ab
+      final ApiActivity? activity = await ApiActivitiesRepository()
+          .getActivityDetailsById(placeId: placeId!);
+
+      if (activity != null) {
+       await Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) =>
+                ApiActivitiesDetailsScreen(activity: activity),
+          ),
+        );
+      }
+    });
+  }
+
   ContinentType selectedContinent = ContinentType.none;
   List<ApiActivity> selectedActivities = [];
   String getContinentDisplayName(ContinentType continent) {
@@ -41,12 +70,6 @@ class _ActivitiesMainScreenState extends State<ActivitiesMainScreen> {
       default:
         return '';
     }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _selectRandomContinent();
   }
 
   void _selectRandomContinent() {
@@ -224,7 +247,7 @@ class _ActivitiesMainScreenState extends State<ActivitiesMainScreen> {
             padding:
                 const EdgeInsets.only(left: 30, top: 5, bottom: 15, right: 30),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const SizedBox(height: 10),
                 Text(

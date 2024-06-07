@@ -1,26 +1,26 @@
 import 'dart:io';
 
 import 'package:travel_link/src/features/activities/2_continents_screen/domain/continent.dart';
+import 'package:travel_link/src/utils/constants/image_strings.dart';
 
 class ApiActivity {
-  ApiActivity({
-    required this.name,
-    required this.categories,
-    required this.location,
-    this.wikidataUrl,
-    this.wikidataId,
-    this.openingHours,
-    this.website,
-    this.placeId,
-    this.imagePaths = const [],
-    this.description = '',
-    this.continentType = ContinentType.none,
-    this.image,
-    this.isPublic = true,
-    this.isUserCreated = false,
-    this.createdByThisUser,
-    this.amountVisitors
-  });
+  ApiActivity(
+      {required this.name,
+      required this.categories,
+      required this.location,
+      this.wikidataUrl,
+      this.wikidataId,
+      this.openingHours,
+      this.website,
+      this.placeId,
+      this.imagePaths = const [],
+      this.description = '',
+      this.continentType = ContinentType.none,
+      this.image,
+      this.isPublic = true,
+      this.isUserCreated = false,
+      this.createdByThisUser,
+      this.amountVisitors});
 
   final String name;
 
@@ -68,22 +68,22 @@ class ApiActivity {
     }
 
     return ApiActivity(
-      name: map['name'] as String,
-      location: PlaceLocation(
-        lat: map['lat'] as double,
-        lon: map['lon'] as double,
-        city: map['city'] as String,
-        country: map['country'] as String,
-        formatted: map['formatted'] as String,
-        countryCode: map['country_code'] as String,
-      ),
-      categories: (map['categories'] as List<dynamic>).cast<String>(),
-      wikidataUrl: wikidataUrl,
-      wikidataId: wikidataId,
-      openingHours: map['opening_hours'] as String?,
-      website: map['website'] as String?,
-      placeId: map['place_id'] as String?,
-    );
+        name: map['name'] as String,
+        location: PlaceLocation(
+          lat: map['lat'] as double,
+          lon: map['lon'] as double,
+          city: map['city'] as String,
+          country: map['country'] as String,
+          formatted: map['formatted'] as String,
+          countryCode: map['country_code'] as String,
+        ),
+        categories: (map['categories'] as List<dynamic>).cast<String>(),
+        wikidataUrl: wikidataUrl,
+        wikidataId: wikidataId,
+        openingHours: map['opening_hours'] as String?,
+        website: map['website'] as String?,
+        placeId: map['place_id'] as String?,
+        imagePaths: [CustomImages.destinationImagePlaceholderUrl]);
   }
 }
 
