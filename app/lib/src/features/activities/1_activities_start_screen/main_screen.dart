@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:travel_link/src/common_widgets/auto_complete_search.dart';
 import 'package:travel_link/src/features/activities/1_activities_start_screen/presentation/curved_edges.dart';
 import 'package:travel_link/src/features/activities/2_continents_screen/domain/continent.dart';
 import 'package:travel_link/src/features/activities/2_continents_screen/presentation/activities_continents_screen.dart';
@@ -19,6 +20,7 @@ class ActivitiesMainScreen extends StatefulWidget {
 }
 
 class _ActivitiesMainScreenState extends State<ActivitiesMainScreen> {
+  final DestinationController _controller = DestinationController();
   ContinentType selectedContinent = ContinentType.none;
   List<ApiActivity> selectedActivities = [];
   String getContinentDisplayName(ContinentType continent) {
@@ -104,6 +106,36 @@ class _ActivitiesMainScreenState extends State<ActivitiesMainScreen> {
                         ),
                       ),
                     ),
+                    Positioned(
+                      child: Padding(
+                        padding: const EdgeInsets.all(40),
+                        child: AutoCompleteSearch(
+                          controller: _controller,
+                          horizontalPadding: 95,
+                          filterByType: 'amenity',
+                          textFieldDecoration: InputDecoration(
+                            hintText: 'Activity...',
+                            fillColor: CustomColors.white,
+                            filled: true,
+                            border: InputBorder.none,
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(14),
+                              borderSide: const BorderSide(
+                                color: CustomColors.white,
+                              ),
+                            ),
+                            labelStyle: const TextStyle(
+                              color: CustomColors
+                                  .primary, // Farbe für den Labeltext
+                            ),
+                          ),
+                          textStyle: const TextStyle(
+                            color: CustomColors
+                                .primary, // Farbe für den Eingabetext
+                          ),
+                        ),
+                      ),
+                    )
                   ],
                 ),
               ),
