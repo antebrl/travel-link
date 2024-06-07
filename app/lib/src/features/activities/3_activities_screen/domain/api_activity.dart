@@ -19,6 +19,7 @@ class ApiActivity {
     this.isPublic = true,
     this.isUserCreated = false,
     this.createdByThisUser,
+    this.amountVisitors
   });
 
   final String name;
@@ -43,6 +44,7 @@ class ApiActivity {
   ContinentType continentType;
   final PlaceLocation location;
   File? image; // Optional Image
+  String? amountVisitors;
 
   static ApiActivity? fromMap(Map<String, dynamic> map) {
     if (!(map.containsKey('name') &&
