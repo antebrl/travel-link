@@ -1,25 +1,26 @@
 import 'dart:io';
 
 import 'package:travel_link/src/features/activities/2_continents_screen/domain/continent.dart';
+import 'package:travel_link/src/utils/constants/image_strings.dart';
 
 class ApiActivity {
-  ApiActivity({
-    required this.name,
-    required this.categories,
-    required this.location,
-    this.wikidataUrl,
-    this.wikidataId,
-    this.openingHours,
-    this.website,
-    this.placeId,
-    this.imagePaths = const [],
-    this.description = '',
-    this.continentType = ContinentType.none,
-    this.image,
-    this.isPublic = true,
-    this.isUserCreated = false,
-    this.createdByThisUser,
-  });
+  ApiActivity(
+      {required this.name,
+      required this.categories,
+      required this.location,
+      this.wikidataUrl,
+      this.wikidataId,
+      this.openingHours,
+      this.website,
+      this.placeId,
+      this.imagePaths = const [],
+      this.description = '',
+      this.continentType = ContinentType.none,
+      this.image,
+      this.isPublic = true,
+      this.isUserCreated = false,
+      this.createdByThisUser,
+      this.amountVisitors});
 
   final String name;
 
@@ -43,6 +44,7 @@ class ApiActivity {
   ContinentType continentType;
   final PlaceLocation location;
   File? image; // Optional Image
+  String? amountVisitors;
 
   static ApiActivity? fromMap(Map<String, dynamic> map) {
     if (!(map.containsKey('name') &&

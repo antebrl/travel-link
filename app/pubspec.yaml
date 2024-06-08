@@ -78,6 +78,7 @@ flutter:
       - assets/images/continents/NorthAmerica.png
       - assets/images/continents/SouthAmerica.png
       - assets/images/activities/camp-nou.jpg
+      - assets/images/continents/ContinentsMap.png
 
   uses-material-design: true
   # for localization
