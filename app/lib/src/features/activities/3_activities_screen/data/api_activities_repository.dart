@@ -13,7 +13,6 @@ class ApiActivitiesRepository {
     final String url =
         '${CustomApiConstants.placeDetailsBaseURL}?id=$placeId&features=details&apiKey=${CustomApiConstants.geoapifySecretKey}';
     final response = await http.get(Uri.parse(url));
-    print(url);
 
     if (response.statusCode == 200) {
       final placeDetails = json.decode(response.body)['features'][0]

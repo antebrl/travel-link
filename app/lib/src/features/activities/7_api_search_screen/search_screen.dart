@@ -246,6 +246,8 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                               ),
                             )
                                 .then((_) {
+                              FocusScope.of(context).unfocus();
+                              FocusScope.of(context).requestFocus(FocusNode());
                               setState(() {
                                 _controller.textEditingController.clear();
                                 _controller.selectedDestination = null;

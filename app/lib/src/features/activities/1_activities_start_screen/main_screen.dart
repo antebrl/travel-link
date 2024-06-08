@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -12,9 +13,12 @@ import 'package:travel_link/src/features/activities/3_activities_screen/domain/a
 import 'package:travel_link/src/features/activities/3_activities_screen/presentation/items/horizontal_activity_item.dart';
 import 'package:travel_link/src/features/activities/3_activities_screen/presentation/items/small_activity_item.dart';
 import 'package:travel_link/src/features/activities/5_activities_details_screen/api_activities_details_screen.dart';
+import 'package:travel_link/src/features/my_trips/domain/destination.dart';
 import 'package:travel_link/src/utils/constants/api_constants.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
 import 'package:http/http.dart' as http;
+import 'package:travel_link/src/utils/constants/image_strings.dart';
+import 'package:travel_link/src/utils/helpers/wikidata.dart';
 
 class ActivitiesMainScreen extends StatefulWidget {
   const ActivitiesMainScreen({super.key});
@@ -25,29 +29,75 @@ class ActivitiesMainScreen extends StatefulWidget {
 
 class _ActivitiesMainScreenState extends State<ActivitiesMainScreen> {
   late DestinationController _controller;
-
+  late Future<List<String>> _imageFuture;
+  String formattedLink = '';
   @override
   void initState() {
     super.initState();
     _selectRandomContinent();
-    _controller = DestinationController(onSelected: (destination) async {
-      // Annahme: Die placeId des ausgewählten Ziels ist in destination.placeId gespeichert
-      final placeId = destination.placeId;
-      print(placeId);
+    _controller = DestinationController(onSelected: _handleDestinationSelected);
+  }
 
-      // Rufe die Aktivitätsdetails basierend auf der placeId ab
-      final ApiActivity? activity = await ApiActivitiesRepository()
-          .getActivityDetailsById(placeId: placeId!);
+  Future<void> _handleDestinationSelected(Destination destination) async {
+    // Annahme: Die placeId des ausgewählten Ziels ist in destination.placeId gespeichert
+    final placeId = destination.placeId;
+    print(placeId);
 
-      if (activity != null) {
-       await Navigator.of(context).push(
+    // Rufe die Aktivitätsdetails basierend auf der placeId ab
+    final ApiActivity? activity = await ApiActivitiesRepository()
+        .getActivityDetailsById(placeId: placeId!);
+
+    if (activity != null) {
+      // Lade Bild-URLs asynchron und aktualisiere die Activity-Instanz
+      if (activity.wikidataUrl != null) {
+        _imageFuture = _loadImageUrls(activity);
+        await _imageFuture;
+      } else {
+        _imageFuture =
+            Future.value([CustomImages.destinationImagePlaceholderUrl]);
+        activity.imagePaths = [CustomImages.destinationImagePlaceholderUrl];
+      }
+
+      if (mounted) {
+        await Navigator.of(context)
+            .push(
           MaterialPageRoute(
             builder: (context) =>
                 ApiActivitiesDetailsScreen(activity: activity),
           ),
-        );
+        )
+            .then((_) {
+          FocusScope.of(context).unfocus();
+          FocusScope.of(context).requestFocus(FocusNode());
+          setState(() {
+            _controller.textEditingController.clear();
+            _controller.selectedDestination = null;
+          });
+        });
+        ;
       }
-    });
+    }
+  }
+
+  Future<List<String>> _loadImageUrls(ApiActivity activity) async {
+    final response = await http.get(Uri.parse(activity.wikidataUrl!));
+    final Map<String, dynamic> data =
+        json.decode(response.body) as Map<String, dynamic>;
+
+    final wikidataId = activity.wikidataId!;
+    final descriptions = data['entities'][wikidataId]['descriptions'];
+
+    if (descriptions['en'] != null) {
+      activity.description = descriptions['en']['value'] as String;
+    }
+
+    final imageUrls = WikidataParser.getImagesFromWikidataEntity(
+        data: data, wikidataId: wikidataId);
+
+    // Aktualisiere den Bildnamen in der Activity-Instanz
+    activity.imagePaths = imageUrls;
+
+    return imageUrls;
   }
 
   ContinentType selectedContinent = ContinentType.none;
@@ -101,7 +151,7 @@ class _ActivitiesMainScreenState extends State<ActivitiesMainScreen> {
               color: CustomColors.primary,
               padding: EdgeInsets.zero,
               child: SizedBox(
-                height: 200,
+                height: 160,
                 child: Stack(
                   children: [
                     // Weiße Kreise
@@ -217,7 +267,7 @@ class _ActivitiesMainScreenState extends State<ActivitiesMainScreen> {
           Column(
             children: [
               Text(
-                'Explore some Activities in ${getContinentDisplayName(selectedContinent)}:',
+                'Activities in ${getContinentDisplayName(selectedContinent)}:',
                 style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                       color: CustomColors.primary,
                     ),
@@ -251,7 +301,7 @@ class _ActivitiesMainScreenState extends State<ActivitiesMainScreen> {
               children: [
                 const SizedBox(height: 10),
                 Text(
-                  'Explore the most popular Activities: ',
+                  'Most popular activities: ',
                   style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                         color: CustomColors.primary,
                       ),

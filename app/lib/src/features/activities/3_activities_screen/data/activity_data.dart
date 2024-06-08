@@ -521,21 +521,7 @@ List<ApiActivity> activityData = [
       countryCode: 'CL',
     ),
   ),
-  ApiActivity(
-    imagePaths: [''],
-    name: 'Patagonia',
-    categories: {'natural', 'tourism'}.toList(),
-    continentType: ContinentType.southAmerica,
-    description: 'Region known for its stunning landscapes and wildlife',
-    location: const PlaceLocation(
-      lat: -49.3297,
-      lon: -72.8874,
-      city: '',
-      country: 'Argentina/Chile',
-      formatted: 'Patagonia, Argentina/Chile',
-      countryCode: 'AR/CL',
-    ),
-  ),
+
   ApiActivity(
     imagePaths: [''],
     name: 'Perito Moreno Glacier',

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:get/get.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:travel_link/src/features/activities/3_activities_screen/domain/api_activity.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:travel_link/src/utils/constants/image_strings.dart';
 
 class ApiActivitiesDetailsScreen extends StatefulWidget {
   ApiActivitiesDetailsScreen({required this.activity, super.key});

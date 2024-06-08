@@ -68,22 +68,22 @@ class ApiActivity {
     }
 
     return ApiActivity(
-        name: map['name'] as String,
-        location: PlaceLocation(
-          lat: map['lat'] as double,
-          lon: map['lon'] as double,
-          city: map['city'] as String,
-          country: map['country'] as String,
-          formatted: map['formatted'] as String,
-          countryCode: map['country_code'] as String,
-        ),
-        categories: (map['categories'] as List<dynamic>).cast<String>(),
-        wikidataUrl: wikidataUrl,
-        wikidataId: wikidataId,
-        openingHours: map['opening_hours'] as String?,
-        website: map['website'] as String?,
-        placeId: map['place_id'] as String?,
-        imagePaths: [CustomImages.destinationImagePlaceholderUrl]);
+      name: map['name'] as String,
+      location: PlaceLocation(
+        lat: map['lat'] as double,
+        lon: map['lon'] as double,
+        city: map['city'] as String,
+        country: map['country'] as String,
+        formatted: map['formatted'] as String,
+        countryCode: map['country_code'] as String,
+      ),
+      categories: (map['categories'] as List<dynamic>).cast<String>(),
+      wikidataUrl: wikidataUrl,
+      wikidataId: wikidataId,
+      openingHours: map['opening_hours'] as String?,
+      website: map['website'] as String?,
+      placeId: map['place_id'] as String?,
+    );
   }
 }
 

@@ -84,187 +84,195 @@ class _APIActivitiesScreenState extends ConsumerState<APIActivitiesScreen> {
         lon: widget.destination.lon!,
         lat: widget.destination.lat!,
         categories: widget.categoryList,
-      ),
+      ).future,
     );
 
-    return fetchedActivities.when(
-      data: (trips) {
-        // Filtere Aktivitäten, die sich in der Nähe der Stadt befinden
-        final List<ApiActivity> nearbyActivities = addedActivities
-            .where(
-              (activity) =>
-                  isActivityNearDestination(
-                    activity,
-                    widget.destination.lat!,
-                    widget.destination.lon!,
-                  ) &&
-                  activity.isUserCreated &&
-                  (activity.isPublic ||
-                      (!activity.isPublic &&
-                          activity.createdByThisUser == 'ME')),
-            )
-            .toList();
-        print(trips.length);
-        //Sort activities: With wiki_and_media entry at the top
-        trips.sort((a, b) {
-          if (a.wikidataUrl != null && b.wikidataUrl == null) {
-            return -1; // a should come before b
-          } else if (a.wikidataUrl == null && b.wikidataUrl != null) {
-            return 1; // b should come before a
-          } else {
-            return 0; // a and b are equal in terms of sorting
-          }
-        });
-        return DefaultTabController(
-          length: 2,
-          child: Scaffold(
+    return FutureBuilder<List<ApiActivity>>(
+      future: fetchedActivities,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Scaffold(
             appBar: AppBar(
-              title: const Text(
-                'Explore Activities!',
-              ),
-              actions: [
-                IconButton(
-                  onPressed: addActivity,
-                  icon: const Icon(Icons.add_circle),
-                ),
-              ],
-              bottom: TabBar(
-                isScrollable: false,
-                indicatorColor: CustomColors.primary,
-                unselectedLabelColor: CustomColors.darkGrey,
-                labelColor: CustomHelperFunctions.isDarkMode(context)
-                    ? CustomColors.white
-                    : CustomColors.primary,
-                tabs: const [
-                  Tab(
-                    child: Text('Search'),
-                  ),
-                  Tab(
-                    child: Text('Map'),
-                  ),
-                ],
+              title: const Text('Loading Activities!'),
+            ),
+            body: const Center(
+              child: CircularProgressIndicator(
+                color: CustomColors.primary,
               ),
             ),
-            body: TabBarView(
-              children: [
-                CustomScrollView(
-                  slivers: [
-                    SliverToBoxAdapter(
-                      child: Column(
-                        children: [
-                          const SizedBox(height: 15),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 20, right: 20),
-                            child: Text(
-                              'Activities in ${widget.destination.formatted}',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headlineSmall!
-                                  .copyWith(color: CustomColors.primary),
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(10),
-                            child: Wrap(
-                              alignment: WrapAlignment.spaceAround,
-                              spacing: 10.0, // Abstand zwischen den Chips
-                              runSpacing: 5.0, // Abstand zwischen den Zeilen
-                              children: widget.categoryList.map((category) {
-                                return Chip(
-                                  side: const BorderSide(
-                                      color: CustomColors.primary),
-                                  backgroundColor: CustomColors.white,
-                                  labelStyle: const TextStyle(
-                                      color: CustomColors.primary),
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 12, vertical: 12),
-                                  label: Text(
-                                    category,
-                                    style: const TextStyle(
-                                        color: CustomColors.primary),
-                                  ),
-                                );
-                              }).toList(),
-                            ),
-                          ),
-                          if (nearbyActivities.isNotEmpty)
-                            Text(
-                              'Added by Users: ',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headlineSmall!
-                                  .copyWith(
-                                    color: CustomColors.primary,
-                                  ),
-                            ),
-                        ],
-                      ),
+          );
+        } else if (snapshot.hasError) {
+          return Center(child: Text('Error: ${snapshot.error}'));
+        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+          return Scaffold(
+            appBar: AppBar(
+              title: const Text('Loading Activities!'),
+            ),
+            body: Center(
+              child: Text(
+                'Error loading activies. Please try again later.',
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
+            ),
+          );
+        } else {
+          // Assuming you want to display the name of the first activity
+          final trips = snapshot.data!;
+
+          // Filtere Aktivitäten, die sich in der Nähe der Stadt befinden
+          final List<ApiActivity> nearbyActivities = addedActivities
+              .where(
+                (activity) =>
+                    isActivityNearDestination(
+                      activity,
+                      widget.destination.lat!,
+                      widget.destination.lon!,
+                    ) &&
+                    activity.isUserCreated &&
+                    (activity.isPublic ||
+                        (!activity.isPublic &&
+                            activity.createdByThisUser == 'ME')),
+              )
+              .toList();
+          print(trips.length);
+          //Sort activities: With wiki_and_media entry at the top
+          trips.sort((a, b) {
+            if (a.wikidataUrl != null && b.wikidataUrl == null) {
+              return -1; // a should come before b
+            } else if (a.wikidataUrl == null && b.wikidataUrl != null) {
+              return 1; // b should come before a
+            } else {
+              return 0; // a and b are equal in terms of sorting
+            }
+          });
+          return DefaultTabController(
+            length: 2,
+            child: Scaffold(
+              appBar: AppBar(
+                title: const Text(
+                  'Explore Activities!',
+                ),
+                actions: [
+                  IconButton(
+                    onPressed: addActivity,
+                    icon: const Icon(Icons.add_circle),
+                  ),
+                ],
+                bottom: TabBar(
+                  isScrollable: false,
+                  indicatorColor: CustomColors.primary,
+                  unselectedLabelColor: CustomColors.darkGrey,
+                  labelColor: CustomHelperFunctions.isDarkMode(context)
+                      ? CustomColors.white
+                      : CustomColors.primary,
+                  tabs: const [
+                    Tab(
+                      child: Text('Search'),
                     ),
-                    if (nearbyActivities.isNotEmpty) ...{
-                      SliverList(
-                        delegate: SliverChildBuilderDelegate(
-                          (context, index) => ActivityItem(
-                            key: UniqueKey(),
-                            activity: nearbyActivities[index],
-                          ),
-                          childCount: nearbyActivities.length,
-                        ),
-                      ),
-                    },
-                    SliverToBoxAdapter(
-                      child: Center(
-                        child: Text(
-                          'Explore more: ',
-                          style: Theme.of(context)
-                              .textTheme
-                              .headlineSmall!
-                              .copyWith(
-                                color: CustomColors.primary,
-                              ),
-                        ),
-                      ),
-                    ),
-                    SliverList(
-                      delegate: SliverChildBuilderDelegate(
-                        (context, index) => APIActivityItem(
-                          key: UniqueKey(),
-                          activity: trips[index],
-                        ),
-                        childCount: trips.length,
-                      ),
+                    Tab(
+                      child: Text('Map'),
                     ),
                   ],
                 ),
-                MapScreenWithActivities(fetchedActivities: fetchedActivities),
-              ],
+              ),
+              body: TabBarView(
+                children: [
+                  CustomScrollView(
+                    slivers: [
+                      SliverToBoxAdapter(
+                        child: Column(
+                          children: [
+                            const SizedBox(height: 15),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(left: 20, right: 20),
+                              child: Text(
+                                'Activities in ${widget.destination.formatted}',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headlineSmall!
+                                    .copyWith(color: CustomColors.primary),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(10),
+                              child: Wrap(
+                                alignment: WrapAlignment.spaceAround,
+                                spacing: 10.0, // Abstand zwischen den Chips
+                                runSpacing: 5.0, // Abstand zwischen den Zeilen
+                                children: widget.categoryList.map((category) {
+                                  return Chip(
+                                    side: const BorderSide(
+                                        color: CustomColors.primary),
+                                    backgroundColor: CustomColors.white,
+                                    labelStyle: const TextStyle(
+                                        color: CustomColors.primary),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 12, vertical: 12),
+                                    label: Text(
+                                      category,
+                                      style: const TextStyle(
+                                          color: CustomColors.primary),
+                                    ),
+                                  );
+                                }).toList(),
+                              ),
+                            ),
+                            if (nearbyActivities.isNotEmpty)
+                              Text(
+                                'Added by Users: ',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headlineSmall!
+                                    .copyWith(
+                                      color: CustomColors.primary,
+                                    ),
+                              ),
+                          ],
+                        ),
+                      ),
+                      if (nearbyActivities.isNotEmpty) ...{
+                        SliverList(
+                          delegate: SliverChildBuilderDelegate(
+                            (context, index) => ActivityItem(
+                              key: UniqueKey(),
+                              activity: nearbyActivities[index],
+                            ),
+                            childCount: nearbyActivities.length,
+                          ),
+                        ),
+                      },
+                      SliverToBoxAdapter(
+                        child: Center(
+                          child: Text(
+                            'Explore more: ',
+                            style: Theme.of(context)
+                                .textTheme
+                                .headlineSmall!
+                                .copyWith(
+                                  color: CustomColors.primary,
+                                ),
+                          ),
+                        ),
+                      ),
+                      SliverList(
+                        delegate: SliverChildBuilderDelegate(
+                          (context, index) => APIActivityItem(
+                            key: UniqueKey(),
+                            activity: trips[index],
+                          ),
+                          childCount: trips.length,
+                        ),
+                      ),
+                    ],
+                  ),
+                  MapScreenWithActivities(fetchedActivities: fetchedActivities),
+                ],
+              ),
             ),
-          ),
-        );
-      },
-      loading: () => Scaffold(
-        appBar: AppBar(
-          title: const Text('Loading Activities!'),
-        ),
-        body: const Center(
-          child: CircularProgressIndicator(
-            color: CustomColors.primary,
-          ),
-        ),
-      ),
-      error: (error, stackTrace) {
-        logger.e('Error loading trips', error: error, stackTrace: stackTrace);
-        return Scaffold(
-          appBar: AppBar(
-            title: const Text('Loading Activities!'),
-          ),
-          body: Center(
-            child: Text(
-              'Error loading activies. Please try again later.',
-              style: Theme.of(context).textTheme.bodyMedium,
-            ),
-          ),
-        );
+          );
+        }
       },
     );
   }
