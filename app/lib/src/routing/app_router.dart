@@ -4,11 +4,12 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:travel_link/src/features/account/presentation/account_screen.dart';
 import 'package:travel_link/src/features/activities/1_activities_start_screen/presentation/activitiesStart_screen.dart';
 import 'package:travel_link/src/features/activities/2_continents_screen/domain/continent.dart';
-import 'package:travel_link/src/features/activities/3_activities_screen/domain/activity.dart';
+import 'package:travel_link/src/features/activities/3_activities_screen/domain/api_activity.dart';
+import 'package:travel_link/src/features/activities/3_activities_screen/presentation/activities_api_screen.dart';
 import 'package:travel_link/src/features/activities/3_activities_screen/presentation/activities_screen.dart';
-import 'package:travel_link/src/features/activities/5_activities_details_screen/activities_details_screen.dart';
 import 'package:travel_link/src/features/authentication/data/firebase_auth_repository.dart';
 import 'package:travel_link/src/features/authentication/presentation/custom_sign_in_screen.dart';
+import 'package:travel_link/src/features/explore_trips/presentation/explore_trips_screen.dart';
 import 'package:travel_link/src/features/explore_trips/presentation/trips_screen.dart';
 import 'package:travel_link/src/features/my_trips/presentation/my_trips_screen.dart';
 import 'package:travel_link/src/features/trip_overview/presentation/trip_overview_screen.dart';
@@ -118,7 +119,7 @@ GoRouter goRouter(GoRouterRef ref) {
                 name: TopLevelDestinations.trips.name,
                 pageBuilder: (context, state) => NoTransitionPage(
                   key: state.pageKey,
-                  child: const TripsScreen(),
+                  child: const ExploreTripsScreen(),
                 ),
                 routes: [
                   GoRoute(
@@ -149,15 +150,15 @@ GoRouter goRouter(GoRouterRef ref) {
                   child: const ActivitiesStartScreen(),
                 ),
                 routes: <RouteBase>[
-                  GoRoute(
-                    path: 'details',
-                    name: ActivitiesRoutes.activityDetails.name,
-                    parentNavigatorKey: _rootNavigatorKey,
-                    builder: (BuildContext context, GoRouterState state) {
-                      final activity = state.extra as Activity?;
-                      return ActivitiesDetailsScreen(activity: activity!);
-                    },
-                  ),
+                  // GoRoute(
+                  //   path: 'details',
+                  //   name: ActivitiesRoutes.activityDetails.name,
+                  //   parentNavigatorKey: _rootNavigatorKey,
+                  //   builder: (BuildContext context, GoRouterState state) {
+                  //     final activity = state.extra as ApiActivity?;
+                  //     return;
+                  //   },
+                  // ),
                   GoRoute(
                     path: 'continent/:continent',
                     name: ActivitiesRoutes.continent.name,

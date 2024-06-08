@@ -1,15 +1,17 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:go_router/go_router.dart';
-import 'package:travel_link/src/features/activities/3_activities_screen/domain/activity.dart';
+import 'package:travel_link/src/features/activities/3_activities_screen/domain/api_activity.dart';
+import 'package:travel_link/src/features/activities/5_activities_details_screen/api_activities_details_screen.dart';
 import 'package:travel_link/src/routing/app_router.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
 import 'package:travel_link/src/utils/theme/widget_themes/text_theme.dart';
 
 class ActivityItem extends StatefulWidget {
   const ActivityItem({required this.activity, super.key});
-  final Activity activity;
+  final ApiActivity activity;
 
   @override
   State<ActivityItem> createState() => _ActivityItemState();
@@ -27,7 +29,8 @@ class _ActivityItemState extends State<ActivityItem> {
       final imageName = _imageCache[widget.activity.name];
       if (imageName != null) {
         setState(() {
-          widget.activity.imagePath = imageName; // Aktualisiere den Bildnamen
+          widget.activity.imagePaths[0] =
+              imageName; // Aktualisiere den Bildnamen
         });
       }
       _imageFuture =
@@ -53,7 +56,7 @@ class _ActivityItemState extends State<ActivityItem> {
 
     // Aktualisiere den Bildnamen in der Activity-Instanz
     setState(() {
-      widget.activity.imagePath = imageUrl;
+      widget.activity.imagePaths[0] = imageUrl;
     });
 
     return imageUrl;
@@ -62,8 +65,14 @@ class _ActivityItemState extends State<ActivityItem> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => context.pushNamed(ActivitiesRoutes.activityDetails.name,
-          extra: widget.activity),
+      onTap: () {
+        Navigator.of(context).push(
+          MaterialPageRoute<ApiActivitiesDetailsScreen>(
+            builder: (BuildContext context) =>
+                ApiActivitiesDetailsScreen(activity: widget.activity),
+          ),
+        );
+      },
       child: Container(
         width: MediaQuery.of(context).size.width,
         margin: const EdgeInsets.only(left: 20, top: 5, bottom: 15, right: 20),
@@ -82,52 +91,43 @@ class _ActivityItemState extends State<ActivityItem> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            FutureBuilder<String>(
-              future: _imageFuture,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const CircularProgressIndicator();
-                } else if (snapshot.hasError) {
-                  return Text('Fehler: ${snapshot.error}');
-                } else {
-                  return Stack(
-                    children: [
-                      ClipRRect(
-                        borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(10),
-                          topRight: Radius.circular(10),
-                        ),
-                        child: Image.network(
-                          snapshot.data!,
-                          height: 125,
-                          width: double.infinity,
-                          fit: BoxFit.cover,
-                        ),
+            if (widget.activity.image == null)
+              FutureBuilder<String>(
+                future: _imageFuture,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const CircularProgressIndicator();
+                  } else if (snapshot.hasError) {
+                    return Text('Fehler: ${snapshot.error}');
+                  } else {
+                    return ClipRRect(
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(10),
+                        topRight: Radius.circular(10),
                       ),
-                      if (widget.activity.isUserCreated)
-                        Positioned(
-                          top: 10,
-                          right: 10,
-                          child: Container(
-                            padding: const EdgeInsets.all(5),
-                            decoration: BoxDecoration(
-                              color: CustomColors.black.withOpacity(0.5),
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                            child: const Text(
-                              'Created by User',
-                              style: TextStyle(
-                                color: CustomColors.white,
-                                fontSize: 14,
-                              ),
-                            ),
-                          ),
-                        ),
-                    ],
-                  );
-                }
-              },
-            ),
+                      child: Image.network(
+                        snapshot.data!,
+                        height: 125,
+                        width: double.infinity,
+                        fit: BoxFit.fill,
+                      ),
+                    );
+                  }
+                },
+              )
+            else
+              ClipRRect(
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(10),
+                  topRight: Radius.circular(10),
+                ),
+                child: Image.file(
+                  widget.activity.image!,
+                  height: 125,
+                  width: double.infinity,
+                  fit: BoxFit.fill,
+                ),
+              ),
             Padding(
               padding:
                   const EdgeInsets.only(top: 6, bottom: 4, left: 20, right: 10),
@@ -164,12 +164,7 @@ class _ActivityItemState extends State<ActivityItem> {
                       ],
                     ),
                   ),
-                  const CircleAvatar(
-                    radius: 18,
-                    backgroundColor: CustomColors.primary,
-                    foregroundColor: CustomColors.white,
-                    child: Text('5.0'),
-                  )
+
                 ],
               ),
             ),

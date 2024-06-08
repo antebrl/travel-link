@@ -7,6 +7,7 @@ enum ContinentType {
   europe,
   asia,
   australia,
+  none
 }
 
 class Continent {

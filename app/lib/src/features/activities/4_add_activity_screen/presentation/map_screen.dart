@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:travel_link/src/features/activities/3_activities_screen/domain/activity.dart';
+import 'package:travel_link/src/features/activities/3_activities_screen/domain/api_activity.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
 
 class MapScreen extends StatefulWidget {
@@ -10,11 +10,12 @@ class MapScreen extends StatefulWidget {
   const MapScreen({
     super.key,
     this.location = const PlaceLocation(
-      latitude: 37.422,
-      longitude: -122.084,
-      street: '',
+      lat: 37.422,
+      lon: -122.084,
       city: '',
       country: '',
+      countryCode: '',
+      formatted: '',
     ),
   });
 
