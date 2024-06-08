@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:travel_link/src/features/activities/1_activities_start_screen/main_screen.dart';
-import 'package:travel_link/src/features/activities/2_continents_screen/presentation/activities_continents_screen.dart';
-import 'package:travel_link/src/features/activities/3_activities_screen/presentation/activities_api_screen.dart';
+import 'package:travel_link/src/features/activities/1_activities_start_screen/presentation/activities_main_screen.dart';
 import 'package:travel_link/src/features/activities/7_api_search_screen/search_screen.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
+import 'package:travel_link/src/utils/constants/strings.dart';
 import 'package:travel_link/src/utils/helpers/helper_functions.dart';
 
 class ActivitiesStartScreen extends StatefulWidget {
-  const ActivitiesStartScreen({Key? key}) : super(key: key);
+  const ActivitiesStartScreen({super.key});
 
   @override
   State<ActivitiesStartScreen> createState() => _ActivitiesStartScreenState();
@@ -22,10 +20,9 @@ class _ActivitiesStartScreenState extends State<ActivitiesStartScreen> {
       child: Scaffold(
         appBar: AppBar(
           title: const Text(
-            'Explore Activities!',
+            CustomStrings.appbarExploreActivities,
           ),
           bottom: TabBar(
-            isScrollable: false,
             indicatorColor: CustomColors.primary,
             unselectedLabelColor: CustomColors.darkGrey,
             labelColor: CustomHelperFunctions.isDarkMode(context)
@@ -33,15 +30,15 @@ class _ActivitiesStartScreenState extends State<ActivitiesStartScreen> {
                 : CustomColors.primary,
             tabs: const [
               Tab(
-                child: Text('Recommended'),
+                child: Text(CustomStrings.tabBarRecommended),
               ),
               Tab(
-                child: Text('Explore All'),
+                child: Text(CustomStrings.tabBarExploreAll),
               ),
             ],
           ),
         ),
-        body: TabBarView(
+        body: const TabBarView(
           children: [
             ActivitiesMainScreen(),
             SearchScreen(),
@@ -51,20 +48,3 @@ class _ActivitiesStartScreenState extends State<ActivitiesStartScreen> {
     );
   }
 }
-// Column(
-//               children: [
-//                 Text('Main'),
-//                 OutlinedButton(
-//                   onPressed: () {
-//                     Navigator.of(context).push(
-//                       MaterialPageRoute(
-//                         builder: (BuildContext context) =>
-//                             //APIActivitiesScreen(),
-//                             const ActivitiesContinentsScreen(),
-//                       ),
-//                     );
-//                   },
-//                   child: Text('Continent'),
-//                 )
-//               ],
-//             ),

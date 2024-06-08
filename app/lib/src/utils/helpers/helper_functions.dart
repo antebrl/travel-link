@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:travel_link/src/features/activities/2_continents_screen/domain/continent.dart';
 
 class CustomHelperFunctions {
   static Color? getColor(String value) {
@@ -88,7 +89,8 @@ class CustomHelperFunctions {
     return MediaQuery.of(Get.context!).size.width;
   }
 
-  static String getFormattedDate(DateTime date, {String format = 'dd MMM yyyy'}) {
+  static String getFormattedDate(DateTime date,
+      {String format = 'dd MMM yyyy'}) {
     return DateFormat(format).format(date);
   }
 
@@ -99,9 +101,31 @@ class CustomHelperFunctions {
   static List<Widget> wrapWidgets(List<Widget> widgets, int rowSize) {
     final wrappedList = <Widget>[];
     for (var i = 0; i < widgets.length; i += rowSize) {
-      final rowChildren = widgets.sublist(i, i + rowSize > widgets.length ? widgets.length : i + rowSize);
+      final rowChildren = widgets.sublist(
+          i, i + rowSize > widgets.length ? widgets.length : i + rowSize);
       wrappedList.add(Row(children: rowChildren));
     }
     return wrappedList;
   }
+
+  static String getContinentDisplayName(ContinentType continent) {
+    switch (continent) {
+      case ContinentType.northAmerica:
+        return 'North America';
+      case ContinentType.southAmerica:
+        return 'South America';
+      case ContinentType.africa:
+        return 'Africa';
+      case ContinentType.europe:
+        return 'Europe';
+      case ContinentType.asia:
+        return 'Asia';
+      case ContinentType.australia:
+        return 'Australia';
+      case ContinentType.none:
+        return '';
+    }
+  }
+
+  
 }
