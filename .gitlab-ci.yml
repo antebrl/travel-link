@@ -29,6 +29,10 @@ build-web-app:
   artifacts:
     paths:
       - app/build/web
+  only:
+    - branches
+    - merge_requests
+    - main
   # rules:
   #   - if: $CI_COMMIT_BRANCH == "main"
   
@@ -47,7 +51,6 @@ build-apk:
   rules:
     - changes:
         - app/**/*
-      allow_failure: true
   artifacts:
     paths:
       - app/build/app/outputs/flutter-apk/app-release.apk
@@ -60,11 +63,11 @@ build-mkdocs:
     - mkdocs --version
   script:
     - mkdocs build --strict --verbose
-  rules:
-    - if: $CI_COMMIT_BRANCH == "main"
   artifacts:
     paths:
       - public/docs
+  only:
+    - main
 
 # see https://pub.dev/packages/flutter_analyze_reporter/example
 # code-quality:
@@ -110,8 +113,8 @@ pages:
   needs:
     - job: build-mkdocs
     - job: build-web-app
-  rules:
-    - if: $CI_COMMIT_BRANCH == "main"
   artifacts:
     paths:
       - public
+  only:
+    - main
