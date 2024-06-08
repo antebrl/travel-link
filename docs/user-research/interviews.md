@@ -1,32 +1,32 @@
-=== "Katarina (20)"
+=== "Sebastian Ott (2)"
 
     ##### Personal Questions
-    - Latest Travel: Japan
+    - Latest Travel: France
     - Frequency: Frequent
     - Prefecence F/S: Sea
 
     ##### Funnel Questions
-    - Plan Trips (currnt): Searching for destinations Online, looking for weather, searching for interesting activities, looking at travel blocs/ Social Media. Bookinf throug specialised websites
+    - Plan Trips (currnt): Searching for tournaments,  Searching for destinations Online, looking for weather, searching for interesting activities, looking at travel blocs/ Social Media. Bookinf throug specialised websites
     - Comparaison of different offers such as flights/accomodation and lookinf for recomodations. 
-    - Problems encountered: Finding affordable offeres, coordination with friends and Familiy, time managment.
+    - Problems encountered: Finding affordable offeres, coordination with friends, familiy and the club, additionaly time managment.
     - Important aspects: Easy to use interface, social features, ffedback for POI'S
     ______________________________
-    - Small groups like friends/ family not moe that 5
+    - Small groups like friends/ family or the fencing club
     - Top 3 Worst things:
     - Keeping an overview of the neccessary documents
     - Coordinating the schedule
     - Finding the affordable flight
-    - What makes/ breakes a Trip: Good weather, nice activities, beatifull accomodations,if those are not given it breaks the trip.
+    - What makes/ breakes a Trip: Good weather, nice activities, having fun, nice accomodations,if those are not given it breaks the trip.
     - Important Subjekts: Safety, Monatary Managment, Keeping track of travel dokuments, communication within the Travel Group. 
     - Communication Methodes used: WhatsApp, Discord
 
     ___________________________
-    - Modes of transportation: To arrive at destination: car/train/plane. In Situ PT or rental Car
+    - Modes of transportation: To arrive at destination: car/train/bus/plane. In Situ: PT or rental Car
 
-    - Quantity of Pictures: ~250 - 500
-    - What type of vacation: Beach Vacations
+    - Quantity of Pictures: ~25 - 50
+    - What type of vacation: Adventure/ Cultural Vaccation
     - Travel outside of EU: NO
-    - Ranking of aspekts: People, Activities, Hotel/Resting
+    - Ranking of aspekts: Activities, People, Hotel/Resting
     - Ranking of Features:
     - Map with planned activities
     - Plan activities for the day/whole trip
@@ -39,10 +39,8 @@
     - Voting
     - Chat
 
-    [Go to Persona](personas.md#katarina)
 
-
-=== "Andreas (48)"
+=== "Samuel Cruz (60)"
 
     ##### Personal Questions
     - Latest Travel: Austria
@@ -50,15 +48,15 @@
     - Prefecence F/S: Forest
 
     ##### Funnel Questions
-    - Plan Trips (currnt): Looking for Hiking-Trails, Interesting location for the entier Family
-    - Researching, Comparing Accomodation because of DOG. 
-    - Problems encountered: Finding an accomodation that accepts Pets, Transportation
-    - Important aspects: Find a Pet frendly accomodation, detailed activities on Family- Friendly Activities, weather forcasts.
+    - Plan Trips (currnt):Interesting location for the Family, Culturally Interesting Locations
+    - Researching, Comparing Accomodation. 
+    - Problems encountered: Finding an accomodation that suits the entire family, Transportation
+    - Important aspects: Detailed activities on Family Activities, weather forcasts.
     ______________________________
-    - Family (6 (2 Dogs)).
+    - Family (6).
     - Top 3 Worst things:
-    - Finding no Pet Friendly Accomodations
-    - Not beeing able to balance INterests and Schedules of Family memberes
+    - Finding no interesting activities
+    - Not beeing able to balance Interests and Schedules of Family memberes
     - Forgetting something inportant at home
     - What makes/ breakes a Trip: Enjoable Activities for everybody, good food and weather, bad trips do not meet these criteria.
     - Important Subjekts: Family Comfort, Ensuring everyones Joy, keeping track of the money 
@@ -67,7 +65,7 @@
     ___________________________
     - Modes of transportation: Plane, Car
 
-    - Quantity of Pictures: ~20 - 50
+    - Quantity of Pictures: ~50 - 100
     - What type of vacation: Adventure and Relaxation
     - Travel outside of EU: YES (NA, OC)
     - Ranking of aspekts: People, Activities, Hotel/Resting
@@ -82,5 +80,3 @@
     - Travel souvenirs (pictures/videos)
     - Voting
     - Chat
-
-    [Go to Persona](personas.md#andreas)
