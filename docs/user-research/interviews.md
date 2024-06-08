@@ -80,3 +80,18 @@
     - Travel souvenirs (pictures/videos)
     - Voting
     - Chat
+
+## Concluiosns of the Interview
+
+### What went well?
+- The majority of the questions lead to satisfying answers.
+- The interviewees were both patient and participated in good faith.
+- No major issue that could not be fixed was encountered.
+
+### What didn't go well?
+- Certain Questins where more ambigious that intendet
+- Certain answers didn't go into the intended direction, which led to the fact that certain questions had to be rephrased.
+- Due to the fact that there was an age gap between the two interviewees, lessons learned in the first interview weren't always applicable in the second one (e.g., after the first interview, we rephrased a question that had previously led to an error in understanding). But certain'slang' words that were unfortunately passed into the question were not expected by the second interviewee, which led to the question needing to be rephrased again.)
+
+### Conclusion of the entire Process
+Thanks to our interviewees, the entire procedure went really well and without major issues. They were cooperative and answered the questions to the best of their ability. If an issue was encountered, they were patient and understanding, and after a quick modification to the question, the interview was back on track.
