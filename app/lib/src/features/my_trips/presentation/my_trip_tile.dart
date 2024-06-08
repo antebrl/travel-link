@@ -170,6 +170,7 @@ class MyTripTile extends StatelessWidget {
                     ),
                   ),
                 ),
+              if(daysToGo != null)
               Positioned(
                 right: 9,
                 top: 9,
@@ -181,7 +182,7 @@ class MyTripTile extends StatelessWidget {
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Text(
-                    'In ${daysToGo ?? ''} Days',
+                    'In $daysToGo Days',
                     style: const TextStyle(
                       color: Colors.white,
                     ),

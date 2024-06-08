@@ -4,6 +4,7 @@ import 'package:travel_link/src/features/explore_trips/domain/trip.dart';
 import 'package:travel_link/src/features/my_trips/data/my_trips_repository.dart';
 import 'package:travel_link/src/features/my_trips/presentation/create_trip_screen.dart';
 import 'package:travel_link/src/features/my_trips/presentation/my_trip_tile.dart';
+import 'package:travel_link/src/utils/constants/colors.dart';
 import 'package:travel_link/src/utils/logging/logger.dart';
 
 class MyTripsScreen extends ConsumerWidget {
@@ -64,7 +65,37 @@ class MyTripsScreen extends ConsumerWidget {
                     );
                   },
                 ),
+                Padding(
+                  padding: EdgeInsets.only(
+                    left: 16,
+                  ),
+                  child: Text(
+                    'Upcoming trips',
+                    style: TextStyle(
+                      fontSize: 28,
+                      fontFamily: 'Inter',
+                      fontWeight: FontWeight.w900,
+                      color: CustomColors.primary.withOpacity(0.8),
+                    ),
+                  ),
+                ),
                 //List of upcoming trips
+                if (sortedTrips[1].isEmpty)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    child: Center(
+                      child: Text(
+                        'No upcoming trips yet.',
+                        style: TextStyle(
+                          fontSize: 21,
+                          fontFamily: 'Inter',
+                          fontWeight: FontWeight.w800,
+                          color: Colors.grey.withOpacity(0.6),
+                        ),
+                      ),
+                    ),
+                  )
+                else
                 ListView.builder(
                   shrinkWrap: true,
                   physics: const ClampingScrollPhysics(),
@@ -77,18 +108,50 @@ class MyTripsScreen extends ConsumerWidget {
                     );
                   },
                 ),
-                //List of previous trips
-                ListView.builder(
-                  shrinkWrap: true,
-                  physics: const ClampingScrollPhysics(),
-                  itemCount: sortedTrips[2].length,
-                  itemBuilder: (context, index) {
-                    final trip = sortedTrips[2][index];
-                    return MyTripTile(
-                      trip: trip,
-                    );
-                  },
+
+
+                Padding(
+                  padding: const EdgeInsets.only(
+                    left: 16,
+                  ),
+                  child: Text(
+                    'Previous trips',
+                    style: TextStyle(
+                      fontSize: 28,
+                      fontFamily: 'Inter',
+                      fontWeight: FontWeight.w900,
+                      color: CustomColors.primary.withOpacity(0.8),
+                    ),
+                  ),
                 ),
+                //List of previous trips
+                if (sortedTrips[2].isEmpty)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    child: Center(
+                      child: Text(
+                        'No previous trips found',
+                        style: TextStyle(
+                          fontSize: 21,
+                          fontFamily: 'Inter',
+                          fontWeight: FontWeight.w800,
+                          color: Colors.grey.withOpacity(0.6),
+                        ),
+                      ),
+                    ),
+                  )
+                else
+                  ListView.builder(
+                    shrinkWrap: true,
+                    physics: const ClampingScrollPhysics(),
+                    itemCount: sortedTrips[2].length,
+                    itemBuilder: (context, index) {
+                      final trip = sortedTrips[2][index];
+                      return MyTripTile(
+                        trip: trip,
+                      );
+                    },
+                  ),
               ],
             ),
             floatingActionButton: FloatingActionButton(
