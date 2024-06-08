@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_image_stack/flutter_image_stack.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:travel_link/src/features/account/data/account_repository.dart';
 import 'package:travel_link/src/features/explore_trips/domain/trip.dart';
 import 'package:travel_link/src/routing/app_router.dart';
+import 'package:travel_link/src/utils/constants/image_strings.dart';
 
-class MyTripTile extends StatelessWidget {
+class MyTripTile extends ConsumerWidget {
   const MyTripTile({
     required this.trip,
     this.daysToGo,
@@ -14,8 +18,24 @@ class MyTripTile extends StatelessWidget {
   final Trip trip;
   final int? daysToGo;
 
+  Future<List<String>> _fetchAvatars(WidgetRef ref) async {
+    final List<String> avatars = [];
+    var imagesCount = 0;
+    //only load the first 3 user avatars
+    for (int i = 0; i < trip.participants.length && imagesCount < 4; i++) {
+      final user =
+          await ref.read(FetchUserProvider(trip.participants[i]).future);
+
+      if (user?.pictureUrl != null) {
+        avatars.add(user!.pictureUrl!);
+        imagesCount++;
+      }
+    }
+    return avatars;
+  }
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(45, 10, 35, 10),
       child: GestureDetector(
@@ -64,36 +84,44 @@ class MyTripTile extends StatelessWidget {
                       ],
                     ),
                     const SizedBox(height: 10),
-                    Row(
-                      children: [
-                        const CircleAvatar(
-                          radius: 15,
-                          backgroundImage: NetworkImage(
-                            'https://example.com/photo1.jpg',
-                          ), // Beispielbild URL
-                        ),
-                        const SizedBox(width: 5),
-                        const CircleAvatar(
-                          radius: 15,
-                          backgroundImage: NetworkImage(
-                            'https://example.com/photo2.jpg',
-                          ), // Beispielbild URL
-                        ),
-                        const SizedBox(width: 5),
-                        const CircleAvatar(
-                          radius: 15,
-                          backgroundImage: NetworkImage(
-                            'https://example.com/photo3.jpg',
-                          ), // Beispielbild URL
-                        ),
-                        const SizedBox(width: 5),
-                        CircleAvatar(
-                          radius: 15,
-                          backgroundColor: Colors.grey[200],
-                          child: const Text('1'),
-                        ),
-                      ],
-                    ),
+                    FutureBuilder<List<String>>(
+                              future: _fetchAvatars(ref),
+                              builder: (context, snapshot) {
+                                if (snapshot.connectionState ==
+                                        ConnectionState.waiting ||
+                                    snapshot.data == null ||
+                                    snapshot.data!.isEmpty) {
+                                  return FlutterImageStack(
+                                    imageList: const [
+                                      CustomImages.defaultProfilePictureUrl,
+                                      CustomImages.defaultProfilePictureUrl,
+                                      CustomImages.defaultProfilePictureUrl,
+                                    ],
+                                    extraCountTextStyle: const TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    totalCount: trip.participants.length,
+                                    itemRadius: 40,
+                                    itemCount: trip.participants.length > 3
+                                        ? 3
+                                        : trip.participants.length,
+                                  );
+                                } else {
+                                  return FlutterImageStack(
+                                    imageList: snapshot.data!,
+                                    extraCountTextStyle: const TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    totalCount: trip.participants.length,
+                                    itemRadius: 40,
+                                  );
+                                }
+                              },
+                            ),
                     const SizedBox(height: 15),
                     Row(
                       children: [

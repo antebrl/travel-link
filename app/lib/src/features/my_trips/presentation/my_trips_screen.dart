@@ -48,25 +48,27 @@ class MyTripsScreen extends ConsumerWidget {
 
           return Scaffold(
             appBar: AppBar(
-              title: const Text('My Trips'),
+              title: const Text('My Trips'), //TODO: Add icon and make bigger
             ),
             body: ListView(
               shrinkWrap: true,
               children: [
                 //List of current trips
-                ListView.builder(
-                  shrinkWrap: true,
-                  physics: const ClampingScrollPhysics(),
-                  itemCount: sortedTrips[1].length,
-                  itemBuilder: (context, index) {
-                    final trip = sortedTrips[1][index];
-                    return MyTripTile(
-                      trip: trip,
-                    );
-                  },
-                ),
+
+                //TODO: Use other TripTile for current trips (only picture, no card)
+                // ListView.builder(
+                //   shrinkWrap: true,
+                //   physics: const ClampingScrollPhysics(),
+                //   itemCount: sortedTrips[1].length,
+                //   itemBuilder: (context, index) {
+                //     final trip = sortedTrips[1][index];
+                //     return MyTripTile(
+                //       trip: trip,
+                //     );
+                //   },
+                // ),
                 Padding(
-                  padding: EdgeInsets.only(
+                  padding: const EdgeInsets.only(
                     left: 16,
                   ),
                   child: Text(
