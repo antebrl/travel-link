@@ -7,6 +7,7 @@ import 'package:shimmer/shimmer.dart';
 import 'package:travel_link/src/common_widgets/participants_avatar_stack.dart';
 import 'package:travel_link/src/features/explore_trips/domain/trip.dart';
 import 'package:travel_link/src/routing/app_router.dart';
+import 'package:travel_link/src/utils/constants/image_strings.dart';
 
 class PublicTripCard extends ConsumerWidget {
   const PublicTripCard({required this.trip, super.key});
@@ -114,7 +115,7 @@ class PublicTripCard extends ConsumerWidget {
                     Center(
                       child: CachedNetworkImage(
                         imageUrl: trip.images.isEmpty
-                            ? 'https://media.istockphoto.com/id/1998131648/de/foto/altstadt-von-burghausen-mit-burgberg.jpg?s=1024x1024&w=is&k=20&c=nvlz0e9DkNmf4_84ahASlYZVnGN-7NTKm9L3zppAOZI='
+                            ? CustomImages.tripDestinationImagePlaceholderUrl
                             : trip.images[0],
                         placeholder: (context, url) => Shimmer.fromColors(
                           baseColor: Colors.grey[300]!,

@@ -7,6 +7,7 @@ import 'package:shimmer/shimmer.dart';
 import 'package:travel_link/src/common_widgets/participants_avatar_stack.dart';
 import 'package:travel_link/src/features/explore_trips/domain/trip.dart';
 import 'package:travel_link/src/routing/app_router.dart';
+import 'package:travel_link/src/utils/constants/image_strings.dart';
 
 class MyTripTile extends ConsumerWidget {
   const MyTripTile({
@@ -141,7 +142,7 @@ class MyTripTile extends ConsumerWidget {
                       child: CachedNetworkImage(
                         imageUrl: trip.images.isNotEmpty
                             ? trip.images[0]
-                            : 'https://media.istockphoto.com/id/1998131648/de/foto/altstadt-von-burghausen-mit-burgberg.jpg?s=1024x1024&w=is&k=20&c=nvlz0e9DkNmf4_84ahASlYZVnGN-7NTKm9L3zppAOZI=',
+                            : CustomImages.tripDestinationImagePlaceholderUrl,
                         placeholder: (context, url) => Shimmer.fromColors(
                           baseColor: Colors.grey[300]!,
                           highlightColor: Colors.grey[100]!,
@@ -154,7 +155,7 @@ class MyTripTile extends ConsumerWidget {
                             ),
                           ),
                         ),
-                        errorWidget: (context, url, error) => Icon(Icons.error),
+                        errorWidget: (context, url, error) => const Icon(Icons.error),
                         imageBuilder: (context, imageProvider) => Container(
                           height: 170,
                           width: 140,

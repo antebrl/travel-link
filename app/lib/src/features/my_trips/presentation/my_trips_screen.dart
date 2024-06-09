@@ -35,7 +35,12 @@ class MyTripsScreen extends ConsumerWidget {
       }
     }
 
-    return (tripsByDate, daysToGo);
+    final indices = List<int>.generate(daysToGo.length, (index) => index)
+    ..sort((a, b) => daysToGo[a].compareTo(daysToGo[b]));
+
+    tripsByDate[1] = [for (final i in indices) tripsByDate[1][i]];
+
+    return (tripsByDate, [for (final i in indices) daysToGo[i]]);
   }
 
   @override
