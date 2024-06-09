@@ -74,13 +74,12 @@ class MyTripsScreen extends ConsumerWidget {
               shrinkWrap: true,
               children: [
                 //List of current trips
-
                 ListView.builder(
                   shrinkWrap: true,
                   physics: const ClampingScrollPhysics(),
-                  itemCount: sortedTrips[1].length,
+                  itemCount: sortedTrips[0].length,
                   itemBuilder: (context, index) {
-                    final trip = sortedTrips[1][index];
+                    final trip = sortedTrips[0][index];
                     return CurrentTripTile(
                       trip: trip,
                     );
