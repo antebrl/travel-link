@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:travel_link/src/features/explore_trips/domain/trip.dart';
 import 'package:travel_link/src/features/my_trips/data/my_trips_repository.dart';
 import 'package:travel_link/src/features/my_trips/presentation/create_trip_screen.dart';
+import 'package:travel_link/src/features/my_trips/presentation/current_trip_tile.dart';
 import 'package:travel_link/src/features/my_trips/presentation/my_trip_tile.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
 import 'package:travel_link/src/utils/logging/logger.dart';
@@ -74,18 +75,17 @@ class MyTripsScreen extends ConsumerWidget {
               children: [
                 //List of current trips
 
-                //TODO: Use other TripTile for current trips (only picture, no card)
-                // ListView.builder(
-                //   shrinkWrap: true,
-                //   physics: const ClampingScrollPhysics(),
-                //   itemCount: sortedTrips[1].length,
-                //   itemBuilder: (context, index) {
-                //     final trip = sortedTrips[1][index];
-                //     return MyTripTile(
-                //       trip: trip,
-                //     );
-                //   },
-                // ),
+                ListView.builder(
+                  shrinkWrap: true,
+                  physics: const ClampingScrollPhysics(),
+                  itemCount: sortedTrips[1].length,
+                  itemBuilder: (context, index) {
+                    final trip = sortedTrips[1][index];
+                    return CurrentTripTile(
+                      trip: trip,
+                    );
+                  },
+                ),
                 Padding(
                   padding: const EdgeInsets.only(
                     left: 16,

@@ -61,6 +61,7 @@ class ParticipantsAvatarStack extends ConsumerWidget {
                                     ),
                                     totalCount: participants.length,
                                     itemRadius: 40,
+                                    itemBorderWidth: 1.5,
                                   );
                                 }
                               },
