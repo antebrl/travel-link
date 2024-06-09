@@ -22,7 +22,7 @@ class MyTripTile extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(45, 10, 35, 10),
+      padding: const EdgeInsets.fromLTRB(45, 8, 35, 8),
       child: GestureDetector(
         onTap: () => context.pushNamed(
           TripRoutes.tripDetails.name,
@@ -40,7 +40,7 @@ class MyTripTile extends ConsumerWidget {
             clipBehavior: Clip.none,
             children: [
               Padding(
-                padding: const EdgeInsets.fromLTRB(135, 16, 16, 34),
+                padding: const EdgeInsets.fromLTRB(135, 16, 16, 30),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -52,21 +52,23 @@ class MyTripTile extends ConsumerWidget {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    Row(
-                      children: [
-                        const Icon(
-                          Icons.location_on,
-                          color: Colors.grey,
-                        ),
-                        const SizedBox(width: 3),
-                        Text(
-                          trip.destination.formatted,
-                          style: const TextStyle(
+                    FittedBox(
+                      child: Row(
+                        children: [
+                          const Icon(
+                            Icons.location_on,
                             color: Colors.grey,
-                            fontSize: 19,
                           ),
-                        ),
-                      ],
+                          const SizedBox(width: 3),
+                          Text(
+                            trip.destination.formatted,
+                            style: const TextStyle(
+                              color: Colors.grey,
+                              fontSize: 19,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                     const SizedBox(height: 10),
                     ParticipantsAvatarStack(

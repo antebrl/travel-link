@@ -10,16 +10,19 @@ import 'package:travel_link/src/utils/logging/logger.dart';
 class MyTripsScreen extends ConsumerWidget {
   const MyTripsScreen({super.key});
 
-  (List<List<Trip>>, List<int>) sortTripsByDate(List<Trip> trips) {
+  (List<List<Trip>>, List<int?>) sortTripsByDate(List<Trip> trips) {
     final List<List<Trip>> tripsByDate = [
       [],
       [],
       [],
     ];
-    final List<int> daysToGo = [];
+    final List<int?> daysToGo = [];
 
     for (final trip in trips) {
       if (trip.startDate == null || trip.endDate == null) {
+        //flexible trips will be shown at the end of the upcoming trips section
+        tripsByDate[1].add(trip); 
+        daysToGo.add(null);
         continue;
       }
 
@@ -29,16 +32,27 @@ class MyTripsScreen extends ConsumerWidget {
         tripsByDate[1].add(trip); // Upcoming trips
         daysToGo.add(trip.startDate!
             .difference(DateTime.now())
-            .inDays); // DaysToGo for upcoming trips
+            .inDays,); // DaysToGo for upcoming trips
       } else {
         tripsByDate[0].add(trip); // Current trips
       }
     }
 
+    //sort upcoming trips
     final indices = List<int>.generate(daysToGo.length, (index) => index)
-    ..sort((a, b) => daysToGo[a].compareTo(daysToGo[b]));
+    ..sort((a, b) {
+    final valueA = daysToGo[a];
+    final valueB = daysToGo[b];
+    if (valueA == null && valueB == null) return 0;
+    if (valueA == null) return 1; //flexible dates will be sorted at the end of the list
+    if (valueB == null) return -1;
+    return valueA.compareTo(valueB); 
+  });
 
     tripsByDate[1] = [for (final i in indices) tripsByDate[1][i]];
+
+    //sort previsous trips
+    tripsByDate[2].sort((a, b) => a.endDate!.compareTo(b.endDate!));
 
     return (tripsByDate, [for (final i in indices) daysToGo[i]]);
   }
