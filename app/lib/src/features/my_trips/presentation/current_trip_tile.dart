@@ -48,7 +48,7 @@ class CurrentTripTile extends StatelessWidget {
                 borderRadius: BorderRadius.circular(40),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.blue.shade600.withOpacity(0.5),
+                    color: Colors.blue.shade600.withOpacity(0.4),
                     spreadRadius: 0.02,
                     blurRadius: 15,
                     offset: const Offset(0, 4),

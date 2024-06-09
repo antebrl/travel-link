@@ -22,7 +22,7 @@ class MyTripsScreen extends ConsumerWidget {
     for (final trip in trips) {
       if (trip.startDate == null || trip.endDate == null) {
         //flexible trips will be shown at the end of the upcoming trips section
-        tripsByDate[1].add(trip); 
+        tripsByDate[1].add(trip);
         daysToGo.add(null);
         continue;
       }
@@ -31,9 +31,9 @@ class MyTripsScreen extends ConsumerWidget {
         tripsByDate[2].add(trip); // Previous trips
       } else if (trip.startDate!.isAfter(DateTime.now())) {
         tripsByDate[1].add(trip); // Upcoming trips
-        daysToGo.add(trip.startDate!
-            .difference(DateTime.now())
-            .inDays,); // DaysToGo for upcoming trips
+        daysToGo.add(
+          trip.startDate!.difference(DateTime.now()).inDays,
+        ); // DaysToGo for upcoming trips
       } else {
         tripsByDate[0].add(trip); // Current trips
       }
@@ -41,14 +41,15 @@ class MyTripsScreen extends ConsumerWidget {
 
     //sort upcoming trips
     final indices = List<int>.generate(daysToGo.length, (index) => index)
-    ..sort((a, b) {
-    final valueA = daysToGo[a];
-    final valueB = daysToGo[b];
-    if (valueA == null && valueB == null) return 0;
-    if (valueA == null) return 1; //flexible dates will be sorted at the end of the list
-    if (valueB == null) return -1;
-    return valueA.compareTo(valueB); 
-  });
+      ..sort((a, b) {
+        final valueA = daysToGo[a];
+        final valueB = daysToGo[b];
+        if (valueA == null && valueB == null) return 0;
+        if (valueA == null)
+          return 1; //flexible dates will be sorted at the end of the list
+        if (valueB == null) return -1;
+        return valueA.compareTo(valueB);
+      });
 
     tripsByDate[1] = [for (final i in indices) tripsByDate[1][i]];
 
@@ -68,7 +69,14 @@ class MyTripsScreen extends ConsumerWidget {
 
           return Scaffold(
             appBar: AppBar(
-              title: const Text('My Trips'), //TODO: Add icon and make bigger
+              title: const Text(
+                'My Trips',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 34),
+              ),
+              backgroundColor: CustomColors.primaryBackground,
+              elevation: 0,
+              leading: Image.asset('assets/images/my-trips/travel.gif',
+                  fit: BoxFit.cover),
             ),
             body: ListView(
               shrinkWrap: true,
@@ -116,19 +124,18 @@ class MyTripsScreen extends ConsumerWidget {
                     ),
                   )
                 else
-                ListView.builder(
-                  shrinkWrap: true,
-                  physics: const ClampingScrollPhysics(),
-                  itemCount: sortedTrips[1].length,
-                  itemBuilder: (context, index) {
-                    final trip = sortedTrips[1][index];
-                    return MyTripTile(
-                      trip: trip,
-                      daysToGo: daysToGo[index],
-                    );
-                  },
-                ),
-
+                  ListView.builder(
+                    shrinkWrap: true,
+                    physics: const ClampingScrollPhysics(),
+                    itemCount: sortedTrips[1].length,
+                    itemBuilder: (context, index) {
+                      final trip = sortedTrips[1][index];
+                      return MyTripTile(
+                        trip: trip,
+                        daysToGo: daysToGo[index],
+                      );
+                    },
+                  ),
 
                 Padding(
                   padding: const EdgeInsets.only(
