@@ -116,7 +116,8 @@ class _AutoCompleteSearchState extends State<AutoCompleteSearch> {
             borderRadius: BorderRadius.circular(10),
             child: SizedBox(
               height: 52.0 * items.length,
-              width: MediaQuery.of(context).size.width - widget.horizontalPadding,
+              width:
+                  MediaQuery.of(context).size.width - widget.horizontalPadding,
               child: ListView.builder(
                 shrinkWrap: true,
                 itemCount: items.length,
@@ -136,9 +137,9 @@ class _AutoCompleteSearchState extends State<AutoCompleteSearch> {
                                     color: CustomColors.black,
                                   ),
                         ),
-                        onTap: () {
-                          onSelected(option);
-                        },
+                        onTap: () => widget.controller.onSelected != null
+                            ? widget.controller.onSelected!(option)
+                            : onSelected(option),
                       ),
                       if (index != items.length - 1)
                         const Divider(
@@ -160,7 +161,11 @@ class _AutoCompleteSearchState extends State<AutoCompleteSearch> {
 }
 
 class DestinationController {
+  DestinationController({this.onSelected});
+
   Destination? selectedDestination;
   String? queryDestination;
   TextEditingController textEditingController = TextEditingController();
+
+  final void Function(Destination)? onSelected;
 }
