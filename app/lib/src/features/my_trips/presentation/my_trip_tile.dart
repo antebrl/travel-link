@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_image_stack/flutter_image_stack.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
-import 'package:travel_link/src/features/account/data/account_repository.dart';
+import 'package:travel_link/src/common_widgets/participants_avatar_stack.dart';
 import 'package:travel_link/src/features/explore_trips/domain/trip.dart';
 import 'package:travel_link/src/routing/app_router.dart';
-import 'package:travel_link/src/utils/constants/image_strings.dart';
 
 class MyTripTile extends ConsumerWidget {
   const MyTripTile({
@@ -17,22 +15,6 @@ class MyTripTile extends ConsumerWidget {
 
   final Trip trip;
   final int? daysToGo;
-
-  Future<List<String>> _fetchAvatars(WidgetRef ref) async {
-    final List<String> avatars = [];
-    var imagesCount = 0;
-    //only load the first 3 user avatars
-    for (int i = 0; i < trip.participants.length && imagesCount < 4; i++) {
-      final user =
-          await ref.read(FetchUserProvider(trip.participants[i]).future);
-
-      if (user?.pictureUrl != null) {
-        avatars.add(user!.pictureUrl!);
-        imagesCount++;
-      }
-    }
-    return avatars;
-  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -84,44 +66,9 @@ class MyTripTile extends ConsumerWidget {
                       ],
                     ),
                     const SizedBox(height: 10),
-                    FutureBuilder<List<String>>(
-                              future: _fetchAvatars(ref),
-                              builder: (context, snapshot) {
-                                if (snapshot.connectionState ==
-                                        ConnectionState.waiting ||
-                                    snapshot.data == null ||
-                                    snapshot.data!.isEmpty) {
-                                  return FlutterImageStack(
-                                    imageList: const [
-                                      CustomImages.defaultProfilePictureUrl,
-                                      CustomImages.defaultProfilePictureUrl,
-                                      CustomImages.defaultProfilePictureUrl,
-                                    ],
-                                    extraCountTextStyle: const TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                    totalCount: trip.participants.length,
-                                    itemRadius: 40,
-                                    itemCount: trip.participants.length > 3
-                                        ? 3
-                                        : trip.participants.length,
-                                  );
-                                } else {
-                                  return FlutterImageStack(
-                                    imageList: snapshot.data!,
-                                    extraCountTextStyle: const TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                    totalCount: trip.participants.length,
-                                    itemRadius: 40,
-                                  );
-                                }
-                              },
-                            ),
+                    ParticipantsAvatarStack(
+                      participants: trip.participants,
+                    ),
                     const SizedBox(height: 15),
                     Row(
                       children: [
