@@ -60,9 +60,28 @@ class _ApiActivitiesDetailsScreenState
             return SizedBox(
               width: MediaQuery.of(context).size.width,
               height: 220,
-              child: Image.network(
-                i,
-                fit: BoxFit.cover,
+              child: GestureDetector(
+                onTap: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return Dialog(
+                        child: Image.network(
+                          i,
+                          height: 220,
+                          width: double.infinity,
+                          fit: BoxFit.cover,
+                        ),
+                      );
+                    },
+                  );
+                },
+                child: Image.network(
+                  i,
+                  height: 220,
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                ),
               ),
             );
           },
@@ -94,11 +113,26 @@ class _ApiActivitiesDetailsScreenState
             right: 0,
             height: 250,
             child: widget.activity.imagePaths.isEmpty
-                ? Image.file(
-                    widget.activity.image!,
-                    height: 220,
-                    width: double.infinity,
-                    fit: BoxFit.cover,
+                ? GestureDetector(
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return Dialog(
+                              child: Image.file(
+                            widget.activity.image!,
+                            width: double.infinity,
+                            fit: BoxFit.cover,
+                          ));
+                        },
+                      );
+                    },
+                    child: Image.file(
+                      widget.activity.image!,
+                      height: 220,
+                      width: double.infinity,
+                      fit: BoxFit.cover,
+                    ),
                   )
                 : widget.activity.imagePaths.length > 1
                     ? Stack(
@@ -155,11 +189,26 @@ class _ApiActivitiesDetailsScreenState
                           ),
                         ],
                       )
-                    : Image.network(
-                        widget.activity.imagePaths[0],
-                        height: 200,
-                        width: double.infinity,
-                        fit: BoxFit.fill,
+                    : GestureDetector(
+                        onTap: () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return Dialog(
+                                child: Image.network(
+                                  widget.activity.imagePaths[0],
+                                  fit: BoxFit.contain,
+                                ),
+                              );
+                            },
+                          );
+                        },
+                        child: Image.network(
+                          widget.activity.imagePaths[0],
+                          height: 220,
+                          width: double.infinity,
+                          fit: BoxFit.cover,
+                        ),
                       ),
           ),
           Positioned(
@@ -282,9 +331,12 @@ class _ApiActivitiesDetailsScreenState
                                         color: CustomColors.primary,
                                       ),
                                       backgroundColor: CustomColors.white,
-                                      labelStyle: const TextStyle(
-                                        color: CustomColors.primary,
-                                      ),
+                                      labelStyle: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall!
+                                          .copyWith(
+                                            color: CustomColors.primary,
+                                          ),
                                       padding: const EdgeInsets.symmetric(
                                         horizontal: 12,
                                         vertical: 12,
