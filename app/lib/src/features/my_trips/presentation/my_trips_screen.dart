@@ -85,7 +85,7 @@ class MyTripsScreen extends ConsumerWidget {
                     Container(
                       color: CustomColors.primaryBackground,
                       padding: const EdgeInsets.symmetric(
-                          vertical: 16, horizontal: 16),
+                          vertical: 16, horizontal: 16,),
                       child: Stack(
                         children: [
                           Align(
@@ -111,6 +111,7 @@ class MyTripsScreen extends ConsumerWidget {
                     ),
                     // Current trips
                     ListView.builder(
+                      padding: EdgeInsets.zero,
                       shrinkWrap: true,
                       physics: const ClampingScrollPhysics(),
                       itemCount: sortedTrips[0].length,
@@ -152,6 +153,7 @@ class MyTripsScreen extends ConsumerWidget {
                     // Upcoming trips
                     if (screenOrientationPortrait)
                       ListView.builder(
+                        padding: EdgeInsets.zero,
                         shrinkWrap: true,
                         physics: const ClampingScrollPhysics(),
                         itemCount: sortedTrips[1].length,
@@ -166,6 +168,7 @@ class MyTripsScreen extends ConsumerWidget {
                       )
                     else
                       GridView.builder(
+                        padding: EdgeInsets.zero,
                         shrinkWrap: true,
                         physics: const ClampingScrollPhysics(),
                         gridDelegate:
@@ -213,6 +216,7 @@ class MyTripsScreen extends ConsumerWidget {
                     else
                       // Previous trips
                       ListView.builder(
+                        padding: EdgeInsets.zero,
                         shrinkWrap: true,
                         physics: const ClampingScrollPhysics(),
                         itemCount: sortedTrips[2].length,

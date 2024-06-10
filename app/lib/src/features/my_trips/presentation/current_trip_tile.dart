@@ -64,59 +64,59 @@ class CurrentTripTile extends StatelessWidget {
                   horizontal: 22,
                   vertical: 25,
                 ),
-                child: Row(
+                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Column(
+                    Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          trip.name,
-                          style: GoogleFonts.adamina(
-                            color: Colors.white,
-                            fontSize: 28,
-                            fontWeight: FontWeight.bold,
-                            shadows: [
-                              Shadow(
-                                color: Colors.black.withOpacity(0.3),
-                                offset: const Offset(0, 4),
-                                blurRadius: 4,
-                              ),
-                            ],
+                      trip.name,
+                      style: GoogleFonts.adamina(
+                        color: Colors.white,
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
+                        shadows: [
+                          Shadow(
+                            color: Colors.black.withOpacity(0.3),
+                            offset: const Offset(0, 4),
+                            blurRadius: 4,
                           ),
-                          textAlign: TextAlign.center,
-                        ),
+                        ],
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
                         const Spacer(),
-                        DecoratedBox(
-                          decoration: BoxDecoration(
-                            color: const Color(0xFF4D5652).withOpacity(0.8),
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 8,
-                              horizontal: 14,
-                            ),
-                            child: SizedBox(
-                              width: 280,
-                              child: Text(
-                                trip.destination.formatted,
-                                style: GoogleFonts.adamina(
-                                  color: Colors.white, // Textfarbe
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                                textAlign: TextAlign.center,
-                                maxLines: 4,
-                              ),
-                            ),
-                          ),
-                        ),
+                    ParticipantsAvatarStack(
+                      participants: trip.participants,
+                    ),
                       ],
                     ),
                     const Spacer(),
-                    ParticipantsAvatarStack(
-                      participants: trip.participants,
+                    DecoratedBox(
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF4D5652).withOpacity(0.8),
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 8,
+                          horizontal: 14,
+                        ),
+                        child: SizedBox(
+                          width: 280,
+                          child: Text(
+                            trip.destination.formatted,
+                            style: GoogleFonts.adamina(
+                              color: Colors.white, // Textfarbe
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                            ),
+                            textAlign: TextAlign.center,
+                            maxLines: 4,
+                          ),
+                        ),
+                      ),
                     ),
                   ],
                 ),
