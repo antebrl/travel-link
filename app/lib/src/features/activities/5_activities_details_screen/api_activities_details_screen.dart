@@ -1,14 +1,12 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:get/get.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:travel_link/src/features/activities/3_activities_screen/domain/api_activity.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
-import 'package:carousel_slider/carousel_slider.dart';
-import 'package:travel_link/src/utils/constants/image_strings.dart';
 
 class ApiActivitiesDetailsScreen extends StatefulWidget {
-  ApiActivitiesDetailsScreen({required this.activity, super.key});
+  const ApiActivitiesDetailsScreen({required this.activity, super.key});
 
   final ApiActivity activity;
 
@@ -26,10 +24,6 @@ class _ApiActivitiesDetailsScreenState
     return FlutterMap(
       options: MapOptions(
         initialCenter: LatLng(latitude, longitude),
-        // interactionOptions: const InteractionOptions(
-        //   flags: InteractiveFlag.none,
-        // ),
-        // Disable all user interactions
       ),
       children: [
         openStreetMapTileLater,
@@ -58,24 +52,22 @@ class _ApiActivitiesDetailsScreenState
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     if (widget.activity.imagePaths.isNotEmpty) {
-      imageSliders = widget.activity.imagePaths
-          .map((i) {
-              return Builder(
-                builder: (BuildContext context) {
-                  return Container(
-                    width: MediaQuery.of(context).size.width,
-                    height:220,
-                    child: Image.network(
-                      i, 
-                      fit: BoxFit.cover,
-                    ),
-                  );
-                },
-              );
-            }).toList();
+      imageSliders = widget.activity.imagePaths.map((i) {
+        return Builder(
+          builder: (BuildContext context) {
+            return SizedBox(
+              width: MediaQuery.of(context).size.width,
+              height: 220,
+              child: Image.network(
+                i,
+                fit: BoxFit.cover,
+              ),
+            );
+          },
+        );
+      }).toList();
     }
   }
 
@@ -84,7 +76,9 @@ class _ApiActivitiesDetailsScreenState
     Widget content;
 
     content = _createMapOneTime(
-        widget.activity.location.lat, widget.activity.location.lon);
+      widget.activity.location.lat,
+      widget.activity.location.lon,
+    );
 
     return Scaffold(
       appBar: AppBar(
@@ -94,12 +88,11 @@ class _ApiActivitiesDetailsScreenState
       ),
       body: Stack(
         children: [
-          // Bild oben auf der Seite
           Positioned(
             top: -3,
             left: 0,
             right: 0,
-            height: 250, // Höhe des Bildes anpassen
+            height: 250,
             child: widget.activity.imagePaths.isEmpty
                 ? Image.file(
                     widget.activity.image!,
@@ -115,14 +108,15 @@ class _ApiActivitiesDetailsScreenState
                             carouselController: _controller,
                             options: CarouselOptions(
                               autoPlayInterval: const Duration(seconds: 6),
-                                autoPlay: true,
-                                height: 220,
-                                viewportFraction: 1,
-                                onPageChanged: (index, reason) {
-                                  setState(() {
-                                    _current = index;
-                                  });
-                                }),
+                              autoPlay: true,
+                              height: 220,
+                              viewportFraction: 1,
+                              onPageChanged: (index, reason) {
+                                setState(() {
+                                  _current = index;
+                                });
+                              },
+                            ),
                           ),
                           Positioned(
                             left: 0,
@@ -141,16 +135,18 @@ class _ApiActivitiesDetailsScreenState
                                     width: 12,
                                     height: 12,
                                     margin: const EdgeInsets.symmetric(
-                                        vertical: 8, horizontal: 4),
+                                      vertical: 8,
+                                      horizontal: 4,
+                                    ),
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,
                                       color: (Theme.of(context).brightness ==
                                                   Brightness.dark
                                               ? Colors.white
                                               : CustomColors.primary)
-                                          .withOpacity(_current == entry.key
-                                              ? 0.9
-                                              : 0.4),
+                                          .withOpacity(
+                                        _current == entry.key ? 0.9 : 0.4,
+                                      ),
                                     ),
                                   ),
                                 );
@@ -166,10 +162,8 @@ class _ApiActivitiesDetailsScreenState
                         fit: BoxFit.fill,
                       ),
           ),
-
-          // Weiße Fläche mit abgerundeten Ecken und Schatten
           Positioned(
-            top: 200, // Startpunkt für die weiße Fläche
+            top: 200,
             left: 0,
             right: 0,
             bottom: 0,
@@ -279,23 +273,27 @@ class _ApiActivitiesDetailsScreenState
                                 padding: const EdgeInsets.all(10),
                                 child: Wrap(
                                   alignment: WrapAlignment.spaceAround,
-                                  spacing: 10.0, // Abstand zwischen den Chips
-                                  runSpacing:
-                                      5.0, // Abstand zwischen den Zeilen
+                                  spacing: 10,
+                                  runSpacing: 5,
                                   children: widget.activity.categories
                                       .map((category) {
                                     return Chip(
                                       side: const BorderSide(
-                                          color: CustomColors.primary),
+                                        color: CustomColors.primary,
+                                      ),
                                       backgroundColor: CustomColors.white,
                                       labelStyle: const TextStyle(
-                                          color: CustomColors.primary),
+                                        color: CustomColors.primary,
+                                      ),
                                       padding: const EdgeInsets.symmetric(
-                                          horizontal: 12, vertical: 12),
+                                        horizontal: 12,
+                                        vertical: 12,
+                                      ),
                                       label: Text(
                                         category,
                                         style: const TextStyle(
-                                            color: CustomColors.primary),
+                                          color: CustomColors.primary,
+                                        ),
                                       ),
                                     );
                                   }).toList(),

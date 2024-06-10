@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:travel_link/src/features/activities/3_activities_screen/data/api_activities_repository.dart';
@@ -23,14 +22,18 @@ class APIActivitiesScreen extends ConsumerStatefulWidget {
   final Set<String> categoryList;
 
   @override
-  _APIActivitiesScreenState createState() => _APIActivitiesScreenState();
+  ConsumerState<APIActivitiesScreen> createState() =>
+      _APIActivitiesScreenState();
 }
 
 class _APIActivitiesScreenState extends ConsumerState<APIActivitiesScreen> {
   List<ApiActivity> addedActivities = [];
 
   bool isActivityNearDestination(
-      ApiActivity activity, double destLat, double destLon) {
+    ApiActivity activity,
+    double destLat,
+    double destLon,
+  ) {
     const double thresholdDistance = 40; // Threshold distance in Kilometers
     final double activityLat = activity.location.lat;
     final double activityLon = activity.location.lon;
@@ -42,15 +45,15 @@ class _APIActivitiesScreenState extends ConsumerState<APIActivitiesScreen> {
   }
 
   double calculateDistance(double lat1, double lon1, double lat2, double lon2) {
-    const double radiusEarth = 6371.0;
-    double dLat = degreesToRadians(lat2 - lat1);
-    double dLon = degreesToRadians(lon2 - lon1);
-    double a = sin(dLat / 2) * sin(dLat / 2) +
+    const double radiusEarth = 6371;
+    final double dLat = degreesToRadians(lat2 - lat1);
+    final double dLon = degreesToRadians(lon2 - lon1);
+    final double a = sin(dLat / 2) * sin(dLat / 2) +
         cos(degreesToRadians(lat1)) *
             cos(degreesToRadians(lat2)) *
             sin(dLon / 2) *
             sin(dLon / 2);
-    double c = 2 * atan2(sqrt(a), sqrt(1 - a));
+    final double c = 2 * atan2(sqrt(a), sqrt(1 - a));
     return radiusEarth * c;
   }
 
@@ -150,7 +153,6 @@ class _APIActivitiesScreenState extends ConsumerState<APIActivitiesScreen> {
                   ),
                 ],
                 bottom: TabBar(
-                  isScrollable: false,
                   indicatorColor: CustomColors.primary,
                   unselectedLabelColor: CustomColors.darkGrey,
                   labelColor: CustomHelperFunctions.isDarkMode(context)
@@ -190,21 +192,26 @@ class _APIActivitiesScreenState extends ConsumerState<APIActivitiesScreen> {
                               padding: const EdgeInsets.all(10),
                               child: Wrap(
                                 alignment: WrapAlignment.spaceAround,
-                                spacing: 10.0,
-                                runSpacing: 5.0,
+                                spacing: 10,
+                                runSpacing: 5,
                                 children: widget.categoryList.map((category) {
                                   return Chip(
                                     side: const BorderSide(
-                                        color: CustomColors.primary),
+                                      color: CustomColors.primary,
+                                    ),
                                     backgroundColor: CustomColors.white,
                                     labelStyle: const TextStyle(
-                                        color: CustomColors.primary),
+                                      color: CustomColors.primary,
+                                    ),
                                     padding: const EdgeInsets.symmetric(
-                                        horizontal: 12, vertical: 12),
+                                      horizontal: 12,
+                                      vertical: 12,
+                                    ),
                                     label: Text(
                                       category,
                                       style: const TextStyle(
-                                          color: CustomColors.primary),
+                                        color: CustomColors.primary,
+                                      ),
                                     ),
                                   );
                                 }).toList(),

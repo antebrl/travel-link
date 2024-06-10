@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:travel_link/src/features/activities/1_activities_start_screen/presentation/activities_main_screen.dart';
-import 'package:travel_link/src/features/activities/7_api_search_screen/search_screen.dart';
+import 'package:travel_link/src/features/activities/7_search_screen/search_screen.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
 import 'package:travel_link/src/utils/constants/strings.dart';
 import 'package:travel_link/src/utils/helpers/helper_functions.dart';

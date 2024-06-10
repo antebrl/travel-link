@@ -5,7 +5,6 @@ import 'package:travel_link/src/features/activities/2_continents_screen/domain/c
 import 'package:travel_link/src/features/activities/3_activities_screen/domain/api_activity.dart';
 import 'package:travel_link/src/features/activities/4_add_activity_screen/presentation/image_input.dart';
 import 'package:travel_link/src/features/activities/4_add_activity_screen/presentation/location_input.dart';
-import 'package:travel_link/src/features/activities/4_add_activity_screen/switch_continent.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
 
 class AddActivityScreen extends ConsumerStatefulWidget {
@@ -30,11 +29,11 @@ class _AddActivityScreenState extends ConsumerState<AddActivityScreen> {
   String? stringValidator(String? value) {
     if (value == null ||
         value.isEmpty ||
-        value.trim().length <= 1 ||
+        value.trim().isEmpty ||
         value.trim().length > 50) {
       return 'Must be between 1 and 50 characters.';
     }
-    return null; //return null = korrekte Angabe, sonst nicht
+    return null;
   }
 
   void _saveActivity() {
@@ -85,7 +84,6 @@ class _AddActivityScreenState extends ConsumerState<AddActivityScreen> {
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(12),
-          //EdgeInsets.fromLTRB(16, 16, 16, keyboardSpace + 16), //Left top right bottom
           child: Column(
             children: [
               Form(
@@ -112,11 +110,9 @@ class _AddActivityScreenState extends ConsumerState<AddActivityScreen> {
                         _enteredDescription = value!;
                       },
                     ),
-
                     const SizedBox(
                       height: 20,
                     ),
-                    //Image Input
                     ImageInput(
                       onPickImage: (image) {
                         _selectedImage = image;
@@ -152,7 +148,6 @@ class _AddActivityScreenState extends ConsumerState<AddActivityScreen> {
                           value: _isPublic,
                           onChanged: (value) {
                             setState(() {
-                              print(_isPublic);
                               _isPublic = value;
                             });
                           },

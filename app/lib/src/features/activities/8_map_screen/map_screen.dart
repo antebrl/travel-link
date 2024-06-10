@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:travel_link/src/features/activities/3_activities_screen/domain/api_activity.dart';
+import 'package:travel_link/src/utils/constants/colors.dart';
 
 class MapScreenWithActivities extends StatefulWidget {
   const MapScreenWithActivities({required this.fetchedActivities, super.key});
@@ -19,13 +19,16 @@ class _MapScreenWithActivitiesState extends State<MapScreenWithActivities> {
       future: widget.fetchedActivities,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
+          return const Center(
+            child: CircularProgressIndicator(
+              color: CustomColors.primary,
+            ),
+          );
         } else if (snapshot.hasError) {
           return Center(child: Text('Error: ${snapshot.error}'));
         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return Center(child: Text('No activities found'));
+          return const Center(child: Text('No activities found'));
         } else {
-          // Assuming you want to display the name of the first activity
           final activity = snapshot.data![0];
           return Center(child: Text(activity.name));
         }

@@ -23,7 +23,7 @@ class ActivitiesScreen extends ConsumerStatefulWidget {
 }
 
 class _ActivitiesScreenState extends ConsumerState<ActivitiesScreen> {
-  late List<ApiActivity> activitiesFromProvider; //TODO: Refactor
+  late List<ApiActivity> activitiesFromProvider;
   late List<ApiActivity> filteredActivitiesByContinent;
   late List<ApiActivity> filteredActivitiesBySearch;
   List<ApiActivity> filteredActivitiesByFilters = [];
@@ -45,9 +45,6 @@ class _ActivitiesScreenState extends ConsumerState<ActivitiesScreen> {
   }
 
   void filterActivitiesBySearch(String query) {
-    // setState(() {
-    // filteredActivities = widget.activities.where((activity) =>
-    //     activity.name.toLowerCase().startsWith(query.toLowerCase())).toList();
     List<ApiActivity> originalString;
     if (filteredActivitiesByFilters.isEmpty) {
       originalString = filteredActivitiesByContinent;

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:geocoding/geocoding.dart' as gecoding;
 import 'package:latlong2/latlong.dart';
@@ -24,13 +23,11 @@ class _LocationInput extends State<LocationInput> {
   var _isGettingLocation = false;
 
   Future<void> _savePlace(double latitude, double longitude) async {
-    print('start');
     try {
       final List<gecoding.Placemark> placemarks =
           await gecoding.placemarkFromCoordinates(latitude, longitude);
-      // Extrahiere die Adresse aus dem Placemark
+      // Extract address from placemark
       final gecoding.Placemark placemark = placemarks[0];
-      //final String street = placemark.street!;
       final String city = placemark.locality!;
       final String country = placemark.country!;
       final String countryCode = placemark.isoCountryCode!;
@@ -51,12 +48,9 @@ class _LocationInput extends State<LocationInput> {
       });
 
       widget.onSelectLocation(_pickedLocation!);
-      print('mnid');
     } catch (e) {
-      print(e);
       return;
     }
-    print('end');
   }
 
   Future<void> _getCurrentLocation() async {
@@ -116,7 +110,6 @@ class _LocationInput extends State<LocationInput> {
       key: UniqueKey(),
       options: MapOptions(
         initialCenter: LatLng(latitude, longitude),
-        // Disable all user interactions
       ),
       children: [
         openStreetMapTileLayer,

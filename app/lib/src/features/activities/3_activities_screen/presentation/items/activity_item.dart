@@ -1,11 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:go_router/go_router.dart';
 import 'package:travel_link/src/features/activities/3_activities_screen/domain/api_activity.dart';
 import 'package:travel_link/src/features/activities/5_activities_details_screen/api_activities_details_screen.dart';
-import 'package:travel_link/src/routing/app_router.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
 import 'package:travel_link/src/utils/theme/widget_themes/text_theme.dart';
 
@@ -20,21 +17,18 @@ class ActivityItem extends StatefulWidget {
 class _ActivityItemState extends State<ActivityItem> {
   late Future<String> _imageFuture;
   String formattedLink = '';
-  static final Map<String, String> _imageCache = {}; // Cache für Bilder
+  static final Map<String, String> _imageCache = {};
   @override
   void initState() {
     super.initState();
-    // Überprüfe, ob das Bild im Cache vorhanden ist
     if (_imageCache.containsKey(widget.activity.name)) {
       final imageName = _imageCache[widget.activity.name];
       if (imageName != null) {
         setState(() {
-          widget.activity.imagePaths[0] =
-              imageName; // Aktualisiere den Bildnamen
+          widget.activity.imagePaths[0] = imageName;
         });
       }
-      _imageFuture =
-          Future.value(imageName); // Verwende den Bildnamen für die Future
+      _imageFuture = Future.value(imageName);
     } else {
       _imageFuture = fetchImage(widget.activity.name);
     }
@@ -51,10 +45,8 @@ class _ActivityItemState extends State<ActivityItem> {
     final pageId = pages.keys.first;
     final imageUrl = pages[pageId]['thumbnail']['source'] as String;
 
-    // Speichere den Bildnamen im Cache
     _imageCache[activityName] = imageUrl;
 
-    // Aktualisiere den Bildnamen in der Activity-Instanz
     setState(() {
       widget.activity.imagePaths[0] = imageUrl;
     });
@@ -164,7 +156,6 @@ class _ActivityItemState extends State<ActivityItem> {
                       ],
                     ),
                   ),
-
                 ],
               ),
             ),

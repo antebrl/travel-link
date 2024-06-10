@@ -5,8 +5,8 @@ import 'package:http/http.dart' as http;
 import 'package:travel_link/src/common_widgets/auto_complete_search.dart';
 import 'package:travel_link/src/features/activities/1_activities_start_screen/presentation/items/container_with_searchbar.dart';
 import 'package:travel_link/src/features/activities/1_activities_start_screen/presentation/items/container_with_worldmap.dart';
-import 'package:travel_link/src/features/activities/1_activities_start_screen/presentation/items/horizontal_listview_Activities.dart';
-import 'package:travel_link/src/features/activities/1_activities_start_screen/presentation/items/vertical_listview_Activities.dart';
+import 'package:travel_link/src/features/activities/1_activities_start_screen/presentation/items/horizontal_listview_activities.dart';
+import 'package:travel_link/src/features/activities/1_activities_start_screen/presentation/items/vertical_listview_activities.dart';
 import 'package:travel_link/src/features/activities/2_continents_screen/domain/continent.dart';
 import 'package:travel_link/src/features/activities/3_activities_screen/data/activity_data.dart';
 import 'package:travel_link/src/features/activities/3_activities_screen/data/api_activities_repository.dart';
@@ -121,29 +121,35 @@ class _ActivitiesMainScreenState extends State<ActivitiesMainScreen> {
         children: [
           CurvedSearchContainer(controller: _controller),
           const SizedBox(height: 10),
-          Text(
-            'Explore top Activities from all continents:',
-            style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                  color: CustomColors.primary,
-                ),
+          Center(
+            child: Text(
+              'Explore top Activities from all continents:',
+              style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                    color: CustomColors.primary,
+                  ),
+            ),
           ),
           const SizedBox(height: 10),
           const CustomContainerWithWorldMap(),
           const SizedBox(height: 10),
-          Text(
-            'Activities in ${CustomHelperFunctions.getContinentDisplayName(selectedContinent)}:',
-            style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                  color: CustomColors.primary,
-                ),
+          Center(
+            child: Text(
+              'Activities in ${CustomHelperFunctions.getContinentDisplayName(selectedContinent)}:',
+              style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                    color: CustomColors.primary,
+                  ),
+            ),
           ),
           HorizontalActivityList(selectedActivities: selectedActivities),
           const SizedBox(height: 10),
-          Text(
-            'Most popular activities: ',
-            style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                  color: CustomColors.primary,
-                ),
-            textAlign: TextAlign.center,
+          Center(
+            child: Text(
+              'Most popular activities: ',
+              style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                    color: CustomColors.primary,
+                  ),
+              textAlign: TextAlign.center,
+            ),
           ),
           VerticalActivityList(
             popularActivities: popularActivityData,
