@@ -5,6 +5,7 @@ import 'package:travel_link/src/utils/theme/theme.dart';
 import 'custom_calendar.dart';
 
 // from https://github.com/mitesh77/Best-Flutter-UI-Templates/blob/master/best_flutter_ui_templates/lib/hotel_booking/calendar_popup_view.dart
+// adapted (see #67)
 
 class CalendarPopupView extends StatefulWidget {
   const CalendarPopupView({
