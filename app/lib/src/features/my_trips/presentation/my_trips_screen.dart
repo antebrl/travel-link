@@ -63,7 +63,6 @@ class MyTripsScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final mediaQuery = MediaQuery.of(context);
     final screenWidth = mediaQuery.size.width;
-    final paddingLeft = screenWidth / 11 - 30;
     final cardWidth = screenWidth / 1.12;
 
     final screenOrientationPortrait =
@@ -125,7 +124,7 @@ class MyTripsScreen extends ConsumerWidget {
                       },
                     ),
                     Padding(
-                      padding: EdgeInsets.only(left: paddingLeft, top: 16),
+                      padding: const EdgeInsets.only(left: 15, top: 16),
                       child: Text(
                         'Upcoming trips',
                         style: TextStyle(
@@ -188,7 +187,7 @@ class MyTripsScreen extends ConsumerWidget {
                         },
                       ),
                     Padding(
-                      padding: EdgeInsets.only(left: paddingLeft, top: 16),
+                      padding: const EdgeInsets.only(left: 15, top: 16),
                       child: Text(
                         'Previous trips',
                         style: TextStyle(
