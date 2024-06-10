@@ -12,6 +12,7 @@ import 'package:travel_link/src/utils/constants/image_strings.dart';
 class MyTripTile extends ConsumerWidget {
   const MyTripTile({
     required this.trip,
+    required this.cardWidth, 
     this.daysToGo,
     super.key,
   });
@@ -19,10 +20,15 @@ class MyTripTile extends ConsumerWidget {
   final Trip trip;
   final int? daysToGo;
 
+  final double cardWidth;
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+
+    final pictureWidth = cardWidth / 3; //pictureWidth scale regarding cardWith, screenWidth / 3.4
+
     return Padding(
-      padding: const EdgeInsets.fromLTRB(45, 8, 35, 8),
+      padding: const EdgeInsets.symmetric(vertical: 8),
       child: GestureDetector(
         onTap: () => context.pushNamed(
           TripRoutes.tripDetails.name,
@@ -30,170 +36,197 @@ class MyTripTile extends ConsumerWidget {
             'tripId': trip.tripId,
           },
         ),
-        child: Card(
-          color: Colors.white,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
-          elevation: 3,
-          child: Stack(
-            clipBehavior: Clip.none,
-            children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(135, 16, 16, 30),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const SizedBox(
+              width: 25,
+            ),
+            SizedBox(
+              width: cardWidth,
+              child: Card(
+                color: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                elevation: 3,
+                child: Stack(
+                  clipBehavior: Clip.none,
                   children: [
-                    const SizedBox(height: 5),
-                    Text(
-                      trip.name,
-                      style: const TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    FittedBox(
-                      child: Row(
-                        children: [
-                          const Icon(
-                            Icons.location_on,
-                            color: Colors.grey,
+                    if (daysToGo != null)
+                      Positioned(
+                        right: 9,
+                        top: 9,
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 7,
+                            vertical: 2,
                           ),
-                          const SizedBox(width: 3),
-                          Text(
-                            trip.destination.formatted,
+                          decoration: BoxDecoration(
+                            color: Colors.blueGrey[800]!.withOpacity(0.7),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Text(
+                            'In $daysToGo Days',
                             style: const TextStyle(
-                              color: Colors.grey,
-                              fontSize: 19,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(
+                        pictureWidth - 15,
+                        16,
+                        10,
+                        30,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const SizedBox(height: 5),
+                          SizedBox(
+                            width: cardWidth - pictureWidth,
+                            child: Text(
+                              trip.name,
+                              style: const TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          FittedBox(
+                            child: Row(
+                              children: [
+                                const Icon(
+                                  Icons.location_on,
+                                  color: Colors.grey,
+                                ),
+                                const SizedBox(width: 3),
+                                Text(
+                                  trip.destination.formatted,
+                                  style: const TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 19,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          ParticipantsAvatarStack(
+                            participants: trip.participants,
+                          ),
+                          const SizedBox(height: 15),
+                          FittedBox(
+                            child: Row(
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 14,
+                                    vertical: 4,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xFFC3DEED),
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  child: Text(
+                                    trip.startDate != null
+                                        ? DateFormat('dd/MM/yyyy')
+                                            .format(trip.startDate!)
+                                        : 'Flexible Dates',
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.black87,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(width: cardWidth / 50),
+                                if (trip.endDate != null)
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 14,
+                                      vertical: 4,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xFFC3DEED),
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    child: Text(
+                                      DateFormat('dd/MM/yyyy')
+                                          .format(trip.endDate!),
+                                      style: const TextStyle(
+                                        fontSize: 16,
+                                        color: Colors.black87,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                              ],
                             ),
                           ),
                         ],
                       ),
                     ),
-                    const SizedBox(height: 10),
-                    ParticipantsAvatarStack(
-                      participants: trip.participants,
-                    ),
-                    const SizedBox(height: 15),
-                    Row(
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 14,
-                            vertical: 4,
-                          ),
+                    if (trip.images.isNotEmpty)
+                      Positioned(
+                        left: -25,
+                        top: 16,
+                        child: Container(
                           decoration: BoxDecoration(
-                            color: const Color(0xFFC3DEED),
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(10),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.blue.shade600.withOpacity(0.5),
+                                spreadRadius: 1,
+                                blurRadius: 7,
+                                offset: const Offset(1, 3),
+                              ),
+                            ],
                           ),
-                          child: Text(
-                            trip.startDate != null
-                                ? DateFormat('dd/MM/yyyy')
-                                    .format(trip.startDate!)
-                                : 'Flexible Dates',
-                            style: const TextStyle(
-                              fontSize: 15,
-                              color: Colors.black87,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 15),
-                        if (trip.endDate != null)
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 14,
-                              vertical: 4,
-                            ),
-                            decoration: BoxDecoration(
-                              color: const Color(0xFFC3DEED),
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: Text(
-                              DateFormat('dd/MM/yyyy').format(trip.endDate!),
-                              style: const TextStyle(
-                                fontSize: 15,
-                                color: Colors.black87,
-                                fontWeight: FontWeight.bold,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: CachedNetworkImage(
+                              imageUrl: trip.images.isNotEmpty
+                                  ? trip.images[0]
+                                  : CustomImages
+                                      .tripDestinationImagePlaceholderUrl,
+                              placeholder: (context, url) => Shimmer.fromColors(
+                                baseColor: Colors.grey[300]!,
+                                highlightColor: Colors.grey[100]!,
+                                child: Container(
+                                  height: 170,
+                                  width: pictureWidth,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                              errorWidget: (context, url, error) =>
+                                  const Icon(Icons.error),
+                              imageBuilder: (context, imageProvider) =>
+                                  Container(
+                                height: 170,
+                                width: pictureWidth,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  image: DecorationImage(
+                                    image: imageProvider,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
                               ),
                             ),
                           ),
-                      ],
-                    ),
+                        ),
+                      ),
                   ],
                 ),
               ),
-              if (trip.images.isNotEmpty)
-                Positioned(
-                  left: -25,
-                  top: 16,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.blue.shade600.withOpacity(0.5),
-                          spreadRadius: 1,
-                          blurRadius: 7,
-                          offset: const Offset(1, 3),
-                        ),
-                      ],
-                    ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: CachedNetworkImage(
-                        imageUrl: trip.images.isNotEmpty
-                            ? trip.images[0]
-                            : CustomImages.tripDestinationImagePlaceholderUrl,
-                        placeholder: (context, url) => Shimmer.fromColors(
-                          baseColor: Colors.grey[300]!,
-                          highlightColor: Colors.grey[100]!,
-                          child: Container(
-                            height: 170,
-                            width: 140,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                        errorWidget: (context, url, error) => const Icon(Icons.error),
-                        imageBuilder: (context, imageProvider) => Container(
-                          height: 170,
-                          width: 140,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            image: DecorationImage(
-                              image: imageProvider,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              if (daysToGo != null)
-                Positioned(
-                  right: 9,
-                  top: 9,
-                  child: Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                    decoration: BoxDecoration(
-                      color: Colors.blueGrey[800]!.withOpacity(0.7),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Text(
-                      'In $daysToGo Days',
-                      style: const TextStyle(
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
