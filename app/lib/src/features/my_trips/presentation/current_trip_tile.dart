@@ -71,25 +71,25 @@ class CurrentTripTile extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                      trip.name,
-                      style: GoogleFonts.adamina(
-                        color: Colors.white,
-                        fontSize: 28,
-                        fontWeight: FontWeight.bold,
-                        shadows: [
-                          Shadow(
-                            color: Colors.black.withOpacity(0.3),
-                            offset: const Offset(0, 4),
-                            blurRadius: 4,
+                          trip.name,
+                          style: GoogleFonts.adamina(
+                            color: Colors.white,
+                            fontSize: 28,
+                            fontWeight: FontWeight.bold,
+                            shadows: [
+                              Shadow(
+                                color: Colors.black.withOpacity(0.3),
+                                offset: const Offset(0, 4),
+                                blurRadius: 4,
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
+                          textAlign: TextAlign.center,
+                        ),
                         const Spacer(),
-                    ParticipantsAvatarStack(
-                      participants: trip.participants,
-                    ),
+                        ParticipantsAvatarStack(
+                          participants: trip.participants,
+                        ),
                       ],
                     ),
                     const Spacer(),

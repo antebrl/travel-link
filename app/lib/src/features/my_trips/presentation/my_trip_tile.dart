@@ -12,7 +12,7 @@ import 'package:travel_link/src/utils/constants/image_strings.dart';
 class MyTripTile extends ConsumerWidget {
   const MyTripTile({
     required this.trip,
-    required this.cardWidth, 
+    required this.cardWidth,
     this.daysToGo,
     super.key,
   });
@@ -24,8 +24,8 @@ class MyTripTile extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-
-    final pictureWidth = cardWidth / 3; //pictureWidth scale regarding cardWith, screenWidth / 3.4
+    final pictureWidth = cardWidth /
+        3; //pictureWidth scale regarding cardWith, screenWidth / 3.4
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
@@ -86,7 +86,9 @@ class MyTripTile extends ConsumerWidget {
                         children: [
                           const SizedBox(height: 5),
                           SizedBox(
-                            width: trip.endDate != null ? cardWidth - pictureWidth - 82 : cardWidth - pictureWidth ,
+                            width: trip.endDate != null
+                                ? cardWidth - pictureWidth - 82
+                                : cardWidth - pictureWidth,
                             child: Text(
                               trip.name,
                               style: const TextStyle(

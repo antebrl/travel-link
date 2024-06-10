@@ -85,7 +85,9 @@ class MyTripsScreen extends ConsumerWidget {
                     Container(
                       color: CustomColors.primaryBackground,
                       padding: const EdgeInsets.symmetric(
-                          vertical: 16, horizontal: 16,),
+                        vertical: 16,
+                        horizontal: 16,
+                      ),
                       child: Stack(
                         children: [
                           Align(
@@ -171,17 +173,16 @@ class MyTripsScreen extends ConsumerWidget {
                         padding: EdgeInsets.zero,
                         shrinkWrap: true,
                         physics: const ClampingScrollPhysics(),
-                        gridDelegate:
-                            SliverGridDelegateWithFixedCrossAxisCount(
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
-                          childAspectRatio: (cardWidth / 2 ) / 216,
+                          childAspectRatio: (cardWidth / 2) / 216,
                         ),
                         itemCount: sortedTrips[1].length,
                         itemBuilder: (context, index) {
                           final trip = sortedTrips[1][index];
                           return MyTripTile(
                             trip: trip,
-                            cardWidth: cardWidth / 2 ,
+                            cardWidth: cardWidth / 2,
                             daysToGo: daysToGo[index],
                           );
                         },
