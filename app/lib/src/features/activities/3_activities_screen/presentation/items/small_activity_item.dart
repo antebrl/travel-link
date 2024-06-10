@@ -37,7 +37,7 @@ class _SmallActivityItemState extends State<SmallActivityItem> {
   Future<String> fetchImage(String activityName) async {
     final formattedName = activityName.replaceAll(' ', '_');
     final formattedLink =
-        'https://en.wikipedia.org/w/api.php?action=query&titles=$formattedName&prop=pageimages&format=json&pithumbsize=1000';
+        'https://en.wikipedia.org/w/api.php?action=query&titles=$formattedName&prop=pageimages&format=json&pithumbsize=1000&origin=*';
     final response = await http.get(Uri.parse(formattedLink));
     final Map<String, dynamic> data =
         json.decode(response.body) as Map<String, dynamic>;
@@ -128,14 +128,16 @@ class _SmallActivityItemState extends State<SmallActivityItem> {
                 ),
               ),
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(8),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     widget.activity.name,
                     style: CustomTextTheme.lightTextTheme.bodySmall!.copyWith(
-                        fontWeight: FontWeight.bold, color: CustomColors.black),
+                      fontWeight: FontWeight.bold,
+                      color: CustomColors.black,
+                    ),
                     overflow: TextOverflow.ellipsis,
                   ),
                   const SizedBox(height: 4),

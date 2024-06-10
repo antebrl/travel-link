@@ -49,9 +49,11 @@ class _ImageInputState extends State<ImageInput> {
 
   @override
   Widget build(BuildContext context) {
-    Widget content = Text('Add Image',
-        textAlign: TextAlign.center,
-        style: Theme.of(context).textTheme.bodyLarge);
+    Widget content = Text(
+      'Add Image',
+      textAlign: TextAlign.center,
+      style: Theme.of(context).textTheme.bodyLarge,
+    );
 
     if (_selectedImage != null) {
       if (kIsWeb) {

@@ -30,7 +30,9 @@ class _MapScreenWithActivitiesState extends State<MapScreenWithActivities> {
           return const Center(child: Text('No activities found'));
         } else {
           final activity = snapshot.data![0];
-          return Center(child: Text(activity.name));
+          return Center(
+            child: Text(activity.name),
+          );
         }
       },
     );

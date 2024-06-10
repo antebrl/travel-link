@@ -20,7 +20,7 @@ class _AddActivityScreenState extends ConsumerState<AddActivityScreen> {
   //Attribute von Activity
   String _enteredName = 'testDaten';
   String _enteredDescription = 'testDaten';
-  ContinentType _enteredcontinentType = ContinentType.northAmerica;
+
   File? _selectedImage;
   PlaceLocation? _selectedLocation;
   bool _isPublic = false;
@@ -48,7 +48,6 @@ class _AddActivityScreenState extends ConsumerState<AddActivityScreen> {
           categories: _filters.toList(),
           description: _enteredDescription,
           image: _selectedImage,
-          continentType: _enteredcontinentType,
           createdByThisUser: 'HERE ENTER USER TOKEN',
           isPublic: _isPublic,
           isUserCreated: true,

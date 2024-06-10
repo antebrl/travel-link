@@ -89,7 +89,9 @@ class _ActivitiesMainScreenState extends State<ActivitiesMainScreen> {
     }
 
     final imageUrls = WikidataParser.getImagesFromWikidataEntity(
-        data: data, wikidataId: wikidataId);
+      data: data,
+      wikidataId: wikidataId,
+    );
 
     activity.imagePaths = imageUrls;
 

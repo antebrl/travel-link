@@ -339,13 +339,14 @@ class _ActivitiesFilterScreenState extends State<ActivitiesFilterScreen> {
                       children: [
                         Row(
                           children: [
-                            const Text(
+                            Text(
                               'Select country:',
-                              style: TextStyle(
-                                color: CustomColors.white,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                              ),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headlineSmall!
+                                  .copyWith(
+                                    color: CustomColors.white,
+                                  ),
                             ),
                             const Spacer(),
                             OutlinedButton(
@@ -358,13 +359,14 @@ class _ActivitiesFilterScreenState extends State<ActivitiesFilterScreen> {
                               style: ElevatedButton.styleFrom(
                                 side: const BorderSide(color: Colors.white),
                               ),
-                              child: const Text(
+                              child: Text(
                                 'Clear',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.normal,
-                                ),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall!
+                                    .copyWith(
+                                      color: CustomColors.white,
+                                    ),
                               ),
                             ),
                           ],
@@ -373,12 +375,22 @@ class _ActivitiesFilterScreenState extends State<ActivitiesFilterScreen> {
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 20),
                           child: TextField(
+                            style:
+                                Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                      color: CustomColors.primary,
+                                    ),
                             controller: _countryController,
                             readOnly: true,
                             decoration: InputDecoration(
                               fillColor: CustomColors.white,
                               filled: true,
                               hintText: 'Tap to pick a country',
+                              hintStyle: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium!
+                                  .copyWith(
+                                    color: CustomColors.primary,
+                                  ),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(14),
                                 borderSide: BorderSide.none,
@@ -409,7 +421,7 @@ class _ActivitiesFilterScreenState extends State<ActivitiesFilterScreen> {
                                     ),
                                   ),
                                   searchTextStyle: const TextStyle(
-                                    color: Colors.blue,
+                                    color: CustomColors.primary,
                                     fontSize: 18,
                                   ),
                                 ),
@@ -420,13 +432,14 @@ class _ActivitiesFilterScreenState extends State<ActivitiesFilterScreen> {
                         const SizedBox(height: 25),
                         Row(
                           children: [
-                            const Text(
+                            Text(
                               'Select categories:',
-                              style: TextStyle(
-                                color: CustomColors.white,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                              ),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headlineSmall!
+                                  .copyWith(
+                                    color: CustomColors.white,
+                                  ),
                             ),
                             const Spacer(),
                             OutlinedButton(
@@ -438,11 +451,12 @@ class _ActivitiesFilterScreenState extends State<ActivitiesFilterScreen> {
                                 _categoryList.length == activityTypes.length
                                     ? 'Unselect All'
                                     : 'Select All',
-                                style: const TextStyle(
-                                  color: CustomColors.white,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.normal,
-                                ),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall!
+                                    .copyWith(
+                                      color: CustomColors.white,
+                                    ),
                               ),
                             ),
                           ],
@@ -456,8 +470,12 @@ class _ActivitiesFilterScreenState extends State<ActivitiesFilterScreen> {
                             return FilterChip(
                               side: const BorderSide(color: CustomColors.white),
                               disabledColor: CustomColors.white,
-                              labelStyle:
-                                  const TextStyle(color: CustomColors.primary),
+                              labelStyle: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall!
+                                  .copyWith(
+                                    color: CustomColors.primary,
+                                  ),
                               selectedColor: CustomColors.white,
                               padding: const EdgeInsets.symmetric(
                                 horizontal: 12,
@@ -499,11 +517,14 @@ class _ActivitiesFilterScreenState extends State<ActivitiesFilterScreen> {
                             backgroundColor: CustomColors.white,
                             side: BorderSide.none,
                           ),
-                          child: const Text(
+                          child: Text(
                             'Search',
-                            style: TextStyle(
-                              color: CustomColors.primary,
-                            ),
+                            style: Theme.of(context)
+                                .textTheme
+                                .headlineSmall!
+                                .copyWith(
+                                  color: CustomColors.primary,
+                                ),
                           ),
                         ),
                       ],

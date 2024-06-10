@@ -31,8 +31,11 @@ class _APIActivityItemState extends State<APIActivityItem> {
       _imageFuture = Future.value(imageName);
     } else {
       _imageFuture = widget.activity.wikidataUrl != null
-          ? fetchImageAndDescription(widget.activity.wikidataUrl!,
-              widget.activity.name, widget.activity.wikidataId!)
+          ? fetchImageAndDescription(
+              widget.activity.wikidataUrl!,
+              widget.activity.name,
+              widget.activity.wikidataId!,
+            )
           : Future.value(
               [
                 CustomImages.destinationImagePlaceholderUrl,
@@ -42,7 +45,10 @@ class _APIActivityItemState extends State<APIActivityItem> {
   }
 
   Future<List<String>?> fetchImageAndDescription(
-      String formattedLink, String activityName, String wikidataId) async {
+    String formattedLink,
+    String activityName,
+    String wikidataId,
+  ) async {
     final response = await http.get(Uri.parse(formattedLink));
     final Map<String, dynamic> data =
         json.decode(response.body) as Map<String, dynamic>;
@@ -54,7 +60,9 @@ class _APIActivityItemState extends State<APIActivityItem> {
     }
 
     final imageUrls = WikidataParser.getImagesFromWikidataEntity(
-        data: data, wikidataId: wikidataId);
+      data: data,
+      wikidataId: wikidataId,
+    );
 
     _imageCache[activityName] = imageUrls;
 
@@ -160,9 +168,10 @@ class _APIActivityItemState extends State<APIActivityItem> {
                                     .copyWith(fontWeight: FontWeight.bold),
                               ),
                             const SizedBox(width: 5),
-                            Text(widget.activity.location.city,
-                                style:
-                                    CustomTextTheme.lightTextTheme.bodySmall),
+                            Text(
+                              widget.activity.location.city,
+                              style: CustomTextTheme.lightTextTheme.bodySmall,
+                            ),
                           ],
                         ),
                       ],

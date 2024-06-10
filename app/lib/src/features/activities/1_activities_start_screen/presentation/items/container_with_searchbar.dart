@@ -4,7 +4,6 @@ import 'package:travel_link/src/common_widgets/curved_edges.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
 
 class CurvedSearchContainer extends StatelessWidget {
-
   const CurvedSearchContainer({required this.controller, super.key});
   final DestinationController controller;
 
@@ -52,6 +51,10 @@ class CurvedSearchContainer extends StatelessWidget {
                     filterByType: 'amenity',
                     textFieldDecoration: InputDecoration(
                       hintText: 'Activity...',
+                      hintStyle:
+                          Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                color: CustomColors.primary,
+                              ),
                       fillColor: CustomColors.white,
                       filled: true,
                       border: InputBorder.none,
@@ -61,9 +64,10 @@ class CurvedSearchContainer extends StatelessWidget {
                           color: CustomColors.white,
                         ),
                       ),
-                      labelStyle: const TextStyle(
-                        color: CustomColors.primary,
-                      ),
+                      labelStyle:
+                          Theme.of(context).textTheme.bodySmall!.copyWith(
+                                color: CustomColors.primary,
+                              ),
                     ),
                     textStyle: const TextStyle(
                       color: CustomColors.primary,

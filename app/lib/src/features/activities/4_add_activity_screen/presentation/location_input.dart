@@ -122,9 +122,9 @@ class _LocationInput extends State<LocationInput> {
                 size: 40,
                 color: CustomColors.primary,
               ),
-            )
+            ),
           ],
-        )
+        ),
       ],
     );
   }
@@ -151,7 +151,6 @@ class _LocationInput extends State<LocationInput> {
     }
 
     if (_pickedLocation != null) {
-      print(_pickedLocation);
       content = _createMap(_pickedLocation!.lat, _pickedLocation!.lon);
     }
 

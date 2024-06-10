@@ -1,3 +1,5 @@
+// ignore_for_file: inference_failure_on_function_invocation
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -119,11 +121,12 @@ class _ApiActivitiesDetailsScreenState
                         context: context,
                         builder: (BuildContext context) {
                           return Dialog(
-                              child: Image.file(
-                            widget.activity.image!,
-                            width: double.infinity,
-                            fit: BoxFit.cover,
-                          ));
+                            child: Image.file(
+                              widget.activity.image!,
+                              width: double.infinity,
+                              fit: BoxFit.cover,
+                            ),
+                          );
                         },
                       );
                     },

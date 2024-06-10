@@ -38,7 +38,7 @@ class _HorizontalActivityItemState extends State<HorizontalActivityItem> {
   Future<String> fetchImage(String activityName) async {
     final formattedName = activityName.replaceAll(' ', '_');
     final formattedLink =
-        'https://en.wikipedia.org/w/api.php?action=query&titles=$formattedName&prop=pageimages&format=json&pithumbsize=1000';
+        'https://en.wikipedia.org/w/api.php?action=query&titles=$formattedName&prop=pageimages&format=json&pithumbsize=1000&origin=*';
     final response = await http.get(Uri.parse(formattedLink));
     final Map<String, dynamic> data =
         json.decode(response.body) as Map<String, dynamic>;
@@ -143,7 +143,7 @@ class _HorizontalActivityItemState extends State<HorizontalActivityItem> {
                     'widget.activity.amountVisitors',
                     style: CustomTextTheme.lightTextTheme.bodySmall,
                     overflow: TextOverflow.ellipsis,
-                  )
+                  ),
                 ],
               ),
             ),

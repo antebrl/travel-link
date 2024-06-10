@@ -88,13 +88,14 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                     children: [
                       Row(
                         children: [
-                          const Text(
+                          Text(
                             'Search Activities in: ',
-                            style: TextStyle(
-                              color: CustomColors.white,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
+                            style: Theme.of(context)
+                                .textTheme
+                                .headlineSmall!
+                                .copyWith(
+                                  color: CustomColors.white,
+                                ),
                           ),
                           const Spacer(),
                           OutlinedButton(
@@ -107,14 +108,19 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                             },
                             style: ElevatedButton.styleFrom(
                               side: const BorderSide(color: Colors.white),
-                            ),
-                            child: const Text(
-                              'Clear',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 14,
-                                fontWeight: FontWeight.normal,
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 8,
+                                vertical: 4,
                               ),
+                            ),
+                            child: Text(
+                              'Clear',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall!
+                                  .copyWith(
+                                    color: CustomColors.white,
+                                  ),
                             ),
                           ),
                         ],
@@ -135,40 +141,52 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                               color: CustomColors.white,
                             ),
                           ),
-                          labelStyle: const TextStyle(
-                            color: CustomColors.primary,
-                          ),
+                          labelStyle:
+                              Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                    color: CustomColors.primary,
+                                  ),
+                          hintStyle:
+                              Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                    color: CustomColors.primary,
+                                  ),
                         ),
-                        textStyle: const TextStyle(
-                          color: CustomColors.primary,
-                        ),
+                        textStyle:
+                            Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                  color: CustomColors.primary,
+                                ),
                       ),
                       const SizedBox(height: 15),
                       Row(
                         children: [
-                          const Text(
+                          Text(
                             'Select Categories: ',
-                            style: TextStyle(
-                              color: CustomColors.white,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
+                            style: Theme.of(context)
+                                .textTheme
+                                .headlineSmall!
+                                .copyWith(
+                                  color: CustomColors.white,
+                                ),
                           ),
                           const Spacer(),
                           OutlinedButton(
                             onPressed: _toggleSelectAll,
                             style: ElevatedButton.styleFrom(
                               side: const BorderSide(color: Colors.white),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 8,
+                                vertical: 4,
+                              ),
                             ),
                             child: Text(
                               _categoryList.length == activityTypes.length
                                   ? 'Unselect All'
                                   : 'Select All',
-                              style: const TextStyle(
-                                color: CustomColors.white,
-                                fontSize: 14,
-                                fontWeight: FontWeight.normal,
-                              ),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall!
+                                  .copyWith(
+                                    color: CustomColors.white,
+                                  ),
                             ),
                           ),
                         ],
@@ -183,7 +201,9 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                             side: const BorderSide(color: CustomColors.white),
                             disabledColor: CustomColors.white,
                             labelStyle:
-                                const TextStyle(color: CustomColors.primary),
+                                Theme.of(context).textTheme.bodySmall!.copyWith(
+                                      color: CustomColors.primary,
+                                    ),
                             selectedColor: CustomColors.white,
                             padding: const EdgeInsets.symmetric(
                               horizontal: 12,
@@ -258,11 +278,14 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                           backgroundColor: CustomColors.white,
                           side: BorderSide.none,
                         ),
-                        child: const Text(
+                        child: Text(
                           'Search',
-                          style: TextStyle(
-                            color: CustomColors.primary,
-                          ),
+                          style: Theme.of(context)
+                              .textTheme
+                              .headlineSmall!
+                              .copyWith(
+                                color: CustomColors.primary,
+                              ),
                         ),
                       ),
                     ],

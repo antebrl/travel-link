@@ -37,7 +37,7 @@ class _ActivityItemState extends State<ActivityItem> {
   Future<String> fetchImage(String activityName) async {
     final formattedName = activityName.replaceAll(' ', '_');
     final formattedLink =
-        'https://en.wikipedia.org/w/api.php?action=query&titles=$formattedName&prop=pageimages&format=json&pithumbsize=1000';
+        'https://en.wikipedia.org/w/api.php?action=query&titles=$formattedName&prop=pageimages&format=json&pithumbsize=1000&origin=*';
     final response = await http.get(Uri.parse(formattedLink));
     final Map<String, dynamic> data =
         json.decode(response.body) as Map<String, dynamic>;
@@ -101,7 +101,7 @@ class _ActivityItemState extends State<ActivityItem> {
                         snapshot.data!,
                         height: 125,
                         width: double.infinity,
-                        fit: BoxFit.fill,
+                        fit: BoxFit.cover,
                       ),
                     );
                   }
@@ -117,7 +117,7 @@ class _ActivityItemState extends State<ActivityItem> {
                   widget.activity.image!,
                   height: 125,
                   width: double.infinity,
-                  fit: BoxFit.fill,
+                  fit: BoxFit.cover,
                 ),
               ),
             Padding(
@@ -148,9 +148,10 @@ class _ActivityItemState extends State<ActivityItem> {
                                     .copyWith(fontWeight: FontWeight.bold),
                               ),
                             const SizedBox(width: 5),
-                            Text(widget.activity.location.city,
-                                style:
-                                    CustomTextTheme.lightTextTheme.bodySmall),
+                            Text(
+                              widget.activity.location.city,
+                              style: CustomTextTheme.lightTextTheme.bodySmall,
+                            ),
                           ],
                         ),
                       ],

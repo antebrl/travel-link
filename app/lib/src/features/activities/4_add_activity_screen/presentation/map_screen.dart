@@ -24,7 +24,7 @@ class MapScreen extends StatefulWidget {
 
 class _MapScreenState extends State<MapScreen> {
   LatLng? _pickedLocation;
-  List<Marker> _markers = [];
+   List<Marker> _markers = [];
 
   @override
   Widget build(BuildContext context) {
