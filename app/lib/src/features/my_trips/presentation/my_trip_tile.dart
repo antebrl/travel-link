@@ -86,7 +86,7 @@ class MyTripTile extends ConsumerWidget {
                         children: [
                           const SizedBox(height: 5),
                           SizedBox(
-                            width: cardWidth - pictureWidth,
+                            width: trip.endDate != null ? cardWidth - pictureWidth - 82 : cardWidth - pictureWidth ,
                             child: Text(
                               trip.name,
                               style: const TextStyle(
