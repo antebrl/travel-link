@@ -1,7 +1,5 @@
 import 'dart:io';
-
 import 'package:travel_link/src/features/activities/2_continents_screen/domain/continent.dart';
-import 'package:travel_link/src/utils/constants/image_strings.dart';
 
 class ApiActivity {
   ApiActivity(
@@ -58,7 +56,8 @@ class ApiActivity {
       return null;
     }
 
-    String? wikidataUrl, wikidataId;
+    String? wikidataUrl;
+    String? wikidataId;
     if (map.containsKey('wiki_and_media') &&
         (map['wiki_and_media'] as Map<String, dynamic>)
             .containsKey('wikidata')) {
@@ -105,7 +104,6 @@ class PlaceLocation {
   const PlaceLocation({
     required this.lat,
     required this.lon,
-    //required this.street,
     required this.city,
     required this.country,
     required this.formatted,
@@ -114,7 +112,6 @@ class PlaceLocation {
 
   final double lat;
   final double lon;
-  //final String street;
   final String city;
   final String country;
   final String formatted;
