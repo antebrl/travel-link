@@ -1,26 +1,25 @@
 import 'dart:io';
-
 import 'package:travel_link/src/features/activities/2_continents_screen/domain/continent.dart';
-import 'package:travel_link/src/utils/constants/image_strings.dart';
 
 class ApiActivity {
-  ApiActivity(
-      {required this.name,
-      required this.categories,
-      required this.location,
-      this.wikidataUrl,
-      this.wikidataId,
-      this.openingHours,
-      this.website,
-      this.placeId,
-      this.imagePaths = const [],
-      this.description = '',
-      this.continentType = ContinentType.none,
-      this.image,
-      this.isPublic = true,
-      this.isUserCreated = false,
-      this.createdByThisUser,
-      this.amountVisitors});
+  ApiActivity({
+    required this.name,
+    required this.categories,
+    required this.location,
+    this.wikidataUrl,
+    this.wikidataId,
+    this.openingHours,
+    this.website,
+    this.placeId,
+    this.imagePaths = const [],
+    this.description = '',
+    this.continentType = ContinentType.none,
+    this.image,
+    this.isPublic = true,
+    this.isUserCreated = false,
+    this.createdByThisUser,
+    this.amountVisitors,
+  });
 
   final String name;
 
@@ -40,10 +39,9 @@ class ApiActivity {
   bool isUserCreated;
   String? createdByThisUser;
 
-//from normal activity
   ContinentType continentType;
   final PlaceLocation location;
-  File? image; // Optional Image
+  File? image;
   String? amountVisitors;
 
   static ApiActivity? fromMap(Map<String, dynamic> map) {
@@ -58,7 +56,8 @@ class ApiActivity {
       return null;
     }
 
-    String? wikidataUrl, wikidataId;
+    String? wikidataUrl;
+    String? wikidataId;
     if (map.containsKey('wiki_and_media') &&
         (map['wiki_and_media'] as Map<String, dynamic>)
             .containsKey('wikidata')) {
@@ -105,7 +104,6 @@ class PlaceLocation {
   const PlaceLocation({
     required this.lat,
     required this.lon,
-    //required this.street,
     required this.city,
     required this.country,
     required this.formatted,
@@ -114,7 +112,6 @@ class PlaceLocation {
 
   final double lat;
   final double lon;
-  //final String street;
   final String city;
   final String country;
   final String formatted;

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:travel_link/src/common_widgets/auto_complete_search.dart';
 import 'package:travel_link/src/features/activities/3_activities_screen/domain/api_activity.dart';
@@ -15,6 +14,7 @@ class SearchScreen extends ConsumerStatefulWidget {
 
 class _SearchScreenState extends ConsumerState<SearchScreen> {
   final DestinationController _controller = DestinationController();
+
   Set<String> _categoryList = {};
   void _toggleSelectAll() {
     setState(() {
@@ -52,8 +52,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                     height: 170,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: Colors.white
-                          .withOpacity(0.3), // Fast durchsichtige weiße Farbe
+                      color: Colors.white.withOpacity(0.2),
                     ),
                   ),
                 ),
@@ -65,8 +64,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                     height: 170,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: Colors.white
-                          .withOpacity(0.2), // Fast durchsichtige weiße Farbe
+                      color: Colors.white.withOpacity(0.2),
                     ),
                   ),
                 ),
@@ -78,8 +76,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                     height: 150,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: Colors.white
-                          .withOpacity(0.2), // Fast durchsichtige weiße Farbe
+                      color: Colors.white.withOpacity(0.2),
                     ),
                   ),
                 ),
@@ -91,13 +88,14 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                     children: [
                       Row(
                         children: [
-                          const Text(
+                          Text(
                             'Search Activities in: ',
-                            style: TextStyle(
-                              color: CustomColors.white,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
+                            style: Theme.of(context)
+                                .textTheme
+                                .headlineSmall!
+                                .copyWith(
+                                  color: CustomColors.white,
+                                ),
                           ),
                           const Spacer(),
                           OutlinedButton(
@@ -105,19 +103,24 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                               setState(() {
                                 _controller.textEditingController.clear();
                                 _controller.selectedDestination = null;
-                                _categoryList
-                                    .clear(); // CategoryList zurücksetzen
+                                _categoryList.clear();
                               });
                             },
                             style: ElevatedButton.styleFrom(
-                                side: const BorderSide(color: Colors.white)),
-                            child: const Text(
-                              'Clear',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 14,
-                                fontWeight: FontWeight.normal,
+                              side: const BorderSide(color: Colors.white),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 8,
+                                vertical: 4,
                               ),
+                            ),
+                            child: Text(
+                              'Clear',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall!
+                                  .copyWith(
+                                    color: CustomColors.white,
+                                  ),
                             ),
                           ),
                         ],
@@ -138,41 +141,52 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                               color: CustomColors.white,
                             ),
                           ),
-                          labelStyle: const TextStyle(
-                            color:
-                                CustomColors.primary, // Farbe für den Labeltext
-                          ),
+                          labelStyle:
+                              Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                    color: CustomColors.primary,
+                                  ),
+                          hintStyle:
+                              Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                    color: CustomColors.primary,
+                                  ),
                         ),
-                        textStyle: const TextStyle(
-                          color:
-                              CustomColors.primary, // Farbe für den Eingabetext
-                        ),
+                        textStyle:
+                            Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                  color: CustomColors.primary,
+                                ),
                       ),
                       const SizedBox(height: 15),
                       Row(
                         children: [
-                          const Text(
+                          Text(
                             'Select Categories: ',
-                            style: TextStyle(
-                              color: CustomColors.white,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
+                            style: Theme.of(context)
+                                .textTheme
+                                .headlineSmall!
+                                .copyWith(
+                                  color: CustomColors.white,
+                                ),
                           ),
-                          Spacer(),
+                          const Spacer(),
                           OutlinedButton(
                             onPressed: _toggleSelectAll,
                             style: ElevatedButton.styleFrom(
-                                //backgroundColor: Colors.white,
-                                side: BorderSide(color: Colors.white)),
+                              side: const BorderSide(color: Colors.white),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 8,
+                                vertical: 4,
+                              ),
+                            ),
                             child: Text(
                               _categoryList.length == activityTypes.length
                                   ? 'Unselect All'
                                   : 'Select All',
-                              style: const TextStyle(
-                                  color: CustomColors.white,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.normal),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall!
+                                  .copyWith(
+                                    color: CustomColors.white,
+                                  ),
                             ),
                           ),
                         ],
@@ -187,10 +201,14 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                             side: const BorderSide(color: CustomColors.white),
                             disabledColor: CustomColors.white,
                             labelStyle:
-                                const TextStyle(color: CustomColors.primary),
+                                Theme.of(context).textTheme.bodySmall!.copyWith(
+                                      color: CustomColors.primary,
+                                    ),
                             selectedColor: CustomColors.white,
                             padding: const EdgeInsets.symmetric(
-                                horizontal: 12, vertical: 12),
+                              horizontal: 12,
+                              vertical: 12,
+                            ),
                             checkmarkColor: CustomColors.primary,
                             label: Text(
                               type,
@@ -257,15 +275,17 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                           }
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: CustomColors
-                              .white, // Hintergrundfarbe des Buttons
-                          side: BorderSide.none, // Keine Seitenlinie
+                          backgroundColor: CustomColors.white,
+                          side: BorderSide.none,
                         ),
-                        child: const Text(
+                        child: Text(
                           'Search',
-                          style: TextStyle(
-                            color: CustomColors.primary, // Farbe des Texts
-                          ),
+                          style: Theme.of(context)
+                              .textTheme
+                              .headlineSmall!
+                              .copyWith(
+                                color: CustomColors.primary,
+                              ),
                         ),
                       ),
                     ],

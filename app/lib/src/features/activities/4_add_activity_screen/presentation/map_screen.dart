@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:latlong2/latlong.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:travel_link/src/features/activities/3_activities_screen/domain/api_activity.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
 
 class MapScreen extends StatefulWidget {
-  final PlaceLocation location;
-
   const MapScreen({
     super.key,
     this.location = const PlaceLocation(
@@ -18,6 +16,7 @@ class MapScreen extends StatefulWidget {
       formatted: '',
     ),
   });
+  final PlaceLocation location;
 
   @override
   State<MapScreen> createState() => _MapScreenState();
@@ -25,7 +24,7 @@ class MapScreen extends StatefulWidget {
 
 class _MapScreenState extends State<MapScreen> {
   LatLng? _pickedLocation;
-  List<Marker> _markers = [];
+   List<Marker> _markers = [];
 
   @override
   Widget build(BuildContext context) {

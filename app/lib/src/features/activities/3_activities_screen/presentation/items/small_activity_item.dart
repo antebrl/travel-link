@@ -16,22 +16,19 @@ class SmallActivityItem extends StatefulWidget {
 
 class _SmallActivityItemState extends State<SmallActivityItem> {
   late Future<String> _imageFuture;
-  static final Map<String, String> _imageCache = {}; // Cache für Bilder
+  static final Map<String, String> _imageCache = {};
 
   @override
   void initState() {
     super.initState();
-    // Überprüfe, ob das Bild im Cache vorhanden ist
     if (_imageCache.containsKey(widget.activity.name)) {
       final imageName = _imageCache[widget.activity.name];
       if (imageName != null) {
         setState(() {
-          widget.activity.imagePaths[0] =
-              imageName; // Aktualisiere den Bildnamen
+          widget.activity.imagePaths[0] = imageName;
         });
       }
-      _imageFuture =
-          Future.value(imageName); // Verwende den Bildnamen für die Future
+      _imageFuture = Future.value(imageName);
     } else {
       _imageFuture = fetchImage(widget.activity.name);
     }
@@ -40,7 +37,7 @@ class _SmallActivityItemState extends State<SmallActivityItem> {
   Future<String> fetchImage(String activityName) async {
     final formattedName = activityName.replaceAll(' ', '_');
     final formattedLink =
-        'https://en.wikipedia.org/w/api.php?action=query&titles=$formattedName&prop=pageimages&format=json&pithumbsize=1000';
+        'https://en.wikipedia.org/w/api.php?action=query&titles=$formattedName&prop=pageimages&format=json&pithumbsize=1000&origin=*';
     final response = await http.get(Uri.parse(formattedLink));
     final Map<String, dynamic> data =
         json.decode(response.body) as Map<String, dynamic>;
@@ -48,10 +45,8 @@ class _SmallActivityItemState extends State<SmallActivityItem> {
     final pageId = pages.keys.first;
     final imageUrl = pages[pageId]['thumbnail']['source'] as String;
 
-    // Speichere den Bildnamen im Cache
     _imageCache[activityName] = imageUrl;
 
-    // Aktualisiere den Bildnamen in der Activity-Instanz
     setState(() {
       widget.activity.imagePaths[0] = imageUrl;
     });
@@ -71,16 +66,16 @@ class _SmallActivityItemState extends State<SmallActivityItem> {
         );
       },
       child: Container(
-        width: 150, // Breite jedes Elements
-        margin: const EdgeInsets.all(8.0),
+        width: 150,
+        margin: const EdgeInsets.all(8),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           color: CustomColors.white,
           boxShadow: [
             BoxShadow(
-              color: Colors.grey.withOpacity(0.1), // Reduziere die Opazität
-              spreadRadius: 5, // Ändere den Spread-Radius
-              blurRadius: 5, // Ändere den Blur-Radius
+              color: Colors.grey.withOpacity(0.1),
+              spreadRadius: 5,
+              blurRadius: 5,
               offset: const Offset(0, 3),
             ),
           ],
@@ -133,14 +128,16 @@ class _SmallActivityItemState extends State<SmallActivityItem> {
                 ),
               ),
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(8),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     widget.activity.name,
                     style: CustomTextTheme.lightTextTheme.bodySmall!.copyWith(
-                        fontWeight: FontWeight.bold, color: CustomColors.black),
+                      fontWeight: FontWeight.bold,
+                      color: CustomColors.black,
+                    ),
                     overflow: TextOverflow.ellipsis,
                   ),
                   const SizedBox(height: 4),

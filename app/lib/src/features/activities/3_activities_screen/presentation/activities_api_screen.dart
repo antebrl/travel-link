@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:travel_link/src/features/activities/3_activities_screen/data/api_activities_repository.dart';
@@ -7,55 +6,54 @@ import 'package:travel_link/src/features/activities/3_activities_screen/domain/a
 import 'package:travel_link/src/features/activities/3_activities_screen/presentation/items/activity_item.dart';
 import 'package:travel_link/src/features/activities/3_activities_screen/presentation/items/api_activity_item.dart';
 import 'package:travel_link/src/features/activities/4_add_activity_screen/presentation/add_activity_screen.dart';
-import 'package:travel_link/src/features/activities/4_add_activity_screen/presentation/map_screen.dart';
 import 'package:travel_link/src/features/activities/8_map_screen/map_screen.dart';
-import 'package:travel_link/src/features/activities/providers/activities_provider.dart';
 import 'package:travel_link/src/features/my_trips/domain/destination.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
 import 'package:travel_link/src/utils/helpers/helper_functions.dart';
-import 'package:travel_link/src/utils/logging/logger.dart';
 
 class APIActivitiesScreen extends ConsumerStatefulWidget {
   const APIActivitiesScreen({
     required this.destination,
     required this.categoryList,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final Destination destination;
   final Set<String> categoryList;
 
   @override
-  _APIActivitiesScreenState createState() => _APIActivitiesScreenState();
+  ConsumerState<APIActivitiesScreen> createState() =>
+      _APIActivitiesScreenState();
 }
 
 class _APIActivitiesScreenState extends ConsumerState<APIActivitiesScreen> {
   List<ApiActivity> addedActivities = [];
 
   bool isActivityNearDestination(
-      ApiActivity activity, double destLat, double destLon) {
+    ApiActivity activity,
+    double destLat,
+    double destLon,
+  ) {
     const double thresholdDistance = 40; // Threshold distance in Kilometers
-    double activityLat = activity.location.lat;
-    double activityLon = activity.location.lon;
+    final double activityLat = activity.location.lat;
+    final double activityLon = activity.location.lon;
 
-    // Berechne die Distanz zwischen den Koordinaten der Aktivität und den Koordinaten der Stadt
-    double distance =
+    final double distance =
         calculateDistance(activityLat, activityLon, destLat, destLon);
 
-    // Überprüfe, ob die Distanz kleiner als der Schwellenwert ist
     return distance <= thresholdDistance;
   }
 
   double calculateDistance(double lat1, double lon1, double lat2, double lon2) {
-    const double radiusEarth = 6371.0; // Earth radius in Kilometers
-    double dLat = degreesToRadians(lat2 - lat1);
-    double dLon = degreesToRadians(lon2 - lon1);
-    double a = sin(dLat / 2) * sin(dLat / 2) +
+    const double radiusEarth = 6371;
+    final double dLat = degreesToRadians(lat2 - lat1);
+    final double dLon = degreesToRadians(lon2 - lon1);
+    final double a = sin(dLat / 2) * sin(dLat / 2) +
         cos(degreesToRadians(lat1)) *
             cos(degreesToRadians(lat2)) *
             sin(dLon / 2) *
             sin(dLon / 2);
-    double c = 2 * atan2(sqrt(a), sqrt(1 - a));
+    final double c = 2 * atan2(sqrt(a), sqrt(1 - a));
     return radiusEarth * c;
   }
 
@@ -73,7 +71,6 @@ class _APIActivitiesScreenState extends ConsumerState<APIActivitiesScreen> {
 
     setState(() {
       addedActivities.add(newActivity);
-      //ref.watch(activitiesProvider.notifier).addActivity(newActivity);
     });
   }
 
@@ -116,10 +113,8 @@ class _APIActivitiesScreenState extends ConsumerState<APIActivitiesScreen> {
             ),
           );
         } else {
-          // Assuming you want to display the name of the first activity
           final trips = snapshot.data!;
 
-          // Filtere Aktivitäten, die sich in der Nähe der Stadt befinden
           final List<ApiActivity> nearbyActivities = addedActivities
               .where(
                 (activity) =>
@@ -134,15 +129,14 @@ class _APIActivitiesScreenState extends ConsumerState<APIActivitiesScreen> {
                             activity.createdByThisUser == 'ME')),
               )
               .toList();
-          print(trips.length);
-          //Sort activities: With wiki_and_media entry at the top
+
           trips.sort((a, b) {
             if (a.wikidataUrl != null && b.wikidataUrl == null) {
-              return -1; // a should come before b
+              return -1;
             } else if (a.wikidataUrl == null && b.wikidataUrl != null) {
-              return 1; // b should come before a
+              return 1;
             } else {
-              return 0; // a and b are equal in terms of sorting
+              return 0;
             }
           });
           return DefaultTabController(
@@ -159,7 +153,6 @@ class _APIActivitiesScreenState extends ConsumerState<APIActivitiesScreen> {
                   ),
                 ],
                 bottom: TabBar(
-                  isScrollable: false,
                   indicatorColor: CustomColors.primary,
                   unselectedLabelColor: CustomColors.darkGrey,
                   labelColor: CustomHelperFunctions.isDarkMode(context)
@@ -199,21 +192,26 @@ class _APIActivitiesScreenState extends ConsumerState<APIActivitiesScreen> {
                               padding: const EdgeInsets.all(10),
                               child: Wrap(
                                 alignment: WrapAlignment.spaceAround,
-                                spacing: 10.0, // Abstand zwischen den Chips
-                                runSpacing: 5.0, // Abstand zwischen den Zeilen
+                                spacing: 10,
+                                runSpacing: 5,
                                 children: widget.categoryList.map((category) {
                                   return Chip(
                                     side: const BorderSide(
-                                        color: CustomColors.primary),
+                                      color: CustomColors.primary,
+                                    ),
                                     backgroundColor: CustomColors.white,
                                     labelStyle: const TextStyle(
-                                        color: CustomColors.primary),
+                                      color: CustomColors.primary,
+                                    ),
                                     padding: const EdgeInsets.symmetric(
-                                        horizontal: 12, vertical: 12),
+                                      horizontal: 12,
+                                      vertical: 12,
+                                    ),
                                     label: Text(
                                       category,
                                       style: const TextStyle(
-                                          color: CustomColors.primary),
+                                        color: CustomColors.primary,
+                                      ),
                                     ),
                                   );
                                 }).toList(),
