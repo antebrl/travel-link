@@ -20,11 +20,13 @@ class _ExploreTripsScreenState extends ConsumerState<ExploreTripsScreen> {
   int _currentIndex = 0;
   DateTime? _startDate;
   DateTime? _endDate;
+  String _upcomingArchivedSelection = 'Bevorstehend';
 
   @override
   Widget build(BuildContext context) {
     //TODO: Filter trips by country
-    final fetchedTrips = ref.watch(fetchPublicTripsProvider);
+    final fetchedTrips = ref.watch(fetchPublicTripsProvider(
+        startDate: _startDate, endDate: _endDate, country: 'Germany'));
 
     return Scaffold(
       appBar: AppBar(
@@ -45,23 +47,72 @@ class _ExploreTripsScreenState extends ConsumerState<ExploreTripsScreen> {
                 color: Colors.black,
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
+            DropdownButton<String>(
+      value: _upcomingArchivedSelection,
+      alignment: AlignmentDirectional.topCenter,
+      focusColor: CustomColors.primaryBackground,
+      dropdownColor: Colors.white,
+      underline: Container(
+        height: 0,
+        color: CustomColors.primaryBackground,
+      ),
+      borderRadius: BorderRadius.circular(16),
+      iconSize: 0,
+      onChanged: (String? newValue) {
+        setState(() {
+          _upcomingArchivedSelection = newValue!;
+        });
+      },
+      items: <String>['Bevorstehend', 'Archiviert']
+          .map<DropdownMenuItem<String>>((String value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(value),
+        );
+      }).toList(),
+      selectedItemBuilder: (BuildContext context) {
+        return <String>['Bevorstehend', 'Archiviert']
+            .map<Widget>((String value) {
+          return Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 3, right: 1,),
+                child: Icon(
                   Icons.keyboard_arrow_down_sharp,
                   size: 17,
                   color: Colors.grey[800],
                 ),
-                const Text(
-                  'Bevorstehend',
-                  style: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
-                  ),
+              ),
+              Text(
+                value,
+                style: const TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
                 ),
-              ],
-            ),
+              ),
+            ],
+          );
+        }).toList();
+      },
+    ),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.center,
+            //   children: [
+            //     Icon(
+            //       Icons.keyboard_arrow_down_sharp,
+            //       size: 17,
+            //       color: Colors.grey[800],
+            //     ),
+            //     const Text(
+            //       'Bevorstehend',
+            //       style: TextStyle(
+            //         fontSize: 15,
+            //         fontWeight: FontWeight.bold,
+            //       ),
+            //     ),
+            //   ],
+            // ),
           ],
         ),
         backgroundColor: CustomColors.primaryBackground,
@@ -142,24 +193,30 @@ class _ExploreTripsScreenState extends ConsumerState<ExploreTripsScreen> {
         ],
       ),
       body: fetchedTrips.when(
-        data: (tripsList) => CarouselSlider(
-          carouselController: carouselController,
-          options: CarouselOptions(
-            viewportFraction: 0.83,
-            enlargeFactor: 0.25,
-            enlargeCenterPage: true,
-            height: 700,
-            onPageChanged: (index, reason) {
-              _currentIndex = index;
-              setState(() {});
-            },
-          ),
-          items: tripsList.map((i) {
-            return PublicTripCard(
-              trip: i,
+        data: (tripsList) {
+          if (tripsList.isNotEmpty) {
+            return CarouselSlider(
+              carouselController: carouselController,
+              options: CarouselOptions(
+                viewportFraction: 0.83,
+                enlargeFactor: 0.25,
+                enlargeCenterPage: true,
+                height: 700,
+                onPageChanged: (index, reason) {
+                  _currentIndex = index;
+                  setState(() {});
+                },
+              ),
+              items: tripsList.map((i) {
+                return PublicTripCard(
+                  trip: i,
+                );
+              }).toList(),
             );
-          }).toList(),
-        ),
+          } else {
+            return const Center( child: Text('No trips found', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),);
+          }
+        },
         loading: () => const Center(
           child: CircularProgressIndicator(),
         ),
