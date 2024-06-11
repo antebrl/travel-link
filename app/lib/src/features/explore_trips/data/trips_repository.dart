@@ -28,15 +28,28 @@ class TripsRepository {
       .snapshots()
       .map((snapshot) => snapshot.docs.map((doc) => doc.data()).toList());
 
-  Future<List<Trip>> fetchPublicTrips({DateTime? startDate, DateTime? endDate, bool? archived, String? country}) async {
-    final trips = await queryPublicTrips(startDate: startDate, endDate: endDate, archived: archived, country: country,).get();
+  Future<List<Trip>> fetchPublicTrips(
+      {DateTime? startDate,
+      DateTime? endDate,
+      bool? archived,
+      String? country}) async {
+    final trips = await queryPublicTrips(
+      startDate: startDate,
+      endDate: endDate,
+      archived: archived,
+      country: country,
+    ).get();
     return trips.docs.map((doc) => doc.data()).toList();
   }
 
   //QUERIES
 
-  Query<Trip> queryPublicTrips({DateTime? startDate, DateTime? endDate, bool? archived, String? country}) {
-    print('queryPublicTrips');
+  Query<Trip> queryPublicTrips({
+    DateTime? startDate,
+    DateTime? endDate,
+    bool? archived,
+    String? country,
+  }) {
     Query<Trip> query = _firestore
         .collection(tripsBasePath)
         .where('isPublic', isEqualTo: true)
@@ -49,19 +62,18 @@ class TripsRepository {
     if (startDate != null && endDate != null) {
       final Timestamp startTimestamp = Timestamp.fromDate(startDate);
       final Timestamp endTimestamp = Timestamp.fromDate(endDate);
-      query =
-          query.where('startDate', isGreaterThanOrEqualTo: startTimestamp);
+      query = query.where('startDate', isGreaterThanOrEqualTo: startTimestamp);
       query = query.where('endDate', isLessThanOrEqualTo: endTimestamp);
     }
 
-    if(archived ?? false) {
+    if (archived ?? false) {
       query = query.where('endDate', isLessThan: Timestamp.now());
     }
-    
-    if(country != null) {
+
+    if (country != null && country != 'World Wide') {
       query = query.where('destination.country', isEqualTo: country);
     }
-  
+
     return query;
   }
 }
@@ -72,15 +84,19 @@ TripsRepository tripsRepository(TripsRepositoryRef ref) {
 }
 
 @riverpod
-Future<List<Trip>> fetchPublicTrips(FetchPublicTripsRef ref,
-    {DateTime? startDate, DateTime? endDate, bool? archived, String? country}) {
-      print('requested fetchPublicTrips');
+Future<List<Trip>> fetchPublicTrips(
+  FetchPublicTripsRef ref, {
+  DateTime? startDate,
+  DateTime? endDate,
+  bool? archived,
+  String? country,
+}) {
   final repository = ref.watch(tripsRepositoryProvider);
   return repository.fetchPublicTrips(
     startDate: startDate,
     endDate: endDate,
     archived: archived,
-    country: country
+    country: country,
   );
 }
 

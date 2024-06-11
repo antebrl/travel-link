@@ -1,4 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -18,15 +19,24 @@ class ExploreTripsScreen extends ConsumerStatefulWidget {
 class _ExploreTripsScreenState extends ConsumerState<ExploreTripsScreen> {
   CarouselController? carouselController = CarouselController();
   int _currentIndex = 0;
+
   DateTime? _startDate;
   DateTime? _endDate;
+
+  final String archivedString = 'Archiviert';
   String _upcomingArchivedSelection = 'Bevorstehend';
+
+  String _selectedCountry = 'World Wide';
 
   @override
   Widget build(BuildContext context) {
     //TODO: Filter trips by country
     final fetchedTrips = ref.watch(fetchPublicTripsProvider(
-        startDate: _startDate, endDate: _endDate, country: 'Germany'));
+      startDate: _startDate,
+      endDate: _endDate,
+      archived: _upcomingArchivedSelection == archivedString,
+      country: _selectedCountry,
+    ));
 
     return Scaffold(
       appBar: AppBar(
@@ -42,88 +52,102 @@ class _ExploreTripsScreenState extends ConsumerState<ExploreTripsScreen> {
             const Text(
               'Entdecke Reisen',
               style: TextStyle(
-                fontSize: 26,
+                fontSize: 25,
                 fontWeight: FontWeight.bold,
                 color: Colors.black,
               ),
             ),
             DropdownButton<String>(
-      value: _upcomingArchivedSelection,
-      alignment: AlignmentDirectional.topCenter,
-      focusColor: CustomColors.primaryBackground,
-      dropdownColor: Colors.white,
-      underline: Container(
-        height: 0,
-        color: CustomColors.primaryBackground,
-      ),
-      borderRadius: BorderRadius.circular(16),
-      iconSize: 0,
-      onChanged: (String? newValue) {
-        setState(() {
-          _upcomingArchivedSelection = newValue!;
-        });
-      },
-      items: <String>['Bevorstehend', 'Archiviert']
-          .map<DropdownMenuItem<String>>((String value) {
-        return DropdownMenuItem<String>(
-          value: value,
-          child: Text(value),
-        );
-      }).toList(),
-      selectedItemBuilder: (BuildContext context) {
-        return <String>['Bevorstehend', 'Archiviert']
-            .map<Widget>((String value) {
-          return Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 3, right: 1,),
-                child: Icon(
-                  Icons.keyboard_arrow_down_sharp,
-                  size: 17,
-                  color: Colors.grey[800],
-                ),
+              value: _upcomingArchivedSelection,
+              alignment: AlignmentDirectional.topCenter,
+              focusColor: CustomColors.primaryBackground,
+              dropdownColor: Colors.white,
+              underline: Container(
+                height: 0,
+                color: CustomColors.primaryBackground,
               ),
-              Text(
-                value,
-                style: const TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          );
-        }).toList();
-      },
-    ),
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.center,
-            //   children: [
-            //     Icon(
-            //       Icons.keyboard_arrow_down_sharp,
-            //       size: 17,
-            //       color: Colors.grey[800],
-            //     ),
-            //     const Text(
-            //       'Bevorstehend',
-            //       style: TextStyle(
-            //         fontSize: 15,
-            //         fontWeight: FontWeight.bold,
-            //       ),
-            //     ),
-            //   ],
-            // ),
+              borderRadius: BorderRadius.circular(16),
+              iconSize: 0,
+              onChanged: (String? newValue) {
+                setState(() {
+                  _upcomingArchivedSelection = newValue!;
+                });
+              },
+              items: <String>['Bevorstehend', 'Archiviert']
+                  .map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),
+              selectedItemBuilder: (BuildContext context) {
+                return <String>['Bevorstehend', 'Archiviert']
+                    .map<Widget>((String value) {
+                  return Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(
+                          top: 3,
+                          right: 1,
+                        ),
+                        child: Icon(
+                          Icons.keyboard_arrow_down_sharp,
+                          size: 17,
+                          color: Colors.grey[800],
+                        ),
+                      ),
+                      Text(
+                        value,
+                        style: const TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  );
+                }).toList();
+              },
+            ),
           ],
         ),
         backgroundColor: CustomColors.primaryBackground,
         elevation: 0,
-        leadingWidth: 90,
+        leadingWidth: 92,
         leading: Padding(
           padding: const EdgeInsets.fromLTRB(10, 15, 5, 0),
           child: Align(
             alignment: Alignment.bottomLeft,
             child: GestureDetector(
-              onTap: () => print('Location Picker'),
+              onTap: () => showCountryPicker(
+                context: context,
+                onSelect: (Country country) {
+                  setState(() {
+                    _selectedCountry = country.name;
+                  });
+                },
+                showWorldWide: true,
+                countryListTheme: CountryListThemeData(
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(40),
+                    topRight: Radius.circular(40),
+                  ),
+                  inputDecoration: InputDecoration(
+                    labelText: 'Search',
+                    hintText: 'Start typing to search',
+                    prefixIcon: const Icon(Icons.search),
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: const Color(0xFF8C98A8).withOpacity(0.2),
+                      ),
+                    ),
+                  ),
+                  searchTextStyle: const TextStyle(
+                    color: Colors.blue,
+                    fontSize: 18,
+                  ),
+                ),
+              ),
               child: Column(
                 children: [
                   Icon(
@@ -131,14 +155,15 @@ class _ExploreTripsScreenState extends ConsumerState<ExploreTripsScreen> {
                     color: Colors.blueAccent[200],
                     size: 21,
                   ),
-                  Expanded(
-                    child: Text(
-                      'Germany',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.grey[800],
-                        fontSize: 14,
-                      ),
+                  Text(
+                    _selectedCountry,
+                    textAlign: TextAlign.center,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey[800],
+                      fontSize: 13,
                     ),
                   ),
                 ],
@@ -182,7 +207,7 @@ class _ExploreTripsScreenState extends ConsumerState<ExploreTripsScreen> {
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: Colors.grey[800],
-                        fontSize: 12,
+                        fontSize: 13,
                       ),
                     ),
                   ],
@@ -214,7 +239,12 @@ class _ExploreTripsScreenState extends ConsumerState<ExploreTripsScreen> {
               }).toList(),
             );
           } else {
-            return const Center( child: Text('No trips found', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),);
+            return const Center(
+              child: Text(
+                'No trips found',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+            );
           }
         },
         loading: () => const Center(
