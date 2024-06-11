@@ -1,6 +1,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
+import 'package:travel_link/src/common_widgets/calendar_popup_view.dart';
 import 'package:travel_link/src/features/explore_trips/data/trips_repository.dart';
 import 'package:travel_link/src/features/explore_trips/presentation/public_trip_card.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
@@ -16,6 +18,8 @@ class ExploreTripsScreen extends ConsumerStatefulWidget {
 class _ExploreTripsScreenState extends ConsumerState<ExploreTripsScreen> {
   CarouselController? carouselController = CarouselController();
   int _currentIndex = 0;
+  DateTime? _startDate;
+  DateTime? _endDate;
 
   @override
   Widget build(BuildContext context) {
@@ -97,7 +101,22 @@ class _ExploreTripsScreenState extends ConsumerState<ExploreTripsScreen> {
             child: Align(
               alignment: Alignment.bottomRight,
               child: GestureDetector(
-                onTap: () => print('Date Picker'),
+                onTap: () {
+                  FocusScope.of(context).requestFocus(FocusNode());
+                  showDialog<dynamic>(
+                    context: context,
+                    builder: (context) => CalendarPopupView(
+                      minimumDate: DateTime.now(),
+                      onApplyClick: (DateTime? startData, DateTime? endData) {
+                        setState(() {
+                          _startDate = startData;
+                          _endDate = endData;
+                        });
+                      },
+                      onCancelClick: () {},
+                    ),
+                  );
+                },
                 child: Column(
                   children: [
                     Icon(
@@ -106,7 +125,9 @@ class _ExploreTripsScreenState extends ConsumerState<ExploreTripsScreen> {
                       size: 24,
                     ),
                     Text(
-                      '15/12 - 30/12',
+                      _startDate != null
+                          ? '${DateFormat('dd/MM').format(_startDate!)} - ${DateFormat('dd/MM').format(_endDate!)}'
+                          : 'Flexible',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: Colors.grey[800],
