@@ -5,7 +5,7 @@ import 'package:travel_link/src/features/activities/3_activities_screen/domain/a
 import 'package:travel_link/src/utils/constants/colors.dart';
 
 class ActivitiesFilterScreen extends StatefulWidget {
-  const ActivitiesFilterScreen({super.key, required this.continent});
+  const ActivitiesFilterScreen({required this.continent, super.key});
   final Continent continent;
 
   @override
