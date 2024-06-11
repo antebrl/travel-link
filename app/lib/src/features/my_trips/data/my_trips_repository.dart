@@ -54,6 +54,7 @@ class MyTripsRepository {
   Query<Trip> queryMyTrips({required String uid}) => _firestore
       .collection(tripsBasePath)
       .where('participants', arrayContains: uid)
+      .orderBy('startDate')
       .withConverter(
         fromFirestore: (snapshot, _) =>
             Trip.fromMap(snapshot.data()!, snapshot.id),

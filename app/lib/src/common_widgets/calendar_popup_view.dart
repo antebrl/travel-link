@@ -25,7 +25,7 @@ class CalendarPopupView extends StatefulWidget {
   final DateTime? initialStartDate;
   final DateTime? initialEndDate;
   // ignore: inference_failure_on_function_return_type
-  final Function(DateTime, DateTime)? onApplyClick;
+  final Function(DateTime?, DateTime?)? onApplyClick;
 
   // ignore: inference_failure_on_function_return_type
   final Function()? onCancelClick;
@@ -88,7 +88,7 @@ class _CalendarPopupViewState extends State<CalendarPopupView>
                       padding: const EdgeInsets.all(20),
                       child: Container(
                         width: 440,
-                        height: 610,
+                        height: 664,
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius:
@@ -201,7 +201,7 @@ class _CalendarPopupViewState extends State<CalendarPopupView>
                                 padding: const EdgeInsets.only(
                                   left: 16,
                                   right: 16,
-                                  bottom: 16,
+                                  bottom: 10,
                                   top: 8,
                                 ),
                                 child: Container(
@@ -228,9 +228,6 @@ class _CalendarPopupViewState extends State<CalendarPopupView>
                                       highlightColor: Colors.transparent,
                                       onTap: () {
                                         try {
-                                          // animationController.reverse().then((f) {
-
-                                          // });
                                           widget.onApplyClick!(
                                               startDate!, endDate!);
                                           Navigator.pop(context);
@@ -249,6 +246,51 @@ class _CalendarPopupViewState extends State<CalendarPopupView>
                                     ),
                                   ),
                                 ),
+                              ),
+                              const Divider(
+                                height: 1,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                  left: 126,
+                                  right: 126,
+                                  bottom: 10,
+                                  top: 10,
+                                ),
+                                child: Container(
+                                  height: 35,
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: CustomAppTheme.lightTheme.primaryColor,
+                                    ),
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(24)),
+                                  ),
+                                  child: InkWell(
+                                      borderRadius: const BorderRadius.all(
+                                        Radius.circular(24),
+                                      ),
+                                      highlightColor: Colors.transparent,
+                                      onTap: () {
+                                        try {
+                                          widget.onApplyClick!(
+                                              null, null,);
+                                          Navigator.pop(context);
+                                        } catch (_) {}
+                                      },
+                                      child: Center(
+                                        child: Text(
+                                          'Flexible Dates',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 18,
+                                            color:  CustomAppTheme.lightTheme.primaryColor,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  
+                                  ),
                               ),
                             ],
                           ),

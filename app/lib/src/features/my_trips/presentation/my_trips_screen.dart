@@ -39,24 +39,10 @@ class MyTripsScreen extends ConsumerWidget {
       }
     }
 
-    //sort upcoming trips
-    final indices = List<int>.generate(daysToGo.length, (index) => index)
-      ..sort((a, b) {
-        final valueA = daysToGo[a];
-        final valueB = daysToGo[b];
-        if (valueA == null && valueB == null) return 0;
-        if (valueA == null)
-          return 1; //flexible dates will be sorted at the end of the list
-        if (valueB == null) return -1;
-        return valueA.compareTo(valueB);
-      });
-
-    tripsByDate[1] = [for (final i in indices) tripsByDate[1][i]];
-
     //sort previsous trips
     tripsByDate[2].sort((a, b) => a.endDate!.compareTo(b.endDate!));
 
-    return (tripsByDate, [for (final i in indices) daysToGo[i]]);
+    return (tripsByDate, daysToGo);
   }
 
   @override
