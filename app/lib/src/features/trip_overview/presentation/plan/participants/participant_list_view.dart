@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:travel_link/src/features/account/data/account_repository.dart';
 import 'package:travel_link/src/features/account/domain/user_account.dart';
+import 'package:travel_link/src/features/profile/public_profile_screen.dart';
+import 'package:travel_link/src/routing/app_router.dart';
 import 'package:travel_link/src/utils/constants/image_strings.dart';
 
 class ParticipantListView extends ConsumerWidget {
@@ -75,6 +78,13 @@ class ParticipantListView extends ConsumerWidget {
                   title: Text(users[index].displayName ?? 'Anonymous User'),
                   onTap: () {
                     // Go to user public profile
+                    final uid = users[index].id;
+                    context.pushNamed(
+                      TopLevelDestinations.user.name,
+                      pathParameters: {
+                        'uid': uid,
+                      },
+                    );
                   },
                 );
               },
