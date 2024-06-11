@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:travel_link/src/features/activities/2_continents_screen/data/continent_data.dart';
 import 'package:travel_link/src/features/activities/2_continents_screen/presentation/continent_item.dart';
 import 'package:travel_link/src/features/activities/3_activities_screen/presentation/activities_screen.dart';
-import 'package:travel_link/src/routing/app_router.dart';
+import 'package:travel_link/src/utils/constants/strings.dart';
 
 class ActivitiesContinentsScreen extends StatelessWidget {
-  const ActivitiesContinentsScreen({Key? key}) : super(key: key);
+  const ActivitiesContinentsScreen({super.key});
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Explore Activities!',
+          CustomStrings.appbarExploreActivities,
         ),
       ),
       body: LayoutBuilder(
@@ -40,12 +40,7 @@ class ActivitiesContinentsScreen extends StatelessWidget {
                               ),
                             );
                           },
-                        )
-                      // onSelectContintent: () =>
-                      // context.pushNamed(
-                      //   ActivitiesRoutes.continent.name,
-                      //   pathParameters: {
-                      //     'continent': continent.name.replaceAll(' ', ''),
+                        ),
                     ],
                   ),
                 ),

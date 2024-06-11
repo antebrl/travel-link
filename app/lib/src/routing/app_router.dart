@@ -2,15 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:travel_link/src/features/account/presentation/account_screen.dart';
-import 'package:travel_link/src/features/activities/1_activities_start_screen/presentation/activitiesStart_screen.dart';
+import 'package:travel_link/src/features/activities/0_activities_tabs_screen/activities_tabs_screen.dart';
 import 'package:travel_link/src/features/activities/2_continents_screen/domain/continent.dart';
-import 'package:travel_link/src/features/activities/3_activities_screen/domain/api_activity.dart';
-import 'package:travel_link/src/features/activities/3_activities_screen/presentation/activities_api_screen.dart';
 import 'package:travel_link/src/features/activities/3_activities_screen/presentation/activities_screen.dart';
 import 'package:travel_link/src/features/authentication/data/firebase_auth_repository.dart';
 import 'package:travel_link/src/features/authentication/presentation/custom_sign_in_screen.dart';
 import 'package:travel_link/src/features/explore_trips/presentation/explore_trips_screen.dart';
-import 'package:travel_link/src/features/explore_trips/presentation/trips_screen.dart';
 import 'package:travel_link/src/features/my_trips/presentation/my_trips_screen.dart';
 import 'package:travel_link/src/features/profile/public_profile_screen.dart';
 import 'package:travel_link/src/features/trip_overview/presentation/trip_overview_screen.dart';
@@ -80,7 +77,7 @@ GoRouter goRouter(GoRouterRef ref) {
         name: 'root',
         pageBuilder: (context, state) => const NoTransitionPage(
           child:
-              TripsScreen(), // Replace HomeScreen with your actual home screen widget
+              ExploreTripsScreen(),
         ),
       ),
       GoRoute(
@@ -164,15 +161,6 @@ GoRouter goRouter(GoRouterRef ref) {
                   child: const ActivitiesStartScreen(),
                 ),
                 routes: <RouteBase>[
-                  // GoRoute(
-                  //   path: 'details',
-                  //   name: ActivitiesRoutes.activityDetails.name,
-                  //   parentNavigatorKey: _rootNavigatorKey,
-                  //   builder: (BuildContext context, GoRouterState state) {
-                  //     final activity = state.extra as ApiActivity?;
-                  //     return;
-                  //   },
-                  // ),
                   GoRoute(
                     path: 'continent/:continent',
                     name: ActivitiesRoutes.continent.name,
