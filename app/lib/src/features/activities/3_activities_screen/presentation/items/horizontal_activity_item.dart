@@ -140,7 +140,7 @@ class _HorizontalActivityItemState extends State<HorizontalActivityItem> {
                     overflow: TextOverflow.ellipsis,
                   ),
                   Text(
-                    'widget.activity.amountVisitors',
+                    widget.activity.amountVisitors.toString(),
                     style: CustomTextTheme.lightTextTheme.bodySmall,
                     overflow: TextOverflow.ellipsis,
                   ),
