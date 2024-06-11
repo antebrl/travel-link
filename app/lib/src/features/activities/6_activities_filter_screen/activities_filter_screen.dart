@@ -9,7 +9,7 @@ class ActivitiesFilterScreen extends StatefulWidget {
   final Continent continent;
 
   @override
-  _ActivitiesFilterScreenState createState() => _ActivitiesFilterScreenState();
+  State<ActivitiesFilterScreen> createState() => _ActivitiesFilterScreenState();
 }
 
 class _ActivitiesFilterScreenState extends State<ActivitiesFilterScreen> {
@@ -18,6 +18,11 @@ class _ActivitiesFilterScreenState extends State<ActivitiesFilterScreen> {
   List<String> countryList = [''];
 
   String countryName = '';
+  @override
+  void initState() {
+    super.initState();
+    countryList = setFilter(widget.continent);
+  }
 
   Set<String> _categoryList = {};
   void _toggleSelectAll() {
@@ -28,12 +33,6 @@ class _ActivitiesFilterScreenState extends State<ActivitiesFilterScreen> {
         _categoryList = activityTypes.toSet();
       }
     });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    countryList = setFilter(widget.continent);
   }
 
   List<String> setFilter(Continent continent) {
@@ -92,7 +91,7 @@ class _ActivitiesFilterScreenState extends State<ActivitiesFilterScreen> {
           'TN',
           'UG',
           'ZM',
-          'ZW'
+          'ZW',
         ];
       case ContinentType.asia:
         return [
@@ -144,7 +143,7 @@ class _ActivitiesFilterScreenState extends State<ActivitiesFilterScreen> {
           'AE',
           'UZ',
           'VN',
-          'YE'
+          'YE',
         ];
       case ContinentType.europe:
         return [
@@ -193,7 +192,7 @@ class _ActivitiesFilterScreenState extends State<ActivitiesFilterScreen> {
           'CH',
           'UA',
           'GB',
-          'VA'
+          'VA',
         ];
       case ContinentType.northAmerica:
         return [
@@ -230,7 +229,7 @@ class _ActivitiesFilterScreenState extends State<ActivitiesFilterScreen> {
           'VI',
           'GL',
           'PM',
-          'FO'
+          'FO',
         ];
       case ContinentType.southAmerica:
         return [
@@ -245,7 +244,7 @@ class _ActivitiesFilterScreenState extends State<ActivitiesFilterScreen> {
           'PE',
           'SR',
           'UY',
-          'VE'
+          'VE',
         ];
       case ContinentType.australia:
         return [
@@ -274,10 +273,10 @@ class _ActivitiesFilterScreenState extends State<ActivitiesFilterScreen> {
           'CC',
           'HM',
           'PN',
-          'TL'
+          'TL',
         ];
-      default:
-        return [];
+      case ContinentType.none:
+        return [''];
     }
   }
 
@@ -288,7 +287,7 @@ class _ActivitiesFilterScreenState extends State<ActivitiesFilterScreen> {
       body: SingleChildScrollView(
         child: Center(
           child: Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(16),
             child: Container(
               decoration: BoxDecoration(
                 color: CustomColors.primary.withOpacity(0.7),
@@ -340,47 +339,58 @@ class _ActivitiesFilterScreenState extends State<ActivitiesFilterScreen> {
                       children: [
                         Row(
                           children: [
-                            const Text(
+                            Text(
                               'Select country:',
-                              style: TextStyle(
-                                color: CustomColors.white,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                              ),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headlineSmall!
+                                  .copyWith(
+                                    color: CustomColors.white,
+                                  ),
                             ),
                             const Spacer(),
                             OutlinedButton(
                               onPressed: () {
                                 setState(() {
                                   _countryController.clear();
-
-                                  _categoryList
-                                      .clear(); // CategoryList zurücksetzen
+                                  _categoryList.clear();
                                 });
                               },
                               style: ElevatedButton.styleFrom(
-                                  side: const BorderSide(color: Colors.white)),
-                              child: const Text(
+                                side: const BorderSide(color: Colors.white),
+                              ),
+                              child: Text(
                                 'Clear',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.normal,
-                                ),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall!
+                                    .copyWith(
+                                      color: CustomColors.white,
+                                    ),
                               ),
                             ),
                           ],
                         ),
                         const SizedBox(height: 15),
                         Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
                           child: TextField(
+                            style:
+                                Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                      color: CustomColors.primary,
+                                    ),
                             controller: _countryController,
                             readOnly: true,
                             decoration: InputDecoration(
                               fillColor: CustomColors.white,
                               filled: true,
                               hintText: 'Tap to pick a country',
+                              hintStyle: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium!
+                                  .copyWith(
+                                    color: CustomColors.primary,
+                                  ),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(14),
                                 borderSide: BorderSide.none,
@@ -394,7 +404,6 @@ class _ActivitiesFilterScreenState extends State<ActivitiesFilterScreen> {
                                   _countryController.text = country.name;
                                   countryName = country.name;
                                 },
-                                moveAlongWithKeyboard: false,
                                 countryListTheme: CountryListThemeData(
                                   borderRadius: const BorderRadius.only(
                                     topLeft: Radius.circular(40),
@@ -412,7 +421,7 @@ class _ActivitiesFilterScreenState extends State<ActivitiesFilterScreen> {
                                     ),
                                   ),
                                   searchTextStyle: const TextStyle(
-                                    color: Colors.blue,
+                                    color: CustomColors.primary,
                                     fontSize: 18,
                                   ),
                                 ),
@@ -423,28 +432,31 @@ class _ActivitiesFilterScreenState extends State<ActivitiesFilterScreen> {
                         const SizedBox(height: 25),
                         Row(
                           children: [
-                            const Text(
+                            Text(
                               'Select categories:',
-                              style: TextStyle(
-                                color: CustomColors.white,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                              ),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headlineSmall!
+                                  .copyWith(
+                                    color: CustomColors.white,
+                                  ),
                             ),
-                            Spacer(),
+                            const Spacer(),
                             OutlinedButton(
                               onPressed: _toggleSelectAll,
                               style: ElevatedButton.styleFrom(
-                                  //backgroundColor: Colors.white,
-                                  side: BorderSide(color: Colors.white)),
+                                side: const BorderSide(color: Colors.white),
+                              ),
                               child: Text(
                                 _categoryList.length == activityTypes.length
                                     ? 'Unselect All'
                                     : 'Select All',
-                                style: const TextStyle(
-                                    color: CustomColors.white,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.normal),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall!
+                                    .copyWith(
+                                      color: CustomColors.white,
+                                    ),
                               ),
                             ),
                           ],
@@ -458,11 +470,17 @@ class _ActivitiesFilterScreenState extends State<ActivitiesFilterScreen> {
                             return FilterChip(
                               side: const BorderSide(color: CustomColors.white),
                               disabledColor: CustomColors.white,
-                              labelStyle:
-                                  const TextStyle(color: CustomColors.primary),
+                              labelStyle: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall!
+                                  .copyWith(
+                                    color: CustomColors.primary,
+                                  ),
                               selectedColor: CustomColors.white,
                               padding: const EdgeInsets.symmetric(
-                                  horizontal: 12, vertical: 12),
+                                horizontal: 12,
+                                vertical: 12,
+                              ),
                               checkmarkColor: CustomColors.primary,
                               label: Text(
                                 type,
@@ -499,11 +517,14 @@ class _ActivitiesFilterScreenState extends State<ActivitiesFilterScreen> {
                             backgroundColor: CustomColors.white,
                             side: BorderSide.none,
                           ),
-                          child: const Text(
+                          child: Text(
                             'Search',
-                            style: TextStyle(
-                              color: CustomColors.primary,
-                            ),
+                            style: Theme.of(context)
+                                .textTheme
+                                .headlineSmall!
+                                .copyWith(
+                                  color: CustomColors.primary,
+                                ),
                           ),
                         ),
                       ],

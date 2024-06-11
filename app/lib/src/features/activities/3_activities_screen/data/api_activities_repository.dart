@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:http/http.dart' as http;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:travel_link/src/features/activities/3_activities_screen/domain/api_activity.dart';
@@ -23,10 +22,11 @@ class ApiActivitiesRepository {
     }
   }
 
-  Future<List<ApiActivity>> getActivitiesInPlace(
-      {required double lon,
-      required double lat,
-      required Set<String> categories}) async {
+  Future<List<ApiActivity>> getActivitiesInPlace({
+    required double lon,
+    required double lat,
+    required Set<String> categories,
+  }) async {
     final String categoriesString = categories.join(',');
     final String url =
         '${CustomApiConstants.placesBaseURL}?categories=$categoriesString&filter=circle:$lon,$lat,5000&apiKey=${CustomApiConstants.geoapifySecretKey}&limit=500';
@@ -41,7 +41,8 @@ class ApiActivitiesRepository {
       return destinations
           .map(
             (activity) => ApiActivity.fromMap(
-                activity['properties'] as Map<String, dynamic>),
+              activity['properties'] as Map<String, dynamic>,
+            ),
           )
           .where((apiActivity) => apiActivity != null)
           .cast<ApiActivity>()
@@ -58,7 +59,8 @@ class ApiActivitiesRepository {
 
 @Riverpod(keepAlive: true)
 ApiActivitiesRepository apiActivitiesRepository(
-        ApiActivitiesRepositoryRef ref) =>
+  ApiActivitiesRepositoryRef ref,
+) =>
     ApiActivitiesRepository();
 
 @riverpod

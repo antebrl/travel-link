@@ -7,12 +7,11 @@ import 'package:travel_link/src/utils/constants/colors.dart';
 import 'package:travel_link/src/utils/theme/widget_themes/text_theme.dart';
 
 class HorizontalActivityItem extends StatefulWidget {
-  const HorizontalActivityItem({required this.activity, Key? key})
-      : super(key: key);
+  const HorizontalActivityItem({required this.activity, super.key});
   final ApiActivity activity;
 
   @override
-  _HorizontalActivityItemState createState() => _HorizontalActivityItemState();
+  State<HorizontalActivityItem> createState() => _HorizontalActivityItemState();
 }
 
 class _HorizontalActivityItemState extends State<HorizontalActivityItem> {
@@ -22,6 +21,7 @@ class _HorizontalActivityItemState extends State<HorizontalActivityItem> {
   @override
   void initState() {
     super.initState();
+
     if (_imageCache.containsKey(widget.activity.name)) {
       final imageName = _imageCache[widget.activity.name];
       if (imageName != null) {
@@ -38,7 +38,7 @@ class _HorizontalActivityItemState extends State<HorizontalActivityItem> {
   Future<String> fetchImage(String activityName) async {
     final formattedName = activityName.replaceAll(' ', '_');
     final formattedLink =
-        'https://en.wikipedia.org/w/api.php?action=query&titles=$formattedName&prop=pageimages&format=json&pithumbsize=1000';
+        'https://en.wikipedia.org/w/api.php?action=query&titles=$formattedName&prop=pageimages&format=json&pithumbsize=1000&origin=*';
     final response = await http.get(Uri.parse(formattedLink));
     final Map<String, dynamic> data =
         json.decode(response.body) as Map<String, dynamic>;
@@ -135,10 +135,15 @@ class _HorizontalActivityItemState extends State<HorizontalActivityItem> {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    'Visitiors last year: ${widget.activity.amountVisitors}',
+                    'Visitiors last year: ',
                     style: CustomTextTheme.lightTextTheme.bodySmall,
                     overflow: TextOverflow.ellipsis,
-                  )
+                  ),
+                  Text(
+                    widget.activity.amountVisitors.toString(),
+                    style: CustomTextTheme.lightTextTheme.bodySmall,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ],
               ),
             ),
