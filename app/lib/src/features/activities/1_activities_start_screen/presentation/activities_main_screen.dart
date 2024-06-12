@@ -35,6 +35,7 @@ class _ActivitiesMainScreenState extends State<ActivitiesMainScreen> {
 
   @override
   void initState() {
+    print('inti');
     super.initState();
     _selectRandomContinent();
     _controller = DestinationController(onSelected: _handleDestinationSelected);
@@ -70,6 +71,7 @@ class _ActivitiesMainScreenState extends State<ActivitiesMainScreen> {
           setState(() {
             _controller.textEditingController.clear();
             _controller.selectedDestination = null;
+            _selectRandomContinent();
           });
         });
       }
@@ -118,6 +120,8 @@ class _ActivitiesMainScreenState extends State<ActivitiesMainScreen> {
 
   @override
   Widget build(BuildContext context) {
+    _selectRandomContinent();
+    print('build');
     return SingleChildScrollView(
       child: Column(
         children: [
