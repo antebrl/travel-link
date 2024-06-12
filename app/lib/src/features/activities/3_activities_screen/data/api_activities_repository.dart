@@ -1,14 +1,14 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:travel_link/src/features/activities/3_activities_screen/domain/api_activity.dart';
+import 'package:travel_link/src/features/activities/3_activities_screen/domain/activity.dart';
 import 'package:travel_link/src/utils/constants/api_constants.dart';
 import 'package:travel_link/src/utils/logging/logger.dart';
 
 part 'api_activities_repository.g.dart';
 
 class ApiActivitiesRepository {
-  Future<ApiActivity?> getActivityDetailsById({required String placeId}) async {
+  Future<Activity?> getActivityDetailsById({required String placeId}) async {
     final String url =
         '${CustomApiConstants.placeDetailsBaseURL}?id=$placeId&features=details&apiKey=${CustomApiConstants.geoapifySecretKey}';
     final response = await http.get(Uri.parse(url));
@@ -16,13 +16,13 @@ class ApiActivitiesRepository {
     if (response.statusCode == 200) {
       final placeDetails = json.decode(response.body)['features'][0]
           ['properties'] as Map<String, dynamic>;
-      return ApiActivity.fromMap(placeDetails);
+      return Activity.fromMap(placeDetails);
     } else {
       return null;
     }
   }
 
-  Future<List<ApiActivity>> getActivitiesInPlace({
+  Future<List<Activity>> getActivitiesInPlace({
     required double lon,
     required double lat,
     required Set<String> categories,
@@ -40,12 +40,12 @@ class ApiActivitiesRepository {
 
       return destinations
           .map(
-            (activity) => ApiActivity.fromMap(
+            (activity) => Activity.fromMap(
               activity['properties'] as Map<String, dynamic>,
             ),
           )
           .where((apiActivity) => apiActivity != null)
-          .cast<ApiActivity>()
+          .cast<Activity>()
           .toList();
     } else {
       logger.e(
@@ -64,7 +64,7 @@ ApiActivitiesRepository apiActivitiesRepository(
     ApiActivitiesRepository();
 
 @riverpod
-Future<List<ApiActivity>> fetchActivitiesFromAPI(
+Future<List<Activity>> fetchActivitiesFromAPI(
   FetchActivitiesFromAPIRef ref, {
   required double lon,
   required double lat,

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:travel_link/src/features/activities/3_activities_screen/domain/api_activity.dart';
+import 'package:travel_link/src/features/activities/3_activities_screen/domain/activity.dart';
 import 'package:travel_link/src/features/activities/3_activities_screen/presentation/items/horizontal_activity_item.dart';
 
 class VerticalActivityList extends StatelessWidget {
@@ -7,7 +7,7 @@ class VerticalActivityList extends StatelessWidget {
     required this.popularActivities,
     super.key,
   });
-  final List<ApiActivity> popularActivities;
+  final List<Activity> popularActivities;
 
   @override
   Widget build(BuildContext context) {

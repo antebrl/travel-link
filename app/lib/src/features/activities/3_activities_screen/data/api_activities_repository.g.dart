@@ -24,7 +24,7 @@ final apiActivitiesRepositoryProvider =
 
 typedef ApiActivitiesRepositoryRef = ProviderRef<ApiActivitiesRepository>;
 String _$fetchActivitiesFromAPIHash() =>
-    r'8e3434ca67d35bd500899a60d96d1c226b855e83';
+    r'f5700da4dbf43894addbf9368a7a1b4cf82d9c85';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -52,8 +52,7 @@ class _SystemHash {
 const fetchActivitiesFromAPIProvider = FetchActivitiesFromAPIFamily();
 
 /// See also [fetchActivitiesFromAPI].
-class FetchActivitiesFromAPIFamily
-    extends Family<AsyncValue<List<ApiActivity>>> {
+class FetchActivitiesFromAPIFamily extends Family<AsyncValue<List<Activity>>> {
   /// See also [fetchActivitiesFromAPI].
   const FetchActivitiesFromAPIFamily();
 
@@ -98,7 +97,7 @@ class FetchActivitiesFromAPIFamily
 
 /// See also [fetchActivitiesFromAPI].
 class FetchActivitiesFromAPIProvider
-    extends AutoDisposeFutureProvider<List<ApiActivity>> {
+    extends AutoDisposeFutureProvider<List<Activity>> {
   /// See also [fetchActivitiesFromAPI].
   FetchActivitiesFromAPIProvider({
     required double lon,
@@ -143,7 +142,7 @@ class FetchActivitiesFromAPIProvider
 
   @override
   Override overrideWith(
-    FutureOr<List<ApiActivity>> Function(FetchActivitiesFromAPIRef provider)
+    FutureOr<List<Activity>> Function(FetchActivitiesFromAPIRef provider)
         create,
   ) {
     return ProviderOverride(
@@ -163,7 +162,7 @@ class FetchActivitiesFromAPIProvider
   }
 
   @override
-  AutoDisposeFutureProviderElement<List<ApiActivity>> createElement() {
+  AutoDisposeFutureProviderElement<List<Activity>> createElement() {
     return _FetchActivitiesFromAPIProviderElement(this);
   }
 
@@ -187,7 +186,7 @@ class FetchActivitiesFromAPIProvider
 }
 
 mixin FetchActivitiesFromAPIRef
-    on AutoDisposeFutureProviderRef<List<ApiActivity>> {
+    on AutoDisposeFutureProviderRef<List<Activity>> {
   /// The parameter `lon` of this provider.
   double get lon;
 
@@ -199,7 +198,7 @@ mixin FetchActivitiesFromAPIRef
 }
 
 class _FetchActivitiesFromAPIProviderElement
-    extends AutoDisposeFutureProviderElement<List<ApiActivity>>
+    extends AutoDisposeFutureProviderElement<List<Activity>>
     with FetchActivitiesFromAPIRef {
   _FetchActivitiesFromAPIProviderElement(super.provider);
 

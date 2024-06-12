@@ -1,10 +1,10 @@
 // ignore_for_file: lines_longer_than_80_chars
 
 import 'package:travel_link/src/features/activities/2_continents_screen/domain/continent.dart';
-import 'package:travel_link/src/features/activities/3_activities_screen/domain/api_activity.dart';
+import 'package:travel_link/src/features/activities/3_activities_screen/domain/activity.dart';
 
-List<ApiActivity> activityData = [
-  ApiActivity(
+List<Activity> activityData = [
+  Activity(
     imagePaths: [''],
     name: 'Times Square',
     categories: {'activity'}.toList(),
@@ -20,7 +20,7 @@ List<ApiActivity> activityData = [
       countryCode: 'US',
     ),
   ),
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Statue of Liberty',
     categories: {'tourism', 'education'}.toList(),
@@ -35,7 +35,7 @@ List<ApiActivity> activityData = [
       countryCode: 'US',
     ),
   ),
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Grand Canyon',
     categories: {'natural', 'tourism'}.toList(),
@@ -50,7 +50,7 @@ List<ApiActivity> activityData = [
       countryCode: 'US',
     ),
   ),
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Yellowstone National Park',
     categories: {'natural', 'leisure'}.toList(),
@@ -66,7 +66,7 @@ List<ApiActivity> activityData = [
       countryCode: 'US',
     ),
   ),
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Walt Disney World',
     categories: {'entertainment', 'tourism'}.toList(),
@@ -81,7 +81,7 @@ List<ApiActivity> activityData = [
       countryCode: 'US',
     ),
   ),
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Niagara Falls',
     categories: {'natural', 'tourism'}.toList(),
@@ -97,7 +97,7 @@ List<ApiActivity> activityData = [
       countryCode: 'US/CA',
     ),
   ),
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Golden Gate Bridge',
     categories: {'tourism', 'activity'}.toList(),
@@ -112,7 +112,7 @@ List<ApiActivity> activityData = [
       countryCode: 'US',
     ),
   ),
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Yosemite National Park',
     categories: {'natural', 'leisure'}.toList(),
@@ -127,7 +127,7 @@ List<ApiActivity> activityData = [
       countryCode: 'US',
     ),
   ),
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Mount Rushmore',
     categories: {'tourism', 'education'}.toList(),
@@ -142,7 +142,7 @@ List<ApiActivity> activityData = [
       countryCode: 'US',
     ),
   ),
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Central Park',
     categories: {'leisure', 'natural'}.toList(),
@@ -157,7 +157,7 @@ List<ApiActivity> activityData = [
       countryCode: 'US',
     ),
   ),
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Las Vegas Strip',
     categories: {'entertainment', 'tourism'}.toList(),
@@ -172,7 +172,7 @@ List<ApiActivity> activityData = [
       countryCode: 'US',
     ),
   ),
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Hollywood Walk of Fame',
     categories: {'tourism', 'entertainment'}.toList(),
@@ -187,7 +187,7 @@ List<ApiActivity> activityData = [
       countryCode: 'US',
     ),
   ),
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'White House',
     categories: {'tourism', 'education'}.toList(),
@@ -202,7 +202,7 @@ List<ApiActivity> activityData = [
       countryCode: 'US',
     ),
   ),
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Walt Disney Concert Hall',
     categories: {'entertainment', 'tourism'}.toList(),
@@ -217,7 +217,7 @@ List<ApiActivity> activityData = [
       countryCode: 'US',
     ),
   ),
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Rocky Mountains',
     categories: {'natural', 'leisure'}.toList(),
@@ -233,7 +233,7 @@ List<ApiActivity> activityData = [
       countryCode: 'US',
     ),
   ),
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'National Museum of Natural History',
     categories: {'education', 'tourism'}.toList(),
@@ -249,7 +249,7 @@ List<ApiActivity> activityData = [
       countryCode: 'US',
     ),
   ),
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Empire State Building',
     categories: {'tourism', 'activity'}.toList(),
@@ -265,7 +265,7 @@ List<ApiActivity> activityData = [
       countryCode: 'US',
     ),
   ),
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Alcatraz Island',
     categories: {'tourism', 'history'}.toList(),
@@ -280,7 +280,7 @@ List<ApiActivity> activityData = [
       countryCode: 'US',
     ),
   ),
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Kennedy Space Center',
     categories: {'tourism', 'education'}.toList(),
@@ -295,7 +295,7 @@ List<ApiActivity> activityData = [
       countryCode: 'US',
     ),
   ),
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Great Smoky Mountains National Park',
     categories: {'natural', 'leisure'}.toList(),
@@ -310,7 +310,7 @@ List<ApiActivity> activityData = [
       countryCode: 'US',
     ),
   ),
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Mount Rainier National Park',
     categories: {'natural', 'leisure'}.toList(),
@@ -325,7 +325,7 @@ List<ApiActivity> activityData = [
       countryCode: 'US',
     ),
   ),
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Universal Studios Hollywood',
     categories: {'entertainment', 'tourism'}.toList(),
@@ -340,7 +340,7 @@ List<ApiActivity> activityData = [
       countryCode: 'US',
     ),
   ),
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Mount St. Helens',
     categories: {'natural', 'tourism'}.toList(),
@@ -357,7 +357,7 @@ List<ApiActivity> activityData = [
   ),
 
 /////
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Machu Picchu',
     categories: {'tourism', 'history'}.toList(),
@@ -373,7 +373,7 @@ List<ApiActivity> activityData = [
     ),
   ),
 
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Iguazu Falls',
     categories: {'natural', 'tourism'}.toList(),
@@ -388,7 +388,7 @@ List<ApiActivity> activityData = [
       countryCode: 'AR/BR',
     ),
   ),
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Amazon rainforest',
     categories: {'natural', 'tourism'}.toList(),
@@ -403,7 +403,7 @@ List<ApiActivity> activityData = [
       countryCode: 'Multiple',
     ),
   ),
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Galápagos Islands',
     categories: {'natural', 'tourism'}.toList(),
@@ -418,7 +418,7 @@ List<ApiActivity> activityData = [
       countryCode: 'EC',
     ),
   ),
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Atacama Desert',
     categories: {'natural', 'tourism'}.toList(),
@@ -433,7 +433,7 @@ List<ApiActivity> activityData = [
       countryCode: 'CL',
     ),
   ),
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Easter Island',
     categories: {'tourism', 'history'}.toList(),
@@ -448,7 +448,7 @@ List<ApiActivity> activityData = [
       countryCode: 'CL',
     ),
   ),
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Salar de Uyuni',
     categories: {'natural', 'tourism'}.toList(),
@@ -463,7 +463,7 @@ List<ApiActivity> activityData = [
       countryCode: 'BO',
     ),
   ),
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Angel Falls',
     categories: {'natural', 'tourism'}.toList(),
@@ -478,7 +478,7 @@ List<ApiActivity> activityData = [
       countryCode: 'VE',
     ),
   ),
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Pantanal',
     categories: {'natural', 'tourism'}.toList(),
@@ -494,7 +494,7 @@ List<ApiActivity> activityData = [
     ),
   ),
 
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Lake Titicaca',
     categories: {'natural', 'tourism'}.toList(),
@@ -509,7 +509,7 @@ List<ApiActivity> activityData = [
       countryCode: 'PE/BO',
     ),
   ),
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Torres del Paine National Park',
     categories: {'natural', 'tourism'}.toList(),
@@ -525,7 +525,7 @@ List<ApiActivity> activityData = [
     ),
   ),
 
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Perito Moreno Glacier',
     categories: {'natural', 'tourism'}.toList(),
@@ -541,7 +541,7 @@ List<ApiActivity> activityData = [
       countryCode: 'AR',
     ),
   ),
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Colca Canyon',
     categories: {'natural', 'tourism'}.toList(),
@@ -556,7 +556,7 @@ List<ApiActivity> activityData = [
       countryCode: 'PE',
     ),
   ),
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Dalí Theatre and Museum',
     categories: {'art', 'tourism'}.toList(),
@@ -571,7 +571,7 @@ List<ApiActivity> activityData = [
       countryCode: 'ES',
     ),
   ),
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Valparaíso',
     categories: {'art', 'tourism'}.toList(),
@@ -586,7 +586,7 @@ List<ApiActivity> activityData = [
       countryCode: 'CL',
     ),
   ),
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Cusco',
     categories: {'history', 'tourism'}.toList(),
@@ -601,7 +601,7 @@ List<ApiActivity> activityData = [
       countryCode: 'PE',
     ),
   ),
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Ushuaia',
     categories: {'tourism', 'leisure'}.toList(),
@@ -618,7 +618,7 @@ List<ApiActivity> activityData = [
   ),
 
   ///////
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Eiffel Tower',
     categories: {'tourism', 'history'}.toList(),
@@ -633,7 +633,7 @@ List<ApiActivity> activityData = [
       countryCode: 'FR',
     ),
   ),
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Colosseum',
     categories: {'tourism', 'history'}.toList(),
@@ -648,7 +648,7 @@ List<ApiActivity> activityData = [
       countryCode: 'IT',
     ),
   ),
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Acropolis of Athens',
     categories: {'tourism', 'history'}.toList(),
@@ -664,7 +664,7 @@ List<ApiActivity> activityData = [
       countryCode: 'GR',
     ),
   ),
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Sagrada Família',
     categories: {'tourism', 'religion'}.toList(),
@@ -680,7 +680,7 @@ List<ApiActivity> activityData = [
       countryCode: 'ES',
     ),
   ),
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Louvre',
     categories: {'tourism', 'art'}.toList(),
@@ -696,7 +696,7 @@ List<ApiActivity> activityData = [
       countryCode: 'FR',
     ),
   ),
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Neuschwanstein Castle',
     categories: {'tourism', 'history'}.toList(),
@@ -711,7 +711,7 @@ List<ApiActivity> activityData = [
       countryCode: 'DE',
     ),
   ),
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Alhambra',
     categories: {'tourism', 'history'}.toList(),
@@ -727,7 +727,7 @@ List<ApiActivity> activityData = [
     ),
   ),
 
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Tower Bridge',
     categories: {'tourism', 'history'}.toList(),
@@ -742,7 +742,7 @@ List<ApiActivity> activityData = [
       countryCode: 'GB',
     ),
   ),
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Prague Castle',
     categories: {'tourism', 'history'}.toList(),
@@ -757,7 +757,7 @@ List<ApiActivity> activityData = [
       countryCode: 'CZ',
     ),
   ),
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Vatican City',
     categories: {'tourism', 'religion'}.toList(),
@@ -773,7 +773,7 @@ List<ApiActivity> activityData = [
       countryCode: 'VA',
     ),
   ),
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Dubrovnik',
     categories: {'tourism', 'history'}.toList(),
@@ -788,7 +788,7 @@ List<ApiActivity> activityData = [
       countryCode: 'HR',
     ),
   ),
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Anne Frank House',
     categories: {'tourism', 'history'}.toList(),
@@ -804,7 +804,7 @@ List<ApiActivity> activityData = [
       countryCode: 'NL',
     ),
   ),
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Eiffel Tower',
     categories: {'tourism', 'history'}.toList(),
@@ -819,7 +819,7 @@ List<ApiActivity> activityData = [
       countryCode: 'FR',
     ),
   ),
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Colosseum',
     categories: {'tourism', 'history'}.toList(),
@@ -834,7 +834,7 @@ List<ApiActivity> activityData = [
       countryCode: 'IT',
     ),
   ),
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Acropolis of Athens',
     categories: {'tourism', 'history'}.toList(),
@@ -852,7 +852,7 @@ List<ApiActivity> activityData = [
   ),
 
 //1
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Great Wall of China',
     categories: {'tourism', 'history'}.toList(),
@@ -869,7 +869,7 @@ List<ApiActivity> activityData = [
     ),
   ),
 //2
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Taj Mahal',
     categories: {'tourism', 'history'}.toList(),
@@ -885,7 +885,7 @@ List<ApiActivity> activityData = [
     ),
   ),
 //3
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Petra',
     categories: {'tourism', 'history'}.toList(),
@@ -901,7 +901,7 @@ List<ApiActivity> activityData = [
     ),
   ),
 //4
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Mount Everest',
     categories: {'natural', 'tourism'}.toList(),
@@ -917,7 +917,7 @@ List<ApiActivity> activityData = [
     ),
   ),
 //5
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Angkor Wat',
     categories: {'tourism', 'history'}.toList(),
@@ -933,7 +933,7 @@ List<ApiActivity> activityData = [
     ),
   ),
 //6
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Forbidden City',
     categories: {'tourism', 'history'}.toList(),
@@ -949,7 +949,7 @@ List<ApiActivity> activityData = [
     ),
   ),
 //7
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Borobudur',
     categories: {'tourism', 'history'}.toList(),
@@ -966,7 +966,7 @@ List<ApiActivity> activityData = [
     ),
   ),
 //8
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Dead Sea',
     categories: {'natural', 'tourism'}.toList(),
@@ -983,7 +983,7 @@ List<ApiActivity> activityData = [
     ),
   ),
 //9
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Mount Fuji',
     categories: {'natural', 'tourism'}.toList(),
@@ -999,7 +999,7 @@ List<ApiActivity> activityData = [
     ),
   ),
 //10
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Golden Temple',
     categories: {'tourism', 'religion'}.toList(),
@@ -1015,7 +1015,7 @@ List<ApiActivity> activityData = [
     ),
   ),
 //11
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Jeju Island',
     categories: {'natural', 'tourism'}.toList(),
@@ -1031,7 +1031,7 @@ List<ApiActivity> activityData = [
     ),
   ),
 //12
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Shwedagon Pagoda',
     categories: {'tourism', 'religion'}.toList(),
@@ -1047,7 +1047,7 @@ List<ApiActivity> activityData = [
     ),
   ),
 //13
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Gardens by the Bay',
     categories: {'tourism', 'nature'}.toList(),
@@ -1064,7 +1064,7 @@ List<ApiActivity> activityData = [
     ),
   ),
 //14
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Potala Palace',
     categories: {'tourism', 'history'}.toList(),
@@ -1081,7 +1081,7 @@ List<ApiActivity> activityData = [
     ),
   ),
 //15
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Gyeongbokgung',
     categories: {'tourism', 'history'}.toList(),
@@ -1097,7 +1097,7 @@ List<ApiActivity> activityData = [
     ),
   ),
 //16
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Persepolis',
     categories: {'tourism', 'history'}.toList(),
@@ -1113,7 +1113,7 @@ List<ApiActivity> activityData = [
     ),
   ),
 //17
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Banaue Rice Terraces',
     categories: {'tourism', 'nature'}.toList(),
@@ -1129,7 +1129,7 @@ List<ApiActivity> activityData = [
     ),
   ),
 //18
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Prambanan',
     categories: {'tourism', 'history'}.toList(),
@@ -1145,7 +1145,7 @@ List<ApiActivity> activityData = [
     ),
   ),
 //19
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Mount Sinai',
     categories: {'natural', 'religious'}.toList(),
@@ -1161,7 +1161,7 @@ List<ApiActivity> activityData = [
     ),
   ),
 //20
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Bagan',
     categories: {'tourism', 'history'}.toList(),
@@ -1177,7 +1177,7 @@ List<ApiActivity> activityData = [
     ),
   ),
 //21
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Kinkaku-ji',
     categories: {'tourism', 'religion'}.toList(),
@@ -1193,7 +1193,7 @@ List<ApiActivity> activityData = [
     ),
   ),
 //22
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Hạ Long Bay',
     categories: {'tourism', 'nature'}.toList(),
@@ -1211,7 +1211,7 @@ List<ApiActivity> activityData = [
   ),
 
 //24
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Merlion Park',
     categories: {'tourism'}.toList(),
@@ -1227,7 +1227,7 @@ List<ApiActivity> activityData = [
     ),
   ),
 //25
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Paro Taktsang',
     categories: {'tourism', 'religion'}.toList(),
@@ -1243,7 +1243,7 @@ List<ApiActivity> activityData = [
     ),
   ),
 //26
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Burj Khalifa',
     categories: {'tourism', 'architecture'}.toList(),
@@ -1262,7 +1262,7 @@ List<ApiActivity> activityData = [
 
 ////////////
 //1
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Giza pyramid complex',
     categories: {'tourism', 'history'}.toList(),
@@ -1278,7 +1278,7 @@ List<ApiActivity> activityData = [
     ),
   ),
 //2
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Serengeti National Park',
     categories: {'tourism', 'nature'}.toList(),
@@ -1295,7 +1295,7 @@ List<ApiActivity> activityData = [
     ),
   ),
 //3
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Victoria Falls',
     categories: {'tourism', 'nature'}.toList(),
@@ -1312,7 +1312,7 @@ List<ApiActivity> activityData = [
     ),
   ),
 //4
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Table Mountain',
     categories: {'tourism', 'nature'}.toList(),
@@ -1329,7 +1329,7 @@ List<ApiActivity> activityData = [
     ),
   ),
 //5
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Great Mosque of Djenné',
     categories: {'tourism', 'religion'}.toList(),
@@ -1346,7 +1346,7 @@ List<ApiActivity> activityData = [
     ),
   ),
 //6
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Kruger National Park',
     categories: {'tourism', 'nature'}.toList(),
@@ -1363,7 +1363,7 @@ List<ApiActivity> activityData = [
     ),
   ),
 //7
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Mount Kilimanjaro',
     categories: {'tourism', 'nature'}.toList(),
@@ -1380,7 +1380,7 @@ List<ApiActivity> activityData = [
     ),
   ),
 //8
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Okavango Delta',
     categories: {'tourism', 'nature'}.toList(),
@@ -1396,7 +1396,7 @@ List<ApiActivity> activityData = [
     ),
   ),
 //9
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Timbuktu',
     categories: {'tourism', 'history'}.toList(),
@@ -1413,7 +1413,7 @@ List<ApiActivity> activityData = [
     ),
   ),
 //10
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Valley of the Kings',
     categories: {'tourism', 'history'}.toList(),
@@ -1429,7 +1429,7 @@ List<ApiActivity> activityData = [
     ),
   ),
 //11
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Stone Town',
     categories: {'tourism', 'history'}.toList(),
@@ -1446,7 +1446,7 @@ List<ApiActivity> activityData = [
     ),
   ),
 //12
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Jemaa el-Fnaa',
     categories: {'tourism', 'culture'}.toList(),
@@ -1463,7 +1463,7 @@ List<ApiActivity> activityData = [
     ),
   ),
 //13
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Fish River Canyon',
     categories: {'tourism', 'nature'}.toList(),
@@ -1479,7 +1479,7 @@ List<ApiActivity> activityData = [
     ),
   ),
 //14
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Mount Sinai',
     categories: {'tourism', 'religion'}.toList(),
@@ -1496,7 +1496,7 @@ List<ApiActivity> activityData = [
     ),
   ),
 //15
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Djenné-Djenno',
     categories: {'tourism', 'history'}.toList(),
@@ -1513,7 +1513,7 @@ List<ApiActivity> activityData = [
     ),
   ),
 //16
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Mount Kenya',
     categories: {'tourism', 'nature'}.toList(),
@@ -1529,7 +1529,7 @@ List<ApiActivity> activityData = [
     ),
   ),
 //17
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Gorée',
     categories: {'tourism', 'history'}.toList(),
@@ -1546,7 +1546,7 @@ List<ApiActivity> activityData = [
     ),
   ),
 //18
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Mount Kilimanjaro',
     categories: {'tourism', 'nature'}.toList(),
@@ -1563,7 +1563,7 @@ List<ApiActivity> activityData = [
     ),
   ),
 //19
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Tsingy de Bemaraha National Park',
     categories: {'tourism', 'nature'}.toList(),
@@ -1580,7 +1580,7 @@ List<ApiActivity> activityData = [
     ),
   ),
 //20
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Karnak',
     categories: {'tourism', 'history'}.toList(),
@@ -1597,7 +1597,7 @@ List<ApiActivity> activityData = [
     ),
   ),
 //21
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Virunga National Park',
     categories: {'tourism', 'nature'}.toList(),
@@ -1615,7 +1615,7 @@ List<ApiActivity> activityData = [
     ),
   ),
 //22
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Robben Island',
     categories: {'tourism', 'history'}.toList(),
@@ -1632,7 +1632,7 @@ List<ApiActivity> activityData = [
     ),
   ),
 //23
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Mount Elgon',
     categories: {'tourism', 'nature'}.toList(),
@@ -1648,7 +1648,7 @@ List<ApiActivity> activityData = [
     ),
   ),
 //24
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Aïr and Ténéré National Nature Reserve',
     categories: {'tourism', 'nature'}.toList(),
@@ -1665,7 +1665,7 @@ List<ApiActivity> activityData = [
     ),
   ),
 //25
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Mount Meru',
     categories: {'tourism', 'nature'}.toList(),
@@ -1682,7 +1682,7 @@ List<ApiActivity> activityData = [
     ),
   ),
 //26
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Damaraland',
     categories: {'tourism', 'nature'}.toList(),
@@ -1699,7 +1699,7 @@ List<ApiActivity> activityData = [
     ),
   ),
 //27
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Blyde River Canyon',
     categories: {'tourism', 'nature'}.toList(),
@@ -1715,7 +1715,7 @@ List<ApiActivity> activityData = [
     ),
   ),
 //28
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'V&A Waterfront',
     categories: {'tourism', 'shopping'}.toList(),
@@ -1732,7 +1732,7 @@ List<ApiActivity> activityData = [
     ),
   ),
 //29
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Lake Malawi',
     categories: {'tourism', 'nature'}.toList(),
@@ -1749,7 +1749,7 @@ List<ApiActivity> activityData = [
     ),
   ),
 //30
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Volcanoes National Park',
     categories: {'tourism', 'nature'}.toList(),
@@ -1768,7 +1768,7 @@ List<ApiActivity> activityData = [
 
   /////
   //1
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Sydney Opera House',
     categories: {'tourism', 'culture'}.toList(),
@@ -1784,7 +1784,7 @@ List<ApiActivity> activityData = [
     ),
   ),
 //2
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Great Barrier Reef',
     categories: {'tourism', 'nature'}.toList(),
@@ -1801,7 +1801,7 @@ List<ApiActivity> activityData = [
     ),
   ),
 //3
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Uluru',
     categories: {'tourism', 'nature'}.toList(),
@@ -1818,7 +1818,7 @@ List<ApiActivity> activityData = [
     ),
   ),
 //4
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Great Ocean Road',
     categories: {'tourism', 'nature'}.toList(),
@@ -1835,7 +1835,7 @@ List<ApiActivity> activityData = [
     ),
   ),
 //5
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Bondi Beach',
     categories: {'tourism', 'beach'}.toList(),
@@ -1851,7 +1851,7 @@ List<ApiActivity> activityData = [
     ),
   ),
 //6
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Fraser Island',
     categories: {'tourism', 'nature'}.toList(),
@@ -1867,7 +1867,7 @@ List<ApiActivity> activityData = [
     ),
   ),
 //7
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Kakadu National Park',
     categories: {'tourism', 'nature'}.toList(),
@@ -1884,7 +1884,7 @@ List<ApiActivity> activityData = [
     ),
   ),
 //8
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Blue Mountains (New South Wales)',
     categories: {'tourism', 'nature'}.toList(),
@@ -1901,7 +1901,7 @@ List<ApiActivity> activityData = [
     ),
   ),
 //9
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Melbourne Cricket Ground',
     categories: {'tourism', 'sport'}.toList(),
@@ -1918,7 +1918,7 @@ List<ApiActivity> activityData = [
     ),
   ),
 //10
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Daintree Rainforest',
     categories: {'tourism', 'nature'}.toList(),
@@ -1935,7 +1935,7 @@ List<ApiActivity> activityData = [
     ),
   ),
 //11
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Rottnest Island',
     categories: {'tourism', 'nature'}.toList(),
@@ -1952,7 +1952,7 @@ List<ApiActivity> activityData = [
     ),
   ),
 //12
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Whitsunday Islands',
     categories: {'tourism', 'nature'}.toList(),
@@ -1969,7 +1969,7 @@ List<ApiActivity> activityData = [
     ),
   ),
 //13
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Cradle Mountain-Lake St Clair National Park',
     categories: {'tourism', 'nature'}.toList(),
@@ -1987,7 +1987,7 @@ List<ApiActivity> activityData = [
     ),
   ),
 //14
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Kangaroo Island',
     categories: {'tourism', 'nature'}.toList(),
@@ -2004,7 +2004,7 @@ List<ApiActivity> activityData = [
     ),
   ),
 //15
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'The Twelve Apostles (Victoria)',
     categories: {'tourism', 'nature'}.toList(),
@@ -2021,7 +2021,7 @@ List<ApiActivity> activityData = [
     ),
   ),
 //16
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Sydney Harbour Bridge',
     categories: {'tourism', 'history'}.toList(),
@@ -2038,7 +2038,7 @@ List<ApiActivity> activityData = [
     ),
   ),
 //17
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Tasmanian Wilderness World Heritage Area',
     categories: {'tourism', 'nature'}.toList(),
@@ -2055,7 +2055,7 @@ List<ApiActivity> activityData = [
     ),
   ),
 //18
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Australian War Memorial',
     categories: {'tourism', 'history'}.toList(),
@@ -2072,7 +2072,7 @@ List<ApiActivity> activityData = [
     ),
   ),
 //19
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Barossa Valley',
     categories: {'tourism', 'culinary'}.toList(),
@@ -2089,7 +2089,7 @@ List<ApiActivity> activityData = [
     ),
   ),
 //20
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Royal Botanic Gardens Victoria',
     categories: {'tourism', 'nature'}.toList(),
@@ -2107,7 +2107,7 @@ List<ApiActivity> activityData = [
     ),
   ),
 //21
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Uluṟu-Kata Tjuṯa National Park',
     categories: {'tourism', 'culture'}.toList(),
@@ -2125,7 +2125,7 @@ List<ApiActivity> activityData = [
     ),
   ),
 //22
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Great Ocean Walk',
     categories: {'tourism', 'nature'}.toList(),
@@ -2143,7 +2143,7 @@ List<ApiActivity> activityData = [
   ),
 
 //24
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Port Arthur, Tasmania',
     categories: {'tourism', 'history'}.toList(),
@@ -2160,7 +2160,7 @@ List<ApiActivity> activityData = [
     ),
   ),
 //25
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Purnululu National Park',
     categories: {'tourism', 'nature'}.toList(),
@@ -2178,7 +2178,7 @@ List<ApiActivity> activityData = [
     ),
   ),
 //26
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Royal Botanic Garden, Sydney',
     categories: {'tourism', 'nature'}.toList(),
@@ -2196,7 +2196,7 @@ List<ApiActivity> activityData = [
     ),
   ),
 //27
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'The Pinnacles (Western Australia)',
     categories: {'tourism', 'nature'}.toList(),
@@ -2214,7 +2214,7 @@ List<ApiActivity> activityData = [
     ),
   ),
 //28
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Cable Beach',
     categories: {'tourism', 'beach'}.toList(),
@@ -2231,7 +2231,7 @@ List<ApiActivity> activityData = [
     ),
   ),
 //29
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Cottesloe Beach',
     categories: {'tourism', 'beach'}.toList(),
@@ -2248,7 +2248,7 @@ List<ApiActivity> activityData = [
     ),
   ),
 //30
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Dandenong Ranges National Park',
     categories: {'tourism', 'nature'}.toList(),
@@ -2266,7 +2266,7 @@ List<ApiActivity> activityData = [
     ),
   ),
 //31
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Kings Park, Western Australia',
     categories: {'tourism', 'nature'}.toList(),
