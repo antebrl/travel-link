@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:travel_link/src/features/activities/3_activities_screen/data/activity_repository.dart';
 import 'package:travel_link/src/features/activities/3_activities_screen/data/api_activities_repository.dart';
 import 'package:travel_link/src/features/activities/3_activities_screen/domain/activity.dart';
-import 'package:travel_link/src/features/activities/3_activities_screen/presentation/items/activity_item.dart';
 import 'package:travel_link/src/features/activities/3_activities_screen/presentation/items/api_activity_item.dart';
 import 'package:travel_link/src/features/activities/4_add_activity_screen/presentation/add_activity_screen.dart';
 import 'package:travel_link/src/features/activities/8_map_screen/map_screen.dart';
@@ -85,7 +84,7 @@ class _APIActivitiesScreenState extends ConsumerState<APIActivitiesScreen> {
       ).future,
     );
 
-    final fetchedUserActivities = ref.watch(fetchActivitiesProvider);
+    final fetchedUserActivities = ref.watch(fetchActivitiesProvider(categories: widget.categoryList));
 
     return DefaultTabController(
       length: 2,
@@ -178,8 +177,7 @@ class _APIActivitiesScreenState extends ConsumerState<APIActivitiesScreen> {
                                 widget.destination.lon!,
                               ) &&
                               activity.isUserCreated &&
-                              (activity.isPublic ||
-                                      activity.creatorId == 'ME'),
+                              (activity.isPublic || activity.creatorId == 'ME'),
                         )
                         .toList();
                     return SliverList(
@@ -200,8 +198,8 @@ class _APIActivitiesScreenState extends ConsumerState<APIActivitiesScreen> {
                   error: (error, stackTrace) {
                     return const SliverToBoxAdapter(
                       child: Center(
-                        child:
-                            Text('Error loading images. Please try again later.'),
+                        child: Text(
+                            'Error loading images. Please try again later.'),
                       ),
                     );
                   },

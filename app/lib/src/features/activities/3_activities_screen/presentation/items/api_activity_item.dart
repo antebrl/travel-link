@@ -31,20 +31,20 @@ class _APIActivityItemState extends State<APIActivityItem> {
       }
       _imageFuture = Future.value(imageName);
     } else {
-      if(widget.activity.imagePaths.isNotEmpty){
+      if (widget.activity.imagePaths.isNotEmpty) {
         _imageFuture = Future.value(widget.activity.imagePaths);
       } else {
-      _imageFuture = widget.activity.wikidataUrl != null
-          ? fetchImageAndDescription(
-              widget.activity.wikidataUrl!,
-              widget.activity.name,
-              widget.activity.wikidataId!,
-            )
-          : Future.value(
-              [
-                CustomImages.destinationImagePlaceholderUrl,
-              ],
-            );
+        _imageFuture = widget.activity.wikidataUrl != null
+            ? fetchImageAndDescription(
+                widget.activity.wikidataUrl!,
+                widget.activity.name,
+                widget.activity.wikidataId!,
+              )
+            : Future.value(
+                [
+                  CustomImages.destinationImagePlaceholderUrl,
+                ],
+              );
       }
     }
   }
