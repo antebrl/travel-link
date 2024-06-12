@@ -1,3 +1,4 @@
+import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -21,7 +22,15 @@ part 'app_router.g.dart';
 
 // shell routes, appear in the bottom navigation
 // see https://pub.dev/documentation/go_router/latest/go_router/ShellRoute-class.html
-enum TopLevelDestinations { trips, myTrips, activities, user, account, signIn }
+enum TopLevelDestinations {
+  trips,
+  myTrips,
+  activities,
+  user,
+  account,
+  signInHome,
+  signInAccount
+}
 
 enum AccountRoutes { settings, security, help, about }
 
@@ -58,14 +67,18 @@ GoRouter goRouter(GoRouterRef ref) {
       final isLoggedIn = authRepository.currentUser != null;
       final path = state.uri.path;
       if (isLoggedIn) {
-        if (path.startsWith('/${TopLevelDestinations.signIn.name}')) {
+        if (path.startsWith('/${TopLevelDestinations.signInHome.name}')) {
           return '/${TopLevelDestinations.myTrips.name}';
         }
+        if (path.startsWith('/${TopLevelDestinations.signInAccount.name}')) {
+          return '/${TopLevelDestinations.account.name}';
+        }
       } else {
-        // TODO(Ante): also switch to signIn Page if user tries to join trip or add activity
-        if (path.startsWith('/${TopLevelDestinations.myTrips.name}') ||
-            path.startsWith('/${TopLevelDestinations.user.name}')) {
-          return '/${TopLevelDestinations.signIn.name}';
+        if (path.startsWith('/${TopLevelDestinations.myTrips.name}')) {
+          return '/${TopLevelDestinations.signInHome.name}';
+        }
+        if (path.startsWith('/${TopLevelDestinations.account.name}')) {
+          return '/${TopLevelDestinations.signInAccount.name}';
         }
       }
       return null;
@@ -76,15 +89,7 @@ GoRouter goRouter(GoRouterRef ref) {
         path: '/',
         name: 'root',
         pageBuilder: (context, state) => const NoTransitionPage(
-          child:
-              ExploreTripsScreen(),
-        ),
-      ),
-      GoRoute(
-        path: '/${TopLevelDestinations.signIn.name}',
-        name: TopLevelDestinations.signIn.name,
-        pageBuilder: (context, state) => const NoTransitionPage(
-          child: CustomSignInScreen(),
+          child: ExploreTripsScreen(),
         ),
       ),
       // USER PROFILE
@@ -94,7 +99,9 @@ GoRouter goRouter(GoRouterRef ref) {
         pageBuilder: (context, state) {
           final uid = state.pathParameters['uid']!;
           return NoTransitionPage(
-            child: UserProfileScreen(targetuid: uid,),
+            child: UserProfileScreen(
+              targetuid: uid,
+            ),
           );
         },
       ),
@@ -116,6 +123,13 @@ GoRouter goRouter(GoRouterRef ref) {
                 pageBuilder: (context, state) => NoTransitionPage(
                   key: state.pageKey,
                   child: const MyTripsScreen(),
+                ),
+              ),
+              GoRoute(
+                path: '/${TopLevelDestinations.signInHome.name}',
+                name: TopLevelDestinations.signInHome.name,
+                pageBuilder: (context, state) => const NoTransitionPage(
+                  child: CustomSignInScreen(),
                 ),
               ),
             ],
@@ -196,9 +210,15 @@ GoRouter goRouter(GoRouterRef ref) {
                   ),
                 ],
               ),
+              GoRoute(
+                path: '/${TopLevelDestinations.signInAccount.name}',
+                name: TopLevelDestinations.signInAccount.name,
+                pageBuilder: (context, state) => const NoTransitionPage(
+                  child: CustomSignInScreen(),
+                ),
+              ),
             ],
           ),
-
         ],
       ),
     ],
