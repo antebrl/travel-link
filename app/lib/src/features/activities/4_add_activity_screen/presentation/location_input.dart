@@ -3,9 +3,10 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:geocoding/geocoding.dart' as gecoding;
 import 'package:latlong2/latlong.dart';
 import 'package:location/location.dart';
-import 'package:travel_link/src/features/activities/3_activities_screen/domain/api_activity.dart';
+import 'package:travel_link/src/features/activities/3_activities_screen/domain/activity.dart';
 import 'package:travel_link/src/features/activities/4_add_activity_screen/presentation/map_screen.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
+import 'package:travel_link/src/utils/logging/logger.dart';
 
 class LocationInput extends StatefulWidget {
   const LocationInput({required this.onSelectLocation, super.key});
@@ -49,6 +50,7 @@ class _LocationInput extends State<LocationInput> {
 
       widget.onSelectLocation(_pickedLocation!);
     } catch (e) {
+      logger.e(e);
       return;
     }
   }

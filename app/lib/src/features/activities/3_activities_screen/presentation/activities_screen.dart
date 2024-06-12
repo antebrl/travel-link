@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:travel_link/src/features/activities/2_continents_screen/domain/continent.dart';
-import 'package:travel_link/src/features/activities/3_activities_screen/domain/api_activity.dart';
+import 'package:travel_link/src/features/activities/3_activities_screen/domain/activity.dart';
 import 'package:travel_link/src/features/activities/3_activities_screen/presentation/items/activity_item.dart';
 import 'package:travel_link/src/features/activities/6_activities_filter_screen/activities_filter_screen.dart';
 import 'package:travel_link/src/features/activities/providers/activities_provider.dart';
@@ -23,10 +23,10 @@ class ActivitiesScreen extends ConsumerStatefulWidget {
 }
 
 class _ActivitiesScreenState extends ConsumerState<ActivitiesScreen> {
-  late List<ApiActivity> activitiesFromProvider;
-  late List<ApiActivity> filteredActivitiesByContinent;
-  late List<ApiActivity> filteredActivitiesBySearch;
-  List<ApiActivity> filteredActivitiesByFilters = [];
+  late List<Activity> activitiesFromProvider;
+  late List<Activity> filteredActivitiesByContinent;
+  late List<Activity> filteredActivitiesBySearch;
+  List<Activity> filteredActivitiesByFilters = [];
 
   @override
   void initState() {
@@ -47,7 +47,7 @@ class _ActivitiesScreenState extends ConsumerState<ActivitiesScreen> {
   }
 
   void filterActivitiesBySearch(String query) {
-    List<ApiActivity> originalString;
+    List<Activity> originalString;
     if (filteredActivitiesByFilters.isEmpty) {
       originalString = filteredActivitiesByContinent;
     } else {
@@ -63,7 +63,7 @@ class _ActivitiesScreenState extends ConsumerState<ActivitiesScreen> {
   }
 
   void filterActivitiesByFilters(String? country, Set<String> filters) {
-    List<ApiActivity> activitiesFilteredByCountry = [];
+    List<Activity> activitiesFilteredByCountry = [];
 
     if (country != null && country.isNotEmpty) {
       activitiesFilteredByCountry = filteredActivitiesByContinent

@@ -113,6 +113,7 @@ class PublicTripCard extends ConsumerWidget {
                     ),
                     const SizedBox(height: 15),
                     Center(
+                      //Trip picture
                       child: CachedNetworkImage(
                         imageUrl: trip.images.isEmpty
                             ? CustomImages.tripDestinationImagePlaceholderUrl
@@ -138,10 +139,10 @@ class PublicTripCard extends ConsumerWidget {
                             borderRadius: BorderRadius.circular(40),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.blue.shade600.withOpacity(0.8),
-                                spreadRadius: 0.1,
-                                blurRadius: 20,
-                                offset: const Offset(1, 8),
+                                color: Colors.blue.shade600.withOpacity(0.7),
+                                //spreadRadius: 0,
+                                blurRadius: 15,
+                                offset: const Offset(1, 4),
                               ),
                             ],
                             image: DecorationImage(
@@ -167,7 +168,7 @@ class PublicTripCard extends ConsumerWidget {
                                 child: Text(
                                   trip.destination.formatted,
                                   style: GoogleFonts.adamina(
-                                    color: Colors.white, // Textfarbe
+                                    color: Colors.white, 
                                     fontSize: 16,
                                     fontWeight: FontWeight.w600,
                                   ),

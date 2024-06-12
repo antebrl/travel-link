@@ -4,13 +4,14 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:travel_link/src/features/activities/3_activities_screen/domain/api_activity.dart';
+import 'package:travel_link/src/features/activities/3_activities_screen/domain/activity.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
+import 'package:travel_link/src/utils/constants/image_strings.dart';
 
 class ApiActivitiesDetailsScreen extends StatefulWidget {
   const ApiActivitiesDetailsScreen({required this.activity, super.key});
 
-  final ApiActivity activity;
+  final Activity activity;
 
   @override
   State<ApiActivitiesDetailsScreen> createState() =>
@@ -55,6 +56,7 @@ class _ApiActivitiesDetailsScreenState
   @override
   void initState() {
     super.initState();
+
     if (widget.activity.imagePaths.isNotEmpty) {
       imageSliders = widget.activity.imagePaths.map((i) {
         return Builder(
@@ -89,6 +91,12 @@ class _ApiActivitiesDetailsScreenState
           },
         );
       }).toList();
+    } else {
+      if (widget.activity.image == null) {
+        widget.activity.imagePaths = [
+          CustomImages.destinationImagePlaceholderUrl,
+        ];
+      }
     }
   }
 
@@ -114,7 +122,7 @@ class _ApiActivitiesDetailsScreenState
             left: 0,
             right: 0,
             height: 250,
-            child: widget.activity.imagePaths.isEmpty
+            child: widget.activity.image != null
                 ? GestureDetector(
                     onTap: () {
                       showDialog(
