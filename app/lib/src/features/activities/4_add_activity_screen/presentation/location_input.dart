@@ -8,7 +8,7 @@ import 'package:travel_link/src/features/activities/4_add_activity_screen/presen
 import 'package:travel_link/src/utils/constants/colors.dart';
 
 class LocationInput extends StatefulWidget {
-  const LocationInput({super.key, required this.onSelectLocation});
+  const LocationInput({required this.onSelectLocation, super.key});
 
   final void Function(PlaceLocation location) onSelectLocation;
 
