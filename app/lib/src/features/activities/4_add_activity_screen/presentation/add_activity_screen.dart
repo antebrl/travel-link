@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:travel_link/src/features/activities/3_activities_screen/domain/activity.dart';
+import 'package:travel_link/src/features/activities/4_add_activity_screen/presentation/activities_controller.dart';
 import 'package:travel_link/src/features/activities/4_add_activity_screen/presentation/image_input.dart';
 import 'package:travel_link/src/features/activities/4_add_activity_screen/presentation/location_input.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
@@ -34,31 +35,42 @@ class _AddActivityScreenState extends ConsumerState<AddActivityScreen> {
     return null;
   }
 
-  void _saveActivity() {
+  Future<void> _saveActivity() async {
     if (_formKey.currentState!.validate() &&
         _selectedImage != null &&
         _selectedLocation != null &&
         _filters.isNotEmpty) {
       _formKey.currentState!.save();
-      Navigator.of(context).pop(
-        Activity(
-          name: _enteredName,
-          categories: _filters.toList(),
-          description: _enteredDescription,
-          image: _selectedImage,
-          creatorId: 'HERE ENTER USER TOKEN',
-          isPublic: _isPublic,
-          isUserCreated: true,
-          location: PlaceLocation(
-            lat: _selectedLocation!.lat,
-            lon: _selectedLocation!.lon,
-            city: _selectedLocation!.city,
-            country: _selectedLocation!.country,
-            formatted: _selectedLocation!.formatted,
-            countryCode: _selectedLocation!.countryCode,
-          ),
+
+      var activity = Activity(
+        name: _enteredName,
+        categories: _filters.toList(),
+        description: _enteredDescription,
+        image: _selectedImage,
+        isPublic: _isPublic,
+        isUserCreated: true,
+        location: PlaceLocation(
+          lat: _selectedLocation!.lat,
+          lon: _selectedLocation!.lon,
+          city: _selectedLocation!.city,
+          country: _selectedLocation!.country,
+          formatted: _selectedLocation!.formatted,
+          countryCode: _selectedLocation!.countryCode,
         ),
       );
+
+      final success =
+          await ref.read(activitiesControllerProvider.notifier).postActivity(
+                activity: activity,
+              );
+
+      if (success && mounted) {
+        // ignore: unused_result
+        // ref.refresh(
+        //   fetchPicturePostsProvider(widget.trip.tripId),
+        // );
+        Navigator.of(context).pop(activity);
+      }
     } else {
       ScaffoldMessenger.of(context).clearSnackBars();
       ScaffoldMessenger.of(context).showSnackBar(
@@ -71,6 +83,7 @@ class _AddActivityScreenState extends ConsumerState<AddActivityScreen> {
       );
     }
   }
+
 
   @override
   Widget build(BuildContext context) {

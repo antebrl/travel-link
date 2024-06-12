@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:travel_link/src/features/activities/3_activities_screen/data/activity_repository.dart';
 import 'package:travel_link/src/features/activities/3_activities_screen/data/api_activities_repository.dart';
 import 'package:travel_link/src/features/activities/3_activities_screen/domain/activity.dart';
 import 'package:travel_link/src/features/activities/3_activities_screen/presentation/items/activity_item.dart';
@@ -34,7 +35,7 @@ class _APIActivitiesScreenState extends ConsumerState<APIActivitiesScreen> {
     double destLat,
     double destLon,
   ) {
-    const double thresholdDistance = 40; // Threshold distance in Kilometers
+    const double thresholdDistance = 100; // Threshold distance in Kilometers
     final double activityLat = activity.location.lat;
     final double activityLon = activity.location.lon;
 
@@ -84,193 +85,190 @@ class _APIActivitiesScreenState extends ConsumerState<APIActivitiesScreen> {
       ).future,
     );
 
-    return FutureBuilder<List<Activity>>(
-      future: fetchedActivities,
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Scaffold(
-            appBar: AppBar(
-              title: const Text('Loading Activities!'),
-            ),
-            body: const Center(
-              child: CircularProgressIndicator(
-                color: CustomColors.primary,
-              ),
-            ),
-          );
-        } else if (snapshot.hasError) {
-          return Center(child: Text('Error: ${snapshot.error}'));
-        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return Scaffold(
-            appBar: AppBar(
-              title: const Text('Loading Activities!'),
-            ),
-            body: Center(
-              child: Text(
-                'Error loading activies. Please try again later.',
-                style: Theme.of(context).textTheme.bodyMedium,
-              ),
-            ),
-          );
-        } else {
-          final trips = snapshot.data!;
+    final fetchedUserActivities = ref.watch(fetchActivitiesProvider);
 
-          final List<Activity> nearbyActivities = addedActivities
-              .where(
-                (activity) =>
-                    isActivityNearDestination(
-                      activity,
-                      widget.destination.lat!,
-                      widget.destination.lon!,
-                    ) &&
-                    activity.isUserCreated &&
-                    (activity.isPublic ||
-                        (!activity.isPublic && activity.creatorId == 'ME')),
-              )
-              .toList();
-
-          trips.sort((a, b) {
-            if (a.wikidataUrl != null && b.wikidataUrl == null) {
-              return -1;
-            } else if (a.wikidataUrl == null && b.wikidataUrl != null) {
-              return 1;
-            } else {
-              return 0;
-            }
-          });
-          return DefaultTabController(
-            length: 2,
-            child: Scaffold(
-              appBar: AppBar(
-                title: const Text(
-                  'Explore Activities!',
-                ),
-                actions: [
-                  IconButton(
-                    onPressed: addActivity,
-                    icon: const Icon(Icons.add_circle),
-                  ),
-                ],
-                bottom: TabBar(
-                  indicatorColor: CustomColors.primary,
-                  unselectedLabelColor: CustomColors.darkGrey,
-                  labelColor: CustomHelperFunctions.isDarkMode(context)
-                      ? CustomColors.white
-                      : CustomColors.primary,
-                  tabs: const [
-                    Tab(
-                      child: Text('Search'),
-                    ),
-                    Tab(
-                      child: Text('Map'),
-                    ),
-                  ],
-                ),
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text(
+            'Explore Activities!',
+          ),
+          actions: [
+            IconButton(
+              onPressed: addActivity,
+              icon: const Icon(Icons.add_circle),
+            ),
+          ],
+          bottom: TabBar(
+            indicatorColor: CustomColors.primary,
+            unselectedLabelColor: CustomColors.darkGrey,
+            labelColor: CustomHelperFunctions.isDarkMode(context)
+                ? CustomColors.white
+                : CustomColors.primary,
+            tabs: const [
+              Tab(
+                child: Text('Search'),
               ),
-              body: TabBarView(
-                children: [
-                  CustomScrollView(
-                    slivers: [
-                      SliverToBoxAdapter(
-                        child: Column(
-                          children: [
-                            const SizedBox(height: 15),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 20, right: 20),
-                              child: Text(
-                                'Activities in ${widget.destination.formatted}',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .headlineSmall!
-                                    .copyWith(color: CustomColors.primary),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(10),
-                              child: Wrap(
-                                alignment: WrapAlignment.spaceAround,
-                                spacing: 10,
-                                runSpacing: 5,
-                                children: widget.categoryList.map((category) {
-                                  return Chip(
-                                    side: const BorderSide(
-                                      color: CustomColors.primary,
-                                    ),
-                                    backgroundColor: CustomColors.white,
-                                    labelStyle: const TextStyle(
-                                      color: CustomColors.primary,
-                                    ),
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 12,
-                                      vertical: 12,
-                                    ),
-                                    label: Text(
-                                      category,
-                                      style: const TextStyle(
-                                        color: CustomColors.primary,
-                                      ),
-                                    ),
-                                  );
-                                }).toList(),
-                              ),
-                            ),
-                            if (nearbyActivities.isNotEmpty)
-                              Text(
-                                'Added by Users: ',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .headlineSmall!
-                                    .copyWith(
-                                      color: CustomColors.primary,
-                                    ),
-                              ),
-                          ],
+              Tab(
+                child: Text('Map'),
+              ),
+            ],
+          ),
+        ),
+        body: TabBarView(
+          children: [
+            CustomScrollView(
+              slivers: [
+                SliverToBoxAdapter(
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 15),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 20, right: 20),
+                        child: Text(
+                          'Activities in ${widget.destination.formatted}',
+                          style: Theme.of(context)
+                              .textTheme
+                              .headlineSmall!
+                              .copyWith(color: CustomColors.primary),
+                          textAlign: TextAlign.center,
                         ),
                       ),
-                      if (nearbyActivities.isNotEmpty) ...{
-                        SliverList(
-                          delegate: SliverChildBuilderDelegate(
-                            (context, index) => ActivityItem(
-                              key: UniqueKey(),
-                              activity: nearbyActivities[index],
-                            ),
-                            childCount: nearbyActivities.length,
-                          ),
-                        ),
-                      },
-                      SliverToBoxAdapter(
-                        child: Center(
-                          child: Text(
-                            'Explore more: ',
-                            style: Theme.of(context)
-                                .textTheme
-                                .headlineSmall!
-                                .copyWith(
+                      Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: Wrap(
+                          alignment: WrapAlignment.spaceAround,
+                          spacing: 10,
+                          runSpacing: 5,
+                          children: widget.categoryList.map((category) {
+                            return Chip(
+                              side: const BorderSide(
+                                color: CustomColors.primary,
+                              ),
+                              backgroundColor: CustomColors.white,
+                              labelStyle: const TextStyle(
+                                color: CustomColors.primary,
+                              ),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 12,
+                                vertical: 12,
+                              ),
+                              label: Text(
+                                category,
+                                style: const TextStyle(
                                   color: CustomColors.primary,
                                 ),
-                          ),
-                        ),
-                      ),
-                      SliverList(
-                        delegate: SliverChildBuilderDelegate(
-                          (context, index) => APIActivityItem(
-                            key: UniqueKey(),
-                            activity: trips[index],
-                          ),
-                          childCount: trips.length,
+                              ),
+                            );
+                          }).toList(),
                         ),
                       ),
                     ],
                   ),
-                  MapScreenWithActivities(fetchedActivities: fetchedActivities),
-                ],
-              ),
+                ),
+                fetchedUserActivities.when(
+                  data: (userActivities) {
+                    final List<Activity> nearbyActivities = userActivities
+                        .where(
+                          (activity) =>
+                              isActivityNearDestination(
+                                activity,
+                                widget.destination.lat!,
+                                widget.destination.lon!,
+                              ) &&
+                              activity.isUserCreated &&
+                              (activity.isPublic ||
+                                      activity.creatorId == 'ME'),
+                        )
+                        .toList();
+                    return SliverList(
+                      delegate: SliverChildBuilderDelegate(
+                        (context, index) => APIActivityItem(
+                          key: UniqueKey(),
+                          activity: nearbyActivities[index],
+                        ),
+                        childCount: nearbyActivities.length,
+                      ),
+                    );
+                  },
+                  loading: () => const SliverToBoxAdapter(
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  ),
+                  error: (error, stackTrace) {
+                    return const SliverToBoxAdapter(
+                      child: Center(
+                        child:
+                            Text('Error loading images. Please try again later.'),
+                      ),
+                    );
+                  },
+                ),
+                SliverToBoxAdapter(
+                  child: Center(
+                    child: Text(
+                      'Explore more: ',
+                      style:
+                          Theme.of(context).textTheme.headlineSmall!.copyWith(
+                                color: CustomColors.primary,
+                              ),
+                    ),
+                  ),
+                ),
+                FutureBuilder<List<Activity>>(
+                  future: fetchedActivities,
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const SliverToBoxAdapter(
+                        child: Center(
+                          child: CircularProgressIndicator(
+                            color: CustomColors.primary,
+                          ),
+                        ),
+                      );
+                    } else if (snapshot.hasError) {
+                      return Center(child: Text('Error: ${snapshot.error}'));
+                    } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                      return SliverToBoxAdapter(
+                        child: Center(
+                          child: Text(
+                            'Error loading activies. Please try again later.',
+                            style: Theme.of(context).textTheme.bodyMedium,
+                          ),
+                        ),
+                      );
+                    } else {
+                      final activities = snapshot.data!
+                        ..sort((a, b) {
+                          if (a.wikidataUrl != null && b.wikidataUrl == null) {
+                            return -1;
+                          } else if (a.wikidataUrl == null &&
+                              b.wikidataUrl != null) {
+                            return 1;
+                          } else {
+                            return 0;
+                          }
+                        });
+                      return SliverList(
+                        delegate: SliverChildBuilderDelegate(
+                          (context, index) => APIActivityItem(
+                            key: UniqueKey(),
+                            activity: activities[index],
+                          ),
+                          childCount: activities.length,
+                        ),
+                      );
+                    }
+                  },
+                ),
+              ],
             ),
-          );
-        }
-      },
+            MapScreenWithActivities(fetchedActivities: fetchedActivities),
+          ],
+        ),
+      ),
     );
   }
 }
