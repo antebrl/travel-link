@@ -70,6 +70,7 @@ class _ActivitiesMainScreenState extends State<ActivitiesMainScreen> {
           setState(() {
             _controller.textEditingController.clear();
             _controller.selectedDestination = null;
+            _selectRandomContinent();
           });
         });
       }
@@ -118,6 +119,7 @@ class _ActivitiesMainScreenState extends State<ActivitiesMainScreen> {
 
   @override
   Widget build(BuildContext context) {
+    _selectRandomContinent();
     return SingleChildScrollView(
       child: Column(
         children: [
