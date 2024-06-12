@@ -45,10 +45,8 @@ class _ExploreTripsScreenState extends ConsumerState<ExploreTripsScreen> {
         centerTitle: true,
         title: Column(
           mainAxisAlignment: MainAxisAlignment.end,
+          mainAxisSize: MainAxisSize.min,
           children: [
-            const SizedBox(
-              height: 15,
-            ),
             const Text(
               'Entdecke Reisen',
               style: TextStyle(
@@ -57,57 +55,58 @@ class _ExploreTripsScreenState extends ConsumerState<ExploreTripsScreen> {
                 color: Colors.black,
               ),
             ),
-            DropdownButton<String>(
-              value: _upcomingArchivedSelection,
-              alignment: AlignmentDirectional.topCenter,
-              focusColor: CustomColors.primaryBackground,
-              dropdownColor: Colors.white,
-              underline: Container(
-                height: 0,
-                color: CustomColors.primaryBackground,
+            SizedBox(
+              width: 100,
+              height: 50,
+              child: FittedBox(
+                fit: BoxFit.cover,
+                child: DropdownButton<String>(
+                  value: _upcomingArchivedSelection,
+                  alignment: AlignmentDirectional.topCenter,
+                  focusColor: CustomColors.primaryBackground,
+                  dropdownColor: Colors.white,
+                  underline: Container(
+                    height: 0,
+                    color: CustomColors.primaryBackground,
+                  ),
+                  borderRadius: BorderRadius.circular(16),
+                  iconSize: 0,
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      _upcomingArchivedSelection = newValue!;
+                    });
+                  },
+                  items: <String>['Bevorstehend', 'Archiviert']
+                      .map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                  selectedItemBuilder: (BuildContext context) {
+                    return <String>['Bevorstehend', 'Archiviert']
+                        .map<Widget>((String value) {
+                      return Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Icon(
+                            Icons.keyboard_arrow_down_sharp,
+                            size: 17,
+                            color: Colors.grey[800],
+                          ),
+                          Text(
+                            value,
+                            style: const TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      );
+                    }).toList();
+                  },
+                ),
               ),
-              borderRadius: BorderRadius.circular(16),
-              iconSize: 0,
-              onChanged: (String? newValue) {
-                setState(() {
-                  _upcomingArchivedSelection = newValue!;
-                });
-              },
-              items: <String>['Bevorstehend', 'Archiviert']
-                  .map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
-              selectedItemBuilder: (BuildContext context) {
-                return <String>['Bevorstehend', 'Archiviert']
-                    .map<Widget>((String value) {
-                  return Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          top: 3,
-                          right: 1,
-                        ),
-                        child: Icon(
-                          Icons.keyboard_arrow_down_sharp,
-                          size: 17,
-                          color: Colors.grey[800],
-                        ),
-                      ),
-                      Text(
-                        value,
-                        style: const TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  );
-                }).toList();
-              },
             ),
           ],
         ),
