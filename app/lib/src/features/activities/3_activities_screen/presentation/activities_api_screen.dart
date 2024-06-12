@@ -2,7 +2,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:travel_link/src/features/activities/3_activities_screen/data/api_activities_repository.dart';
-import 'package:travel_link/src/features/activities/3_activities_screen/domain/api_activity.dart';
+import 'package:travel_link/src/features/activities/3_activities_screen/domain/activity.dart';
 import 'package:travel_link/src/features/activities/3_activities_screen/presentation/items/activity_item.dart';
 import 'package:travel_link/src/features/activities/3_activities_screen/presentation/items/api_activity_item.dart';
 import 'package:travel_link/src/features/activities/4_add_activity_screen/presentation/add_activity_screen.dart';
@@ -27,10 +27,10 @@ class APIActivitiesScreen extends ConsumerStatefulWidget {
 }
 
 class _APIActivitiesScreenState extends ConsumerState<APIActivitiesScreen> {
-  List<ApiActivity> addedActivities = [];
+  List<Activity> addedActivities = [];
 
   bool isActivityNearDestination(
-    ApiActivity activity,
+    Activity activity,
     double destLat,
     double destLon,
   ) {
@@ -62,7 +62,7 @@ class _APIActivitiesScreenState extends ConsumerState<APIActivitiesScreen> {
   }
 
   Future<void> addActivity() async {
-    final newActivity = await Navigator.of(context).push<ApiActivity>(
+    final newActivity = await Navigator.of(context).push<Activity>(
       MaterialPageRoute(
         builder: (ctx) => const AddActivityScreen(),
       ),
@@ -84,7 +84,7 @@ class _APIActivitiesScreenState extends ConsumerState<APIActivitiesScreen> {
       ).future,
     );
 
-    return FutureBuilder<List<ApiActivity>>(
+    return FutureBuilder<List<Activity>>(
       future: fetchedActivities,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
@@ -115,7 +115,7 @@ class _APIActivitiesScreenState extends ConsumerState<APIActivitiesScreen> {
         } else {
           final trips = snapshot.data!;
 
-          final List<ApiActivity> nearbyActivities = addedActivities
+          final List<Activity> nearbyActivities = addedActivities
               .where(
                 (activity) =>
                     isActivityNearDestination(
@@ -125,8 +125,7 @@ class _APIActivitiesScreenState extends ConsumerState<APIActivitiesScreen> {
                     ) &&
                     activity.isUserCreated &&
                     (activity.isPublic ||
-                        (!activity.isPublic &&
-                            activity.createdByThisUser == 'ME')),
+                        (!activity.isPublic && activity.creatorId == 'ME')),
               )
               .toList();
 

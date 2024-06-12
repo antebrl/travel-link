@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:travel_link/src/features/activities/3_activities_screen/domain/api_activity.dart';
+import 'package:travel_link/src/features/activities/3_activities_screen/domain/activity.dart';
 import 'package:travel_link/src/features/activities/4_add_activity_screen/presentation/image_input.dart';
 import 'package:travel_link/src/features/activities/4_add_activity_screen/presentation/location_input.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
@@ -41,12 +41,12 @@ class _AddActivityScreenState extends ConsumerState<AddActivityScreen> {
         _filters.isNotEmpty) {
       _formKey.currentState!.save();
       Navigator.of(context).pop(
-        ApiActivity(
+        Activity(
           name: _enteredName,
           categories: _filters.toList(),
           description: _enteredDescription,
           image: _selectedImage,
-          createdByThisUser: 'HERE ENTER USER TOKEN',
+          creatorId: 'HERE ENTER USER TOKEN',
           isPublic: _isPublic,
           isUserCreated: true,
           location: PlaceLocation(

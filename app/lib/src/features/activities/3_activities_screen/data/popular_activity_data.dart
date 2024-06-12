@@ -1,10 +1,10 @@
 // ignore_for_file: lines_longer_than_80_chars
 
 import 'package:travel_link/src/features/activities/2_continents_screen/domain/continent.dart';
-import 'package:travel_link/src/features/activities/3_activities_screen/domain/api_activity.dart';
+import 'package:travel_link/src/features/activities/3_activities_screen/domain/activity.dart';
 
-List<ApiActivity> popularActivityData = [
-  ApiActivity(
+List<Activity> popularActivityData = [
+  Activity(
     imagePaths: [''],
     name: 'Forbidden City',
     categories: {'tourism', 'history'}.toList(),
@@ -20,7 +20,7 @@ List<ApiActivity> popularActivityData = [
     ),
     amountVisitors: '17,000,000',
   ),
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: "St. Peter's Basilica",
     categories: {'tourism', 'religion'}.toList(),
@@ -37,7 +37,7 @@ List<ApiActivity> popularActivityData = [
     ),
     amountVisitors: '11,000,000',
   ),
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Palace of Versailles',
     categories: {'tourism', 'history'}.toList(),
@@ -53,7 +53,7 @@ List<ApiActivity> popularActivityData = [
     ),
     amountVisitors: '8,100,000',
   ),
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Lincoln Memorial',
     categories: {'tourism', 'history'}.toList(),
@@ -70,7 +70,7 @@ List<ApiActivity> popularActivityData = [
     ),
     amountVisitors: '7,804,683',
   ),
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Colosseum',
     categories: {'tourism', 'history'}.toList(),
@@ -87,7 +87,7 @@ List<ApiActivity> popularActivityData = [
     ),
     amountVisitors: '7,650,519',
   ),
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Parthenon',
     categories: {'tourism', 'history'}.toList(),
@@ -104,7 +104,7 @@ List<ApiActivity> popularActivityData = [
     ),
     amountVisitors: '7,200,000',
   ),
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Eiffel Tower',
     categories: {'tourism', 'history'}.toList(),
@@ -120,7 +120,7 @@ List<ApiActivity> popularActivityData = [
     ),
     amountVisitors: '7,000,000',
   ),
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Taj Mahal',
     categories: {'tourism', 'history'}.toList(),
@@ -137,7 +137,7 @@ List<ApiActivity> popularActivityData = [
     ),
     amountVisitors: '6,532,366',
   ),
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Cologne Cathedral',
     categories: {'tourism', 'religion'}.toList(),
@@ -153,7 +153,7 @@ List<ApiActivity> popularActivityData = [
     ),
     amountVisitors: '6,000,000',
   ),
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Peterhof Palace',
     categories: {'tourism', 'history'}.toList(),
@@ -169,7 +169,7 @@ List<ApiActivity> popularActivityData = [
     ),
     amountVisitors: '5,245,900',
   ),
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Palace on the Isle',
     categories: {'tourism', 'history'}.toList(),
@@ -185,7 +185,7 @@ List<ApiActivity> popularActivityData = [
     ),
     amountVisitors: '4,966,858',
   ),
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Vietnam Veterans Memorial',
     categories: {'tourism', 'history'}.toList(),
@@ -202,7 +202,7 @@ List<ApiActivity> popularActivityData = [
     ),
     amountVisitors: '4,719,148',
   ),
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'World War II Memorial',
     categories: {'tourism', 'history'}.toList(),
@@ -219,7 +219,7 @@ List<ApiActivity> popularActivityData = [
     ),
     amountVisitors: '4,652,865',
   ),
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Independence National Historical Park',
     categories: {'tourism', 'history'}.toList(),
@@ -236,7 +236,7 @@ List<ApiActivity> popularActivityData = [
     ),
     amountVisitors: '4,576,436',
   ),
-  ApiActivity(
+  Activity(
     imagePaths: [''],
     name: 'Sagrada Família',
     categories: {'tourism', 'religion'}.toList(),
