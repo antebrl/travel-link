@@ -39,228 +39,211 @@ class MyTripsScreen extends ConsumerWidget {
       }
     }
 
-    //sort upcoming trips
-    final indices = List<int>.generate(daysToGo.length, (index) => index)
-      ..sort((a, b) {
-        final valueA = daysToGo[a];
-        final valueB = daysToGo[b];
-        if (valueA == null && valueB == null) return 0;
-        if (valueA == null)
-          return 1; //flexible dates will be sorted at the end of the list
-        if (valueB == null) return -1;
-        return valueA.compareTo(valueB);
-      });
-
-    tripsByDate[1] = [for (final i in indices) tripsByDate[1][i]];
-
     //sort previsous trips
     tripsByDate[2].sort((a, b) => a.endDate!.compareTo(b.endDate!));
 
-    return (tripsByDate, [for (final i in indices) daysToGo[i]]);
+    return (tripsByDate, daysToGo);
   }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final mediaQuery = MediaQuery.of(context);
+    final screenWidth = mediaQuery.size.width;
+    final cardWidth = screenWidth / 1.12;
+
+    final screenOrientationPortrait =
+        mediaQuery.orientation == Orientation.portrait;
+
     final fetchedTrips = ref.watch(fetchMyTripsProvider);
 
     return fetchedTrips.when(
-        data: (trips) {
-          final (sortedTrips, daysToGo) = sortTripsByDate(trips);
+      data: (trips) {
+        final (sortedTrips, daysToGo) = sortTripsByDate(trips);
 
-          return Scaffold(
-            appBar: AppBar(
-              title: const Text(
-                'My Trips',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 34),
-              ),
-              backgroundColor: CustomColors.primaryBackground,
-              elevation: 0,
-              leading: Image.asset('assets/images/my-trips/travel.gif',
-                  fit: BoxFit.cover),
-            ),
-            body: ListView(
-              shrinkWrap: true,
-              children: [
-                //List of current trips
-                ListView.builder(
-                  shrinkWrap: true,
-                  physics: const ClampingScrollPhysics(),
-                  itemCount: sortedTrips[0].length,
-                  itemBuilder: (context, index) {
-                    final trip = sortedTrips[0][index];
-                    return CurrentTripTile(
-                      trip: trip,
-                    );
-                  },
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                    left: 16,
-                  ),
-                  child: Text(
-                    'Upcoming trips',
-                    style: TextStyle(
-                      fontSize: 28,
-                      fontFamily: 'Inter',
-                      fontWeight: FontWeight.w900,
-                      color: CustomColors.primary.withOpacity(0.8),
+        return Scaffold(
+          body: CustomScrollView(
+            slivers: [
+              SliverToBoxAdapter(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      color: CustomColors.primaryBackground,
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 16,
+                        horizontal: 16,
+                      ),
+                      child: Stack(
+                        children: [
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Image.asset(
+                              'assets/images/my-trips/travel.gif',
+                              fit: BoxFit.cover,
+                              height: 50,
+                            ),
+                          ),
+                          const Align(
+                            child: Text(
+                              'My Trips',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 34,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ),
-                //List of upcoming trips
-                if (sortedTrips[1].isEmpty)
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 10),
-                    child: Center(
+                    // Current trips
+                    ListView.builder(
+                      padding: EdgeInsets.zero,
+                      shrinkWrap: true,
+                      physics: const ClampingScrollPhysics(),
+                      itemCount: sortedTrips[0].length,
+                      itemBuilder: (context, index) {
+                        final trip = sortedTrips[0][index];
+                        return CurrentTripTile(
+                          trip: trip,
+                        );
+                      },
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 15, top: 16),
                       child: Text(
-                        'No upcoming trips yet.',
+                        'Upcoming trips',
                         style: TextStyle(
-                          fontSize: 21,
+                          fontSize: 28,
                           fontFamily: 'Inter',
-                          fontWeight: FontWeight.w800,
-                          color: Colors.grey.withOpacity(0.6),
+                          fontWeight: FontWeight.w900,
+                          color: CustomColors.primary.withOpacity(0.8),
                         ),
                       ),
                     ),
-                  )
-                else
-                  ListView.builder(
-                    shrinkWrap: true,
-                    physics: const ClampingScrollPhysics(),
-                    itemCount: sortedTrips[1].length,
-                    itemBuilder: (context, index) {
-                      final trip = sortedTrips[1][index];
-                      return MyTripTile(
-                        trip: trip,
-                        daysToGo: daysToGo[index],
-                      );
-                    },
-                  ),
-
-                Padding(
-                  padding: const EdgeInsets.only(
-                    left: 16,
-                  ),
-                  child: Text(
-                    'Previous trips',
-                    style: TextStyle(
-                      fontSize: 28,
-                      fontFamily: 'Inter',
-                      fontWeight: FontWeight.w900,
-                      color: CustomColors.primary.withOpacity(0.8),
-                    ),
-                  ),
-                ),
-                //List of previous trips
-                if (sortedTrips[2].isEmpty)
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 10),
-                    child: Center(
+                    if (sortedTrips[1].isEmpty)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        child: Center(
+                          child: Text(
+                            'No upcoming trips yet.',
+                            style: TextStyle(
+                              fontSize: 21,
+                              fontFamily: 'Inter',
+                              fontWeight: FontWeight.w800,
+                              color: Colors.grey.withOpacity(0.6),
+                            ),
+                          ),
+                        ),
+                      )
+                    else
+                    // Upcoming trips
+                    if (screenOrientationPortrait)
+                      ListView.builder(
+                        padding: EdgeInsets.zero,
+                        shrinkWrap: true,
+                        physics: const ClampingScrollPhysics(),
+                        itemCount: sortedTrips[1].length,
+                        itemBuilder: (context, index) {
+                          final trip = sortedTrips[1][index];
+                          return MyTripTile(
+                            trip: trip,
+                            cardWidth: cardWidth,
+                            daysToGo: daysToGo[index],
+                          );
+                        },
+                      )
+                    else
+                      GridView.builder(
+                        padding: EdgeInsets.zero,
+                        shrinkWrap: true,
+                        physics: const ClampingScrollPhysics(),
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          childAspectRatio: (cardWidth / 2) / 216,
+                        ),
+                        itemCount: sortedTrips[1].length,
+                        itemBuilder: (context, index) {
+                          final trip = sortedTrips[1][index];
+                          return MyTripTile(
+                            trip: trip,
+                            cardWidth: cardWidth / 2,
+                            daysToGo: daysToGo[index],
+                          );
+                        },
+                      ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 15, top: 16),
                       child: Text(
-                        'No previous trips found',
+                        'Previous trips',
                         style: TextStyle(
-                          fontSize: 21,
+                          fontSize: 28,
                           fontFamily: 'Inter',
-                          fontWeight: FontWeight.w800,
-                          color: Colors.grey.withOpacity(0.6),
+                          fontWeight: FontWeight.w900,
+                          color: CustomColors.primary.withOpacity(0.8),
                         ),
                       ),
                     ),
-                  )
-                else
-                  ListView.builder(
-                    shrinkWrap: true,
-                    physics: const ClampingScrollPhysics(),
-                    itemCount: sortedTrips[2].length,
-                    itemBuilder: (context, index) {
-                      final trip = sortedTrips[2][index];
-                      return MyTripTile(
-                        trip: trip,
-                      );
-                    },
-                  ),
-              ],
-            ),
-            floatingActionButton: FloatingActionButton(
-              onPressed: () {
-                showModalBottomSheet<void>(
-                  //specifies type of information the bottom sheet will return
-                  context: context,
-                  isScrollControlled: true,
-                  builder: (context) => const CreateTripScreen(),
-                );
-              },
-              child: const Icon(Icons.add),
-            ),
-          );
-        },
-        loading: () => Scaffold(
-              appBar: AppBar(
-                title: const Text('My Trips'),
+                    if (sortedTrips[2].isEmpty)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        child: Center(
+                          child: Text(
+                            'No previous trips found',
+                            style: TextStyle(
+                              fontSize: 21,
+                              fontFamily: 'Inter',
+                              fontWeight: FontWeight.w800,
+                              color: Colors.grey.withOpacity(0.6),
+                            ),
+                          ),
+                        ),
+                      )
+                    else
+                      // Previous trips
+                      ListView.builder(
+                        padding: EdgeInsets.zero,
+                        shrinkWrap: true,
+                        physics: const ClampingScrollPhysics(),
+                        itemCount: sortedTrips[2].length,
+                        itemBuilder: (context, index) {
+                          final trip = sortedTrips[2][index];
+                          return MyTripTile(
+                            cardWidth: cardWidth,
+                            trip: trip,
+                          );
+                        },
+                      ),
+                  ],
+                ),
               ),
-              body: const Center(
-                child: CircularProgressIndicator(),
-              ),
-            ),
-        error: (error, stackTrace) {
-          logger.e('Error loading trips', error: error, stackTrace: stackTrace);
-          return Scaffold(
-            appBar: AppBar(
-              title: const Text('My Trips'),
-            ),
-            body: const Center(
-              child: Text('Error loading trips. Please try again later.'),
-            ),
-          );
-        });
-
-    //   return fetchedTrips.when(
-    //     data: (trips) {
-    //       return Scaffold(
-    //         appBar: AppBar(
-    //           title: const Text('My Trips'),
-    //         ),
-    //         body: ListView.builder(
-    //           itemCount: trips.length,
-    //           itemBuilder: (context, index) {
-    //             final trip = trips[index];
-    //             return MyTripTile(
-    //               trip: trip,
-    //             );
-    //           },
-    //         ),
-    //         floatingActionButton: FloatingActionButton(
-    //           onPressed: () {
-    //             showModalBottomSheet<void>( //specifies type of information the bottom sheet will return
-    //               context: context,
-    //               isScrollControlled: true,
-    //               builder: (context) => const CreateTripScreen(),
-    //             );
-    //           },
-    //           child: const Icon(Icons.add),
-    //         ),
-    //       );
-    //     },
-    //     loading: () => Scaffold(
-    //       appBar: AppBar(
-    //         title: const Text('My Trips'),
-    //       ),
-    //       body: const Center(
-    //         child: CircularProgressIndicator(),
-    //       ),
-    //     ),
-    //     error: (error, stackTrace) {
-    //       logger.e('Error loading trips', error: error, stackTrace: stackTrace);
-    //       return Scaffold(
-    //         appBar: AppBar(
-    //           title: const Text('My Trips'),
-    //         ),
-    //         body: const Center(
-    //           child: Text('Error loading trips. Please try again later.'),
-    //         ),
-    //       );
-    //     }
-    //   );
-    // }
+            ],
+          ),
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              showModalBottomSheet<void>(
+                context: context,
+                isScrollControlled: true,
+                builder: (context) => const CreateTripScreen(),
+              );
+            },
+            child: const Icon(Icons.add),
+          ),
+        );
+      },
+      loading: () => const Scaffold(
+        body: Center(
+          child: CircularProgressIndicator(),
+        ),
+      ),
+      error: (error, stackTrace) {
+        logger.e('Error loading trips', error: error, stackTrace: stackTrace);
+        return const Scaffold(
+          body: Center(
+            child: Text('Error loading trips. Please try again later.'),
+          ),
+        );
+      },
+    );
   }
 }

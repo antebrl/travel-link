@@ -8,7 +8,6 @@ import 'package:travel_link/src/features/activities/3_activities_screen/presenta
 import 'package:travel_link/src/features/authentication/data/firebase_auth_repository.dart';
 import 'package:travel_link/src/features/authentication/presentation/custom_sign_in_screen.dart';
 import 'package:travel_link/src/features/explore_trips/presentation/explore_trips_screen.dart';
-import 'package:travel_link/src/features/explore_trips/presentation/trips_screen.dart';
 import 'package:travel_link/src/features/my_trips/presentation/my_trips_screen.dart';
 import 'package:travel_link/src/features/trip_overview/presentation/trip_overview_screen.dart';
 import 'package:travel_link/src/utils/go_router/go_router_refresh_stream.dart';
@@ -75,7 +74,7 @@ GoRouter goRouter(GoRouterRef ref) {
         name: 'root',
         pageBuilder: (context, state) => const NoTransitionPage(
           child:
-              TripsScreen(), // Replace HomeScreen with your actual home screen widget
+              ExploreTripsScreen(),
         ),
       ),
       GoRoute(
@@ -148,15 +147,6 @@ GoRouter goRouter(GoRouterRef ref) {
                   child: const ActivitiesStartScreen(),
                 ),
                 routes: <RouteBase>[
-                  // GoRoute(
-                  //   path: 'details',
-                  //   name: ActivitiesRoutes.activityDetails.name,
-                  //   parentNavigatorKey: _rootNavigatorKey,
-                  //   builder: (BuildContext context, GoRouterState state) {
-                  //     final activity = state.extra as ApiActivity?;
-                  //     return;
-                  //   },
-                  // ),
                   GoRoute(
                     path: 'continent/:continent',
                     name: ActivitiesRoutes.continent.name,

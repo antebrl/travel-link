@@ -137,45 +137,48 @@ class _TripPlanningScreenState extends State<TripPlanningScreen> {
             Positioned(
               bottom: 20,
               left: 20,
-              child: Container(
-                constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width - 80),
-                padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.8),
-                borderRadius: BorderRadius.circular(10),
-              ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    FittedBox(
-                      child: Text(
-                        widget.trip.destination.formatted,
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
+              child: Center(
+                child: Container(
+                  constraints: BoxConstraints(
+                    maxWidth: MediaQuery.of(context).size.width - 20,
+                  ),
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.8),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      FittedBox(
+                        child: Text(
+                          widget.trip.destination.formatted,
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
                         ),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
                       ),
-                    ),
-                    const SizedBox(height: 5),
-                    Text(
-                      widget.trip.startDate != null
-                          ? CustomFormatter.formatDateRange(
-                              startDate: widget.trip.startDate!,
-                              endDate: widget.trip.endDate!,
-                            )
-                          : 'flexible Dates',
-                      style: const TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                        color: CustomColors.primary,
+                      const SizedBox(height: 5),
+                      Text(
+                        widget.trip.startDate != null
+                            ? CustomFormatter.formatDateRange(
+                                startDate: widget.trip.startDate!,
+                                endDate: widget.trip.endDate!,
+                              )
+                            : 'flexible Dates',
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          color: CustomColors.primary,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-
             ),
           ],
         );

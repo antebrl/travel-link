@@ -178,7 +178,7 @@ class CreateTripScreenState extends ConsumerState<CreateTripScreen> {
                             builder: (context) => CalendarPopupView(
                               minimumDate: DateTime.now(),
                               onApplyClick:
-                                  (DateTime startData, DateTime endData) {
+                                  (DateTime? startData, DateTime? endData) {
                                 setState(() {
                                   _startDate = startData;
                                   _endDate = endData;
