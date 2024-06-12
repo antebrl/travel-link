@@ -275,6 +275,13 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
                             ],
                           ),
                         ),
+                        IconButton(
+                          onPressed: () {},
+                          icon: const Icon(
+                            Icons.edit,
+                            color: CustomColors.buttonPrimary,
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -301,16 +308,17 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
                               Padding(
                                 padding: const EdgeInsets.only(left: 10),
                                 child: userData.when(
-                              data: (userAccount) => CircleAvatar(
-                                radius: 8,
-                                backgroundImage: NetworkImage(
-                                  userAccount?.pictureUrl ??
-                                      CustomImages.defaultProfilePictureUrl,
+                                  data: (userAccount) => CircleAvatar(
+                                    radius: 8,
+                                    backgroundImage: NetworkImage(
+                                      userAccount?.pictureUrl ??
+                                          CustomImages.defaultProfilePictureUrl,
+                                    ),
+                                  ),
+                                  loading: () =>
+                                      const CircularProgressIndicator(),
+                                  error: (_, __) => const Text('Error'),
                                 ),
-                              ),
-                              loading: () => const CircularProgressIndicator(),
-                              error: (_, __) => const Text('Error'),
-                            ),
                               ),
                               Container(
                                 padding: const EdgeInsets.only(left: 5),
