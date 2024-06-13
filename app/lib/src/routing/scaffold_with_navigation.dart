@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:travel_link/src/features/authentication/data/firebase_auth_repository.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
 import 'package:travel_link/src/utils/helpers/helper_functions.dart';
 import 'package:travel_link/src/utils/helpers/localization.dart';
@@ -22,7 +24,7 @@ final _navigationList = (
       icon: Icons.account_circle_outlined, selectedIcon: Icons.account_circle),
 );
 
-class ScaffoldWithNavigation extends StatelessWidget {
+class ScaffoldWithNavigation extends ConsumerWidget {
   const ScaffoldWithNavigation({
     required this.navigationShell,
     Key? key,
@@ -37,8 +39,10 @@ class ScaffoldWithNavigation extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = CustomHelperFunctions.isDarkMode(context);
+
+    final auth = ref.watch(firebaseAuthProvider);
 
     return Scaffold(
       body: navigationShell,
@@ -57,29 +61,41 @@ class ScaffoldWithNavigation extends StatelessWidget {
           destinations: [
             NavigationDestination(
               icon:
-                  Icon(_navigationList.trip.icon, color: CustomColors.darkGrey),
+                  Icon(_navigationList.trip.icon, color: CustomColors.darkGrey,),
               selectedIcon: Icon(_navigationList.trip.selectedIcon,
-                  color: Theme.of(context).primaryColor),
+                  color: Theme.of(context).primaryColor,),
               label: context.loc.home,
             ),
             NavigationDestination(
               icon: Icon(_navigationList.myTrips.icon,
-                  color: CustomColors.darkGrey),
+                  color: CustomColors.darkGrey,),
               selectedIcon: Icon(_navigationList.myTrips.selectedIcon,
-                  color: Theme.of(context).primaryColor),
+                  color: Theme.of(context).primaryColor,),
               label: context.loc.discover,
             ),
             NavigationDestination(
               icon: Icon(_navigationList.activities.icon,
-                  color: CustomColors.darkGrey),
+                  color: CustomColors.darkGrey,),
               selectedIcon: Icon(_navigationList.activities.selectedIcon,
-                  color: Theme.of(context).primaryColor),
+                  color: Theme.of(context).primaryColor,),
               label: context.loc.activities,
             ),
             NavigationDestination(
-              icon: Icon(_navigationList.profile.icon,
-                  color: CustomColors.darkGrey),
-              selectedIcon: Icon(_navigationList.profile.selectedIcon,
+              icon:
+                  auth.currentUser != null && auth.currentUser!.photoURL != null
+                      ? CircleAvatar(
+                          backgroundImage:
+                              NetworkImage(auth.currentUser!.photoURL!),
+                              maxRadius: 17,
+                        )
+                      : Icon(_navigationList.profile.selectedIcon,
+                          color: CustomColors.darkGrey),
+              selectedIcon: auth.currentUser != null && auth.currentUser!.photoURL != null ?
+              CircleAvatar(
+                          backgroundImage:
+                              NetworkImage(auth.currentUser!.photoURL!),
+                        )
+              : Icon(_navigationList.profile.selectedIcon,
                   color: Theme.of(context).primaryColor),
               label: context.loc.profile,
             ),

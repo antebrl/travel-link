@@ -1,15 +1,15 @@
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:travel_link/src/features/activities/2_continents_screen/domain/continent.dart';
-import 'package:travel_link/src/features/activities/3_activities_screen/domain/activity.dart';
+import 'package:travel_link/src/features/activities/3_activities_screen/domain/api_activity.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
 
 class ActivitiesFilterScreen extends StatefulWidget {
-  const ActivitiesFilterScreen({super.key, required this.continent});
+  const ActivitiesFilterScreen({required this.continent, super.key});
   final Continent continent;
 
   @override
-  _ActivitiesFilterScreenState createState() => _ActivitiesFilterScreenState();
+  State<ActivitiesFilterScreen> createState() => _ActivitiesFilterScreenState();
 }
 
 class _ActivitiesFilterScreenState extends State<ActivitiesFilterScreen> {
@@ -18,13 +18,21 @@ class _ActivitiesFilterScreenState extends State<ActivitiesFilterScreen> {
   List<String> countryList = [''];
 
   String countryName = '';
-  Set<ActivityType> filters = <ActivityType>{};
-
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     countryList = setFilter(widget.continent);
+  }
+
+  Set<String> _categoryList = {};
+  void _toggleSelectAll() {
+    setState(() {
+      if (_categoryList.length == activityTypes.length) {
+        _categoryList.clear();
+      } else {
+        _categoryList = activityTypes.toSet();
+      }
+    });
   }
 
   List<String> setFilter(Continent continent) {
@@ -83,7 +91,7 @@ class _ActivitiesFilterScreenState extends State<ActivitiesFilterScreen> {
           'TN',
           'UG',
           'ZM',
-          'ZW'
+          'ZW',
         ];
       case ContinentType.asia:
         return [
@@ -135,7 +143,7 @@ class _ActivitiesFilterScreenState extends State<ActivitiesFilterScreen> {
           'AE',
           'UZ',
           'VN',
-          'YE'
+          'YE',
         ];
       case ContinentType.europe:
         return [
@@ -184,7 +192,7 @@ class _ActivitiesFilterScreenState extends State<ActivitiesFilterScreen> {
           'CH',
           'UA',
           'GB',
-          'VA'
+          'VA',
         ];
       case ContinentType.northAmerica:
         return [
@@ -221,7 +229,7 @@ class _ActivitiesFilterScreenState extends State<ActivitiesFilterScreen> {
           'VI',
           'GL',
           'PM',
-          'FO'
+          'FO',
         ];
       case ContinentType.southAmerica:
         return [
@@ -236,7 +244,7 @@ class _ActivitiesFilterScreenState extends State<ActivitiesFilterScreen> {
           'PE',
           'SR',
           'UY',
-          'VE'
+          'VE',
         ];
       case ContinentType.australia:
         return [
@@ -265,10 +273,10 @@ class _ActivitiesFilterScreenState extends State<ActivitiesFilterScreen> {
           'CC',
           'HM',
           'PN',
-          'TL'
+          'TL',
         ];
-      default:
-        return [];
+      case ContinentType.none:
+        return [''];
     }
   }
 
@@ -276,114 +284,256 @@ class _ActivitiesFilterScreenState extends State<ActivitiesFilterScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Filters')),
-      body: Center(
-        child: Column(
-          children: [
-            const SizedBox(height: 35),
-            const Text(
-              'Select country: ',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
-                color: CustomColors.primary,
+      body: SingleChildScrollView(
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Container(
+              decoration: BoxDecoration(
+                color: CustomColors.primary.withOpacity(0.7),
+                borderRadius: BorderRadius.circular(25),
               ),
-            ),
-            const SizedBox(height: 15),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextField(
-                controller: _countryController,
-                readOnly: true,
-                decoration: const InputDecoration(
-                  labelText: 'Selected Country',
-                  hintText: 'Tap to pick a country',
-                  border: OutlineInputBorder(),
-                ),
-                onTap: () {
-                  showCountryPicker(
-                    showWorldWide: true,
-                    context: context,
-                    countryFilter: countryList,
-                    onSelect: (Country country) {
-                      _countryController.text = country.name;
-                      countryName = country.name;
-                    },
-                    moveAlongWithKeyboard: false,
-                    countryListTheme: CountryListThemeData(
-                      borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(40),
-                        topRight: Radius.circular(40),
+              child: Stack(
+                children: [
+                  Positioned(
+                    top: -50,
+                    right: -50,
+                    child: Container(
+                      width: 170,
+                      height: 170,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.white.withOpacity(0.3),
                       ),
-                      inputDecoration: InputDecoration(
-                        labelText: 'Search',
-                        hintText: 'Start typing to search',
-                        prefixIcon: const Icon(Icons.search),
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: const Color(0xFF8C98A8).withOpacity(0.2),
-                          ),
-                        ),
-                      ),
-                      searchTextStyle: const TextStyle(
-                        color: Colors.blue,
-                        fontSize: 18,
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
-            const SizedBox(height: 25),
-            const Text(
-              'Select categories: ',
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
-                  color: CustomColors.primary),
-            ),
-            const SizedBox(height: 15),
-            Wrap(
-              alignment: WrapAlignment.spaceEvenly,
-              spacing: 40,
-              runSpacing: 10,
-              children: ActivityType.values.map((ActivityType type) {
-                return FilterChip(
-                  selectedColor: CustomColors.primary,
-                  backgroundColor: CustomColors.white,
-                  side: const BorderSide(color: CustomColors.primary),
-                  label: Text(
-                    type.name,
-                    style: TextStyle(
-                      color: filters.contains(type)
-                          ? CustomColors.white
-                          : CustomColors.textPrimary,
                     ),
                   ),
-                  selected: filters.contains(type),
-                  onSelected: (bool selected) {
-                    setState(() {
-                      if (selected) {
-                        filters.add(type);
-                      } else {
-                        filters.remove(type);
-                      }
-                    });
-                  },
-                );
-              }).toList(),
+                  Positioned(
+                    bottom: -50,
+                    left: -50,
+                    child: Container(
+                      width: 170,
+                      height: 170,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.white.withOpacity(0.2),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    bottom: 200,
+                    left: 50,
+                    child: Container(
+                      width: 150,
+                      height: 150,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.white.withOpacity(0.2),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Row(
+                          children: [
+                            Text(
+                              'Select country:',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headlineSmall!
+                                  .copyWith(
+                                    color: CustomColors.white,
+                                  ),
+                            ),
+                            const Spacer(),
+                            OutlinedButton(
+                              onPressed: () {
+                                setState(() {
+                                  _countryController.clear();
+                                  _categoryList.clear();
+                                });
+                              },
+                              style: ElevatedButton.styleFrom(
+                                side: const BorderSide(color: Colors.white),
+                              ),
+                              child: Text(
+                                'Clear',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall!
+                                    .copyWith(
+                                      color: CustomColors.white,
+                                    ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 15),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: TextField(
+                            style:
+                                Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                      color: CustomColors.primary,
+                                    ),
+                            controller: _countryController,
+                            readOnly: true,
+                            decoration: InputDecoration(
+                              fillColor: CustomColors.white,
+                              filled: true,
+                              hintText: 'Tap to pick a country',
+                              hintStyle: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium!
+                                  .copyWith(
+                                    color: CustomColors.primary,
+                                  ),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(14),
+                                borderSide: BorderSide.none,
+                              ),
+                            ),
+                            onTap: () {
+                              showCountryPicker(
+                                context: context,
+                                countryFilter: countryList,
+                                onSelect: (Country country) {
+                                  _countryController.text = country.name;
+                                  countryName = country.name;
+                                },
+                                countryListTheme: CountryListThemeData(
+                                  borderRadius: const BorderRadius.only(
+                                    topLeft: Radius.circular(40),
+                                    topRight: Radius.circular(40),
+                                  ),
+                                  inputDecoration: InputDecoration(
+                                    labelText: 'Search',
+                                    hintText: 'Start typing to search',
+                                    prefixIcon: const Icon(Icons.search),
+                                    border: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: const Color(0xFF8C98A8)
+                                            .withOpacity(0.2),
+                                      ),
+                                    ),
+                                  ),
+                                  searchTextStyle: const TextStyle(
+                                    color: CustomColors.primary,
+                                    fontSize: 18,
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                        const SizedBox(height: 25),
+                        Row(
+                          children: [
+                            Text(
+                              'Select categories:',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headlineSmall!
+                                  .copyWith(
+                                    color: CustomColors.white,
+                                  ),
+                            ),
+                            const Spacer(),
+                            OutlinedButton(
+                              onPressed: _toggleSelectAll,
+                              style: ElevatedButton.styleFrom(
+                                side: const BorderSide(color: Colors.white),
+                              ),
+                              child: Text(
+                                _categoryList.length == activityTypes.length
+                                    ? 'Unselect All'
+                                    : 'Select All',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall!
+                                    .copyWith(
+                                      color: CustomColors.white,
+                                    ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 15),
+                        Wrap(
+                          alignment: WrapAlignment.center,
+                          spacing: 25,
+                          runSpacing: 15,
+                          children: activityTypes.map((type) {
+                            return FilterChip(
+                              side: const BorderSide(color: CustomColors.white),
+                              disabledColor: CustomColors.white,
+                              labelStyle: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall!
+                                  .copyWith(
+                                    color: CustomColors.primary,
+                                  ),
+                              selectedColor: CustomColors.white,
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 12,
+                                vertical: 12,
+                              ),
+                              checkmarkColor: CustomColors.primary,
+                              label: Text(
+                                type,
+                                style: TextStyle(
+                                  color: _categoryList.contains(type)
+                                      ? CustomColors.primary
+                                      : CustomColors.primary,
+                                ),
+                              ),
+                              selected: _categoryList.contains(type),
+                              onSelected: (bool selected) {
+                                setState(() {
+                                  if (selected) {
+                                    _categoryList.add(type);
+                                  } else {
+                                    _categoryList.remove(type);
+                                  }
+                                });
+                              },
+                            );
+                          }).toList(),
+                        ),
+                        const SizedBox(height: 15),
+                        ElevatedButton(
+                          onPressed: () {
+                            if (countryName == 'World Wide' ||
+                                countryName.isEmpty) {
+                              countryName = '';
+                            }
+                            Navigator.of(context)
+                                .pop([countryName.trim(), _categoryList]);
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: CustomColors.white,
+                            side: BorderSide.none,
+                          ),
+                          child: Text(
+                            'Search',
+                            style: Theme.of(context)
+                                .textTheme
+                                .headlineSmall!
+                                .copyWith(
+                                  color: CustomColors.primary,
+                                ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
-            const SizedBox(height: 15),
-            ElevatedButton(
-              child: const Text('Search'),
-              onPressed: () {
-                print(countryName);
-                if (countryName == 'World Wide' || countryName.isEmpty) {
-                  countryName = '';
-                }
-                Navigator.of(context).pop([countryName.trim(), filters]);
-              },
-            ),
-          ],
+          ),
         ),
       ),
     );

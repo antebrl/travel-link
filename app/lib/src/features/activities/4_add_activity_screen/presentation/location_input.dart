@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:geocoding/geocoding.dart' as gecoding;
 import 'package:latlong2/latlong.dart';
 import 'package:location/location.dart';
-import 'package:travel_link/src/features/activities/3_activities_screen/domain/activity.dart';
+import 'package:travel_link/src/features/activities/3_activities_screen/domain/api_activity.dart';
 import 'package:travel_link/src/features/activities/4_add_activity_screen/presentation/map_screen.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
 
 class LocationInput extends StatefulWidget {
-  const LocationInput({super.key, required this.onSelectLocation});
+  const LocationInput({required this.onSelectLocation, super.key});
 
   final void Function(PlaceLocation location) onSelectLocation;
 
@@ -27,23 +26,24 @@ class _LocationInput extends State<LocationInput> {
     try {
       final List<gecoding.Placemark> placemarks =
           await gecoding.placemarkFromCoordinates(latitude, longitude);
-      // Extrahiere die Adresse aus dem Placemark
+      // Extract address from placemark
       final gecoding.Placemark placemark = placemarks[0];
-      final String street = placemark.street!;
       final String city = placemark.locality!;
       final String country = placemark.country!;
-      print(country);
+      final String countryCode = placemark.isoCountryCode!;
 
       final String address =
           '${placemark.street}, ${placemark.locality}, ${placemark.country}';
 
       setState(() {
         _pickedLocation = PlaceLocation(
-            latitude: latitude,
-            longitude: longitude,
-            street: street,
-            city: city,
-            country: country);
+          lat: latitude,
+          lon: longitude,
+          city: city,
+          country: country,
+          formatted: address,
+          countryCode: countryCode,
+        );
         _isGettingLocation = false;
       });
 
@@ -110,10 +110,9 @@ class _LocationInput extends State<LocationInput> {
       key: UniqueKey(),
       options: MapOptions(
         initialCenter: LatLng(latitude, longitude),
-        // Disable all user interactions
       ),
       children: [
-        openStreetMapTileLater,
+        openStreetMapTileLayer,
         MarkerLayer(
           markers: [
             Marker(
@@ -123,14 +122,14 @@ class _LocationInput extends State<LocationInput> {
                 size: 40,
                 color: CustomColors.primary,
               ),
-            )
+            ),
           ],
-        )
+        ),
       ],
     );
   }
 
-  TileLayer get openStreetMapTileLater => TileLayer(
+  TileLayer get openStreetMapTileLayer => TileLayer(
         urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
         userAgentPackageName: 'dev.fleaflet.flutter_map.exaple',
       );
@@ -152,8 +151,7 @@ class _LocationInput extends State<LocationInput> {
     }
 
     if (_pickedLocation != null) {
-      content =
-          _createMap(_pickedLocation!.latitude, _pickedLocation!.longitude);
+      content = _createMap(_pickedLocation!.lat, _pickedLocation!.lon);
     }
 
     return Column(

@@ -21,22 +21,7 @@ final tripsRepositoryProvider = Provider<TripsRepository>.internal(
 );
 
 typedef TripsRepositoryRef = ProviderRef<TripsRepository>;
-String _$fetchPublicTripsHash() => r'fc5b26b7ff504a9cb231030072ac5434fb604814';
-
-/// See also [fetchPublicTrips].
-@ProviderFor(fetchPublicTrips)
-final fetchPublicTripsProvider = AutoDisposeFutureProvider<List<Trip>>.internal(
-  fetchPublicTrips,
-  name: r'fetchPublicTripsProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$fetchPublicTripsHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef FetchPublicTripsRef = AutoDisposeFutureProviderRef<List<Trip>>;
-String _$tripStreamHash() => r'ddc12a6a2980600f6924e0770475bab432e444ab';
+String _$fetchPublicTripsHash() => r'8efb4b0e944dfaac1647c1430bf51b1a0e60f656';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -58,6 +43,184 @@ class _SystemHash {
     return 0x1fffffff & (hash + ((0x00003fff & hash) << 15));
   }
 }
+
+/// See also [fetchPublicTrips].
+@ProviderFor(fetchPublicTrips)
+const fetchPublicTripsProvider = FetchPublicTripsFamily();
+
+/// See also [fetchPublicTrips].
+class FetchPublicTripsFamily extends Family<AsyncValue<List<Trip>>> {
+  /// See also [fetchPublicTrips].
+  const FetchPublicTripsFamily();
+
+  /// See also [fetchPublicTrips].
+  FetchPublicTripsProvider call({
+    DateTime? startDate,
+    DateTime? endDate,
+    bool archived = false,
+    String? country,
+  }) {
+    return FetchPublicTripsProvider(
+      startDate: startDate,
+      endDate: endDate,
+      archived: archived,
+      country: country,
+    );
+  }
+
+  @override
+  FetchPublicTripsProvider getProviderOverride(
+    covariant FetchPublicTripsProvider provider,
+  ) {
+    return call(
+      startDate: provider.startDate,
+      endDate: provider.endDate,
+      archived: provider.archived,
+      country: provider.country,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'fetchPublicTripsProvider';
+}
+
+/// See also [fetchPublicTrips].
+class FetchPublicTripsProvider extends AutoDisposeFutureProvider<List<Trip>> {
+  /// See also [fetchPublicTrips].
+  FetchPublicTripsProvider({
+    DateTime? startDate,
+    DateTime? endDate,
+    bool archived = false,
+    String? country,
+  }) : this._internal(
+          (ref) => fetchPublicTrips(
+            ref as FetchPublicTripsRef,
+            startDate: startDate,
+            endDate: endDate,
+            archived: archived,
+            country: country,
+          ),
+          from: fetchPublicTripsProvider,
+          name: r'fetchPublicTripsProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$fetchPublicTripsHash,
+          dependencies: FetchPublicTripsFamily._dependencies,
+          allTransitiveDependencies:
+              FetchPublicTripsFamily._allTransitiveDependencies,
+          startDate: startDate,
+          endDate: endDate,
+          archived: archived,
+          country: country,
+        );
+
+  FetchPublicTripsProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.startDate,
+    required this.endDate,
+    required this.archived,
+    required this.country,
+  }) : super.internal();
+
+  final DateTime? startDate;
+  final DateTime? endDate;
+  final bool archived;
+  final String? country;
+
+  @override
+  Override overrideWith(
+    FutureOr<List<Trip>> Function(FetchPublicTripsRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: FetchPublicTripsProvider._internal(
+        (ref) => create(ref as FetchPublicTripsRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        startDate: startDate,
+        endDate: endDate,
+        archived: archived,
+        country: country,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<List<Trip>> createElement() {
+    return _FetchPublicTripsProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is FetchPublicTripsProvider &&
+        other.startDate == startDate &&
+        other.endDate == endDate &&
+        other.archived == archived &&
+        other.country == country;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, startDate.hashCode);
+    hash = _SystemHash.combine(hash, endDate.hashCode);
+    hash = _SystemHash.combine(hash, archived.hashCode);
+    hash = _SystemHash.combine(hash, country.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+mixin FetchPublicTripsRef on AutoDisposeFutureProviderRef<List<Trip>> {
+  /// The parameter `startDate` of this provider.
+  DateTime? get startDate;
+
+  /// The parameter `endDate` of this provider.
+  DateTime? get endDate;
+
+  /// The parameter `archived` of this provider.
+  bool get archived;
+
+  /// The parameter `country` of this provider.
+  String? get country;
+}
+
+class _FetchPublicTripsProviderElement
+    extends AutoDisposeFutureProviderElement<List<Trip>>
+    with FetchPublicTripsRef {
+  _FetchPublicTripsProviderElement(super.provider);
+
+  @override
+  DateTime? get startDate => (origin as FetchPublicTripsProvider).startDate;
+  @override
+  DateTime? get endDate => (origin as FetchPublicTripsProvider).endDate;
+  @override
+  bool get archived => (origin as FetchPublicTripsProvider).archived;
+  @override
+  String? get country => (origin as FetchPublicTripsProvider).country;
+}
+
+String _$tripStreamHash() => r'ddc12a6a2980600f6924e0770475bab432e444ab';
 
 /// See also [tripStream].
 @ProviderFor(tripStream)

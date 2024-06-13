@@ -56,12 +56,42 @@ class ChecklistView extends StatefulWidget {
 class _ChecklistViewState extends State<ChecklistView> {
   final List<Task> _tasks = [];
   final TextEditingController _textController = TextEditingController();
+  final List<String> _suggestions = [
+    'Alarm clock - Wecker', 'Aspirin - Aspirin', 'Backpack - Rucksack', 'Bandages - Verbände',
+    'Bathing suit - Badeanzug', 'Batteries - Batterien', 'Belt - Gürtel', 'Book - Buch',
+    'Bottle opener - Flaschenöffner', 'Camera - Kamera', 'Cash - Bargeld', 'Charging cable - Ladekabel',
+    'Clothes - Kleidung', 'Contact lenses - Kontaktlinsen', 'Credit card - Kreditkarte', 'Deodorant - Deodorant',
+    'Driver’s license - Führerschein', 'Earplugs - Ohrstöpsel', 'E-reader - E-Reader',
+    'Emergency contact list - Notfallkontaktliste', 'Flashlight - Taschenlampe', 'Flip flops - Flip Flops',
+    'Fork - Gabel', 'Gloves - Handschuhe', 'Hairbrush - Haarbürste', 'Hairdryer - Haartrockner',
+    'Handbag - Handtasche', 'Headphones - Kopfhörer', 'Health insurance card - Krankenversicherungskarte',
+    'Hiking boots - Wanderschuhe', 'iPad - iPad', 'iPhone - iPhone', 'Keychain - Schlüsselbund', 'Keys - Schlüssel',
+    'Knife - Messer', 'Laptop - Laptop', 'Luggage - Gepäck', 'Luggage tag - Gepäckanhänger', 'Map - Karte',
+    'Memory card - Speicherkarte', 'Passport - Reisepass', 'Passport photos - Passfotos', 'Pen - Stift', 'Perfume - Parfüm',
+    'ID - Personalausweis', 'Phone - Telefon', 'Raincoat - Regenmantel', 'Razor - Rasierer', 'Sandals - Sandalen',
+    'Scarf - Schal', 'Shampoo - Shampoo', 'Shoes - Schuhe', 'Shorts - Shorts', 'Shower gel - Duschgel', 'SIM card - SIM-Karte',
+    'Sleepwear - Schlafanzug', 'Socks - Socken', 'Sports equipment - Sportausrüstung', 'Suitcase - Koffer',
+    'Sunglasses - Sonnenbrille', 'Sunscreen - Sonnencreme', 'Swimsuit - Badeanzug', 'Tablet - Tablet', 'Tissues - Taschentücher',
+    'Toothbrush - Zahnbürste', 'Toothpaste - Zahnpasta', 'Towel - Handtuch', 'Trousers - Hose', 'Umbrella - Regenschirm',
+    'Underwear - Unterwäsche', 'USB cable - USB-Kabel', 'Walking shoes - Wanderschuhe', 'Wallet - Geldbörse', 'Watch - Uhr',
+    'Water - Wasser', 'Travel insurance - Reiseversicherung', 'Safety pins - Sicherheitsnadeln', 'Sunglass case - Sonnenbrillenetui'
+  ];
+  List<String> _filteredSuggestions = [];
+
+  void _filterSuggestions(String query) {
+    setState(() {
+      _filteredSuggestions = _suggestions
+          .where((suggestion) => suggestion.toLowerCase().contains(query.toLowerCase()))
+          .toList();
+    });
+  }
 
   void _addTask(String title) {
     setState(() {
       _tasks.add(Task(title: title));
     });
     _textController.clear();
+    _filterSuggestions('');
   }
 
   void _removeTask(int index) {
@@ -92,24 +122,46 @@ class _ChecklistViewState extends State<ChecklistView> {
       children: [
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Row(
+          child: Column(
             children: [
-              Expanded(
-                child: TextField(
-                  controller: _textController,
-                  decoration: const InputDecoration(
-                    hintText: 'Add a new item',
+              Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: _textController,
+                      decoration: const InputDecoration(
+                        hintText: 'Add a new item',
+                      ),
+                      onChanged: _filterSuggestions,
+                    ),
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.add),
+                    onPressed: () {
+                      if (_textController.text.isNotEmpty) {
+                        _addTask(_textController.text);
+                      }
+                    },
+                  ),
+                ],
+              ),
+              if (_filteredSuggestions.isNotEmpty)
+                Container(
+                  height: 150, // Adjust height as needed
+                  child: ListView.builder(
+                    itemCount: _filteredSuggestions.length,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        title: Text(_filteredSuggestions[index]),
+                        onTap: () {
+                          _textController.text = _filteredSuggestions[index];
+                          _filteredSuggestions = [];
+                          _addTask(_textController.text);
+                        },
+                      );
+                    },
                   ),
                 ),
-              ),
-              IconButton(
-                icon: const Icon(Icons.add),
-                onPressed: () {
-                  if (_textController.text.isNotEmpty) {
-                    _addTask(_textController.text);
-                  }
-                },
-              ),
             ],
           ),
         ),

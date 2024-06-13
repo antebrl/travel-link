@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:travel_link/src/features/authentication/data/firebase_auth_repository.dart';
+import 'package:travel_link/src/features/chat/presentation/group_chat_screen.dart';
 import 'package:travel_link/src/features/explore_trips/data/trips_repository.dart';
+import 'package:travel_link/src/features/gallery/presentation/shared_gallery_screen.dart';
 import 'package:travel_link/src/features/my_trips/data/my_trips_repository.dart';
 import 'package:travel_link/src/features/my_trips/presentation/my_trips_controller.dart';
-import 'package:travel_link/src/features/trip_overview/presentation/chat/group_chat_screen.dart';
-import 'package:travel_link/src/features/trip_overview/presentation/gallery/shared_gallery_screen.dart';
 import 'package:travel_link/src/features/trip_overview/presentation/plan/trip_planning_screen.dart';
 import 'package:travel_link/src/utils/logging/logger.dart';
 
@@ -127,9 +127,15 @@ class _TripOverviewScreenState extends ConsumerState<TripOverviewScreen>
                 child: TabBarView(
                   controller: _tabController,
                   children: [
-                    TripPlanningScreen(trip: trip,),
-                    GroupChatScreen(trip: trip,),
-                    SharedGalleryScreen(trip: trip,),
+                    TripPlanningScreen(
+                      trip: trip,
+                    ),
+                    GroupChatScreen(
+                      trip: trip,
+                    ),
+                    SharedGalleryScreen(
+                      trip: trip,
+                    ),
                   ],
                 ),
               ),
@@ -137,26 +143,36 @@ class _TripOverviewScreenState extends ConsumerState<TripOverviewScreen>
           ),
           floatingActionButton:
               userId != null && !trip.participants.contains(userId)
-                  ? FloatingActionButton(
-                      onPressed: () async {
-                        if (trip.participants.length >=
-                            (trip.maxParticipants ?? double.infinity)) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Trip is full'),
-                            ),
-                          );
-                          return;
-                        }
-                        // join Trip
-                        await ref
-                            .read(myTripsControllerProvider.notifier)
-                            .joinTrip(trip: trip);
+                  ? SizedBox(
+                      height: 60,
+                      width: 60,
+                      child: FloatingActionButton(
+                        onPressed: () async {
+                          if (trip.participants.length >=
+                              (trip.maxParticipants ?? double.infinity)) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Trip is full'),
+                              ),
+                            );
+                            return;
+                          }
+                          // join Trip
+                          await ref
+                              .read(myTripsControllerProvider.notifier)
+                              .joinTrip(trip: trip);
 
-                        // ignore: unused_result
-                        ref.refresh(fetchMyTripsProvider);
-                      },
-                      child: const Text('Join'),
+                          // ignore: unused_result
+                          ref.refresh(fetchMyTripsProvider);
+                        },
+                        child: const Text(
+                          'Join',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
                     )
                   : null,
         );

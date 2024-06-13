@@ -1,10 +1,11 @@
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
 
 class ImageInput extends StatefulWidget {
-  const ImageInput({Key? key, required this.onPickImage}) : super(key: key);
+  const ImageInput({required this.onPickImage, super.key});
 
   final void Function(File image) onPickImage;
 
@@ -22,27 +23,25 @@ class _ImageInputState extends State<ImageInput> {
       maxWidth: 600,
     );
     if (pickedImage == null) {
-      // Kamera geschlossen ohne ein Bild gemacht zu haben
       return;
     }
 
     setState(() {
-      _selectedImage = File(pickedImage.path); // XFile zu File
+      _selectedImage = File(pickedImage.path);
     });
 
     widget.onPickImage(_selectedImage!);
   }
 
-  void _pickImageFromGallery() async {
+  Future<void> _pickImageFromGallery() async {
     final pickedImage =
         await imagePicker.pickImage(source: ImageSource.gallery);
     if (pickedImage == null) {
-      // Galerie geschlossen ohne ein Bild ausgewählt zu haben
       return;
     }
 
     setState(() {
-      _selectedImage = File(pickedImage.path); // XFile zu File
+      _selectedImage = File(pickedImage.path); // XFile to File
     });
 
     widget.onPickImage(_selectedImage!);
@@ -53,16 +52,20 @@ class _ImageInputState extends State<ImageInput> {
     Widget content = Text(
       'Add Image',
       textAlign: TextAlign.center,
-      style: Theme.of(context).textTheme.bodyLarge
+      style: Theme.of(context).textTheme.bodyLarge,
     );
 
     if (_selectedImage != null) {
-      content = Image.file(
-        _selectedImage!,
-        fit: BoxFit.cover,
-        width: double.infinity,
-        height: double.infinity,
-      );
+      if (kIsWeb) {
+        content = Image.network(_selectedImage!.path);
+      } else {
+        content = Image.file(
+          _selectedImage!,
+          fit: BoxFit.cover,
+          width: double.infinity,
+          height: double.infinity,
+        );
+      }
     }
 
     return Column(

@@ -6,21 +6,19 @@ import 'package:travel_link/src/utils/theme/widget_themes/bottomSheet_theme.dart
 import 'package:travel_link/src/utils/theme/widget_themes/checkBox_theme.dart';
 import 'package:travel_link/src/utils/theme/widget_themes/chip_theme.dart';
 import 'package:travel_link/src/utils/theme/widget_themes/elevatedButton_theme.dart';
-import 'package:travel_link/src/utils/theme/widget_themes/outlinedButton_theme.dart';
-import 'package:travel_link/src/utils/theme/widget_themes/textField_theme.dart';
 import 'package:travel_link/src/utils/theme/widget_themes/floatingButton_theme.dart';
+import 'package:travel_link/src/utils/theme/widget_themes/outlinedButton_theme.dart';
+import 'package:travel_link/src/utils/theme/widget_themes/snackBar_theme.dart';
+import 'package:travel_link/src/utils/theme/widget_themes/textField_theme.dart';
 import 'package:travel_link/src/utils/theme/widget_themes/text_theme.dart';
-
-
 
 //Theme.dart and other themeing files inspired by "https://www.youtube.com/watch?v=Ct9CrMegezQ"
 
 class CustomAppTheme {
-  CustomAppTheme._(); //privater Konstruktor
+  CustomAppTheme._(); 
 
   /// Light Theme
   static ThemeData lightTheme = ThemeData(
-
     useMaterial3: true,
     fontFamily: GoogleFonts.poppins().fontFamily,
     brightness: Brightness.light,
@@ -34,7 +32,9 @@ class CustomAppTheme {
     elevatedButtonTheme: CustomElevatedButtonTheme.lightElevatedButtonTheme,
     outlinedButtonTheme: CustomOutlinedButtonTheme.lightOutlinedButtonTheme,
     inputDecorationTheme: CustomTextFormFieldTheme.lightInputDecorationTheme,
-    floatingActionButtonTheme: CustomFloatingButtonTheme.lightFloatingButtonTheme,
+    floatingActionButtonTheme:
+        CustomFloatingButtonTheme.lightFloatingButtonTheme,
+    snackBarTheme: CustomSnackBarTheme.lightSnackBarTheme,
   );
 
   static ThemeData darkTheme = ThemeData(
@@ -49,6 +49,7 @@ class CustomAppTheme {
     bottomSheetTheme: CustomBottomSheetTheme.darkBottomSheetTheme,
     elevatedButtonTheme: CustomElevatedButtonTheme.darkElevatedButtonTheme,
     outlinedButtonTheme: CustomOutlinedButtonTheme.darkOutlinedButtonTheme,
-    inputDecorationTheme: CustomTextFormFieldTheme.darkInputDecorationTheme, 
+    inputDecorationTheme: CustomTextFormFieldTheme.darkInputDecorationTheme,
+    snackBarTheme: CustomSnackBarTheme.darkSnackBarTheme,
   );
 }

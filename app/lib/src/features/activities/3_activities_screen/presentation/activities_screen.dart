@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:travel_link/src/features/activities/2_continents_screen/domain/continent.dart';
-import 'package:travel_link/src/features/activities/3_activities_screen/domain/activity.dart';
-import 'package:travel_link/src/features/activities/3_activities_screen/presentation/activity_item.dart';
-import 'package:travel_link/src/features/activities/4_add_activity_screen/presentation/add_activity_screen.dart';
+import 'package:travel_link/src/features/activities/3_activities_screen/domain/api_activity.dart';
+import 'package:travel_link/src/features/activities/3_activities_screen/presentation/items/activity_item.dart';
 import 'package:travel_link/src/features/activities/6_activities_filter_screen/activities_filter_screen.dart';
 import 'package:travel_link/src/features/activities/providers/activities_provider.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
@@ -24,10 +23,10 @@ class ActivitiesScreen extends ConsumerStatefulWidget {
 }
 
 class _ActivitiesScreenState extends ConsumerState<ActivitiesScreen> {
-  late List<Activity> activitiesFromProvider;
-  late List<Activity> filteredActivitiesByContinent;
-  late List<Activity> filteredActivitiesBySearch;
-  List<Activity> filteredActivitiesByFilters = [];
+  late List<ApiActivity> activitiesFromProvider;
+  late List<ApiActivity> filteredActivitiesByContinent;
+  late List<ApiActivity> filteredActivitiesBySearch;
+  List<ApiActivity> filteredActivitiesByFilters = [];
 
   @override
   void initState() {
@@ -38,18 +37,17 @@ class _ActivitiesScreenState extends ConsumerState<ActivitiesScreen> {
   void filterActivitiesByContinent() {
     activitiesFromProvider = ref.read(activitiesProvider);
     filteredActivitiesByContinent = activitiesFromProvider
-        .where((activity) =>
-            activity.continentType == widget.continent.continentType)
+        .where(
+          (activity) =>
+              activity.continentType == widget.continent.continentType,
+        )
         .toList();
 
     filteredActivitiesBySearch = filteredActivitiesByContinent;
   }
 
   void filterActivitiesBySearch(String query) {
-    // setState(() {
-    // filteredActivities = widget.activities.where((activity) =>
-    //     activity.name.toLowerCase().startsWith(query.toLowerCase())).toList();
-    List<Activity> originalString;
+    List<ApiActivity> originalString;
     if (filteredActivitiesByFilters.isEmpty) {
       originalString = filteredActivitiesByContinent;
     } else {
@@ -64,48 +62,34 @@ class _ActivitiesScreenState extends ConsumerState<ActivitiesScreen> {
     setState(() => filteredActivitiesBySearch = suggestions);
   }
 
-void filterActivitiesByFilters(String? country, Set<ActivityType> filters) {
-  List<Activity> activitiesFilteredByCountry = [];
+  void filterActivitiesByFilters(String? country, Set<String> filters) {
+    List<ApiActivity> activitiesFilteredByCountry = [];
 
-  // Filtere Aktivitäten nach dem ausgewählten Land, wenn ein Land ausgewählt ist
-  if (country != null && country.isNotEmpty) {
-    activitiesFilteredByCountry = filteredActivitiesByContinent
-        .where((activity) =>
-            country.toLowerCase() == activity.location.country.toLowerCase())
-        .toList();
-  } else {
-    activitiesFilteredByCountry = List.from(filteredActivitiesByContinent);
-  }
+    if (country != null && country.isNotEmpty) {
+      activitiesFilteredByCountry = filteredActivitiesByContinent
+          .where(
+            (activity) =>
+                country.toLowerCase() ==
+                activity.location.country.toLowerCase(),
+          )
+          .toList();
+    } else {
+      activitiesFilteredByCountry = List.from(filteredActivitiesByContinent);
+    }
 
-  // Filtere Aktivitäten nach den ausgewählten Filtern, wenn Filter vorhanden sind
-  if (filters.isNotEmpty) {
-    filteredActivitiesByFilters = activitiesFilteredByCountry
-        .where((activity) =>
-            activity.types != null && filters.any((type) => activity.types!.contains(type)))
-        .toList();
-  } else {
-    // Wenn keine Filter ausgewählt sind, behalte die Aktivitäten nach dem Land unverändert
-    filteredActivitiesByFilters = List.from(activitiesFilteredByCountry);
-  }
+    if (filters.isNotEmpty) {
+      filteredActivitiesByFilters = activitiesFilteredByCountry
+          .where(
+            (activity) => filters.any(
+              (type) => activity.categories.contains(type),
+            ),
+          )
+          .toList();
+    } else {
+      filteredActivitiesByFilters = List.from(activitiesFilteredByCountry);
+    }
 
-  // Aktualisiere den Zustand, um die gefilterten Aktivitäten anzuzeigen
-  setState(() => filteredActivitiesBySearch = filteredActivitiesByFilters);
-}
-
-
-
-  Future<void> addActivity() async {
-    final newActivity = await Navigator.of(context).push<Activity>(
-      MaterialPageRoute(
-        builder: (ctx) => const AddActivityScreen(),
-      ),
-    );
-    if (newActivity == null) return;
-
-    setState(() {
-      ref.watch(activitiesProvider.notifier).addActivity(newActivity);
-      filterActivitiesByContinent();
-    });
+    setState(() => filteredActivitiesBySearch = filteredActivitiesByFilters);
   }
 
   @override
@@ -115,28 +99,50 @@ void filterActivitiesByFilters(String? country, Set<ActivityType> filters) {
         title: Text(
           widget.title,
         ),
-        actions: [
-          IconButton(
-            onPressed: addActivity,
-            icon: const Icon(Icons.add_circle),
-          ),
-        ],
       ),
       body: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8),
             child: Row(
               children: [
                 const SizedBox(width: 5),
                 Expanded(
                   child: TextField(
                     onChanged: filterActivitiesBySearch,
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
                       labelText: 'Search activities...',
-                      border: OutlineInputBorder(),
-                      prefixIcon: Icon(Icons.search),
+                      labelStyle:
+                          Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                color: CustomColors.primary,
+                              ),
+                      floatingLabelStyle:
+                          Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                color: CustomColors.primary,
+                              ),
+                      border: OutlineInputBorder(
+                        borderSide:
+                            const BorderSide(color: CustomColors.primary),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide:
+                            const BorderSide(color: CustomColors.primary),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide:
+                            const BorderSide(color: CustomColors.primary),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      prefixIcon: const Icon(
+                        Icons.search,
+                        color: CustomColors.primary,
+                      ),
                     ),
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          color: CustomColors.primary,
+                        ),
                   ),
                 ),
                 IconButton(
@@ -153,39 +159,11 @@ void filterActivitiesByFilters(String? country, Set<ActivityType> filters) {
                       final List<dynamic> filterResult =
                           result as List<dynamic>;
                       final String countryName = filterResult[0] as String;
-                      final Set<ActivityType> filters =
-                          filterResult[1] as Set<ActivityType>;
-                      // Überprüfe, ob ein Ländername ausgewählt wurde
-                      // if (countryName.trim().isEmpty || filters.isEmpty) {
-                      //   filterActivitiesBySearch(countryName.trim());
-                      //   // Wenn kein Ländername ausgewählt wurde, entferne alle Filter und filtere nach den ursprünglichen Kriterien
-                      //   filteredActivitiesByFilters.clear();
-                       
-                      // }
-                      // Filtere die Aktivitäten basierend auf dem ausgewählten Land und den Filtern
+                      final Set<String> filters =
+                          filterResult[1] as Set<String>;
                       filterActivitiesByFilters(countryName.trim(), filters);
                     }
                   },
-                  //   if (result != null) {
-                  //     final List<dynamic> filterResult =
-                  //         result as List<dynamic>;
-                  //     final String countryName = filterResult[0] as String;
-                  //     final Set<ActivityType> filters =
-                  //         filterResult[1] as Set<ActivityType>;
-
-                  //     // Überprüfe, ob ein Ländername ausgewählt wurde
-                  //     if (countryName.trim().isNotEmpty) {
-                  //       filterActivitiesBySearch(countryName.trim());
-                  //     } else {
-                  //       // Wenn kein Ländername ausgewählt wurde, entferne alle Filter und filtere nach den ursprünglichen Kriterien
-                  //       filteredActivitiesByFilters.clear();
-                  //       filterActivitiesBySearch('');
-                  //     }
-
-                  //     // Filtere die Aktivitäten basierend auf den ausgewählten Filtern
-                  //     filterActivitiesByFilters(countryName, filters);
-                  //   }
-                  // },
                   icon: const Icon(
                     Icons.filter_alt,
                     size: 40,
