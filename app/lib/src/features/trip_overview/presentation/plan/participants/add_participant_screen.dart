@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:travel_link/src/features/account/data/account_repository.dart';
@@ -22,8 +24,22 @@ class _AddParticipantScreenState extends ConsumerState<AddParticipantScreen> {
   void initState() {
     super.initState();
 
+    _fetchUsers('');
   }
 
+  Future<void> _fetchUsers(String textValue) async {
+    _queryUser = textValue;
+            
+                final fetchedUsers = await ref
+                    .read(fetchUsersQueryProvider(query: _queryUser).future);
+            
+                // If the query has changed, don't update and wait for next options build
+                if (_queryUser == textValue) {
+                  setState(() {
+                    _previousUsers = fetchedUsers;
+                  });
+  }
+  }
   // void _addUser() async {
   //   final name = _nameController.text;
   //   final email = _emailController.text;
@@ -60,7 +76,7 @@ class _AddParticipantScreenState extends ConsumerState<AddParticipantScreen> {
         title: Text('Add User'),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16),
         child: Column(
           children: [
             TextField(
@@ -70,50 +86,37 @@ class _AddParticipantScreenState extends ConsumerState<AddParticipantScreen> {
               ),
               onChanged: (textValue) async {
                 print('On changed');
-                _queryUser = textValue;
-
-                final fetchedUsers = await ref
-                    .read(fetchUsersQueryProvider(query: _queryUser).future);
-
-                // If the query has changed, don't update and wait for next options build
-                if (_queryUser == textValue) {
-                  setState(() {
-                    _previousUsers = fetchedUsers;
-                  });
-                }
+                unawaited(_fetchUsers(textValue));
               },
             ),
-            Align(
-              alignment: Alignment.topLeft,
-              child: Material(
-                child: SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.9,
-                  child: ListView.separated(
-                    padding: const EdgeInsets.all(8),
-                    itemCount: _previousUsers.length,
-                    separatorBuilder: (BuildContext context, int index) =>
-                        const Divider(),
-                    itemBuilder: (BuildContext context, int index) {
-                      final option = _previousUsers.elementAt(index);
-                      return ListTile(
-                        leading: option.pictureUrl != null
-                            ? CircleAvatar(
-                                backgroundImage: NetworkImage(
-                                  option.pictureUrl!,
-                                ),
-                              )
-                            : const CircleAvatar(
-                                backgroundImage: NetworkImage(
-                                  CustomImages.defaultProfilePictureUrl,
-                                ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(10),
+                child: ListView.separated(
+                  padding: const EdgeInsets.all(8),
+                  itemCount: _previousUsers.length,
+                  separatorBuilder: (BuildContext context, int index) =>
+                      const Divider(),
+                  itemBuilder: (BuildContext context, int index) {
+                    final option = _previousUsers.elementAt(index);
+                    return ListTile(
+                      leading: option.pictureUrl != null
+                          ? CircleAvatar(
+                              backgroundImage: NetworkImage(
+                                option.pictureUrl!,
                               ),
-                        title: Text(option.displayName ?? 'Anonymous User'),
-                        onTap: () {
-                          //onSelected(option);
-                        },
-                      );
-                    },
-                  ),
+                            )
+                          : const CircleAvatar(
+                              backgroundImage: NetworkImage(
+                                CustomImages.defaultProfilePictureUrl,
+                              ),
+                            ),
+                      title: Text(option.displayName ?? 'Anonymous User'),
+                      onTap: () {
+                        //onSelected(option);
+                      },
+                    );
+                  },
                 ),
               ),
             ),
