@@ -16,6 +16,14 @@ class _AddParticipantScreenState extends ConsumerState<AddParticipantScreen> {
   String _queryUser = '';
   List<UserAccount> _previousUsers = [];
 
+  final _nameController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+
+  }
+
   // void _addUser() async {
   //   final name = _nameController.text;
   //   final email = _emailController.text;
@@ -55,73 +63,59 @@ class _AddParticipantScreenState extends ConsumerState<AddParticipantScreen> {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            Autocomplete<UserAccount>(
-              optionsBuilder: (TextEditingValue textEditingValue) async {
-                _queryUser = textEditingValue.text;
+            TextField(
+              controller: _nameController,
+              decoration: const InputDecoration(
+                labelText: 'Name',
+              ),
+              onChanged: (textValue) async {
+                print('On changed');
+                _queryUser = textValue;
 
                 final fetchedUsers = await ref
                     .read(fetchUsersQueryProvider(query: _queryUser).future);
 
                 // If the query has changed, don't update and wait for next options build
-                if (_queryUser != textEditingValue.text) {
-                  return _previousUsers;
+                if (_queryUser == textValue) {
+                  setState(() {
+                    _previousUsers = fetchedUsers;
+                  });
                 }
-                _previousUsers = fetchedUsers;
-                return fetchedUsers;
               },
-              onSelected: (UserAccount selection) {
-                //add user to trip
-              },
-              fieldViewBuilder: (BuildContext context,
-                  TextEditingController fieldTextEditingController,
-                  FocusNode fieldFocusNode,
-                  VoidCallback onFieldSubmitted) {
-                return TextField(
-                  controller: fieldTextEditingController,
-                  focusNode: fieldFocusNode,
-                  decoration: const InputDecoration(
-                    labelText: 'Name',
-                  ),
-                );
-              },
-              optionsViewBuilder: (BuildContext context,
-                  AutocompleteOnSelected<UserAccount> onSelected,
-                  Iterable<UserAccount> options) {
-                return Align(
-                  alignment: Alignment.topLeft,
-                  child: Material(
-                    child: SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.9,
-                      child: ListView.separated(
-                        padding: const EdgeInsets.all(8),
-                        itemCount: options.length,
-                        separatorBuilder: (BuildContext context, int index) =>
-                            const Divider(),
-                        itemBuilder: (BuildContext context, int index) {
-                          final option = options.elementAt(index);
-                          return ListTile(
-                            leading: option.pictureUrl != null
-                                ? CircleAvatar(
-                                    backgroundImage: NetworkImage(
-                                      option.pictureUrl!,
-                                    ),
-                                  )
-                                : const CircleAvatar(
-                                    backgroundImage: NetworkImage(
-                                      CustomImages.defaultProfilePictureUrl,
-                                    ),
-                                  ),
-                            title: Text(option.displayName ?? 'Anonymous User'),
-                            onTap: () {
-                              onSelected(option);
-                            },
-                          );
+            ),
+            Align(
+              alignment: Alignment.topLeft,
+              child: Material(
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  child: ListView.separated(
+                    padding: const EdgeInsets.all(8),
+                    itemCount: _previousUsers.length,
+                    separatorBuilder: (BuildContext context, int index) =>
+                        const Divider(),
+                    itemBuilder: (BuildContext context, int index) {
+                      final option = _previousUsers.elementAt(index);
+                      return ListTile(
+                        leading: option.pictureUrl != null
+                            ? CircleAvatar(
+                                backgroundImage: NetworkImage(
+                                  option.pictureUrl!,
+                                ),
+                              )
+                            : const CircleAvatar(
+                                backgroundImage: NetworkImage(
+                                  CustomImages.defaultProfilePictureUrl,
+                                ),
+                              ),
+                        title: Text(option.displayName ?? 'Anonymous User'),
+                        onTap: () {
+                          //onSelected(option);
                         },
-                      ),
-                    ),
+                      );
+                    },
                   ),
-                );
-              },
+                ),
+              ),
             ),
           ],
         ),
