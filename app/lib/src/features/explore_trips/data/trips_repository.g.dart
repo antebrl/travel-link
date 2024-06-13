@@ -21,7 +21,7 @@ final tripsRepositoryProvider = Provider<TripsRepository>.internal(
 );
 
 typedef TripsRepositoryRef = ProviderRef<TripsRepository>;
-String _$fetchPublicTripsHash() => r'8efb4b0e944dfaac1647c1430bf51b1a0e60f656';
+String _$fetchPublicTripsHash() => r'22f109881e827a4c50cfec3ff26e6f2ebccb9b50';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -57,7 +57,7 @@ class FetchPublicTripsFamily extends Family<AsyncValue<List<Trip>>> {
   FetchPublicTripsProvider call({
     DateTime? startDate,
     DateTime? endDate,
-    bool archived = false,
+    bool? archived,
     String? country,
   }) {
     return FetchPublicTripsProvider(
@@ -101,7 +101,7 @@ class FetchPublicTripsProvider extends AutoDisposeFutureProvider<List<Trip>> {
   FetchPublicTripsProvider({
     DateTime? startDate,
     DateTime? endDate,
-    bool archived = false,
+    bool? archived,
     String? country,
   }) : this._internal(
           (ref) => fetchPublicTrips(
@@ -141,7 +141,7 @@ class FetchPublicTripsProvider extends AutoDisposeFutureProvider<List<Trip>> {
 
   final DateTime? startDate;
   final DateTime? endDate;
-  final bool archived;
+  final bool? archived;
   final String? country;
 
   @override
@@ -199,7 +199,7 @@ mixin FetchPublicTripsRef on AutoDisposeFutureProviderRef<List<Trip>> {
   DateTime? get endDate;
 
   /// The parameter `archived` of this provider.
-  bool get archived;
+  bool? get archived;
 
   /// The parameter `country` of this provider.
   String? get country;
@@ -215,7 +215,7 @@ class _FetchPublicTripsProviderElement
   @override
   DateTime? get endDate => (origin as FetchPublicTripsProvider).endDate;
   @override
-  bool get archived => (origin as FetchPublicTripsProvider).archived;
+  bool? get archived => (origin as FetchPublicTripsProvider).archived;
   @override
   String? get country => (origin as FetchPublicTripsProvider).country;
 }

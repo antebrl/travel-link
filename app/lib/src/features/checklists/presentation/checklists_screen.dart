@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:travel_link/src/features/checklists/data/checklist_repository.dart';
 
-class ChecklistsScreen extends StatefulWidget {
+class ChecklistsScreen extends ConsumerStatefulWidget {
   const ChecklistsScreen({super.key});
 
   @override
-  State<ChecklistsScreen> createState() => _ChecklistsScreenState();
+  ConsumerState<ChecklistsScreen> createState() => _ChecklistsScreenState();
 }
 
-class _ChecklistsScreenState extends State<ChecklistsScreen> with SingleTickerProviderStateMixin {
+class _ChecklistsScreenState extends ConsumerState<ChecklistsScreen> with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
   @override
@@ -24,6 +26,9 @@ class _ChecklistsScreenState extends State<ChecklistsScreen> with SingleTickerPr
 
   @override
   Widget build(BuildContext context) {
+
+    //final fetchedChecklist = ref.watch(fetchTripChecklistProvider());
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Checklists'),
