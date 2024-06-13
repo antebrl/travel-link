@@ -59,7 +59,27 @@ class AccountRepository {
         )
         .get()
         .then((value) => value.data());
+
+  Future<List<UserAccount>> fetchUsersQuery({required String query}) async {
+    var queryUsers = usersQuery(query: query);
+    if(query.isNotEmpty) {
+       queryUsers = queryUsers.where('displayName', isGreaterThanOrEqualTo: query, isLessThan: query.substring(0, query.length-1) + String.fromCharCode(query.codeUnitAt(query.length - 1) + 1));
+    }
+    final users = await queryUsers.get();
+    return users.docs.map((doc) => doc.data()).toList();
+  }
+
+  Query<UserAccount> usersQuery({required String query}) =>
+      _firestore
+        .collection(usersBasePath)
+        .limit(10)
+        .withConverter<UserAccount>(
+          fromFirestore: (snapshot, _) => UserAccount.fromMap(
+              snapshot.data()!, snapshot.id), 
+          toFirestore: (userAcc, _) => userAcc.toMap(),
+        );
 }
+
 
 @Riverpod(keepAlive: true)
 AccountRepository accountRepository(
@@ -73,4 +93,10 @@ AccountRepository accountRepository(
 Future<UserAccount?> fetchUser(FetchUserRef ref, String uid) {
   final repository = ref.watch(accountRepositoryProvider);
   return repository.fetchUser(uid: uid);
+}
+
+@riverpod
+Future<List<UserAccount>> fetchUsersQuery(FetchUsersQueryRef ref, {required String query}) {
+  final repository = ref.watch(accountRepositoryProvider);
+  return repository.fetchUsersQuery(query: query);
 }

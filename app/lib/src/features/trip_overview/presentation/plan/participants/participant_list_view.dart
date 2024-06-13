@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:travel_link/src/features/account/data/account_repository.dart';
 import 'package:travel_link/src/features/account/domain/user_account.dart';
+import 'package:travel_link/src/features/trip_overview/presentation/plan/participants/add_participant_screen.dart';
 import 'package:travel_link/src/utils/constants/image_strings.dart';
 
 class ParticipantListView extends ConsumerWidget {
@@ -38,7 +39,14 @@ class ParticipantListView extends ConsumerWidget {
           borderRadius: BorderRadius.circular(20),
         ),
         onPressed: () {
+          Navigator.pop(context);
           // Add participant to trip
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const AddParticipantScreen(),
+            ),
+          );
         },
         label: const Text(
           'Add',
