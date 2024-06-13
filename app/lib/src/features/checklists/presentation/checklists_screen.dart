@@ -78,6 +78,87 @@ class _ChecklistViewState extends State<ChecklistView> {
   ];
   List<String> _filteredSuggestions = [];
 
+  final Map<String, IconData> _iconMap = {
+    'Alarm clock - Wecker': Icons.alarm,
+    'Aspirin - Aspirin': Icons.healing,
+    'Backpack - Rucksack': Icons.backpack,
+    'Bandages - Verbände': Icons.local_hospital,
+    'Bathing suit - Badeanzug': Icons.beach_access,
+    'Batteries - Batterien': Icons.battery_full,
+    'Belt - Gürtel': Icons.accessibility,
+    'Book - Buch': Icons.book,
+    'Bottle opener - Flaschenöffner': Icons.kitchen,
+    'Camera - Kamera': Icons.camera,
+    'Cash - Bargeld': Icons.money,
+    'Charging cable - Ladekabel': Icons.power,
+    'Clothes - Kleidung': Icons.checkroom,
+    'Contact lenses - Kontaktlinsen': Icons.remove_red_eye,
+    'Credit card - Kreditkarte': Icons.credit_card,
+    'Deodorant - Deodorant': Icons.brush,
+    'Driver’s license - Führerschein': Icons.card_membership,
+    'Earplugs - Ohrstöpsel': Icons.hearing,
+    'E-reader - E-Reader': Icons.tablet,
+    'Emergency contact list - Notfallkontaktliste': Icons.contact_phone,
+    'Flashlight - Taschenlampe': Icons.flashlight_on,
+    'Flip flops - Flip Flops': Icons.waves,
+    'Fork - Gabel': Icons.restaurant,
+    'Gloves - Handschuhe': Icons.handyman,
+    'Hairbrush - Haarbürste': Icons.brush,
+    'Hairdryer - Haartrockner': Icons.air,
+    'Handbag - Handtasche': Icons.shopping_bag,
+    'Headphones - Kopfhörer': Icons.headphones,
+    'Health insurance card - Krankenversicherungskarte': Icons.health_and_safety,
+    'Hiking boots - Wanderschuhe': Icons.hiking,
+    'iPad - iPad': Icons.tablet_mac,
+    'iPhone - iPhone': Icons.phone_iphone,
+    'Keychain - Schlüsselbund': Icons.vpn_key,
+    'Keys - Schlüssel': Icons.vpn_key,
+    'Knife - Messer': Icons.kitchen,
+    'Laptop - Laptop': Icons.laptop,
+    'Luggage - Gepäck': Icons.luggage,
+    'Luggage tag - Gepäckanhänger': Icons.tag,
+    'Map - Karte': Icons.map,
+    'Memory card - Speicherkarte': Icons.sd_card,
+    'Passport - Reisepass': Icons.travel_explore,
+    'Passport photos - Passfotos': Icons.photo,
+    'Pen - Stift': Icons.edit,
+    'Perfume - Parfüm': Icons.spa,
+    'ID - Personalausweis': Icons.card_membership,
+    'Phone - Telefon': Icons.phone,
+    'Raincoat - Regenmantel': Icons.umbrella,
+    'Razor - Rasierer': Icons.content_cut,
+    'Sandals - Sandalen': Icons.beach_access,
+    'Scarf - Schal': Icons.checkroom,
+    'Shampoo - Shampoo': Icons.local_hospital,
+    'Shoes - Schuhe': Icons.shopping_bag,
+    'Shorts - Shorts': Icons.checkroom,
+    'Shower gel - Duschgel': Icons.local_hospital,
+    'SIM card - SIM-Karte': Icons.sim_card,
+    'Sleepwear - Schlafanzug': Icons.bedtime,
+    'Socks - Socken': Icons.checkroom,
+    'Sports equipment - Sportausrüstung': Icons.sports,
+    'Suitcase - Koffer': Icons.luggage,
+    'Sunglasses - Sonnenbrille': Icons.wb_sunny,
+    'Sunscreen - Sonnencreme': Icons.wb_sunny,
+    'Swimsuit - Badeanzug': Icons.beach_access,
+    'Tablet - Tablet': Icons.tablet,
+    'Tissues - Taschentücher': Icons.announcement,
+    'Toothbrush - Zahnbürste': Icons.brush,
+    'Toothpaste - Zahnpasta': Icons.local_hospital,
+    'Towel - Handtuch': Icons.beach_access,
+    'Trousers - Hose': Icons.checkroom,
+    'Umbrella - Regenschirm': Icons.umbrella,
+    'Underwear - Unterwäsche': Icons.checkroom,
+    'USB cable - USB-Kabel': Icons.usb,
+    'Walking shoes - Wanderschuhe': Icons.hiking,
+    'Wallet - Geldbörse': Icons.account_balance_wallet,
+    'Watch - Uhr': Icons.watch,
+    'Water - Wasser': Icons.water,
+    'Travel insurance - Reiseversicherung': Icons.card_travel,
+    'Safety pins - Sicherheitsnadeln': Icons.safety_check,
+    'Sunglass case - Sonnenbrillenetui': Icons.wb_sunny,
+  };
+
   void _filterSuggestions(String query) {
     setState(() {
       _filteredSuggestions = _suggestions
@@ -151,10 +232,13 @@ class _ChecklistViewState extends State<ChecklistView> {
                   child: ListView.builder(
                     itemCount: _filteredSuggestions.length,
                     itemBuilder: (context, index) {
+                      String suggestion = _filteredSuggestions[index];
+                      IconData? icon = _iconMap[suggestion];
                       return ListTile(
-                        title: Text(_filteredSuggestions[index]),
+                        leading: icon != null ? Icon(icon) : null,
+                        title: Text(suggestion),
                         onTap: () {
-                          _textController.text = _filteredSuggestions[index];
+                          _textController.text = suggestion;
                           _filteredSuggestions = [];
                           _addTask(_textController.text);
                         },
@@ -178,13 +262,19 @@ class _ChecklistViewState extends State<ChecklistView> {
                   background: Container(color: Colors.red),
                   child: ListTile(
                     key: Key('task_$index'),
-                    title: Text(_tasks[index].title),
-                    leading: Checkbox(
-                      value: _tasks[index].isCompleted,
-                      onChanged: (bool? value) {
-                        _toggleTaskCompletion(index);
-                      },
+                    leading: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(_iconMap[_tasks[index].title] ?? Icons.circle),
+                        Checkbox(
+                          value: _tasks[index].isCompleted,
+                          onChanged: (bool? value) {
+                            _toggleTaskCompletion(index);
+                          },
+                        ),
+                      ],
                     ),
+                    title: Text(_tasks[index].title),
                     trailing: IconButton(
                       icon: const Icon(Icons.delete),
                       onPressed: () {
