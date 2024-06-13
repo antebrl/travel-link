@@ -1,17 +1,17 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:travel_link/src/features/activities/3_activities_screen/data/activity_data.dart';
-import 'package:travel_link/src/features/activities/3_activities_screen/domain/api_activity.dart';
+import 'package:travel_link/src/features/activities/3_activities_screen/domain/activity.dart';
 
-class ActivitiesNotifier extends StateNotifier<List<ApiActivity>> {
+class ActivitiesNotifier extends StateNotifier<List<Activity>> {
   ActivitiesNotifier(super.initialState);
 
-  void addActivity(ApiActivity newActivity) {
+  void addActivity(Activity newActivity) {
     state = [newActivity, ...state];
   }
 }
 
 final activitiesProvider =
-    StateNotifierProvider<ActivitiesNotifier, List<ApiActivity>>((ref) {
+    StateNotifierProvider<ActivitiesNotifier, List<Activity>>((ref) {
   final initialState = activityData;
   return ActivitiesNotifier(initialState);
 });
