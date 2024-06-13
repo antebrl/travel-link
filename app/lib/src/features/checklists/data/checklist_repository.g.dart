@@ -23,7 +23,7 @@ final checklistRepositoryProvider = Provider<ChecklistRepository>.internal(
 
 typedef ChecklistRepositoryRef = ProviderRef<ChecklistRepository>;
 String _$fetchTripChecklistHash() =>
-    r'28f896c36736ddb8a0d78a5342f1ff5f638e0b51';
+    r'445d0067005fa149181265c96fa86f45d9549c39';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -51,7 +51,7 @@ class _SystemHash {
 const fetchTripChecklistProvider = FetchTripChecklistFamily();
 
 /// See also [fetchTripChecklist].
-class FetchTripChecklistFamily extends Family<AsyncValue<List<Trip>>> {
+class FetchTripChecklistFamily extends Family<AsyncValue<List<ChecklistItem>>> {
   /// See also [fetchTripChecklist].
   const FetchTripChecklistFamily();
 
@@ -89,7 +89,8 @@ class FetchTripChecklistFamily extends Family<AsyncValue<List<Trip>>> {
 }
 
 /// See also [fetchTripChecklist].
-class FetchTripChecklistProvider extends AutoDisposeFutureProvider<List<Trip>> {
+class FetchTripChecklistProvider
+    extends AutoDisposeFutureProvider<List<ChecklistItem>> {
   /// See also [fetchTripChecklist].
   FetchTripChecklistProvider({
     required String tripId,
@@ -124,7 +125,8 @@ class FetchTripChecklistProvider extends AutoDisposeFutureProvider<List<Trip>> {
 
   @override
   Override overrideWith(
-    FutureOr<List<Trip>> Function(FetchTripChecklistRef provider) create,
+    FutureOr<List<ChecklistItem>> Function(FetchTripChecklistRef provider)
+        create,
   ) {
     return ProviderOverride(
       origin: this,
@@ -141,7 +143,7 @@ class FetchTripChecklistProvider extends AutoDisposeFutureProvider<List<Trip>> {
   }
 
   @override
-  AutoDisposeFutureProviderElement<List<Trip>> createElement() {
+  AutoDisposeFutureProviderElement<List<ChecklistItem>> createElement() {
     return _FetchTripChecklistProviderElement(this);
   }
 
@@ -159,13 +161,14 @@ class FetchTripChecklistProvider extends AutoDisposeFutureProvider<List<Trip>> {
   }
 }
 
-mixin FetchTripChecklistRef on AutoDisposeFutureProviderRef<List<Trip>> {
+mixin FetchTripChecklistRef
+    on AutoDisposeFutureProviderRef<List<ChecklistItem>> {
   /// The parameter `tripId` of this provider.
   String get tripId;
 }
 
 class _FetchTripChecklistProviderElement
-    extends AutoDisposeFutureProviderElement<List<Trip>>
+    extends AutoDisposeFutureProviderElement<List<ChecklistItem>>
     with FetchTripChecklistRef {
   _FetchTripChecklistProviderElement(super.provider);
 

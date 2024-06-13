@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:travel_link/src/features/checklists/domain/checklist_item.dart';
-import 'package:travel_link/src/features/explore_trips/domain/trip.dart';
 
 part 'checklist_repository.g.dart';
 
@@ -56,7 +55,7 @@ ChecklistRepository checklistRepository(ChecklistRepositoryRef ref) {
 
 @riverpod
 Future<List<ChecklistItem>> fetchTripChecklist(
-  ChecklistRepositoryRef ref, {
+  FetchTripChecklistRef ref, {
   required String tripId,
 }) {
   final repository = ref.watch(checklistRepositoryProvider);
