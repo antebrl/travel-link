@@ -19,26 +19,26 @@ class PreviewTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(left: 10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          GestureDetector(
-            onTap: () {
-              if (showAsModalSheet) {
-                showModalBottomSheet<void>(
-                  context: context,
-                  builder: detailsPageBuilder,
+      child: GestureDetector(
+        onTap: () {
+                if (showAsModalSheet) {
+                  showModalBottomSheet<void>(
+                    context: context,
+                    builder: detailsPageBuilder,
+                  );
+                  return;
+                }
+                Navigator.push(
+                  context,
+                  MaterialPageRoute<void>(
+                    builder: detailsPageBuilder,
+                  ),
                 );
-                return;
-              }
-              Navigator.push(
-                context,
-                MaterialPageRoute<void>(
-                  builder: detailsPageBuilder,
-                ),
-              );
-            },
-            child: Row(
+              },
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
               children: [
                 Text(
                   title,
@@ -56,10 +56,10 @@ class PreviewTile extends StatelessWidget {
                 ),
               ],
             ),
-          ),
-          const SizedBox(height: 5),
-          preview,
-        ],
+            const SizedBox(height: 5),
+            preview,
+          ],
+        ),
       ),
     );
   }
