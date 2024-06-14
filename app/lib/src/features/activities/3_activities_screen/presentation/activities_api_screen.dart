@@ -248,12 +248,16 @@ class _APIActivitiesScreenState extends ConsumerState<APIActivitiesScreen> {
                         ),
                       );
                     } else if (snapshot.hasError) {
-                      return Center(child: Text('Error: ${snapshot.error}'));
+                      return Center(
+                          child: Text(
+                        'Error: ${snapshot.error}',
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      ));
                     } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                       return SliverToBoxAdapter(
                         child: Center(
                           child: Text(
-                            'Error loading activies. Please try again later.',
+                            'No activities found.',
                             style: Theme.of(context).textTheme.bodyMedium,
                           ),
                         ),
