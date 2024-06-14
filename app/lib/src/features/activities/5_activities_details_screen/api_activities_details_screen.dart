@@ -294,8 +294,8 @@ class _ApiActivitiesDetailsScreenState
                                   widget.activity.openingHours!,
                                   style: Theme.of(context).textTheme.bodyLarge,
                                 ),
+                                const SizedBox(height: 10),
                               ],
-                              const SizedBox(height: 10),
                               Text(
                                 'Location: ',
                                 style: Theme.of(context)

@@ -84,7 +84,8 @@ class _APIActivitiesScreenState extends ConsumerState<APIActivitiesScreen> {
       ).future,
     );
 
-    final fetchedUserActivities = ref.watch(fetchActivitiesProvider(categories: widget.categoryList));
+    final fetchedUserActivities =
+        ref.watch(fetchActivitiesProvider(categories: widget.categoryList));
 
     return DefaultTabController(
       length: 2,
@@ -180,15 +181,36 @@ class _APIActivitiesScreenState extends ConsumerState<APIActivitiesScreen> {
                               (activity.isPublic || activity.creatorId == 'ME'),
                         )
                         .toList();
-                    return SliverList(
-                      delegate: SliverChildBuilderDelegate(
-                        (context, index) => APIActivityItem(
-                          key: UniqueKey(),
-                          activity: nearbyActivities[index],
+                    if (nearbyActivities.isNotEmpty) {
+                      return SliverToBoxAdapter(
+                        child: Column(
+                          children: [
+                            Text(
+                              'Added by Users: ',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headlineSmall!
+                                  .copyWith(
+                                    color: CustomColors.primary,
+                                  ),
+                            ),
+                            ListView.builder(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: nearbyActivities.length,
+                              itemBuilder: (context, index) {
+                                return APIActivityItem(
+                                  key: UniqueKey(),
+                                  activity: nearbyActivities[index],
+                                );
+                              },
+                            ),
+                          ],
                         ),
-                        childCount: nearbyActivities.length,
-                      ),
-                    );
+                      );
+                    } else {
+                      return const SliverToBoxAdapter();
+                    }
                   },
                   loading: () => const SliverToBoxAdapter(
                     child: Center(

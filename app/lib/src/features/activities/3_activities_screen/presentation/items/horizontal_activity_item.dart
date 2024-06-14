@@ -144,6 +144,7 @@ class _HorizontalActivityItemState extends State<HorizontalActivityItem> {
                     style: CustomTextTheme.lightTextTheme.bodySmall,
                     overflow: TextOverflow.ellipsis,
                   ),
+                 
                 ],
               ),
             ),
