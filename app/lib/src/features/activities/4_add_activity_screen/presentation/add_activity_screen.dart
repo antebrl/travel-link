@@ -55,14 +55,15 @@ class _AddActivityScreenState extends ConsumerState<AddActivityScreen> {
   }
 
   Future<void> _saveActivity() async {
+    print(_selectedLocation!.lon);
+    if (_selectedImage == null) print('null');
+    if (_selectedImage != null) print('no null');
     if (_formKey.currentState!.validate() &&
         _selectedImage != null &&
         _selectedLocation != null &&
         _filters.isNotEmpty &&
         _user != null) {
-      // Sicherstellen, dass der Benutzer eingeloggt ist
       _formKey.currentState!.save();
-
       var activity = Activity(
         name: _enteredName,
         categories: _filters.toList(),
@@ -70,7 +71,7 @@ class _AddActivityScreenState extends ConsumerState<AddActivityScreen> {
         image: _selectedImage,
         isPublic: _isPublic,
         isUserCreated: true,
-        creatorId: _user!.uid, // UID des Benutzers verwenden
+        creatorId: _user!.uid,
         location: PlaceLocation(
           lat: _selectedLocation!.lat,
           lon: _selectedLocation!.lon,
