@@ -179,7 +179,7 @@ class _LocationInput extends State<LocationInput> {
             Expanded(
               child: ElevatedButton.icon(
                 icon: const Icon(Icons.location_on),
-                label: const Text('Get Current Location'),
+                label: const Text('Get Location'),
                 onPressed: _getCurrentLocation,
               ),
             ),

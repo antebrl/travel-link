@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:travel_link/src/features/activities/3_activities_screen/data/activity_repository.dart';
@@ -27,6 +28,23 @@ class APIActivitiesScreen extends ConsumerStatefulWidget {
 }
 
 class _APIActivitiesScreenState extends ConsumerState<APIActivitiesScreen> {
+  String? userId;
+
+  @override
+  void initState() {
+    super.initState();
+    getCurrentUserId().then((id) {
+      setState(() {
+        userId = id;
+      });
+    });
+  }
+
+  Future<String?> getCurrentUserId() async {
+    final user = FirebaseAuth.instance.currentUser;
+    return user!.uid;
+  }
+
   bool isActivityNearDestination(
     Activity activity,
     double destLat,
@@ -66,7 +84,6 @@ class _APIActivitiesScreenState extends ConsumerState<APIActivitiesScreen> {
       ),
     );
     if (newActivity != null) {
-      // Aktualisieren Sie die Liste der Benutzeraktivitäten
       ref.invalidate(fetchActivitiesProvider(
         categories: widget.categoryList,
       ));
@@ -177,7 +194,8 @@ class _APIActivitiesScreenState extends ConsumerState<APIActivitiesScreen> {
                                 widget.destination.lon!,
                               ) &&
                               activity.isUserCreated &&
-                              (activity.isPublic || activity.creatorId == 'ME'),
+                              (activity.isPublic ||
+                                  activity.creatorId == userId),
                         )
                         .toList();
                     if (nearbyActivities.isNotEmpty) {

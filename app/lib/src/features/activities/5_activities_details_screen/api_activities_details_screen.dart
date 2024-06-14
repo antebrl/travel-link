@@ -363,6 +363,36 @@ class _ApiActivitiesDetailsScreenState
                                     .bodyLarge!
                                     .copyWith(color: CustomColors.primary),
                               ),
+                              if (widget.activity.isPublic == false) ...{
+                                Padding(
+                                  padding: const EdgeInsets.all(10),
+                                  child: Chip(
+                                    side: const BorderSide(
+                                      color: CustomColors.primary,
+                                    ),
+                                    backgroundColor: CustomColors.white,
+                                    labelStyle: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall!
+                                        .copyWith(
+                                          color: CustomColors.primary,
+                                        ),
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 12,
+                                      vertical: 12,
+                                    ),
+                                    label: Text(
+                                      'private',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall!
+                                          .copyWith(
+                                            color: CustomColors.primary,
+                                          ),
+                                    ),
+                                  ),
+                                ),
+                              },
                               Padding(
                                 padding: const EdgeInsets.all(10),
                                 child: Wrap(
@@ -388,9 +418,12 @@ class _ApiActivitiesDetailsScreenState
                                       ),
                                       label: Text(
                                         category,
-                                        style: const TextStyle(
-                                          color: CustomColors.primary,
-                                        ),
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodySmall!
+                                            .copyWith(
+                                              color: CustomColors.primary,
+                                            ),
                                       ),
                                     );
                                   }).toList(),

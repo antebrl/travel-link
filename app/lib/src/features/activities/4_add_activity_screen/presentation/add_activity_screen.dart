@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:travel_link/src/features/activities/3_activities_screen/domain/activity.dart';
 import 'package:travel_link/src/features/activities/4_add_activity_screen/presentation/activities_controller.dart';
@@ -24,6 +25,24 @@ class _AddActivityScreenState extends ConsumerState<AddActivityScreen> {
   PlaceLocation? _selectedLocation;
   bool _isPublic = false;
   final Set<String> _filters = <String>{};
+  User? _user;
+
+  @override
+  void initState() {
+    super.initState();
+    _checkUserAuthState();
+  }
+
+  void _checkUserAuthState() {
+    FirebaseAuth.instance.authStateChanges().listen((user) {
+      setState(() {
+        _user = user;
+        print(
+          _user!.uid,
+        );
+      });
+    });
+  }
 
   String? stringValidator(String? value) {
     if (value == null ||
@@ -39,7 +58,9 @@ class _AddActivityScreenState extends ConsumerState<AddActivityScreen> {
     if (_formKey.currentState!.validate() &&
         _selectedImage != null &&
         _selectedLocation != null &&
-        _filters.isNotEmpty) {
+        _filters.isNotEmpty &&
+        _user != null) {
+      // Sicherstellen, dass der Benutzer eingeloggt ist
       _formKey.currentState!.save();
 
       var activity = Activity(
@@ -49,6 +70,7 @@ class _AddActivityScreenState extends ConsumerState<AddActivityScreen> {
         image: _selectedImage,
         isPublic: _isPublic,
         isUserCreated: true,
+        creatorId: _user!.uid, // UID des Benutzers verwenden
         location: PlaceLocation(
           lat: _selectedLocation!.lat,
           lon: _selectedLocation!.lon,
@@ -59,25 +81,18 @@ class _AddActivityScreenState extends ConsumerState<AddActivityScreen> {
         ),
       );
 
-      final success =
-          await ref.read(activitiesControllerProvider.notifier).postActivity(
-                activity: activity,
-              );
+      final success = await ref
+          .read(activitiesControllerProvider.notifier)
+          .postActivity(activity: activity);
 
       if (success && mounted) {
-        // ignore: unused_result
-        // ref.refresh(
-        //   fetchPicturePostsProvider(widget.trip.tripId),
-        // );
         Navigator.of(context).pop(activity);
       }
     } else {
       ScaffoldMessenger.of(context).clearSnackBars();
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text(
-            'Please fill out all required fields.',
-          ),
+          content: Text('Please fill out all required fields.'),
           duration: Duration(seconds: 3),
         ),
       );
@@ -119,25 +134,19 @@ class _AddActivityScreenState extends ConsumerState<AddActivityScreen> {
                         _enteredDescription = value!;
                       },
                     ),
-                    const SizedBox(
-                      height: 20,
-                    ),
+                    const SizedBox(height: 20),
                     ImageInput(
                       onPickImage: (image) {
                         _selectedImage = image;
                       },
                     ),
-                    const SizedBox(
-                      height: 20,
-                    ),
+                    const SizedBox(height: 20),
                     LocationInput(
                       onSelectLocation: (location) {
                         _selectedLocation = location;
                       },
                     ),
-                    const SizedBox(
-                      height: 20,
-                    ),
+                    const SizedBox(height: 20),
                     Text(
                       'Select Categories: ',
                       style:
@@ -199,9 +208,7 @@ class _AddActivityScreenState extends ConsumerState<AddActivityScreen> {
                         );
                       }).toList(),
                     ),
-                    const SizedBox(
-                      height: 20,
-                    ),
+                    const SizedBox(height: 20),
                     Row(
                       children: [
                         Expanded(
