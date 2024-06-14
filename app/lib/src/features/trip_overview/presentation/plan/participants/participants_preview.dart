@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_image_stack/flutter_image_stack.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:travel_link/src/features/trip_overview/data/user_repository.dart';
-import 'package:travel_link/src/features/trip_overview/presentation/plan/participants/participant_list_view.dart';
 import 'package:travel_link/src/utils/constants/image_strings.dart';
 
 class ParticipantsPreview extends ConsumerWidget {
@@ -38,82 +37,76 @@ class ParticipantsPreview extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    //calculate approximately how many images will be shown
-    final imagesCount = (MediaQuery.of(context).size.width - 100 / 60).floor();
+        //calculate qpproximately how much images can be displayed
+        final maxImagesCount = ((MediaQuery.of(context).size.width - 100 / 60) -1).floor();
 
-    return GestureDetector(
-      onTap: () {
-        showModalBottomSheet<void>(
-          context: context,
-          builder: (BuildContext context) =>
-              ParticipantListView(participants: participants),
-        );
-      },
-      child: Padding(
-        padding: const EdgeInsets.only(left: 5),
-        child: Row(
-          children: [
-            FutureBuilder<List<String>>(
-              future: _fetchAvatars(ref, imagesCount - 2),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting ||
-                    snapshot.data == null ||
-                    snapshot.data!.isEmpty) {
-                  return FlutterImageStack(
-                    imageList: List.generate(
-                      participants.length,
-                      (index) => CustomImages.defaultProfilePictureUrl,
-                    ),
-                    extraCountTextStyle: const TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    itemRadius: 60,
-                    totalCount: participants.length + 1,
-                    showTotalCount: false,
-                  );
-                } else {
-                  return FlutterImageStack(
-                    imageList: snapshot.data!,
-                    extraCountTextStyle: const TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    totalCount: participants.length + 1,
-                    showTotalCount: false,
-                    itemRadius: 60,
-                  );
-                }
-              },
+
+    return Padding(
+      padding: const EdgeInsets.only(left: 5),
+      child: Row(
+        children: [
+          FutureBuilder<List<String>>(
+            future: _fetchAvatars(ref, maxImagesCount),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting ||
+                  snapshot.data == null ||
+                  snapshot.data!.isEmpty) {
+                return FlutterImageStack(
+                  imageList: List.generate(
+                    participants.length,
+                    (index) => CustomImages.defaultProfilePictureUrl,
+                  ),
+                  extraCountTextStyle: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  itemRadius: 60,
+                  totalCount: participants.length + 1,
+                  itemCount: maxImagesCount,
+                  showTotalCount: false,
+                );
+              } else {
+                return FlutterImageStack(
+                  imageList: snapshot.data!,
+                  extraCountTextStyle: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  totalCount: participants.length + 1,
+                  itemCount: maxImagesCount,
+                  showTotalCount: false,
+                  itemRadius: 60,
+                );
+              }
+            },
+          ),
+          const Spacer(),
+          if (maxParticipants != null)
+            Row(
+              children: [
+                const SizedBox(
+                  height: 25,
+                  child: VerticalDivider(
+                    thickness: 1,
+                    color: Colors.grey,
+                    width: 10,
+                  ),
+                ),
+                const SizedBox(width: 10),
+                Text(
+                  '${participants.length} / ${maxParticipants!}',
+                  style: const TextStyle(
+                    fontSize: 18,
+                    color: Colors.grey,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(width: 10),
+              ],
             ),
-            const Spacer(),
-            if (maxParticipants != null)
-              Row(
-                children: [
-                  const SizedBox(
-                    height: 25,
-                    child: VerticalDivider(
-                      thickness: 1,
-                      color: Colors.grey,
-                      width: 10,
-                    ),
-                  ),
-                  const SizedBox(width: 10),
-                  Text(
-                    '${participants.length} / ${maxParticipants!}',
-                    style: const TextStyle(
-                      fontSize: 18,
-                      color: Colors.grey,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(width: 10),
-                ],
-              ),
-          ],
-        ),
+        ],
       ),
     );
   }

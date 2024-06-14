@@ -169,7 +169,7 @@ class _FetchUserProviderElement extends FutureProviderElement<UserAccount?>
   String get uid => (origin as FetchUserProvider).uid;
 }
 
-String _$fetchUsersQueryHash() => r'3b1367df11ea98087ba07ef7bf89132d0a95e0c6';
+String _$fetchUsersQueryHash() => r'fb8f90deb6898e60a25e7427221acddd937c6d65';
 
 /// See also [fetchUsersQuery].
 @ProviderFor(fetchUsersQuery)
@@ -183,9 +183,11 @@ class FetchUsersQueryFamily extends Family<AsyncValue<List<UserAccount>>> {
   /// See also [fetchUsersQuery].
   FetchUsersQueryProvider call({
     required String query,
+    required List<String> participants,
   }) {
     return FetchUsersQueryProvider(
       query: query,
+      participants: participants,
     );
   }
 
@@ -195,6 +197,7 @@ class FetchUsersQueryFamily extends Family<AsyncValue<List<UserAccount>>> {
   ) {
     return call(
       query: provider.query,
+      participants: provider.participants,
     );
   }
 
@@ -219,10 +222,12 @@ class FetchUsersQueryProvider
   /// See also [fetchUsersQuery].
   FetchUsersQueryProvider({
     required String query,
+    required List<String> participants,
   }) : this._internal(
           (ref) => fetchUsersQuery(
             ref as FetchUsersQueryRef,
             query: query,
+            participants: participants,
           ),
           from: fetchUsersQueryProvider,
           name: r'fetchUsersQueryProvider',
@@ -234,6 +239,7 @@ class FetchUsersQueryProvider
           allTransitiveDependencies:
               FetchUsersQueryFamily._allTransitiveDependencies,
           query: query,
+          participants: participants,
         );
 
   FetchUsersQueryProvider._internal(
@@ -244,9 +250,11 @@ class FetchUsersQueryProvider
     required super.debugGetCreateSourceHash,
     required super.from,
     required this.query,
+    required this.participants,
   }) : super.internal();
 
   final String query;
+  final List<String> participants;
 
   @override
   Override overrideWith(
@@ -262,6 +270,7 @@ class FetchUsersQueryProvider
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
         query: query,
+        participants: participants,
       ),
     );
   }
@@ -273,13 +282,16 @@ class FetchUsersQueryProvider
 
   @override
   bool operator ==(Object other) {
-    return other is FetchUsersQueryProvider && other.query == query;
+    return other is FetchUsersQueryProvider &&
+        other.query == query &&
+        other.participants == participants;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
     hash = _SystemHash.combine(hash, query.hashCode);
+    hash = _SystemHash.combine(hash, participants.hashCode);
 
     return _SystemHash.finish(hash);
   }
@@ -288,6 +300,9 @@ class FetchUsersQueryProvider
 mixin FetchUsersQueryRef on AutoDisposeFutureProviderRef<List<UserAccount>> {
   /// The parameter `query` of this provider.
   String get query;
+
+  /// The parameter `participants` of this provider.
+  List<String> get participants;
 }
 
 class _FetchUsersQueryProviderElement
@@ -297,6 +312,9 @@ class _FetchUsersQueryProviderElement
 
   @override
   String get query => (origin as FetchUsersQueryProvider).query;
+  @override
+  List<String> get participants =>
+      (origin as FetchUsersQueryProvider).participants;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

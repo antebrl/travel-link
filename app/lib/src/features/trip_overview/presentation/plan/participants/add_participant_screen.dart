@@ -2,12 +2,18 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:travel_link/src/features/account/domain/user_account.dart';
+import 'package:travel_link/src/features/explore_trips/domain/trip.dart';
+import 'package:travel_link/src/features/my_trips/data/my_trips_repository.dart';
+import 'package:travel_link/src/features/my_trips/presentation/my_trips_controller.dart';
 import 'package:travel_link/src/features/trip_overview/data/user_repository.dart';
 import 'package:travel_link/src/utils/constants/image_strings.dart';
 
 class AddParticipantScreen extends ConsumerStatefulWidget {
-  const AddParticipantScreen({super.key});
+  const AddParticipantScreen({required this.trip, super.key});
+
+  final Trip trip;
 
   @override
   ConsumerState<AddParticipantScreen> createState() =>
@@ -23,7 +29,6 @@ class _AddParticipantScreenState extends ConsumerState<AddParticipantScreen> {
   @override
   void initState() {
     super.initState();
-
     _fetchUsers('');
   }
 
@@ -31,7 +36,7 @@ class _AddParticipantScreenState extends ConsumerState<AddParticipantScreen> {
     _queryUser = textValue;
 
     final fetchedUsers =
-        await ref.read(fetchUsersQueryProvider(query: _queryUser).future);
+        await ref.read(fetchUsersQueryProvider(query: _queryUser, participants: widget.trip.participants).future);
 
     // If the query has changed, don't update and wait for next options build
     if (_queryUser == textValue) {
@@ -40,24 +45,6 @@ class _AddParticipantScreenState extends ConsumerState<AddParticipantScreen> {
       });
     }
   }
-
-  // void _addUser() async {
-  //   final name = _nameController.text;
-  //   final email = _emailController.text;
-
-  //   if (name.isNotEmpty && email.isNotEmpty) {
-  //     await FirebaseFirestore.instance.collection('users').add({
-  //       'name': name,
-  //       'email': email,
-  //     });
-
-  //     _nameController.clear();
-  //     _emailController.clear();
-  //     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('User added')));
-  //   } else {
-  //     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Please fill in all fields')));
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -70,34 +57,29 @@ class _AddParticipantScreenState extends ConsumerState<AddParticipantScreen> {
         child: Column(
           children: [
             TextField(
-              
               controller: _nameController,
               decoration: InputDecoration(
                 fillColor: Colors.white,
                 filled: true,
-                prefixIcon: Icon(Icons.group_add),
+                prefixIcon: const Icon(Icons.group_add),
                 labelText: 'Add Participant',
-                
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8.0),
-          borderSide: BorderSide(
-            color: Colors.grey,
-            width: 1,
-          ),
-        ),
-      
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide: const BorderSide(
+                    color: Colors.grey,
+                  ),
+                ),
                 focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: BorderSide(
-            color: Colors.blue,
-            width: 2.0,
-          ),
-        ),
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide: const BorderSide(
+                    color: Colors.blue,
+                    width: 2,
+                  ),
+                ),
               ),
               onChanged: (textValue) async {
                 unawaited(_fetchUsers(textValue));
               },
-              
             ),
             Expanded(
               child: Padding(
@@ -122,14 +104,36 @@ class _AddParticipantScreenState extends ConsumerState<AddParticipantScreen> {
                               ),
                             ),
                       trailing: IconButton(
-        icon: Icon(Icons.account_circle_outlined, color: Colors.grey[700],),
-        onPressed: () {
-          //Go to user public profile
-        },
-      ),
+                        icon: Icon(
+                          Icons.account_circle_outlined,
+                          color: Colors.grey[700],
+                        ),
+                        onPressed: () {
+                          //Go to user public profile
+                        },
+                      ),
                       title: Text(option.displayName ?? 'Anonymous User'),
-                      onTap: () {
+                      onTap: () async {
                         // Add participant to trip
+                        if (widget.trip.participants.length >=
+                            (widget.trip.maxParticipants ?? double.infinity)) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Trip is full'),
+                            ),
+                          );
+                          return;
+                        }
+                        // join Trip
+                        await ref
+                            .read(myTripsControllerProvider.notifier)
+                            .addToTrip(trip: widget.trip, uid: option.id);
+
+                        if (mounted) {
+                          context.pop();
+                        }
+                        // ignore: unused_result
+                        ref.refresh(fetchMyTripsProvider);
                       },
                     );
                   },

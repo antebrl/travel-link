@@ -74,7 +74,7 @@ class _TripPlanningScreenState extends State<TripPlanningScreen> {
             maxParticipants: widget.trip.maxParticipants,
           ),
           detailsPageBuilder: (context) => ParticipantListView(
-            participants: widget.trip.participants,
+            trip: widget.trip,
           ),
           showAsModalSheet: true,
         ),
