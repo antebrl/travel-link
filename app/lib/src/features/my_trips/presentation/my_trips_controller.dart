@@ -106,6 +106,18 @@ class MyTripsController extends _$MyTripsController {
     );
   }
 
+  Future<void> addToTrip({required Trip trip, required String uid}) async {
+
+    //set state to loading
+    state = const AsyncLoading();
+
+    final repository = ref.read(myTripsRepositoryProvider);
+
+    state = await AsyncValue.guard(
+      () => repository.joinTrip(uid: uid, trip: trip),
+    );
+  }
+
   // Future<void> leaveTrip(String tripId) async {
   //   final currentUser = ref.read(firebaseAuthProvider).currentUser;
 
