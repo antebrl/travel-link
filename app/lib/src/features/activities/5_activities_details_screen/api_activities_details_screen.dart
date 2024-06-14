@@ -223,6 +223,40 @@ class _ApiActivitiesDetailsScreenState
                       ),
           ),
           Positioned(
+            top: 10,
+            right: 10,
+            child: ElevatedButton(
+              onPressed: () {
+                showModalBottomSheet<void>(
+                  context: context,
+                  builder: (BuildContext context) => Column(
+                    children: [
+                      Text(
+                        'Select trip',
+                        style: Theme.of(context)
+                            .textTheme
+                            .headlineSmall!
+                            .copyWith(
+                                color: CustomColors.primary, fontSize: 20),
+                      ),
+                    ],
+                  ),
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: CustomColors.primary.withOpacity(0.7),
+                side: BorderSide.none,
+                padding: const EdgeInsets.all(5),
+              ),
+              child: const Text(
+                'Add to trip',
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ),
+          Positioned(
             top: 200,
             left: 0,
             right: 0,

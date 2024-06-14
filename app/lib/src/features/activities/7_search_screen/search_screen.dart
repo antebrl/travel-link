@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:travel_link/src/common_widgets/auto_complete_search.dart';
-import 'package:travel_link/src/features/activities/3_activities_screen/data/activity_repository.dart';
 import 'package:travel_link/src/features/activities/3_activities_screen/domain/activity.dart';
 import 'package:travel_link/src/features/activities/3_activities_screen/presentation/activities_api_screen.dart';
 import 'package:travel_link/src/features/activities/4_add_activity_screen/presentation/add_activity_screen.dart';
@@ -318,18 +317,25 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                 ),
               ),
               const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: addActivity,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: CustomColors.primary.withOpacity(0.7),
-                  side: BorderSide.none,
-                ),
-                child: const Text(
-                  'Add your own Activity',
-                  style: TextStyle(
-                    color: Colors.white,
+              Row(
+                children: [
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: addActivity,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: CustomColors.primary.withOpacity(0.7),
+                        side: BorderSide.none,
+                      ),
+                      child: Text(
+                        'Add an Activity',
+                        style:
+                            Theme.of(context).textTheme.headlineSmall!.copyWith(
+                                  color: CustomColors.white,
+                                ),
+                      ),
+                    ),
                   ),
-                ),
+                ],
               ),
             ],
           ),
