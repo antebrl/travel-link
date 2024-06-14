@@ -17,8 +17,8 @@ class AddActivityScreen extends ConsumerStatefulWidget {
 class _AddActivityScreenState extends ConsumerState<AddActivityScreen> {
   final _formKey = GlobalKey<FormState>();
 
-  String _enteredName = 'testDaten';
-  String _enteredDescription = 'testDaten';
+  String _enteredName = '';
+  String _enteredDescription = '';
 
   File? _selectedImage;
   PlaceLocation? _selectedLocation;
@@ -83,7 +83,6 @@ class _AddActivityScreenState extends ConsumerState<AddActivityScreen> {
       );
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -164,7 +163,7 @@ class _AddActivityScreenState extends ConsumerState<AddActivityScreen> {
                         ),
                         const SizedBox(width: 8),
                         Text(
-                          _isPublic ? 'Private Activity' : 'Public Activity',
+                          _isPublic ? 'Public Activity' : 'Private Activity',
                           style: Theme.of(context).textTheme.bodyMedium,
                         ),
                       ],
