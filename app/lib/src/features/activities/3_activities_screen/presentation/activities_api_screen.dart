@@ -27,8 +27,6 @@ class APIActivitiesScreen extends ConsumerStatefulWidget {
 }
 
 class _APIActivitiesScreenState extends ConsumerState<APIActivitiesScreen> {
-  List<Activity> addedActivities = [];
-
   bool isActivityNearDestination(
     Activity activity,
     double destLat,
@@ -67,11 +65,12 @@ class _APIActivitiesScreenState extends ConsumerState<APIActivitiesScreen> {
         builder: (ctx) => const AddActivityScreen(),
       ),
     );
-    if (newActivity == null) return;
-
-    setState(() {
-      addedActivities.add(newActivity);
-    });
+    if (newActivity != null) {
+      // Aktualisieren Sie die Liste der Benutzeraktivitäten
+      ref.invalidate(fetchActivitiesProvider(
+        categories: widget.categoryList,
+      ));
+    }
   }
 
   @override
