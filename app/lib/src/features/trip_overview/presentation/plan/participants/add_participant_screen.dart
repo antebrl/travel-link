@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:travel_link/src/features/account/data/account_repository.dart';
 import 'package:travel_link/src/features/account/domain/user_account.dart';
+import 'package:travel_link/src/features/trip_overview/data/user_repository.dart';
 import 'package:travel_link/src/utils/constants/image_strings.dart';
 
 class AddParticipantScreen extends ConsumerStatefulWidget {
@@ -29,17 +29,18 @@ class _AddParticipantScreenState extends ConsumerState<AddParticipantScreen> {
 
   Future<void> _fetchUsers(String textValue) async {
     _queryUser = textValue;
-            
-                final fetchedUsers = await ref
-                    .read(fetchUsersQueryProvider(query: _queryUser).future);
-            
-                // If the query has changed, don't update and wait for next options build
-                if (_queryUser == textValue) {
-                  setState(() {
-                    _previousUsers = fetchedUsers;
-                  });
+
+    final fetchedUsers =
+        await ref.read(fetchUsersQueryProvider(query: _queryUser).future);
+
+    // If the query has changed, don't update and wait for next options build
+    if (_queryUser == textValue) {
+      setState(() {
+        _previousUsers = fetchedUsers;
+      });
+    }
   }
-  }
+
   // void _addUser() async {
   //   final name = _nameController.text;
   //   final email = _emailController.text;
@@ -58,36 +59,45 @@ class _AddParticipantScreenState extends ConsumerState<AddParticipantScreen> {
   //   }
   // }
 
-  // Future<List<String>> _getUserSuggestions(String query) async {
-  //   final snapshot = await FirebaseFirestore.instance
-  //       .collection('users')
-  //       //Query to check if displayName starts with query
-  //       .where('displayName', isGreaterThanOrEqualTo: query, isLessThan: query.substring(0, query.length-1) + String.fromCharCode(query.codeUnitAt(query.length - 1) + 1))
-  //       .get();
-
-  //   final l = snapshot.docs.map((doc) => doc.data()['displayName'] as String).toList();
-  //   return l;
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add User'),
+        title: const Text('Add User'),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.fromLTRB(26, 16, 26, 20),
         child: Column(
           children: [
             TextField(
+              
               controller: _nameController,
-              decoration: const InputDecoration(
-                labelText: 'Name',
+              decoration: InputDecoration(
+                fillColor: Colors.white,
+                filled: true,
+                prefixIcon: Icon(Icons.group_add),
+                labelText: 'Add Participant',
+                
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8.0),
+          borderSide: BorderSide(
+            color: Colors.grey,
+            width: 1,
+          ),
+        ),
+      
+                focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: BorderSide(
+            color: Colors.blue,
+            width: 2.0,
+          ),
+        ),
               ),
               onChanged: (textValue) async {
-                print('On changed');
                 unawaited(_fetchUsers(textValue));
               },
+              
             ),
             Expanded(
               child: Padding(
@@ -111,9 +121,15 @@ class _AddParticipantScreenState extends ConsumerState<AddParticipantScreen> {
                                 CustomImages.defaultProfilePictureUrl,
                               ),
                             ),
+                      trailing: IconButton(
+        icon: Icon(Icons.account_circle_outlined, color: Colors.grey[700],),
+        onPressed: () {
+          //Go to user public profile
+        },
+      ),
                       title: Text(option.displayName ?? 'Anonymous User'),
                       onTap: () {
-                        //onSelected(option);
+                        // Add participant to trip
                       },
                     );
                   },
