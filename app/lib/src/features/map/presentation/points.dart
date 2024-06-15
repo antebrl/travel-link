@@ -1,4 +1,4 @@
-// ignore_for_file: unused_import
+// ignore_for_file: unused_import, lines_longer_than_80_chars, require_trailing_commas
 
 import 'dart:async';
 
@@ -19,7 +19,7 @@ Marker createUserMarker(LatLng position) {
   final ValueNotifier<Color> starColorNotifier =
       ValueNotifier<Color>(Colors.grey);
 
-  Marker newMarker = Marker(
+  final Marker newMarker = Marker(
     point: position,
     width: 20,
     height: 20,
@@ -45,7 +45,9 @@ Marker createUserMarker(LatLng position) {
                             color: starColor,
                           ),
                           onPressed: () {
-                            print('Hello you.....');
+                            /*
+                            Nutzerfunktionalitaet hinzufuegen
+                            */
                           },
                         );
                       },
@@ -69,7 +71,7 @@ Marker createActiveActivity(LatLng position, WidgetRef ref) {
   String usedMobility = 'Car';
   String mobilityForAPI = 'cycling-regular';
   final ValueNotifier<Color> colorNotifier =
-      ValueNotifier<Color>(Color.fromARGB(255, 109, 162, 30));
+      ValueNotifier<Color>(const Color.fromARGB(255, 109, 162, 30));
   final ValueNotifier<Color> starColorNotifier =
       ValueNotifier<Color>(Colors.grey);
   final ValueNotifier<bool> isLoadingNotifier = ValueNotifier<bool>(false);
@@ -84,6 +86,7 @@ Marker createActiveActivity(LatLng position, WidgetRef ref) {
         return IconButton(
           icon: Icon(Icons.local_activity, color: color),
           onPressed: () {
+            // ignore: inference_failure_on_function_invocation
             showDialog(
               context: context,
               builder: (context) => AlertDialog(
@@ -113,8 +116,7 @@ Marker createActiveActivity(LatLng position, WidgetRef ref) {
                             });
                           },
                         ),
-                        // Text field
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         ValueListenableBuilder<bool>(
                           valueListenable: isLoadingNotifier,
                           builder: (context, isLoading, child) {
@@ -131,7 +133,6 @@ Marker createActiveActivity(LatLng position, WidgetRef ref) {
                                       ),
                                       onPressed: () async {
                                         isLoadingNotifier.value = true;
-                                        print('Starting the research');
                                         final LatLng currentUserLocation =
                                             await getCurrentLocation();
                                         List<LatLng> route;
@@ -144,7 +145,8 @@ Marker createActiveActivity(LatLng position, WidgetRef ref) {
                                               locationPosition),
                                         );
 
-                                        // Update the shared state with the new route
+                                        // Update the shared state
+                                        // with the new route
                                         ref.read(sharedStateProvider).way =
                                             route;
 
@@ -153,7 +155,8 @@ Marker createActiveActivity(LatLng position, WidgetRef ref) {
                                     );
                                   },
                                 ),
-                                if (isLoading) CircularProgressIndicator(),
+                                if (isLoading)
+                                  const CircularProgressIndicator(),
                               ],
                             );
                           },
@@ -176,7 +179,7 @@ Marker createCulturalActivity(LatLng position, WidgetRef ref) {
   String usedMobility = 'Car';
   String mobilityForAPI = 'cycling-regular';
   final ValueNotifier<Color> colorNotifier =
-      ValueNotifier<Color>(Color.fromARGB(255, 19, 146, 181));
+      ValueNotifier<Color>(const Color.fromARGB(255, 19, 146, 181));
   final ValueNotifier<Color> starColorNotifier =
       ValueNotifier<Color>(Colors.grey);
   final ValueNotifier<bool> isLoadingNotifier = ValueNotifier<bool>(false);
@@ -191,6 +194,7 @@ Marker createCulturalActivity(LatLng position, WidgetRef ref) {
         return IconButton(
           icon: Icon(Icons.museum_rounded, color: color),
           onPressed: () {
+            // ignore: inference_failure_on_function_invocation
             showDialog(
               context: context,
               builder: (context) => AlertDialog(
@@ -221,7 +225,7 @@ Marker createCulturalActivity(LatLng position, WidgetRef ref) {
                           },
                         ),
                         // Text field
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         ValueListenableBuilder<bool>(
                           valueListenable: isLoadingNotifier,
                           builder: (context, isLoading, child) {
@@ -238,7 +242,6 @@ Marker createCulturalActivity(LatLng position, WidgetRef ref) {
                                       ),
                                       onPressed: () async {
                                         isLoadingNotifier.value = true;
-                                        print('Starting the research');
                                         final LatLng currentUserLocation =
                                             await getCurrentLocation();
                                         List<LatLng> route;
@@ -260,7 +263,8 @@ Marker createCulturalActivity(LatLng position, WidgetRef ref) {
                                     );
                                   },
                                 ),
-                                if (isLoading) CircularProgressIndicator(),
+                                if (isLoading)
+                                  const CircularProgressIndicator(),
                               ],
                             );
                           },
@@ -283,7 +287,7 @@ Marker createNatureActivity(LatLng position, WidgetRef ref) {
   String usedMobility = 'Car';
   String mobilityForAPI = 'cycling-regular';
   final ValueNotifier<Color> colorNotifier =
-      ValueNotifier<Color>(Color.fromARGB(255, 4, 88, 9));
+      ValueNotifier<Color>(const Color.fromARGB(255, 4, 88, 9));
   final ValueNotifier<Color> starColorNotifier =
       ValueNotifier<Color>(Colors.grey);
   final ValueNotifier<bool> isLoadingNotifier = ValueNotifier<bool>(false);
@@ -298,6 +302,7 @@ Marker createNatureActivity(LatLng position, WidgetRef ref) {
         return IconButton(
           icon: Icon(Icons.forest_rounded, color: color),
           onPressed: () {
+            // ignore: inference_failure_on_function_invocation
             showDialog(
               context: context,
               builder: (context) => AlertDialog(
@@ -328,7 +333,7 @@ Marker createNatureActivity(LatLng position, WidgetRef ref) {
                           },
                         ),
                         // Text field
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         ValueListenableBuilder<bool>(
                           valueListenable: isLoadingNotifier,
                           builder: (context, isLoading, child) {
@@ -345,7 +350,6 @@ Marker createNatureActivity(LatLng position, WidgetRef ref) {
                                       ),
                                       onPressed: () async {
                                         isLoadingNotifier.value = true;
-                                        print('Starting the research');
                                         final LatLng currentUserLocation =
                                             await getCurrentLocation();
                                         List<LatLng> route;
@@ -367,7 +371,8 @@ Marker createNatureActivity(LatLng position, WidgetRef ref) {
                                     );
                                   },
                                 ),
-                                if (isLoading) CircularProgressIndicator(),
+                                if (isLoading)
+                                  const CircularProgressIndicator(),
                               ],
                             );
                           },
@@ -390,7 +395,7 @@ Marker createSportsActivity(LatLng position, WidgetRef ref) {
   String usedMobility = 'Car';
   String mobilityForAPI = 'cycling-regular';
   final ValueNotifier<Color> colorNotifier =
-      ValueNotifier<Color>(Color.fromARGB(255, 117, 14, 14));
+      ValueNotifier<Color>(const Color.fromARGB(255, 117, 14, 14));
   final ValueNotifier<Color> starColorNotifier =
       ValueNotifier<Color>(Colors.grey);
   final ValueNotifier<bool> isLoadingNotifier = ValueNotifier<bool>(false);
@@ -405,6 +410,7 @@ Marker createSportsActivity(LatLng position, WidgetRef ref) {
         return IconButton(
           icon: Icon(Icons.sports_tennis, color: color),
           onPressed: () {
+            // ignore: inference_failure_on_function_invocation
             showDialog(
               context: context,
               builder: (context) => AlertDialog(
@@ -429,13 +435,14 @@ Marker createSportsActivity(LatLng position, WidgetRef ref) {
                                 usedMobility =
                                     value; // Update the selected value
                                 mobilityForAPI = translateMobilityToApiReadable(
-                                    usedMobility);
+                                  usedMobility,
+                                );
                               }
                             });
                           },
                         ),
                         // Text field
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         ValueListenableBuilder<bool>(
                           valueListenable: isLoadingNotifier,
                           builder: (context, isLoading, child) {
@@ -452,7 +459,6 @@ Marker createSportsActivity(LatLng position, WidgetRef ref) {
                                       ),
                                       onPressed: () async {
                                         isLoadingNotifier.value = true;
-                                        print('Starting the research');
                                         final LatLng currentUserLocation =
                                             await getCurrentLocation();
                                         List<LatLng> route;
@@ -460,12 +466,12 @@ Marker createSportsActivity(LatLng position, WidgetRef ref) {
                                         route = await calculateRoute(
                                           mobilityForAPI,
                                           convertLatLngToCoordinates(
-                                              currentUserLocation),
+                                            currentUserLocation,
+                                          ),
                                           convertLatLngToCoordinates(
-                                              locationPosition),
+                                            locationPosition,
+                                          ),
                                         );
-
-                                        // Update the shared state with the new route
                                         ref.read(sharedStateProvider).way =
                                             route;
 
@@ -474,7 +480,8 @@ Marker createSportsActivity(LatLng position, WidgetRef ref) {
                                     );
                                   },
                                 ),
-                                if (isLoading) CircularProgressIndicator(),
+                                if (isLoading)
+                                  const CircularProgressIndicator(),
                               ],
                             );
                           },
