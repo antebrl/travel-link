@@ -11,7 +11,7 @@ import 'package:latlong2/latlong.dart';
 import 'package:travel_link/src/features/map/presentation/exchanged_way.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'points.dart';
+import 'marker_creation.dart';
 
 LatLng pointOfView = const LatLng(49.8728, 8.6512);
 List<Marker> listOfAllUsers = [
@@ -36,10 +36,12 @@ List<Marker> createDummyLocationMarkers(WidgetRef ref) {
   // ignore: unused_local_variable
   List<Marker> listOfAllActivities = [];
   return listOfAllActivities = [
-    createActiveActivity(const LatLng(49.690025, 8.463075), ref),
-    createCulturalActivity(const LatLng(49.691430, 8.463370), ref),
+    createLeisureActivity(const LatLng(49.690025, 8.463075), ref),
+    createReligousActivity(const LatLng(49.691430, 8.463370), ref),
     createNatureActivity(const LatLng(49.688520, 8.462580), ref),
-    createSportsActivity(const LatLng(49.71, 8.5), ref)
+    createSportsActivity(const LatLng(49.71, 8.5), ref),
+    createActivActivity(const LatLng(49.73, 8.6), ref),
+    createCampingActivity(const LatLng(49.75, 8.7), ref)
   ];
 }
 
