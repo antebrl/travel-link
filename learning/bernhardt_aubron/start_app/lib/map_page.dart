@@ -66,15 +66,15 @@ class _MapPageState extends State<MapPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blueGrey,
+      backgroundColor: const Color.fromARGB(255, 204, 219, 226),
       appBar: AppBar(
-        backgroundColor: Colors.blueGrey,
+        backgroundColor: const Color.fromARGB(255, 204, 219, 226),
         //title: Text('Places of Worship for the God Emperor'),
       ),
       body: Row(
         children: [
           Expanded(
-            flex: 1,
+            flex: 1, // Reduce this flex to allocate less space to the list
             child: Column(
               children: [
                 Expanded(
@@ -141,10 +141,10 @@ class _MapPageState extends State<MapPage> {
           ),
           const VerticalDivider(
             width: 1,
-            color: Colors.grey,
+            color: const Color.fromARGB(255, 204, 219, 226),
           ),
           Expanded(
-            flex: 2,
+            flex: 3, // Increase this flex to allocate more space to the map
             child: FlutterMap(
               options: MapOptions(
                 initialCenter: LatLng(51.5, -0.09),
@@ -188,7 +188,7 @@ class CreateWorshipPopUp extends StatelessWidget {
     TextEditingController textFieldController4 = TextEditingController();
 
     return Scaffold(
-      backgroundColor: Colors.blueGrey,
+      backgroundColor: const Color.fromARGB(255, 204, 219, 226),
       appBar: AppBar(
         title: Text('Popup Enter a Place of Worship into our Databanks'),
       ),

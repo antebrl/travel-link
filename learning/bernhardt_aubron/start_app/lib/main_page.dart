@@ -87,7 +87,7 @@ class Main_Page extends StatelessWidget {
 }
 
 const String dissertationArchetekture =
-    """        '''The architecture of Holy Terra, the cradle of humanity in the grim darkness of the Warhammer 40,000 universe, is a reflection of its monumental history, spiritual significance, and the oppressive weight of millennia of imperial rule. Terra, also known as Earth, serves as the heart of the Imperium of Man, the seat of the God-Emperor's power, and the focal point of humanity's struggles against the myriad threats that besiege it from within and without.
+    """       The architecture of Holy Terra, the cradle of humanity in the grim darkness of the Warhammer 40,000 universe, is a reflection of its monumental history, spiritual significance, and the oppressive weight of millennia of imperial rule. Terra, also known as Earth, serves as the heart of the Imperium of Man, the seat of the God-Emperor's power, and the focal point of humanity's struggles against the myriad threats that besiege it from within and without.
 
 The architecture of Holy Terra is a fusion of ancient, Gothic, and futuristic elements, representing the layers of history and the convergence of cultures that have shaped the planet over tens of thousands of years. Towering spires, gothic arches, and massive cathedrals dominate the skyline, their intricate designs and imposing structures testaments to the grandeur and power of the Imperium.
 
@@ -129,5 +129,5 @@ In the wastelands, the architecture tells a story of hubris and folly, of empire
 
 The architecture of Holy Terra is a rich tapestry woven from the threads of history, culture, and faith. From the towering spires of the Imperial Palace to the dilapidated ruins of the wastelands, each structure tells a story of triumph and tragedy, of glory and decay.
 
-In the grim darkness of the far future, the architecture of Holy Terra stands as a testament to the enduring spirit of mankind, a silent witness to the eternal struggle against the encroaching darkness. It is a reminder of humanity's resilience, its capacity for greatness, and its inexorable march towards an uncertain destiny.''';
+In the grim darkness of the far future, the architecture of Holy Terra stands as a testament to the enduring spirit of mankind, a silent witness to the eternal struggle against the encroaching darkness. It is a reminder of humanity's resilience, its capacity for greatness, and its inexorable march towards an uncertain destiny.;
 """;
