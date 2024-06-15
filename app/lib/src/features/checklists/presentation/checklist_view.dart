@@ -3,8 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:travel_link/src/features/checklists/data/checklist_repository.dart';
 
 class ChecklistView extends ConsumerStatefulWidget {
-  const ChecklistView({required String this.tripId, super.key});
-
+  const ChecklistView({required this.tripId, super.key});
 
   final String tripId;
 
@@ -156,118 +155,159 @@ class _ChecklistViewState extends ConsumerState<ChecklistView> {
     });
   }
 
+  void _editTask(int index) {
+    final TextEditingController _editController = TextEditingController(text: _tasks[index].title);
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Edit Task'),
+          content: TextField(
+            controller: _editController,
+            decoration: const InputDecoration(hintText: 'Edit item'),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: const Text('Save'),
+              onPressed: () {
+                setState(() {
+                  _tasks[index].title = _editController.text;
+                });
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final fetchedChecklist = ref.watch(fetchTripChecklistProvider(tripId: widget.tripId));
 
-    return 
-    fetchedChecklist.when(
+    return fetchedChecklist.when(
       data: (checklist) {
-        
-        //Use checklist just like List
+        // Use checklist just like List
         return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(8),
-          child: Column(
-            children: [
-              Row(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8),
+              child: Column(
                 children: [
-                  Expanded(
-                    child: TextField(
-                      controller: _textController,
-                      decoration: const InputDecoration(
-                        hintText: 'Add a new item',
+                  Row(
+                    children: [
+                      Expanded(
+                        child: TextField(
+                          controller: _textController,
+                          decoration: const InputDecoration(
+                            hintText: 'Add a new item',
+                          ),
+                          onChanged: _filterSuggestions,
+                        ),
                       ),
-                      onChanged: _filterSuggestions,
+                      IconButton(
+                        icon: const Icon(Icons.add),
+                        onPressed: () {
+                          if (_textController.text.isNotEmpty) {
+                            _addTask(_textController.text);
+                          }
+                        },
+                      ),
+                    ],
+                  ),
+                  if (_filteredSuggestions.isNotEmpty)
+                    Container(
+                      height: 150, // Adjust height as needed
+                      child: ListView.builder(
+                        itemCount: _filteredSuggestions.length,
+                        itemBuilder: (context, index) {
+                          String suggestion = _filteredSuggestions[index];
+                          IconData? icon = _iconMap[suggestion];
+                          return ListTile(
+                            leading: icon != null ? Icon(icon) : null,
+                            title: Text(suggestion),
+                            onTap: () {
+                              _textController.text = suggestion;
+                              _filteredSuggestions = [];
+                              _addTask(_textController.text);
+                            },
+                          );
+                        },
+                      ),
                     ),
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.add),
-                    onPressed: () {
-                      if (_textController.text.isNotEmpty) {
-                        _addTask(_textController.text);
-                      }
-                    },
-                  ),
                 ],
               ),
-              if (_filteredSuggestions.isNotEmpty)
-                Container(
-                  height: 150, // Adjust height as needed
-                  child: ListView.builder(
-                    itemCount: _filteredSuggestions.length,
-                    itemBuilder: (context, index) {
-                      String suggestion = _filteredSuggestions[index];
-                      IconData? icon = _iconMap[suggestion];
-                      return ListTile(
-                        leading: icon != null ? Icon(icon) : null,
-                        title: Text(suggestion),
-                        onTap: () {
-                          _textController.text = suggestion;
-                          _filteredSuggestions = [];
-                          _addTask(_textController.text);
-                        },
-                      );
-                    },
-                  ),
-                ),
-            ],
-          ),
-        ),
-        Expanded(
-          child: ReorderableListView(
-            onReorder: _reorderTasks,
-            children: [
-              for (int index = 0; index < _tasks.length; index++)
-                Dismissible(
-                  key: Key(_tasks[index].title),
-                  onDismissed: (direction) {
-                    _removeTask(index);
-                  },
-                  background: Container(color: Colors.red),
-                  child: ListTile(
-                    key: Key('task_$index'),
-                    leading: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(_iconMap[_tasks[index].title] ?? Icons.circle),
-                        Checkbox(
-                          value: _tasks[index].isCompleted,
-                          onChanged: (bool? value) {
-                            _toggleTaskCompletion(index);
-                          },
-                        ),
-                      ],
-                    ),
-                    title: Text(_tasks[index].title),
-                    trailing: IconButton(
-                      icon: const Icon(Icons.delete),
-                      onPressed: () {
+            ),
+            Expanded(
+              child: ReorderableListView(
+                onReorder: _reorderTasks,
+                children: [
+                  for (int index = 0; index < _tasks.length; index++)
+                    Dismissible(
+                      key: Key(_tasks[index].title),
+                      onDismissed: (direction) {
                         _removeTask(index);
                       },
+                      background: Container(color: Colors.red),
+                      child: ListTile(
+                        key: Key('task_$index'),
+                        leading: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(_iconMap[_tasks[index].title] ?? Icons.circle),
+                            Checkbox(
+                              value: _tasks[index].isCompleted,
+                              onChanged: (bool? value) {
+                                _toggleTaskCompletion(index);
+                              },
+                            ),
+                          ],
+                        ),
+                        title: Text(_tasks[index].title),
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            IconButton(
+                              icon: const Icon(Icons.edit),
+                              onPressed: () {
+                                _editTask(index);
+                              },
+                            ),
+                            IconButton(
+                              icon: const Icon(Icons.delete),
+                              onPressed: () {
+                                _removeTask(index);
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-            ],
-          ),
-        ),
-      ],
-    );
+                ],
+              ),
+            ),
+          ],
+        );
       },
       loading: () => const Center(
-          child: CircularProgressIndicator(),
-        ),
-        error: (error, stackTrace) {
-          return const Center(
-            child: Text('Error loading trips. Please try again later.'),
-          );
-        }
-    
+        child: CircularProgressIndicator(),
+      ),
+      error: (error, stackTrace) {
+        return const Center(
+          child: Text('Error loading trips. Please try again later.'),
+        );
+      },
     );
   }
 }
-
 
 class Task {
   Task({required this.title, this.isCompleted = false});
