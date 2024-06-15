@@ -66,7 +66,7 @@ class ReplyMessageTile extends ConsumerWidget {
               ),
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(15),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -93,10 +93,10 @@ class ReplyMessageTile extends ConsumerWidget {
                     ),
                   Padding(
                     padding: EdgeInsets.fromLTRB(
-                      16,
-                      isFirstInSequence ? 0 : 16,
-                      16,
-                      16,
+                      15,
+                      isFirstInSequence ? 0 : 12,
+                      15,
+                      12,
                     ),
                     child: Text(
                       message,
