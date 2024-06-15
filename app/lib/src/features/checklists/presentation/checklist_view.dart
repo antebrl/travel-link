@@ -289,9 +289,22 @@ class _ChecklistViewState extends ConsumerState<ChecklistView> {
                     Dismissible(
                       key: Key(_tasks[index].title),
                       onDismissed: (direction) {
-                        _removeTask(index);
+                        if (direction == DismissDirection.endToStart) {
+                          _removeTask(index);
+                        } else if (direction == DismissDirection.startToEnd) {
+                          _toggleTaskCompletion(index);
+                        }
                       },
-                      background: Container(color: Colors.red),
+                      confirmDismiss: (direction) async {
+                        if (direction == DismissDirection.startToEnd) {
+                          _toggleTaskCompletion(index);
+                          return false; // Prevent dismissal
+                        } else {
+                          return true; // Allow dismissal
+                        }
+                      },
+                      background: Container(color: Colors.blue),
+                      secondaryBackground: Container(color: Colors.red),
                       child: ListTile(
                         key: Key('task_$index'),
                         leading: Row(
@@ -313,7 +326,7 @@ class _ChecklistViewState extends ConsumerState<ChecklistView> {
                             if (_tasks[index].dueDate != null)
                               Text(
                                 'Due date: ${DateFormat('MM/dd/yyyy').format(_tasks[index].dueDate!)}',
-                                style: TextStyle(fontSize: 12, color: Colors.grey),
+                                style: const TextStyle(fontSize: 12, color: Colors.grey),
                               ),
                           ],
                         ),
