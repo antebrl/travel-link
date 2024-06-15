@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:travel_link/src/features/checklists/data/checklist_repository.dart';
 
 class ChecklistView extends ConsumerStatefulWidget {
@@ -157,15 +158,48 @@ class _ChecklistViewState extends ConsumerState<ChecklistView> {
 
   void _editTask(int index) {
     final TextEditingController _editController = TextEditingController(text: _tasks[index].title);
-
+    DateTime? _selectedDueDate = _tasks[index].dueDate;
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text('Edit Task'),
-          content: TextField(
-            controller: _editController,
-            decoration: const InputDecoration(hintText: 'Edit item'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: _editController,
+                decoration: const InputDecoration(hintText: 'Edit item'),
+              ),
+              const SizedBox(height: 16),
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      _selectedDueDate == null
+                          ? 'No due date set'
+                          : 'Due date: ${DateFormat('MM/dd/yyyy').format(_selectedDueDate!)}',
+                    ),
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.calendar_today),
+                    onPressed: () async {
+                      DateTime? pickedDate = await showDatePicker(
+                        context: context,
+                        initialDate: _selectedDueDate ?? DateTime.now(),
+                        firstDate: DateTime.now(),
+                        lastDate: DateTime(2101),
+                      );
+                      if (pickedDate != null) {
+                        setState(() {
+                          _selectedDueDate = pickedDate;
+                        });
+                      }
+                    },
+                  ),
+                ],
+              ),
+            ],
           ),
           actions: <Widget>[
             TextButton(
@@ -179,6 +213,7 @@ class _ChecklistViewState extends ConsumerState<ChecklistView> {
               onPressed: () {
                 setState(() {
                   _tasks[index].title = _editController.text;
+                  _tasks[index].dueDate = _selectedDueDate;
                 });
                 Navigator.of(context).pop();
               },
@@ -271,7 +306,17 @@ class _ChecklistViewState extends ConsumerState<ChecklistView> {
                             ),
                           ],
                         ),
-                        title: Text(_tasks[index].title),
+                        title: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(_tasks[index].title),
+                            if (_tasks[index].dueDate != null)
+                              Text(
+                                'Due date: ${DateFormat('MM/dd/yyyy').format(_tasks[index].dueDate!)}',
+                                style: TextStyle(fontSize: 12, color: Colors.grey),
+                              ),
+                          ],
+                        ),
                         trailing: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
@@ -310,8 +355,9 @@ class _ChecklistViewState extends ConsumerState<ChecklistView> {
 }
 
 class Task {
-  Task({required this.title, this.isCompleted = false});
+  Task({required this.title, this.isCompleted = false, this.dueDate});
 
   String title;
   bool isCompleted;
+  DateTime? dueDate;
 }
