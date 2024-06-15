@@ -63,6 +63,7 @@ class _PersonalChecklistViewState extends ConsumerState<PersonalChecklistView> {
       data: tasks[index],
       tripId: widget.tripId,
     );
+    ref.invalidate(fetchTripChecklistProvider(tripId: widget.tripId, uid: currentUser?.uid));
   }
 
 
@@ -84,8 +85,7 @@ class _PersonalChecklistViewState extends ConsumerState<PersonalChecklistView> {
       tripId: widget.tripId,
     );
 
-    // ignore: unused_result
-    ref.refresh(fetchTripChecklistProvider(tripId: widget.tripId));
+    ref.invalidate(fetchTripChecklistProvider(tripId: widget.tripId, uid: currentUser?.uid));
   }
 
   Future<void> _removePersonalTask(int index) async{
@@ -101,8 +101,6 @@ class _PersonalChecklistViewState extends ConsumerState<PersonalChecklistView> {
   //update firebase
   await updateTask(index);
 
-  // ignore: unused_result
-    ref.refresh(fetchTripChecklistProvider(tripId: widget.tripId));
   }
 
 
@@ -116,9 +114,6 @@ class _PersonalChecklistViewState extends ConsumerState<PersonalChecklistView> {
 
     //update firebase
     await updateTask(index);
-
-    // ignore: unused_result
-    ref.refresh(fetchTripChecklistProvider(tripId: widget.tripId));
 
     // setState(() {
     //   _incompleteItems[index].isCompleted = !_tasks[index].isCompleted;
@@ -197,9 +192,6 @@ class _PersonalChecklistViewState extends ConsumerState<PersonalChecklistView> {
                 Navigator.of(context).pop();
                 //update firebase
                 await updateTask(index);
-
-                // ignore: unused_result
-    ref.refresh(fetchTripChecklistProvider(tripId: widget.tripId));
               },
             ),
           ],
@@ -211,7 +203,7 @@ class _PersonalChecklistViewState extends ConsumerState<PersonalChecklistView> {
   @override
   Widget build(BuildContext context) {
     final fetchedChecklist =
-        ref.watch(fetchTripChecklistProvider(tripId: widget.tripId));
+        ref.watch(fetchTripChecklistProvider(tripId: widget.tripId, uid: currentUser?.uid));
 
     if (currentUser == null) {
       return const Center(
@@ -219,7 +211,7 @@ class _PersonalChecklistViewState extends ConsumerState<PersonalChecklistView> {
     } else {
       return fetchedChecklist.when(
         data: (checklist) {
-          tasks = checklist.where((item) => item.asignees.contains(currentUser!.uid)).toList();
+          tasks = checklist;
 
           // for (var item in checklist) {
           //   final index = item.asignees.indexOf(currentUser!.uid);
@@ -328,7 +320,7 @@ class _PersonalChecklistViewState extends ConsumerState<PersonalChecklistView> {
                               Icon(
                                   iconMap[tasks[index].title] ?? Icons.circle),
                               Checkbox(
-                                value: tasks[index].asigneesCompleted[getUserIndex(index)],
+                                value: getUserIndex(index) != -1 && tasks[index].asigneesCompleted[getUserIndex(index)],
                                 onChanged: (bool? value) {
                                   _toggleTaskCompletion(index);
                                 },

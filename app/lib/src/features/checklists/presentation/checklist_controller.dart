@@ -32,6 +32,7 @@ class ChecklistController extends _$ChecklistController {
         title: title,
         tripId: tripId,
         onlyOneCompletion: true,
+        isPublic: false,
         createdAt: DateTime.now(),
         dueDate: dueDate,
       ),
@@ -65,6 +66,7 @@ class ChecklistController extends _$ChecklistController {
         onlyOneCompletion: onlyOneCompletion,
         createdAt: DateTime.now(),
         dueDate: dueDate,
+        isPublic: true,
       ),
     );
 

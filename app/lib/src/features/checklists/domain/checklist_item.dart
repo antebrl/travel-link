@@ -7,7 +7,8 @@ class ChecklistItem{
     required this.asigneesCompleted,
     required this.dueDate,
     required this.createdAt,
-    required this.id, 
+    required this.id,
+    required this.isPublic, 
     this.onlyOneCompletion = false,
   });
 
@@ -18,6 +19,7 @@ class ChecklistItem{
   final DateTime? createdAt;
   final bool onlyOneCompletion;
   final String id;
+  final bool isPublic;
 
   factory ChecklistItem.fromMap(Map<dynamic, dynamic> value, String id) {
     return ChecklistItem(
@@ -28,6 +30,7 @@ class ChecklistItem{
       createdAt: (value['createdAt'] as Timestamp?)?.toDate(),
       onlyOneCompletion: value['onlyOneCompletion'] as bool,
       id: id,
+      isPublic: value['isPublic'] as bool,
     );
   }
 
@@ -39,6 +42,7 @@ class ChecklistItem{
       'dueDate': dueDate != null ? Timestamp.fromDate(dueDate!) : null,
       'createdAt': createdAt != null ? Timestamp.fromDate(createdAt!) : null,
       'onlyOneCompletion': onlyOneCompletion,
+      'isPublic': isPublic,
     };
   }
 }

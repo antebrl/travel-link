@@ -17,6 +17,7 @@ class ChecklistRepository {
       required List<String> asignees,
       required List<bool> asigneesCompleted,
       required bool onlyOneCompletion,
+      required bool isPublic,
       DateTime? dueDate,
       DateTime? createdAt}) =>
       _firestore.collection(checklistPath(tripId)).add({
@@ -26,6 +27,7 @@ class ChecklistRepository {
       'dueDate': dueDate != null ? Timestamp.fromDate(dueDate) : null,
       'createdAt': createdAt != null ? Timestamp.fromDate(createdAt) : null,
       'onlyOneCompletion': onlyOneCompletion,
+      'isPublic': isPublic,
       });
 
     Future<void> updateChecklistData({
@@ -38,11 +40,19 @@ class ChecklistRepository {
   // read
 
   Future<List<ChecklistItem>> fetchTripChecklist(
-      { required String tripId,}) async {
-    final trips = await queryTripChecklist(
+      { required String tripId, required bool onlyPublic, String? uid}) async {
+
+    var checklist = queryTripChecklist(
       tripId: tripId,
-    ).get();
-    return trips.docs.map((doc) => doc.data()).toList();
+    );
+    if(onlyPublic) {
+       checklist = checklist.where('isPublic', isEqualTo: true);
+    } else if(uid != null) {
+      checklist = checklist.where('asignees', arrayContains: uid);
+    }
+
+    final tasks = await checklist.get();
+    return tasks.docs.map((doc) => doc.data()).toList();
   }
 
   //QUERIES
@@ -68,9 +78,13 @@ ChecklistRepository checklistRepository(ChecklistRepositoryRef ref) {
 Future<List<ChecklistItem>> fetchTripChecklist(
   FetchTripChecklistRef ref, {
   required String tripId,
+  bool onlyPublic = false,
+  String? uid,
 }) {
   final repository = ref.watch(checklistRepositoryProvider);
   return repository.fetchTripChecklist(
     tripId: tripId,
+    onlyPublic: onlyPublic,
+    uid: uid,
   );
 }

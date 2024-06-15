@@ -87,7 +87,7 @@ class _ChecklistViewState extends ConsumerState<ChecklistView> {
     );
 
     // ignore: unused_result
-    ref.refresh(fetchTripChecklistProvider(tripId: widget.tripId));
+    ref.invalidate(fetchTripChecklistProvider(tripId: widget.tripId, onlyPublic: true));
   }
 
   Future<void> _removeTask(int index) async{
@@ -108,7 +108,7 @@ class _ChecklistViewState extends ConsumerState<ChecklistView> {
     await updateTask(index);
 
     // ignore: unused_result
-    ref.refresh(fetchTripChecklistProvider(tripId: widget.tripId));
+    ref.invalidate(fetchTripChecklistProvider(tripId: widget.tripId, onlyPublic: true));
   }
 
   void _reorderTasks(int oldIndex, int newIndex) {
@@ -185,7 +185,7 @@ class _ChecklistViewState extends ConsumerState<ChecklistView> {
                 await updateTask(index);
 
                 // ignore: unused_result
-    ref.refresh(fetchTripChecklistProvider(tripId: widget.tripId));
+    ref.invalidate(fetchTripChecklistProvider(tripId: widget.tripId, onlyPublic: true));
               },
             ),
           ],
@@ -197,7 +197,7 @@ class _ChecklistViewState extends ConsumerState<ChecklistView> {
   @override
   Widget build(BuildContext context) {
     final fetchedChecklist =
-        ref.watch(fetchTripChecklistProvider(tripId: widget.tripId));
+        ref.watch(fetchTripChecklistProvider(tripId: widget.tripId, onlyPublic: true));
 
     if (currentUser == null) {
       return const Center(
