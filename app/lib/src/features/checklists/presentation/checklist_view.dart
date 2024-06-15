@@ -261,6 +261,18 @@ class _ChecklistViewState extends ConsumerState<ChecklistView> {
                   if (_filteredSuggestions.isNotEmpty)
                     Container(
                       height: 150, // Adjust height as needed
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.6),
+                            spreadRadius: 2,
+                            blurRadius: 3,
+                            offset: Offset(0, 3),
+                          ),
+                        ],
+                      ),
                       child: ListView.builder(
                         itemCount: _filteredSuggestions.length,
                         itemBuilder: (context, index) {
