@@ -91,15 +91,22 @@ class _PersonalChecklistViewState extends ConsumerState<PersonalChecklistView> {
   Future<void> _removePersonalTask(int index) async{
 
     final userIndex = getUserIndex(index);
-
+  
   if (userIndex != -1) {
       tasks[index].asignees.removeAt(userIndex);
     tasks[index].asigneesCompleted.removeAt(userIndex);
     //remove task if everyone has removed: to do
   }
+  final data = tasks[index];
+  setState(() {
+    tasks.removeAt(index);
+  });
 
-  //update firebase
-  await updateTask(index);
+  await ref.read(checklistControllerProvider.notifier).updateChecklistItem(
+      data: data,
+      tripId: widget.tripId,
+    );
+    ref.invalidate(fetchTripChecklistProvider(tripId: widget.tripId, uid: currentUser?.uid));
 
   }
 

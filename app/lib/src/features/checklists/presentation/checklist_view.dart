@@ -9,17 +9,17 @@ import 'package:travel_link/src/features/checklists/presentation/checklist_contr
 import '../lib/checklist_items.dart'; // Import the new file
 
 class ChecklistView extends ConsumerStatefulWidget {
-  const ChecklistView({required this.tripId, super.key});
+  const ChecklistView(
+      {required this.participants, required this.tripId, super.key});
 
   final String tripId;
+  final List<String> participants;
 
   @override
-  ConsumerState<ChecklistView> createState() =>
-      _ChecklistViewState();
+  ConsumerState<ChecklistView> createState() => _ChecklistViewState();
 }
 
 class _ChecklistViewState extends ConsumerState<ChecklistView> {
-
   final TextEditingController _textController = TextEditingController();
   List<String> _filteredSuggestions = [];
 
@@ -44,9 +44,7 @@ class _ChecklistViewState extends ConsumerState<ChecklistView> {
     });
   }
 
-
   int getUserIndex(int index) {
-
     //gets the index of the user in the asignees list of a task
     return tasks[index].asignees.indexOf(currentUser!.uid);
   }
@@ -57,58 +55,54 @@ class _ChecklistViewState extends ConsumerState<ChecklistView> {
     return tasks[taskIndex].asigneesCompleted[userIndex];
   }
 
-
   Future<void> updateTask(int index) async {
     await ref.read(checklistControllerProvider.notifier).updateChecklistItem(
-      data: tasks[index],
-      tripId: widget.tripId,
-    );
+          data: tasks[index],
+          tripId: widget.tripId,
+        );
+    ref.invalidate(
+        fetchTripChecklistProvider(tripId: widget.tripId, onlyPublic: true));
   }
 
-
-
-  Future<void> _addTask(String title) async{
-
+  Future<void> _addTask(String title) async {
     //Screen to show all the participants to assign
 
-    _textController.clear(); 
+    _textController.clear();
     _filterSuggestions('');
 
     //don't add task if it already exists
-    if(tasks.any((task) => task.title == title)) {
+    if (tasks.any((task) => task.title == title)) {
       return;
     }
 
     await ref.read(checklistControllerProvider.notifier).createChecklistItem(
-      title: title,
-      tripId: widget.tripId,
-      asignees: [currentUser!.uid],
-      onlyOneCompletion: false,
-    );
+          title: title,
+          tripId: widget.tripId,
+          asignees: widget
+              .participants, //At the moment all participants are assigned to the task
+          onlyOneCompletion: false,
+        );
 
     // ignore: unused_result
-    ref.invalidate(fetchTripChecklistProvider(tripId: widget.tripId, onlyPublic: true));
+    ref.invalidate(
+        fetchTripChecklistProvider(tripId: widget.tripId, onlyPublic: true));
   }
 
-  Future<void> _removeTask(int index) async{
-
-    //firebase remove task
+  Future<void> _removeTask(int index) async {
+    //firebase remove task: to do
   }
 
+  Future<void> _toggleTaskCompletion(int index) async {
+    //TODO: differentiate between onlyOneCompletion and multipleCompletion
 
-  Future<void> _toggleTaskCompletion(int index) async{
-    //needs firebase: switch item from incomplete to complete list (or other way around)
-      if(!getUserCompleted(index)) {
-        tasks[index].asigneesCompleted[getUserIndex(index)] = true;
-      } else {
-                tasks[index].asigneesCompleted[getUserIndex(index)] = false;    
-      }
+    if (!getUserCompleted(index)) {
+      tasks[index].asigneesCompleted[getUserIndex(index)] = true;
+    } else {
+      tasks[index].asigneesCompleted[getUserIndex(index)] = false;
+    }
 
     //update firebase
     await updateTask(index);
-
-    // ignore: unused_result
-    ref.invalidate(fetchTripChecklistProvider(tripId: widget.tripId, onlyPublic: true));
   }
 
   void _reorderTasks(int oldIndex, int newIndex) {
@@ -177,15 +171,12 @@ class _ChecklistViewState extends ConsumerState<ChecklistView> {
             TextButton(
               child: const Text('Save'),
               onPressed: () async {
-                  tasks[index].title = _editController.text;
-                  tasks[index].dueDate = _selectedDueDate;
-                
+                tasks[index].title = _editController.text;
+                tasks[index].dueDate = _selectedDueDate;
+
                 Navigator.of(context).pop();
                 //update firebase
                 await updateTask(index);
-
-                // ignore: unused_result
-    ref.invalidate(fetchTripChecklistProvider(tripId: widget.tripId, onlyPublic: true));
               },
             ),
           ],
@@ -196,8 +187,8 @@ class _ChecklistViewState extends ConsumerState<ChecklistView> {
 
   @override
   Widget build(BuildContext context) {
-    final fetchedChecklist =
-        ref.watch(fetchTripChecklistProvider(tripId: widget.tripId, onlyPublic: true));
+    final fetchedChecklist = ref.watch(
+        fetchTripChecklistProvider(tripId: widget.tripId, onlyPublic: true));
 
     if (currentUser == null) {
       return const Center(
@@ -300,13 +291,16 @@ class _ChecklistViewState extends ConsumerState<ChecklistView> {
                           leading: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              Icon(
-                                  iconMap[tasks[index].title] ?? Icons.circle),
+                              Icon(iconMap[tasks[index].title] ?? Icons.circle),
                               Checkbox(
-                                value: getUserIndex(index) != -1 ? tasks[index].asigneesCompleted[getUserIndex(index)] : false,
-                                onChanged: getUserIndex(index) != -1 ? (bool? value) {
-                                  _toggleTaskCompletion(index);
-                                } : null,
+                                value: getUserIndex(index) != -1
+                                    && tasks[index]
+                                        .asigneesCompleted[getUserIndex(index)],
+                                onChanged: getUserIndex(index) != -1
+                                    ? (bool? value) {
+                                        _toggleTaskCompletion(index);
+                                      }
+                                    : null,
                               ),
                             ],
                           ),
