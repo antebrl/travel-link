@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:travel_link/src/features/checklists/presentation/checklist_view.dart';
+import 'package:travel_link/src/features/checklists/presentation/personal_checklist_view.dart';
 
 class ChecklistsScreen extends ConsumerStatefulWidget {
   const ChecklistsScreen({required this.tripId, super.key});
@@ -43,9 +44,8 @@ class _ChecklistsScreenState extends ConsumerState<ChecklistsScreen> with Single
       body: TabBarView(
         controller: _tabController,
         children:  [
+          PersonalChecklistView(tripId: widget.tripId),
           ChecklistView(tripId: widget.tripId,),
-          //Use Personal instead: Filter by userId
-          ChecklistView(tripId: widget.tripId),
         ],
       ),
     );

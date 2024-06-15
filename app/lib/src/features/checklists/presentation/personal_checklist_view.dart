@@ -8,17 +8,17 @@ import 'package:travel_link/src/features/checklists/domain/checklist_item.dart';
 import 'package:travel_link/src/features/checklists/presentation/checklist_controller.dart';
 import '../lib/checklist_items.dart'; // Import the new file
 
-class ChecklistView extends ConsumerStatefulWidget {
-  const ChecklistView({required this.tripId, super.key});
+class PersonalChecklistView extends ConsumerStatefulWidget {
+  const PersonalChecklistView({required this.tripId, super.key});
 
   final String tripId;
 
   @override
-  ConsumerState<ChecklistView> createState() =>
-      _ChecklistViewState();
+  ConsumerState<PersonalChecklistView> createState() =>
+      _PersonalChecklistViewState();
 }
 
-class _ChecklistViewState extends ConsumerState<ChecklistView> {
+class _PersonalChecklistViewState extends ConsumerState<PersonalChecklistView> {
 
   final TextEditingController _textController = TextEditingController();
   List<String> _filteredSuggestions = [];
@@ -68,9 +68,9 @@ class _ChecklistViewState extends ConsumerState<ChecklistView> {
 
 
   Future<void> _addTask(String title) async{
-
-    //Screen to show all the participants to assign
-
+    // setState(() {
+    //   _tasks.add(Task(title: title));
+    // });
     _textController.clear(); 
     _filterSuggestions('');
 
@@ -79,20 +79,30 @@ class _ChecklistViewState extends ConsumerState<ChecklistView> {
       return;
     }
 
-    await ref.read(checklistControllerProvider.notifier).createChecklistItem(
+    await ref.read(checklistControllerProvider.notifier).createPersonalChecklistItem(
       title: title,
       tripId: widget.tripId,
-      asignees: [currentUser!.uid],
-      onlyOneCompletion: false,
     );
 
     // ignore: unused_result
     ref.refresh(fetchTripChecklistProvider(tripId: widget.tripId));
   }
 
-  Future<void> _removeTask(int index) async{
+  Future<void> _removePersonalTask(int index) async{
 
-    //firebase remove task
+    final userIndex = getUserIndex(index);
+
+  if (userIndex != -1) {
+      tasks[index].asignees.removeAt(userIndex);
+    tasks[index].asigneesCompleted.removeAt(userIndex);
+    //remove task if everyone has removed: to do
+  }
+
+  //update firebase
+  await updateTask(index);
+
+  // ignore: unused_result
+    ref.refresh(fetchTripChecklistProvider(tripId: widget.tripId));
   }
 
 
@@ -109,6 +119,10 @@ class _ChecklistViewState extends ConsumerState<ChecklistView> {
 
     // ignore: unused_result
     ref.refresh(fetchTripChecklistProvider(tripId: widget.tripId));
+
+    // setState(() {
+    //   _incompleteItems[index].isCompleted = !_tasks[index].isCompleted;
+    // });
   }
 
   void _reorderTasks(int oldIndex, int newIndex) {
@@ -205,7 +219,18 @@ class _ChecklistViewState extends ConsumerState<ChecklistView> {
     } else {
       return fetchedChecklist.when(
         data: (checklist) {
-          tasks = checklist;
+          tasks = checklist.where((item) => item.asignees.contains(currentUser!.uid)).toList();
+
+          // for (var item in checklist) {
+          //   final index = item.asignees.indexOf(currentUser!.uid);
+          //   if (index == -1) {
+          //     continue;
+          //   } else if (item.asigneesCompleted[index]) {
+          //     _completedItems.add(item);
+          //   } else {
+          //     tasks.add(item);
+          //   }
+          // }
 
           // Use checklist just like List
           return Column(
@@ -280,7 +305,7 @@ class _ChecklistViewState extends ConsumerState<ChecklistView> {
                         key: Key(tasks[index].title),
                         onDismissed: (direction) {
                           if (direction == DismissDirection.endToStart) {
-                            _removeTask(index);
+                            _removePersonalTask(index);
                           } else if (direction == DismissDirection.startToEnd) {
                             _toggleTaskCompletion(index);
                           }
@@ -303,10 +328,10 @@ class _ChecklistViewState extends ConsumerState<ChecklistView> {
                               Icon(
                                   iconMap[tasks[index].title] ?? Icons.circle),
                               Checkbox(
-                                value: getUserIndex(index) != -1 ? tasks[index].asigneesCompleted[getUserIndex(index)] : false,
-                                onChanged: getUserIndex(index) != -1 ? (bool? value) {
+                                value: tasks[index].asigneesCompleted[getUserIndex(index)],
+                                onChanged: (bool? value) {
                                   _toggleTaskCompletion(index);
-                                } : null,
+                                },
                               ),
                             ],
                           ),
@@ -334,7 +359,7 @@ class _ChecklistViewState extends ConsumerState<ChecklistView> {
                               IconButton(
                                 icon: const Icon(Icons.delete),
                                 onPressed: () {
-                                  _removeTask(index);
+                                  _removePersonalTask(index);
                                 },
                               ),
                             ],
@@ -359,3 +384,4 @@ class _ChecklistViewState extends ConsumerState<ChecklistView> {
     }
   }
 }
+

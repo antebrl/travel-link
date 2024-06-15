@@ -10,18 +10,29 @@ class ChecklistRepository {
 
   static String checklistPath(String tripId) => 'trips/$tripId/checklist';
 
-  // create [NOT USED ATM]
-    Future<List<ChecklistItem>> createChecklistItem(
+  // create
+    Future<void> createChecklistItem(
       { required String tripId,
         required String title,
       required List<String> asignees,
       required List<bool> asigneesCompleted,
+      required bool onlyOneCompletion,
       DateTime? dueDate,
-      DateTime? createdAt}) async {
-    final trips = await queryTripChecklist(
-      tripId: tripId,
-    ).get();
-    return trips.docs.map((doc) => doc.data()).toList();
+      DateTime? createdAt}) =>
+      _firestore.collection(checklistPath(tripId)).add({
+        'title': title,
+      'asignees': asignees,
+      'asigneesCompleted': asigneesCompleted,
+      'dueDate': dueDate != null ? Timestamp.fromDate(dueDate) : null,
+      'createdAt': createdAt != null ? Timestamp.fromDate(createdAt) : null,
+      'onlyOneCompletion': onlyOneCompletion,
+      });
+
+    Future<void> updateChecklistData({
+    required String tripId,
+    required ChecklistItem data,
+  }) async {
+    return _firestore.collection(checklistPath(tripId)).doc(data.id).set(data.toMap());
   }
 
   // read
@@ -43,7 +54,7 @@ class ChecklistRepository {
         .collection(checklistPath(tripId))
         .withConverter(
           fromFirestore: (snapshot, _) =>
-              ChecklistItem.fromMap(snapshot.data()!),
+              ChecklistItem.fromMap(snapshot.data()!, snapshot.id),
           toFirestore: (checklistItem, _) => checklistItem.toMap(),
         );
 }
