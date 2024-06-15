@@ -1,3 +1,5 @@
+// ignore_for_file: require_trailing_commas
+
 import 'dart:core';
 
 import 'package:flutter/material.dart';
@@ -31,12 +33,13 @@ List<LatLng> locations = [latLng1, latLng2, latLng3];
 bool displayRoute = false;
 
 List<Marker> createDummyLocationMarkers(WidgetRef ref) {
+  // ignore: unused_local_variable
   List<Marker> listOfAllActivities = [];
   return listOfAllActivities = [
-    createActiveActivity(LatLng(49.690025, 8.463075), ref),
-    createCulturalActivity(LatLng(49.691430, 8.463370), ref),
-    createNatureActivity(LatLng(49.688520, 8.462580), ref),
-    createSportsActivity(LatLng(49.71, 8.5), ref)
+    createActiveActivity(const LatLng(49.690025, 8.463075), ref),
+    createCulturalActivity(const LatLng(49.691430, 8.463370), ref),
+    createNatureActivity(const LatLng(49.688520, 8.462580), ref),
+    createSportsActivity(const LatLng(49.71, 8.5), ref)
   ];
 }
 
@@ -51,7 +54,7 @@ class _TripMapScreenState extends ConsumerState<TripMapScreen> {
   @override
   Widget build(BuildContext context) {
     final sharedState = ref.watch(sharedStateProvider);
-    List<Marker> listOfMarkers =
+    final List<Marker> listOfMarkers =
         createDummyLocationMarkers(ref) + listOfAllUsers;
 
     return Scaffold(
@@ -70,6 +73,7 @@ class _TripMapScreenState extends ConsumerState<TripMapScreen> {
                 maxZoom: 18,
                 initialZoom: 12,
               ),
+              // ignore: deprecated_member_use
               nonRotatedChildren: [
                 RichAttributionWidget(
                   attributions: [
