@@ -1,26 +1,25 @@
-import 'dart:async';
+// ignore_for_file: unused_import
+
 import 'dart:convert';
 import 'dart:core';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_geocoder/geocoder.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:geocoding/geocoding.dart';
-import 'package:flutter_geocoder/geocoder.dart';
-import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
-import 'package:flutter_polyline_points/flutter_polyline_points.dart';
-import 'package:http/http.dart' as http;
 
 Future<List<LatLng>> calculateRoute(
     String mobility, Coordinates startPunkt, Coordinates endPunkt) async {
   List<LatLng> way = [];
-  bool displayRoute = false;
   final PolylinePoints polylinePoints = PolylinePoints();
 
-  displayRoute = false;
   final url =
       Uri.parse('https://api.openrouteservice.org/v2/directions/$mobility');
   const String apiKey =
@@ -44,6 +43,7 @@ Future<List<LatLng>> calculateRoute(
   final response =
       await http.post(url, headers: headers, body: jsonEncode(request));
 
+  // ignore: strict_raw_type
   final Map jsonData = jsonDecode(response.body) as Map;
 
   // Check if the Coordinates are Invalid,

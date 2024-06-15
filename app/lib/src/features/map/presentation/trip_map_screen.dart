@@ -33,9 +33,10 @@ bool displayRoute = false;
 List<Marker> createDummyLocationMarkers(WidgetRef ref) {
   List<Marker> listOfAllActivities = [];
   return listOfAllActivities = [
-    createLocationMarker(LatLng(49.690025, 8.463075), ref),
-    createLocationMarker(LatLng(49.691430, 8.463370), ref),
-    createLocationMarker(LatLng(49.688520, 8.462580), ref),
+    createActiveActivity(LatLng(49.690025, 8.463075), ref),
+    createCulturalActivity(LatLng(49.691430, 8.463370), ref),
+    createNatureActivity(LatLng(49.688520, 8.462580), ref),
+    createSportsActivity(LatLng(49.71, 8.5), ref)
   ];
 }
 
