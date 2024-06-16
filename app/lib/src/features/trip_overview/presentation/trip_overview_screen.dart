@@ -73,7 +73,7 @@ class _TripOverviewScreenState extends ConsumerState<TripOverviewScreen>
                           ],
                         ),
                         onTap: () {
-                          showDialog<AlertDialog>(
+                          showDialog(
                             context: context,
                             builder: (BuildContext context) {
                               return AlertDialog(
@@ -92,11 +92,13 @@ class _TripOverviewScreenState extends ConsumerState<TripOverviewScreen>
                                     child: const Text('Leave'),
                                     onPressed: () async {
                                       // Perform leave trip logic
-                                      await ref.read(myTripsControllerProvider.notifier).leaveTrip(trip: trip);
+                                      await ref
+                                          .read(myTripsControllerProvider
+                                              .notifier)
+                                          .leaveTrip(trip: trip);
                                       ref.invalidate(fetchMyTripsProvider);
 
-                                      if(mounted)
-                                      Navigator.of(context).pop();
+                                      if (mounted) Navigator.of(context).pop();
                                     },
                                   ),
                                 ],
