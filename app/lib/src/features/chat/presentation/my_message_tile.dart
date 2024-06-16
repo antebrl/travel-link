@@ -29,10 +29,10 @@ class MyMessageTile extends StatelessWidget {
           ),
           decoration: BoxDecoration(
             color: Colors.blue,
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(15),
           ),
           child: Padding(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
             child: Text(
               message,
               textAlign: TextAlign.start,
