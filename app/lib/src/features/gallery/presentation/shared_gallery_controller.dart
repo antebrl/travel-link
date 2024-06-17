@@ -38,4 +38,24 @@ class SharedGalleryController extends _$SharedGalleryController {
     if(state.hasError) logger.e(state.error);
     return state.hasError == false;
   }
+
+  Future<bool> deletePicture({
+    required String pictureId,
+    required String tripId,
+  }) async {
+
+    state = const AsyncLoading();
+
+    final repository = ref.read(sharedGalleryRepositoryProvider);
+
+    state = await AsyncValue.guard(
+      () => repository.deletePicture(
+        pictureId: pictureId,
+        tripId: tripId,
+      ),
+    );
+
+    if(state.hasError) logger.e(state.error);
+    return state.hasError == false;
+  }
 }
