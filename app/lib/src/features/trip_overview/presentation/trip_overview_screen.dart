@@ -73,7 +73,7 @@ class _TripOverviewScreenState extends ConsumerState<TripOverviewScreen>
                           ],
                         ),
                         onTap: () {
-                          showDialog(
+                          showDialog<AlertDialog>(
                             context: context,
                             builder: (BuildContext context) {
                               return AlertDialog(
