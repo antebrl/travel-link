@@ -6,9 +6,10 @@ import 'package:travel_link/src/features/gallery/domain/picture_post.dart';
 import 'package:travel_link/src/features/gallery/presentation/fullscreen_picture.dart';
 
 class ImagesGridView extends StatelessWidget {
-  const ImagesGridView({super.key, required this.images});
+  const ImagesGridView({super.key, required this.images, required this.tripId});
 
   final List<PicturePost> images;
+  final String tripId;
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +32,7 @@ class ImagesGridView extends StatelessWidget {
                         MaterialPageRoute<FullscreenPicture>(
                           builder: (context) => FullscreenPicture(
                             picturePost: images[index],
+                            tripId: tripId,
                           ),
                         ),
                       );
