@@ -3,23 +3,25 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:travel_link/src/features/activities/3_activities_screen/domain/activity.dart';
+import 'package:travel_link/src/features/my_trips/data/my_trips_repository.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
 import 'package:travel_link/src/utils/constants/image_strings.dart';
 
-class ApiActivitiesDetailsScreen extends StatefulWidget {
+class ApiActivitiesDetailsScreen extends ConsumerStatefulWidget {
   const ApiActivitiesDetailsScreen({required this.activity, super.key});
 
   final Activity activity;
 
   @override
-  State<ApiActivitiesDetailsScreen> createState() =>
+  ConsumerState<ApiActivitiesDetailsScreen> createState() =>
       _ApiActivitiesDetailsScreenState();
 }
 
 class _ApiActivitiesDetailsScreenState
-    extends State<ApiActivitiesDetailsScreen> {
+    extends ConsumerState<ApiActivitiesDetailsScreen> {
   int _current = 0;
   final CarouselController _controller = CarouselController();
 
@@ -227,6 +229,7 @@ class _ApiActivitiesDetailsScreenState
             right: 10,
             child: ElevatedButton(
               onPressed: () {
+                final myTrips = ref.read(fetchMyTripsProvider);
                 showModalBottomSheet<void>(
                   context: context,
                   builder: (BuildContext context) => Column(
@@ -239,6 +242,31 @@ class _ApiActivitiesDetailsScreenState
                             .copyWith(
                                 color: CustomColors.primary, fontSize: 20),
                       ),
+                      myTrips.when(
+                      
+                      data: (trips) {
+                        return ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: trips.length,
+                          itemBuilder: (context, index) {
+                            //TODO: Design ListTile
+                            return ListTile(
+                              title: Text(trips[index].name),
+                            );
+                          },
+                        );
+                      },
+                      loading: () => 
+        const Center(
+          child: CircularProgressIndicator(),
+        ),
+                     
+      error: (error, stackTrace) {
+        return 
+          const Center(
+            child: Text('Log In in order to see your trips!'),
+          );
+      },),
                     ],
                   ),
                 );
