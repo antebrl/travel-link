@@ -1,4 +1,6 @@
-import 'dart:io';
+import 'dart:typed_data';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:travel_link/src/features/activities/3_activities_screen/domain/activity.dart';
@@ -17,13 +19,28 @@ class AddActivityScreen extends ConsumerStatefulWidget {
 class _AddActivityScreenState extends ConsumerState<AddActivityScreen> {
   final _formKey = GlobalKey<FormState>();
 
-  String _enteredName = 'testDaten';
-  String _enteredDescription = 'testDaten';
+  String _enteredName = '';
+  String _enteredDescription = '';
 
-  File? _selectedImage;
+  Uint8List? _selectedImage;
   PlaceLocation? _selectedLocation;
   bool _isPublic = false;
   final Set<String> _filters = <String>{};
+  User? _user;
+
+  @override
+  void initState() {
+    super.initState();
+    _checkUserAuthState();
+  }
+
+  void _checkUserAuthState() {
+    FirebaseAuth.instance.authStateChanges().listen((user) {
+      setState(() {
+        _user = user;
+      });
+    });
+  }
 
   String? stringValidator(String? value) {
     if (value == null ||
@@ -39,16 +56,17 @@ class _AddActivityScreenState extends ConsumerState<AddActivityScreen> {
     if (_formKey.currentState!.validate() &&
         _selectedImage != null &&
         _selectedLocation != null &&
-        _filters.isNotEmpty) {
+        _filters.isNotEmpty &&
+        _user != null) {
       _formKey.currentState!.save();
-
       var activity = Activity(
         name: _enteredName,
         categories: _filters.toList(),
         description: _enteredDescription,
-        image: _selectedImage,
+        imageBytes: _selectedImage,
         isPublic: _isPublic,
         isUserCreated: true,
+        creatorId: _user!.uid,
         location: PlaceLocation(
           lat: _selectedLocation!.lat,
           lon: _selectedLocation!.lon,
@@ -59,37 +77,41 @@ class _AddActivityScreenState extends ConsumerState<AddActivityScreen> {
         ),
       );
 
-      final success =
-          await ref.read(activitiesControllerProvider.notifier).postActivity(
-                activity: activity,
-              );
+      final success = await ref
+          .read(activitiesControllerProvider.notifier)
+          .postActivity(activity: activity);
 
       if (success && mounted) {
-        // ignore: unused_result
-        // ref.refresh(
-        //   fetchPicturePostsProvider(widget.trip.tripId),
-        // );
         Navigator.of(context).pop(activity);
       }
     } else {
       ScaffoldMessenger.of(context).clearSnackBars();
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text(
-            'Please fill out all required fields.',
-          ),
+          content: Text('Please fill out all required fields.'),
           duration: Duration(seconds: 3),
         ),
       );
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
+
+    if(_user == null) {
+      return Scaffold(
+        appBar: AppBar(
+        title: const Text('Add activity'),
+      ),
+        body: const Center(
+          child: Text('You need to log in to add an activity.'),
+        ),
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add a new activity'),
+        title: const Text('Add activity'),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -120,25 +142,19 @@ class _AddActivityScreenState extends ConsumerState<AddActivityScreen> {
                         _enteredDescription = value!;
                       },
                     ),
-                    const SizedBox(
-                      height: 20,
-                    ),
+                    const SizedBox(height: 20),
                     ImageInput(
                       onPickImage: (image) {
                         _selectedImage = image;
                       },
                     ),
-                    const SizedBox(
-                      height: 20,
-                    ),
+                    const SizedBox(height: 20),
                     LocationInput(
                       onSelectLocation: (location) {
                         _selectedLocation = location;
                       },
                     ),
-                    const SizedBox(
-                      height: 20,
-                    ),
+                    const SizedBox(height: 20),
                     Text(
                       'Select Categories: ',
                       style:
@@ -164,7 +180,7 @@ class _AddActivityScreenState extends ConsumerState<AddActivityScreen> {
                         ),
                         const SizedBox(width: 8),
                         Text(
-                          _isPublic ? 'Private Activity' : 'Public Activity',
+                          _isPublic ? 'Public Activity' : 'Private Activity',
                           style: Theme.of(context).textTheme.bodyMedium,
                         ),
                       ],
@@ -200,9 +216,7 @@ class _AddActivityScreenState extends ConsumerState<AddActivityScreen> {
                         );
                       }).toList(),
                     ),
-                    const SizedBox(
-                      height: 20,
-                    ),
+                    const SizedBox(height: 20),
                     Row(
                       children: [
                         Expanded(
