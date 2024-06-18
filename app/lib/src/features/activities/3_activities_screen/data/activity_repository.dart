@@ -22,7 +22,10 @@ class ActivityRepository {
     final pictureId =
         '${activity.name}_${uid}_${timestamp.millisecondsSinceEpoch}';
     final firestorageRef = _storage.ref().child('activities/$pictureId');
-    await firestorageRef.putFile(activity.image!);
+    await firestorageRef.putData(
+      activity.imageBytes!,
+      SettableMetadata(contentType: 'image/jpeg'),
+    );
     final String pictureUrl = await firestorageRef.getDownloadURL();
 
     activity

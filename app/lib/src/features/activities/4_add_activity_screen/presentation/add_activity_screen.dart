@@ -1,6 +1,7 @@
-import 'dart:io';
-import 'package:flutter/material.dart';
+import 'dart:typed_data';
+
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:travel_link/src/features/activities/3_activities_screen/domain/activity.dart';
 import 'package:travel_link/src/features/activities/4_add_activity_screen/presentation/activities_controller.dart';
@@ -21,7 +22,7 @@ class _AddActivityScreenState extends ConsumerState<AddActivityScreen> {
   String _enteredName = '';
   String _enteredDescription = '';
 
-  File? _selectedImage;
+  Uint8List? _selectedImage;
   PlaceLocation? _selectedLocation;
   bool _isPublic = false;
   final Set<String> _filters = <String>{};
@@ -37,9 +38,6 @@ class _AddActivityScreenState extends ConsumerState<AddActivityScreen> {
     FirebaseAuth.instance.authStateChanges().listen((user) {
       setState(() {
         _user = user;
-        print(
-          _user!.uid,
-        );
       });
     });
   }
@@ -55,9 +53,6 @@ class _AddActivityScreenState extends ConsumerState<AddActivityScreen> {
   }
 
   Future<void> _saveActivity() async {
-    print(_selectedLocation!.lon);
-    if (_selectedImage == null) print('null');
-    if (_selectedImage != null) print('no null');
     if (_formKey.currentState!.validate() &&
         _selectedImage != null &&
         _selectedLocation != null &&
@@ -68,7 +63,7 @@ class _AddActivityScreenState extends ConsumerState<AddActivityScreen> {
         name: _enteredName,
         categories: _filters.toList(),
         description: _enteredDescription,
-        image: _selectedImage,
+        imageBytes: _selectedImage,
         isPublic: _isPublic,
         isUserCreated: true,
         creatorId: _user!.uid,
