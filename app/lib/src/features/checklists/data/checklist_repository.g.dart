@@ -23,7 +23,7 @@ final checklistRepositoryProvider = Provider<ChecklistRepository>.internal(
 
 typedef ChecklistRepositoryRef = ProviderRef<ChecklistRepository>;
 String _$fetchTripChecklistHash() =>
-    r'445d0067005fa149181265c96fa86f45d9549c39';
+    r'e1ad0b1cfc72841b3d869d2fd272e3044b7d74ff';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -58,9 +58,13 @@ class FetchTripChecklistFamily extends Family<AsyncValue<List<ChecklistItem>>> {
   /// See also [fetchTripChecklist].
   FetchTripChecklistProvider call({
     required String tripId,
+    bool onlyPublic = false,
+    String? uid,
   }) {
     return FetchTripChecklistProvider(
       tripId: tripId,
+      onlyPublic: onlyPublic,
+      uid: uid,
     );
   }
 
@@ -70,6 +74,8 @@ class FetchTripChecklistFamily extends Family<AsyncValue<List<ChecklistItem>>> {
   ) {
     return call(
       tripId: provider.tripId,
+      onlyPublic: provider.onlyPublic,
+      uid: provider.uid,
     );
   }
 
@@ -94,10 +100,14 @@ class FetchTripChecklistProvider
   /// See also [fetchTripChecklist].
   FetchTripChecklistProvider({
     required String tripId,
+    bool onlyPublic = false,
+    String? uid,
   }) : this._internal(
           (ref) => fetchTripChecklist(
             ref as FetchTripChecklistRef,
             tripId: tripId,
+            onlyPublic: onlyPublic,
+            uid: uid,
           ),
           from: fetchTripChecklistProvider,
           name: r'fetchTripChecklistProvider',
@@ -109,6 +119,8 @@ class FetchTripChecklistProvider
           allTransitiveDependencies:
               FetchTripChecklistFamily._allTransitiveDependencies,
           tripId: tripId,
+          onlyPublic: onlyPublic,
+          uid: uid,
         );
 
   FetchTripChecklistProvider._internal(
@@ -119,9 +131,13 @@ class FetchTripChecklistProvider
     required super.debugGetCreateSourceHash,
     required super.from,
     required this.tripId,
+    required this.onlyPublic,
+    required this.uid,
   }) : super.internal();
 
   final String tripId;
+  final bool onlyPublic;
+  final String? uid;
 
   @override
   Override overrideWith(
@@ -138,6 +154,8 @@ class FetchTripChecklistProvider
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
         tripId: tripId,
+        onlyPublic: onlyPublic,
+        uid: uid,
       ),
     );
   }
@@ -149,13 +167,18 @@ class FetchTripChecklistProvider
 
   @override
   bool operator ==(Object other) {
-    return other is FetchTripChecklistProvider && other.tripId == tripId;
+    return other is FetchTripChecklistProvider &&
+        other.tripId == tripId &&
+        other.onlyPublic == onlyPublic &&
+        other.uid == uid;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
     hash = _SystemHash.combine(hash, tripId.hashCode);
+    hash = _SystemHash.combine(hash, onlyPublic.hashCode);
+    hash = _SystemHash.combine(hash, uid.hashCode);
 
     return _SystemHash.finish(hash);
   }
@@ -165,6 +188,12 @@ mixin FetchTripChecklistRef
     on AutoDisposeFutureProviderRef<List<ChecklistItem>> {
   /// The parameter `tripId` of this provider.
   String get tripId;
+
+  /// The parameter `onlyPublic` of this provider.
+  bool get onlyPublic;
+
+  /// The parameter `uid` of this provider.
+  String? get uid;
 }
 
 class _FetchTripChecklistProviderElement
@@ -174,6 +203,10 @@ class _FetchTripChecklistProviderElement
 
   @override
   String get tripId => (origin as FetchTripChecklistProvider).tripId;
+  @override
+  bool get onlyPublic => (origin as FetchTripChecklistProvider).onlyPublic;
+  @override
+  String? get uid => (origin as FetchTripChecklistProvider).uid;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

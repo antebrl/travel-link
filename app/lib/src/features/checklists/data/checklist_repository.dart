@@ -10,28 +10,49 @@ class ChecklistRepository {
 
   static String checklistPath(String tripId) => 'trips/$tripId/checklist';
 
-  // create [NOT USED ATM]
-    Future<List<ChecklistItem>> createChecklistItem(
+  // create
+    Future<void> createChecklistItem(
       { required String tripId,
         required String title,
       required List<String> asignees,
       required List<bool> asigneesCompleted,
+      required bool onlyOneCompletion,
+      required bool isPublic,
       DateTime? dueDate,
-      DateTime? createdAt}) async {
-    final trips = await queryTripChecklist(
-      tripId: tripId,
-    ).get();
-    return trips.docs.map((doc) => doc.data()).toList();
+      DateTime? createdAt}) =>
+      _firestore.collection(checklistPath(tripId)).add({
+        'title': title,
+      'asignees': asignees,
+      'asigneesCompleted': asigneesCompleted,
+      'dueDate': dueDate != null ? Timestamp.fromDate(dueDate) : null,
+      'createdAt': createdAt != null ? Timestamp.fromDate(createdAt) : null,
+      'onlyOneCompletion': onlyOneCompletion,
+      'isPublic': isPublic,
+      });
+
+    Future<void> updateChecklistData({
+    required String tripId,
+    required ChecklistItem data,
+  }) async {
+    return _firestore.collection(checklistPath(tripId)).doc(data.id).set(data.toMap());
   }
 
   // read
 
   Future<List<ChecklistItem>> fetchTripChecklist(
-      { required String tripId,}) async {
-    final trips = await queryTripChecklist(
+      { required String tripId, required bool onlyPublic, String? uid}) async {
+
+    var checklist = queryTripChecklist(
       tripId: tripId,
-    ).get();
-    return trips.docs.map((doc) => doc.data()).toList();
+    );
+    if(onlyPublic) {
+       checklist = checklist.where('isPublic', isEqualTo: true);
+    } else if(uid != null) {
+      checklist = checklist.where('asignees', arrayContains: uid);
+    }
+
+    final tasks = await checklist.get();
+    return tasks.docs.map((doc) => doc.data()).toList();
   }
 
   //QUERIES
@@ -43,7 +64,7 @@ class ChecklistRepository {
         .collection(checklistPath(tripId))
         .withConverter(
           fromFirestore: (snapshot, _) =>
-              ChecklistItem.fromMap(snapshot.data()!),
+              ChecklistItem.fromMap(snapshot.data()!, snapshot.id),
           toFirestore: (checklistItem, _) => checklistItem.toMap(),
         );
 }
@@ -57,9 +78,13 @@ ChecklistRepository checklistRepository(ChecklistRepositoryRef ref) {
 Future<List<ChecklistItem>> fetchTripChecklist(
   FetchTripChecklistRef ref, {
   required String tripId,
+  bool onlyPublic = false,
+  String? uid,
 }) {
   final repository = ref.watch(checklistRepositoryProvider);
   return repository.fetchTripChecklist(
     tripId: tripId,
+    onlyPublic: onlyPublic,
+    uid: uid,
   );
 }

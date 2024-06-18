@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:travel_link/src/features/checklists/presentation/checklist_view.dart';
+import 'package:travel_link/src/features/checklists/presentation/personal_checklist_view.dart';
+import 'package:travel_link/src/features/explore_trips/domain/trip.dart';
 
 class ChecklistsScreen extends ConsumerStatefulWidget {
-  const ChecklistsScreen({required this.tripId, super.key});
+  const ChecklistsScreen({required this.trip, super.key});
 
-  final String tripId;
+  final Trip trip;
 
   @override
   ConsumerState<ChecklistsScreen> createState() => _ChecklistsScreenState();
@@ -43,9 +45,8 @@ class _ChecklistsScreenState extends ConsumerState<ChecklistsScreen> with Single
       body: TabBarView(
         controller: _tabController,
         children:  [
-          ChecklistView(tripId: widget.tripId,),
-          //Use Personal instead: Filter by userId
-          ChecklistView(tripId: widget.tripId),
+          PersonalChecklistView(tripId: widget.trip.tripId),
+          ChecklistView(tripId: widget.trip.tripId, participants: widget.trip.participants),
         ],
       ),
     );

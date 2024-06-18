@@ -88,7 +88,7 @@ class _TripPlanningScreenState extends State<TripPlanningScreen> {
         PreviewTile(
           title: 'Checklist',
           preview: const Placeholder(fallbackHeight: 100),
-          detailsPageBuilder: (context) => ChecklistsScreen(tripId: widget.trip.tripId),
+          detailsPageBuilder: (context) => ChecklistsScreen(trip: widget.trip),
         ),
         const SizedBox(height: 10),
         PreviewTile(
