@@ -1,3 +1,23 @@
+``` mermaid
+flowchart LR
+    subgraph subgraph1[Create your own Trip]
+        direction LR
+        top1[Create trip] --> bottom1[Invite friends]
+    end
+
+    
+      subgraph sub2[Plan the Trip]
+         direction TB
+         top2[Chat] -.-> bottom4[Explore and add activities] -.-> bottom3[Use checklist] -.-> bottom5[Show map] -.-> bottom2[Save and share pictures]        
+      end
+    
+    su[Register] --> subgraph1
+    subgraph1 --> sub2
+    su[Register] --> outside2[Join trip]
+    outside2 --> sub2
+```
+
+
 
 ## 1. Register
 **Scenario**: You want to use the personalized features of the app. Register an account.
