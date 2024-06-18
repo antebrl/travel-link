@@ -13,6 +13,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // * Initialize Firebase
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
   /*
   final Map<Permission, PermissionStatus> statuses = await [
     Permission.locationAlways,
@@ -31,6 +32,7 @@ Future<void> main() async {
 
 class MyApp extends ConsumerWidget {
   const MyApp({super.key});
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final goRouter = ref.watch(goRouterProvider);
@@ -38,7 +40,6 @@ class MyApp extends ConsumerWidget {
       themeMode: ThemeMode.light,
       theme: CustomAppTheme.lightTheme,
       darkTheme: CustomAppTheme.darkTheme, //.darkTheme
-
       routerConfig: goRouter,
       debugShowCheckedModeBanner: false,
       onGenerateTitle: (context) => context.loc.appTitle,
