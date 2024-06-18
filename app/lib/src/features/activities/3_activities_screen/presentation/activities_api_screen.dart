@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:travel_link/src/features/activities/3_activities_screen/data/activity_repository.dart';
@@ -42,7 +43,7 @@ class _APIActivitiesScreenState extends ConsumerState<APIActivitiesScreen> {
 
   Future<String?> getCurrentUserId() async {
     final user = FirebaseAuth.instance.currentUser;
-    return user?.uid;
+    return user!.uid;
   }
 
   bool isActivityNearDestination(
@@ -88,6 +89,11 @@ class _APIActivitiesScreenState extends ConsumerState<APIActivitiesScreen> {
         categories: widget.categoryList,
       ));
     }
+    if (newActivity != null) {
+      ref.invalidate(fetchActivitiesProvider(
+        categories: widget.categoryList,
+      ));
+    }
   }
 
   @override
@@ -100,6 +106,8 @@ class _APIActivitiesScreenState extends ConsumerState<APIActivitiesScreen> {
       ).future,
     );
 
+    final fetchedUserActivities =
+        ref.watch(fetchActivitiesProvider(categories: widget.categoryList));
     final fetchedUserActivities =
         ref.watch(fetchActivitiesProvider(categories: widget.categoryList));
 
@@ -194,10 +202,40 @@ class _APIActivitiesScreenState extends ConsumerState<APIActivitiesScreen> {
                                 widget.destination.lon!,
                               ) &&
                               activity.isUserCreated &&
-                              (activity.isPublic || ( userId != null &&
-                                  activity.creatorId == userId!)),
+                              (activity.isPublic ||
+                                  activity.creatorId == userId),
                         )
                         .toList();
+                    if (nearbyActivities.isNotEmpty) {
+                      return SliverToBoxAdapter(
+                        child: Column(
+                          children: [
+                            Text(
+                              'Added by Users: ',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headlineSmall!
+                                  .copyWith(
+                                    color: CustomColors.primary,
+                                  ),
+                            ),
+                            ListView.builder(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: nearbyActivities.length,
+                              itemBuilder: (context, index) {
+                                return APIActivityItem(
+                                  key: UniqueKey(),
+                                  activity: nearbyActivities[index],
+                                );
+                              },
+                            ),
+                          ],
+                        ),
+                      );
+                    } else {
+                      return const SliverToBoxAdapter();
+                    }
                     if (nearbyActivities.isNotEmpty) {
                       return SliverToBoxAdapter(
                         child: Column(
@@ -271,6 +309,11 @@ class _APIActivitiesScreenState extends ConsumerState<APIActivitiesScreen> {
                         'Error: ${snapshot.error}',
                         style: Theme.of(context).textTheme.bodyMedium,
                       ));
+                      return Center(
+                          child: Text(
+                        'Error: ${snapshot.error}',
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      ));
                     } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                       return SliverToBoxAdapter(
                         child: Center(
@@ -306,7 +349,12 @@ class _APIActivitiesScreenState extends ConsumerState<APIActivitiesScreen> {
                 ),
               ],
             ),
-            MapScreenWithActivities(fetchedApiActivities: fetchedActivities, fetchedUserActivities: ref.read(fetchActivitiesProvider(categories: widget.categoryList).future),),
+            MapScreenWithActivities(
+              fetchedApiActivities: fetchedActivities,
+              fetchedUserActivities: ref.read(
+                  fetchActivitiesProvider(categories: widget.categoryList)
+                      .future),
+            ),
           ],
         ),
       ),
