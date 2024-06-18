@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:travel_link/src/features/activities/3_activities_screen/domain/api_activity.dart';
+import 'package:travel_link/src/features/activities/3_activities_screen/domain/activity.dart';
 import 'package:travel_link/src/features/activities/5_activities_details_screen/api_activities_details_screen.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
 import 'package:travel_link/src/utils/constants/image_strings.dart';
@@ -10,7 +10,7 @@ import 'package:travel_link/src/utils/theme/widget_themes/text_theme.dart';
 
 class APIActivityItem extends StatefulWidget {
   const APIActivityItem({required this.activity, super.key});
-  final ApiActivity activity;
+  final Activity activity;
 
   @override
   State<APIActivityItem> createState() => _APIActivityItemState();
@@ -20,6 +20,7 @@ class _APIActivityItemState extends State<APIActivityItem> {
   late Future<List<String>?> _imageFuture;
   String formattedLink = '';
   static final Map<String, List<String>> _imageCache = {};
+
   @override
   void initState() {
     super.initState();
@@ -30,17 +31,21 @@ class _APIActivityItemState extends State<APIActivityItem> {
       }
       _imageFuture = Future.value(imageName);
     } else {
-      _imageFuture = widget.activity.wikidataUrl != null
-          ? fetchImageAndDescription(
-              widget.activity.wikidataUrl!,
-              widget.activity.name,
-              widget.activity.wikidataId!,
-            )
-          : Future.value(
-              [
-                CustomImages.destinationImagePlaceholderUrl,
-              ],
-            );
+      if (widget.activity.imagePaths.isNotEmpty) {
+        _imageFuture = Future.value(widget.activity.imagePaths);
+      } else {
+        _imageFuture = widget.activity.wikidataUrl != null
+            ? fetchImageAndDescription(
+                widget.activity.wikidataUrl!,
+                widget.activity.name,
+                widget.activity.wikidataId!,
+              )
+            : Future.value(
+                [
+                  CustomImages.destinationImagePlaceholderUrl,
+                ],
+              );
+      }
     }
   }
 

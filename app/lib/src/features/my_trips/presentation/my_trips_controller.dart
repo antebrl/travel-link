@@ -106,16 +106,30 @@ class MyTripsController extends _$MyTripsController {
     );
   }
 
-  // Future<void> leaveTrip(String tripId) async {
-  //   final currentUser = ref.read(firebaseAuthProvider).currentUser;
+  Future<void> addToTrip({required Trip trip, required String uid}) async {
 
-  //   //set state to loading
-  //   state = const AsyncLoading();
+    //set state to loading
+    state = const AsyncLoading();
 
-  //   final repository = ref.read(myTripsRepositoryProvider);
+    final repository = ref.read(myTripsRepositoryProvider);
 
-  //   state = await AsyncValue.guard(
-  //     () => repository.leaveTrip(uid: currentUser!.uid, tripId: tripId),
-  //   );
-  // }
+    state = await AsyncValue.guard(
+      () => repository.joinTrip(uid: uid, trip: trip),
+    );
+  }
+
+  Future<void> leaveTrip({required Trip trip}) async {
+    final currentUser = ref.read(firebaseAuthProvider).currentUser;
+
+    //set state to loading
+    state = const AsyncLoading();
+
+    final repository = ref.read(myTripsRepositoryProvider);
+
+    trip.participants.remove(currentUser!.uid);
+
+    state = await AsyncValue.guard(
+      () => repository.leaveTrip(tripId: trip.tripId, participants: trip.participants),
+    );
+  }
 }

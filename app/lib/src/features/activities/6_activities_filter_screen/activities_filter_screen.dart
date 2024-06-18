@@ -1,11 +1,11 @@
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:travel_link/src/features/activities/2_continents_screen/domain/continent.dart';
-import 'package:travel_link/src/features/activities/3_activities_screen/domain/api_activity.dart';
+import 'package:travel_link/src/features/activities/3_activities_screen/domain/activity.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
 
 class ActivitiesFilterScreen extends StatefulWidget {
-  const ActivitiesFilterScreen({super.key, required this.continent});
+  const ActivitiesFilterScreen({required this.continent, super.key});
   final Continent continent;
 
   @override

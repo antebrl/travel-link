@@ -11,7 +11,7 @@ import 'package:travel_link/src/features/activities/2_continents_screen/domain/c
 import 'package:travel_link/src/features/activities/3_activities_screen/data/activity_data.dart';
 import 'package:travel_link/src/features/activities/3_activities_screen/data/api_activities_repository.dart';
 import 'package:travel_link/src/features/activities/3_activities_screen/data/popular_activity_data.dart';
-import 'package:travel_link/src/features/activities/3_activities_screen/domain/api_activity.dart';
+import 'package:travel_link/src/features/activities/3_activities_screen/domain/activity.dart';
 import 'package:travel_link/src/features/activities/5_activities_details_screen/api_activities_details_screen.dart';
 import 'package:travel_link/src/features/my_trips/domain/destination.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
@@ -31,7 +31,7 @@ class _ActivitiesMainScreenState extends State<ActivitiesMainScreen> {
   late Future<List<String>> _imageFuture;
   String formattedLink = '';
   ContinentType selectedContinent = ContinentType.none;
-  List<ApiActivity> selectedActivities = [];
+  List<Activity> selectedActivities = [];
 
   @override
   void initState() {
@@ -43,7 +43,7 @@ class _ActivitiesMainScreenState extends State<ActivitiesMainScreen> {
   Future<void> _handleDestinationSelected(Destination destination) async {
     final placeId = destination.placeId;
 
-    final ApiActivity? activity = await ApiActivitiesRepository()
+    final Activity? activity = await ApiActivitiesRepository()
         .getActivityDetailsById(placeId: placeId!);
 
     if (activity != null) {
@@ -70,13 +70,14 @@ class _ActivitiesMainScreenState extends State<ActivitiesMainScreen> {
           setState(() {
             _controller.textEditingController.clear();
             _controller.selectedDestination = null;
+            _selectRandomContinent();
           });
         });
       }
     }
   }
 
-  Future<List<String>> _loadImageUrls(ApiActivity activity) async {
+  Future<List<String>> _loadImageUrls(Activity activity) async {
     final response = await http.get(Uri.parse(activity.wikidataUrl!));
     final Map<String, dynamic> data =
         json.decode(response.body) as Map<String, dynamic>;
@@ -108,7 +109,7 @@ class _ActivitiesMainScreenState extends State<ActivitiesMainScreen> {
     });
   }
 
-  List<ApiActivity> _getRandomActivities(ContinentType continent, int count) {
+  List<Activity> _getRandomActivities(ContinentType continent, int count) {
     final filteredActivities = activityData
         .where((activity) => activity.continentType == continent)
         .toList();
@@ -118,6 +119,7 @@ class _ActivitiesMainScreenState extends State<ActivitiesMainScreen> {
 
   @override
   Widget build(BuildContext context) {
+    _selectRandomContinent();
     return SingleChildScrollView(
       child: Column(
         children: [

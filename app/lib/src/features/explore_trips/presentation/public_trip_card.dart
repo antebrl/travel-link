@@ -16,6 +16,8 @@ class PublicTripCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+
+    final size = MediaQuery.of(context).size;
     return Column(
       children: [
         const Spacer(),
@@ -77,6 +79,7 @@ class PublicTripCard extends ConsumerWidget {
                     const SizedBox(height: 10),
                     Center(
                       child: RichText(
+                        maxLines: 2,
                         //Trip description
                         text: TextSpan(
                           style: TextStyle(
@@ -106,13 +109,13 @@ class PublicTripCard extends ConsumerWidget {
                             ),
                           ],
                         ),
-                        maxLines: 4,
                         textAlign: TextAlign.center,
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
                     const SizedBox(height: 15),
                     Center(
+                      //Trip picture
                       child: CachedNetworkImage(
                         imageUrl: trip.images.isEmpty
                             ? CustomImages.tripDestinationImagePlaceholderUrl
@@ -120,58 +123,64 @@ class PublicTripCard extends ConsumerWidget {
                         placeholder: (context, url) => Shimmer.fromColors(
                           baseColor: Colors.grey[300]!,
                           highlightColor: Colors.grey[100]!,
-                          child: Container(
-                            height: 375,
-                            width: 300,
-                            alignment: Alignment.bottomLeft,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(40),
-                              color: Colors.white,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 6),
+                            child: Container(
+                              height: size.height > 750 ? 375 : size.height - 400,
+                              width: 300,
+                              alignment: Alignment.bottomLeft,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(40),
+                                color: Colors.white,
+                              ),
                             ),
                           ),
                         ),
-                        imageBuilder: (context, imageProvider) => Container(
-                          height: 375,
+                        imageBuilder: (context, imageProvider) => Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 6),
+                          child: Container(
+                            height: size.height > 750 ? 375 : size.height - 400,
                           width: 300,
-                          alignment: Alignment.bottomLeft,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(40),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.blue.shade600.withOpacity(0.8),
-                                spreadRadius: 0.1,
-                                blurRadius: 20,
-                                offset: const Offset(1, 8),
-                              ),
-                            ],
-                            image: DecorationImage(
-                              image: imageProvider,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 12,
-                              vertical: 25,
-                            ),
-                            child: DecoratedBox(
-                              decoration: BoxDecoration(
-                                color: const Color(0xFF4D5652).withOpacity(0.8),
-                                borderRadius: BorderRadius.circular(16),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 8,
-                                  horizontal: 14,
+                            alignment: Alignment.bottomLeft,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(40),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.blue.shade600.withOpacity(0.7),
+                                  //spreadRadius: 0,
+                                  blurRadius: 15,
+                                  offset: const Offset(1, 4),
                                 ),
-                                child: Text(
-                                  trip.destination.formatted,
-                                  style: GoogleFonts.adamina(
-                                    color: Colors.white, // Textfarbe
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w600,
+                              ],
+                              image: DecorationImage(
+                                image: imageProvider,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 12,
+                                vertical: 25,
+                              ),
+                              child: DecoratedBox(
+                                decoration: BoxDecoration(
+                                  color: const Color(0xFF4D5652).withOpacity(0.8),
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 8,
+                                    horizontal: 14,
                                   ),
-                                  textAlign: TextAlign.center,
+                                  child: Text(
+                                    trip.destination.formatted,
+                                    style: GoogleFonts.adamina(
+                                      color: Colors.white, 
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
                                 ),
                               ),
                             ),
@@ -179,7 +188,7 @@ class PublicTripCard extends ConsumerWidget {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 10),
                   ],
                 ),
               ),

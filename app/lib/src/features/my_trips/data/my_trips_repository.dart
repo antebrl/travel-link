@@ -49,11 +49,20 @@ class MyTripsRepository {
     return trips.docs.map((doc) => doc.data()).toList();
   }
 
+  Future<void> leaveTrip({
+    required String tripId,
+    required List<String> participants,
+  }) =>
+      _firestore
+          .doc('$tripsBasePath/$tripId')
+          .update({'participants': participants});
+
   //QUERIES
 
   Query<Trip> queryMyTrips({required String uid}) => _firestore
       .collection(tripsBasePath)
       .where('participants', arrayContains: uid)
+      .orderBy('startDate')
       .withConverter(
         fromFirestore: (snapshot, _) =>
             Trip.fromMap(snapshot.data()!, snapshot.id),
