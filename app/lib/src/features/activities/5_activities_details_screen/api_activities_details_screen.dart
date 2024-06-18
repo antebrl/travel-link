@@ -243,30 +243,27 @@ class _ApiActivitiesDetailsScreenState
                                 color: CustomColors.primary, fontSize: 20),
                       ),
                       myTrips.when(
-                      
-                      data: (trips) {
-                        return ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: trips.length,
-                          itemBuilder: (context, index) {
-                            //TODO: Design ListTile
-                            return ListTile(
-                              title: Text(trips[index].name),
-                            );
-                          },
-                        );
-                      },
-                      loading: () => 
-        const Center(
-          child: CircularProgressIndicator(),
-        ),
-                     
-      error: (error, stackTrace) {
-        return 
-          const Center(
-            child: Text('Log In in order to see your trips!'),
-          );
-      },),
+                        data: (trips) {
+                          return ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: trips.length,
+                            itemBuilder: (context, index) {
+                              //TODO: Design ListTile
+                              return ListTile(
+                                title: Text(trips[index].name),
+                              );
+                            },
+                          );
+                        },
+                        loading: () => const Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                        error: (error, stackTrace) {
+                          return const Center(
+                            child: Text('Log In in order to see your trips!'),
+                          );
+                        },
+                      ),
                     ],
                   ),
                 );

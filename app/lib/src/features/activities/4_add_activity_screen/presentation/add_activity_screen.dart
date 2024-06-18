@@ -97,9 +97,21 @@ class _AddActivityScreenState extends ConsumerState<AddActivityScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+    if(_user == null) {
+      return Scaffold(
+        appBar: AppBar(
+        title: const Text('Add activity'),
+      ),
+        body: const Center(
+          child: Text('You need to log in to add an activity.'),
+        ),
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add a new activity'),
+        title: const Text('Add activity'),
       ),
       body: SingleChildScrollView(
         child: Padding(
