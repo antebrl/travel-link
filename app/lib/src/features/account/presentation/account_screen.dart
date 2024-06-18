@@ -162,7 +162,15 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
             children: [
               InkWell(
                 borderRadius: BorderRadius.circular(10),
-                onTap: () {},
+                onTap: () {
+                  final uid = auth.currentUser!.uid;
+                  context.pushNamed(
+                    TopLevelDestinations.user.name,
+                    pathParameters: {
+                      'uid': uid,
+                    },
+                  );
+                },
                 child: Ink(
                   decoration: boxDecoration,
                   child: Container(
