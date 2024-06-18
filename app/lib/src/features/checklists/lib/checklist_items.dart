@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-// List of checklist suggestions
+// List of checklist sugg.
 final List<String> suggestions = [
   'Alarm clock - Wecker', 'Aspirin - Aspirin', 'Backpack - Rucksack', 'Bandages - Verbände',
   'Bathing suit - Badeanzug', 'Batteries - Batterien', 'Belt - Gürtel', 'Book - Buch',
@@ -22,7 +22,7 @@ final List<String> suggestions = [
   'Water - Wasser', 'Travel insurance - Reiseversicherung', 'Safety pins - Sicherheitsnadeln', 'Sunglass case - Sonnenbrillenetui'
 ];
 
-// Map of checklist items to their corresponding icons
+// Map of checklist items to their corr. icons
 final Map<String, IconData> iconMap = {
   'Alarm clock - Wecker': Icons.alarm,
   'Aspirin - Aspirin': Icons.healing,

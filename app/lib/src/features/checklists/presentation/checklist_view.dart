@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:travel_link/src/features/checklists/data/checklist_repository.dart';
-import '../lib/checklist_items.dart'; // Import the new file
+import '../lib/checklist_items.dart';
 
 class ChecklistView extends ConsumerStatefulWidget {
   const ChecklistView({required this.tripId, super.key});
@@ -16,7 +16,32 @@ class ChecklistView extends ConsumerStatefulWidget {
 class _ChecklistViewState extends ConsumerState<ChecklistView> {
   final List<Task> _tasks = [];
   final TextEditingController _textController = TextEditingController();
+  final FocusNode _focusNode = FocusNode();
   List<String> _filteredSuggestions = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _focusNode.addListener(_handleFocusChange);
+  }
+
+  @override
+  void dispose() {
+    _focusNode.removeListener(_handleFocusChange);
+    _focusNode.dispose();
+    _textController.dispose();
+    super.dispose();
+  }
+
+  void _handleFocusChange() {
+    if (_focusNode.hasFocus) {
+      _filterSuggestions(_textController.text);
+    } else {
+      setState(() {
+        _filteredSuggestions = [];
+      });
+    }
+  }
 
   void _filterSuggestions(String query) {
     setState(() {
@@ -32,6 +57,7 @@ class _ChecklistViewState extends ConsumerState<ChecklistView> {
     });
     _textController.clear();
     _filterSuggestions('');
+    _focusNode.unfocus(); // Hide the keyboard
   }
 
   void _removeTask(int index) {
@@ -43,6 +69,7 @@ class _ChecklistViewState extends ConsumerState<ChecklistView> {
   void _toggleTaskCompletion(int index) {
     setState(() {
       _tasks[index].isCompleted = !_tasks[index].isCompleted;
+      _tasks.sort((a, b) => a.isCompleted ? 1 : -1);
     });
   }
 
@@ -142,6 +169,7 @@ class _ChecklistViewState extends ConsumerState<ChecklistView> {
                       Expanded(
                         child: TextField(
                           controller: _textController,
+                          focusNode: _focusNode,
                           decoration: const InputDecoration(
                             hintText: 'Add a new item',
                           ),
@@ -197,70 +225,147 @@ class _ChecklistViewState extends ConsumerState<ChecklistView> {
               child: ReorderableListView(
                 onReorder: _reorderTasks,
                 children: [
+                  // Unchecked tasks
                   for (int index = 0; index < _tasks.length; index++)
-                    Dismissible(
-                      key: Key(_tasks[index].title),
-                      onDismissed: (direction) {
-                        if (direction == DismissDirection.endToStart) {
-                          _removeTask(index);
-                        } else if (direction == DismissDirection.startToEnd) {
-                          _toggleTaskCompletion(index);
-                        }
-                      },
-                      confirmDismiss: (direction) async {
-                        if (direction == DismissDirection.startToEnd) {
-                          _toggleTaskCompletion(index);
-                          return false; // Prevent dismissal
-                        } else {
-                          return true; // Allow dismissal
-                        }
-                      },
-                      background: Container(color: Colors.blue),
-                      secondaryBackground: Container(color: Colors.red),
-                      child: ListTile(
-                        key: Key('task_$index'),
-                        leading: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(iconMap[_tasks[index].title] ?? Icons.circle),
-                            Checkbox(
-                              value: _tasks[index].isCompleted,
-                              onChanged: (bool? value) {
-                                _toggleTaskCompletion(index);
-                              },
-                            ),
-                          ],
-                        ),
-                        title: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(_tasks[index].title),
-                            if (_tasks[index].dueDate != null)
-                              Text(
-                                'Due date: ${DateFormat('MM/dd/yyyy').format(_tasks[index].dueDate!)}',
-                                style: const TextStyle(fontSize: 12, color: Colors.grey),
+                    if (!_tasks[index].isCompleted)
+                      Dismissible(
+                        key: Key(_tasks[index].title),
+                        onDismissed: (direction) {
+                          if (direction == DismissDirection.endToStart) {
+                            _removeTask(index);
+                          } else if (direction == DismissDirection.startToEnd) {
+                            _toggleTaskCompletion(index);
+                          }
+                        },
+                        confirmDismiss: (direction) async {
+                          if (direction == DismissDirection.startToEnd) {
+                            _toggleTaskCompletion(index);
+                            return false; // Prevent dismissal
+                          } else {
+                            return true; // Allow dismissal
+                          }
+                        },
+                        background: Container(color: Colors.blue),
+                        secondaryBackground: Container(color: Colors.red),
+                        child: ListTile(
+                          key: Key('task_$index'),
+                          leading: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(iconMap[_tasks[index].title] ?? Icons.circle),
+                              Checkbox(
+                                value: _tasks[index].isCompleted,
+                                onChanged: (bool? value) {
+                                  _toggleTaskCompletion(index);
+                                },
                               ),
-                          ],
-                        ),
-                        trailing: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            IconButton(
-                              icon: const Icon(Icons.edit),
-                              onPressed: () {
-                                _editTask(index);
-                              },
-                            ),
-                            IconButton(
-                              icon: const Icon(Icons.delete),
-                              onPressed: () {
-                                _removeTask(index);
-                              },
-                            ),
-                          ],
+                            ],
+                          ),
+                          title: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(_tasks[index].title),
+                              if (_tasks[index].dueDate != null)
+                                Text(
+                                  'Due date: ${DateFormat('MM/dd/yyyy').format(_tasks[index].dueDate!)}',
+                                  style: const TextStyle(fontSize: 12, color: Colors.grey),
+                                ),
+                            ],
+                          ),
+                          trailing: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              IconButton(
+                                icon: const Icon(Icons.edit),
+                                onPressed: () {
+                                  _editTask(index);
+                                },
+                              ),
+                              IconButton(
+                                icon: const Icon(Icons.delete),
+                                onPressed: () {
+                                  _removeTask(index);
+                                },
+                              ),
+                            ],
+                          ),
                         ),
                       ),
+
+                  // Divider
+                  Container(
+                    key: const Key('divider'),
+                    child: const Divider(
+                      thickness: 2,
                     ),
+                  ),
+
+                  // Checked tasks
+                  for (int index = 0; index < _tasks.length; index++)
+                    if (_tasks[index].isCompleted)
+                      Dismissible(
+                        key: Key(_tasks[index].title),
+                        onDismissed: (direction) {
+                          if (direction == DismissDirection.endToStart) {
+                            _removeTask(index);
+                          } else if (direction == DismissDirection.startToEnd) {
+                            _toggleTaskCompletion(index);
+                          }
+                        },
+                        confirmDismiss: (direction) async {
+                          if (direction == DismissDirection.startToEnd) {
+                            _toggleTaskCompletion(index);
+                            return false; // Prevent dismissal
+                          } else {
+                            return true; // Allow dismissal
+                          }
+                        },
+                        background: Container(color: Colors.blue),
+                        secondaryBackground: Container(color: Colors.red),
+                        child: ListTile(
+                          key: Key('task_$index'),
+                          leading: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(iconMap[_tasks[index].title] ?? Icons.circle),
+                              Checkbox(
+                                value: _tasks[index].isCompleted,
+                                onChanged: (bool? value) {
+                                  _toggleTaskCompletion(index);
+                                },
+                              ),
+                            ],
+                          ),
+                          title: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(_tasks[index].title),
+                              if (_tasks[index].dueDate != null)
+                                Text(
+                                  'Due date: ${DateFormat('MM/dd/yyyy').format(_tasks[index].dueDate!)}',
+                                  style: const TextStyle(fontSize: 12, color: Colors.grey),
+                                ),
+                            ],
+                          ),
+                          trailing: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              IconButton(
+                                icon: const Icon(Icons.edit),
+                                onPressed: () {
+                                  _editTask(index);
+                                },
+                              ),
+                              IconButton(
+                                icon: const Icon(Icons.delete),
+                                onPressed: () {
+                                  _removeTask(index);
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
                 ],
               ),
             ),
