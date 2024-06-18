@@ -4,31 +4,27 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:travel_link/src/features/activities/3_activities_screen/domain/activity.dart';
-import 'package:travel_link/src/features/activities/5_activities_details_screen/add_to_trip_button.dart';
-import 'package:travel_link/src/features/authentication/data/firebase_auth_repository.dart';
-import 'package:travel_link/src/features/explore_trips/domain/trip.dart';
 import 'package:travel_link/src/features/my_trips/data/my_trips_repository.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
 import 'package:travel_link/src/utils/constants/image_strings.dart';
 
 class ApiActivitiesDetailsScreen extends ConsumerStatefulWidget {
-  const ApiActivitiesDetailsScreen({
-    required this.activity,
-    super.key,
-    this.addedTrip,
-  });
+  const ApiActivitiesDetailsScreen({required this.activity, super.key});
 
   final Activity activity;
   final Trip? addedTrip;
 
   @override
   ConsumerState<ApiActivitiesDetailsScreen> createState() =>
+  ConsumerState<ApiActivitiesDetailsScreen> createState() =>
       _ApiActivitiesDetailsScreenState();
 }
 
 class _ApiActivitiesDetailsScreenState
+    extends ConsumerState<ApiActivitiesDetailsScreen> {
     extends ConsumerState<ApiActivitiesDetailsScreen> {
   int _current = 0;
   final CarouselController _controller = CarouselController();
@@ -234,14 +230,61 @@ class _ApiActivitiesDetailsScreenState
                         ),
                       ),
           ),
-          if(currentUser != null && widget.addedTrip != null && widget.addedTrip!.participants.contains(currentUser.uid))
           Positioned(
             top: 10,
             right: 10,
-            child: AddToTripButton(
-              myTrips: myTrips,
-              activity: widget.activity,
-              addedTrip: widget.addedTrip!.tripId,
+            child: ElevatedButton(
+              onPressed: () {
+                final myTrips = ref.read(fetchMyTripsProvider);
+                showModalBottomSheet<void>(
+                  context: context,
+                  builder: (BuildContext context) => Column(
+                    children: [
+                      Text(
+                        'Select trip',
+                        style: Theme.of(context)
+                            .textTheme
+                            .headlineSmall!
+                            .copyWith(
+                                color: CustomColors.primary, fontSize: 20),
+                      ),
+                      myTrips.when(
+                        data: (trips) {
+                          return ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: trips.length,
+                            itemBuilder: (context, index) {
+                              //TODO: Design ListTile
+                              return ListTile(
+                                title: Text(trips[index].name),
+                              );
+                            },
+                          );
+                        },
+                        loading: () => const Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                        error: (error, stackTrace) {
+                          return const Center(
+                            child: Text('Log In in order to see your trips!'),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: CustomColors.primary.withOpacity(0.7),
+                side: BorderSide.none,
+                padding: const EdgeInsets.all(5),
+              ),
+              child: const Text(
+                'Add to trip',
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
             ),
           ),
           Positioned(
@@ -317,6 +360,7 @@ class _ApiActivitiesDetailsScreenState
                                   style: Theme.of(context).textTheme.bodyLarge,
                                 ),
                                 const SizedBox(height: 10),
+                                const SizedBox(height: 10),
                               ],
                               Text(
                                 'Location: ',
@@ -381,6 +425,36 @@ class _ApiActivitiesDetailsScreenState
                                   ),
                                 ),
                               },
+                              if (widget.activity.isPublic == false) ...{
+                                Padding(
+                                  padding: const EdgeInsets.all(10),
+                                  child: Chip(
+                                    side: const BorderSide(
+                                      color: CustomColors.primary,
+                                    ),
+                                    backgroundColor: CustomColors.white,
+                                    labelStyle: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall!
+                                        .copyWith(
+                                          color: CustomColors.primary,
+                                        ),
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 12,
+                                      vertical: 12,
+                                    ),
+                                    label: Text(
+                                      'private',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall!
+                                          .copyWith(
+                                            color: CustomColors.primary,
+                                          ),
+                                    ),
+                                  ),
+                                ),
+                              },
                               Padding(
                                 padding: const EdgeInsets.all(10),
                                 child: Wrap(
@@ -406,6 +480,12 @@ class _ApiActivitiesDetailsScreenState
                                       ),
                                       label: Text(
                                         category,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodySmall!
+                                            .copyWith(
+                                              color: CustomColors.primary,
+                                            ),
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodySmall!
