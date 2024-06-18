@@ -3,6 +3,7 @@ import 'package:flag/flag.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:travel_link/src/features/account/data/account_repository.dart';
+import 'package:travel_link/src/features/trip_overview/data/user_repository.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
 import 'package:travel_link/src/utils/constants/image_strings.dart';
 import 'package:travel_link/src/utils/theme/widget_themes/boxDecoration_theme.dart';
@@ -64,12 +65,9 @@ class _ProfileScreenState extends ConsumerState<UserProfileScreen> {
                     padding: const EdgeInsets.all(10),
                     child: Row(
                       children: [
-                        GestureDetector(
-                          onTap: () async {},
-                          child: Padding(
-                            padding: const EdgeInsets.only(right: 10),
-                            child: userProfilePicture,
-                          ),
+                        Padding(
+                          padding: const EdgeInsets.only(right: 10),
+                          child: userProfilePicture,
                         ),
                         Expanded(
                           child: Column(
@@ -77,7 +75,8 @@ class _ProfileScreenState extends ConsumerState<UserProfileScreen> {
                             children: [
                               Text(
                                 user_name,
-                                style: Theme.of(context).textTheme.headlineSmall,
+                                style:
+                                    Theme.of(context).textTheme.headlineSmall,
                                 overflow: TextOverflow.fade,
                               ),
                               const SizedBox(height: 5),
@@ -171,7 +170,8 @@ class _ProfileScreenState extends ConsumerState<UserProfileScreen> {
                   physics: BouncingScrollPhysics(),
                   itemBuilder: (context, index) {
                     return InterestsChip(
-                        icon: Icon(Icons.sports_basketball), label: "Basketball");
+                        icon: Icon(Icons.sports_basketball),
+                        label: "Basketball");
                   },
                 ),
               ),
@@ -190,34 +190,39 @@ class BoxedListTile extends StatelessWidget {
     required this.headline,
     required this.content,
     this.padding,
+    this.onTap,
   });
 
   final BoxDecoration boxDecoration;
   final String headline;
   final Widget content;
   final EdgeInsets? padding;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: padding ?? const EdgeInsets.only(left: 10, right: 10, top: 10),
-      child: Container(
-        decoration: boxDecoration,
-        child: Column(
-          children: [
-            Container(
-              padding: const EdgeInsets.only(left: 10, top: 10),
-              child: Text(
-                headline,
-                style: Theme.of(context).textTheme.headlineMedium,
+      child: InkWell(
+        onTap: onTap ?? () {},
+        child: Ink(
+          decoration: boxDecoration,
+          child: Column(
+            children: [
+              Container(
+                padding: const EdgeInsets.only(left: 10, top: 10),
+                child: Text(
+                  headline,
+                  style: Theme.of(context).textTheme.headlineMedium,
+                ),
               ),
-            ),
-            const Divider(
-              indent: 50,
-              endIndent: 50,
-            ),
-            content,
-          ],
+              const Divider(
+                indent: 50,
+                endIndent: 50,
+              ),
+              content,
+            ],
+          ),
         ),
       ),
     );

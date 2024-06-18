@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:travel_link/src/features/account/domain/user_account.dart';
 import 'package:travel_link/src/features/explore_trips/domain/trip.dart';
 import 'package:travel_link/src/features/trip_overview/data/user_repository.dart';
 import 'package:travel_link/src/features/trip_overview/presentation/plan/participants/add_participant_screen.dart';
+import 'package:travel_link/src/routing/app_router.dart';
 import 'package:travel_link/src/utils/constants/image_strings.dart';
 
 class ParticipantListView extends ConsumerWidget {

@@ -278,7 +278,7 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
                         IconButton(
                           onPressed: () {},
                           icon: const Icon(
-                            Icons.edit,
+                            Icons.qr_code,
                             color: CustomColors.buttonPrimary,
                           ),
                         ),
