@@ -19,6 +19,12 @@ class CustomAppTheme {
 
   /// Light Theme
   static ThemeData lightTheme = ThemeData(
+    colorScheme: ColorScheme.fromSeed(
+    seedColor: CustomColors.primary,
+    primary: CustomColors.primary,
+    surface: CustomColors.primaryBackground,
+    background: CustomColors.primaryBackground,
+    ),
     useMaterial3: true,
     fontFamily: GoogleFonts.poppins().fontFamily,
     brightness: Brightness.light,

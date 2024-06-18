@@ -38,6 +38,7 @@ class _ExploreTripsScreenState extends ConsumerState<ExploreTripsScreen> {
       country: _selectedCountry,
     ));
 
+
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 80,
@@ -220,23 +221,23 @@ class _ExploreTripsScreenState extends ConsumerState<ExploreTripsScreen> {
         data: (tripsList) {
           if (tripsList.isNotEmpty) {
             return CarouselSlider(
-              carouselController: carouselController,
-              options: CarouselOptions(
-                viewportFraction: 0.83,
-                enlargeFactor: 0.25,
-                enlargeCenterPage: true,
-                height: 700,
-                onPageChanged: (index, reason) {
-                  _currentIndex = index;
-                  setState(() {});
-                },
-              ),
-              items: tripsList.map((i) {
-                return PublicTripCard(
-                  trip: i,
-                );
-              }).toList(),
-            );
+            carouselController: carouselController,
+            options: CarouselOptions(
+              viewportFraction: 0.83,
+              enlargeFactor: 0.25,
+              enlargeCenterPage: true,
+              height: 640,
+              onPageChanged: (index, reason) {
+                _currentIndex = index;
+                setState(() {});
+              },
+            ),
+            items: tripsList.map((i) {
+              return PublicTripCard(
+                trip: i,
+              );
+            }).toList(),
+                          );
           } else {
             return const Center(
               child: Text(

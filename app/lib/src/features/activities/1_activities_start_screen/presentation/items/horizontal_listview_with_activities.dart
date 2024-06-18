@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:travel_link/src/features/activities/3_activities_screen/domain/api_activity.dart';
+import 'package:travel_link/src/features/activities/3_activities_screen/domain/activity.dart';
 import 'package:travel_link/src/features/activities/3_activities_screen/presentation/items/small_activity_item.dart';
 
 class HorizontalActivityList extends StatelessWidget {
@@ -7,7 +7,7 @@ class HorizontalActivityList extends StatelessWidget {
     required this.selectedActivities,
     super.key,
   });
-  final List<ApiActivity> selectedActivities;
+  final List<Activity> selectedActivities;
 
   @override
   Widget build(BuildContext context) {

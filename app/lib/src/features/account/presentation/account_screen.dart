@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:travel_link/src/features/account/data/account_repository.dart';
 import 'package:travel_link/src/features/account/presentation/account_controller.dart';
 import 'package:travel_link/src/features/authentication/data/firebase_auth_repository.dart';
+import 'package:travel_link/src/features/trip_overview/data/user_repository.dart';
 import 'package:travel_link/src/routing/app_router.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
 import 'package:travel_link/src/utils/constants/image_strings.dart';
@@ -286,7 +286,7 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
                         IconButton(
                           onPressed: () {},
                           icon: const Icon(
-                            Icons.edit,
+                            Icons.qr_code,
                             color: CustomColors.buttonPrimary,
                           ),
                         ),

@@ -1,21 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:travel_link/src/features/account/data/account_repository.dart';
 import 'package:travel_link/src/features/account/domain/user_account.dart';
-import 'package:travel_link/src/features/profile/public_profile_screen.dart';
+import 'package:travel_link/src/features/explore_trips/domain/trip.dart';
+import 'package:travel_link/src/features/trip_overview/data/user_repository.dart';
+import 'package:travel_link/src/features/trip_overview/presentation/plan/participants/add_participant_screen.dart';
 import 'package:travel_link/src/routing/app_router.dart';
 import 'package:travel_link/src/utils/constants/image_strings.dart';
 
 class ParticipantListView extends ConsumerWidget {
-  const ParticipantListView({required this.participants, super.key});
+  const ParticipantListView({required this.trip, super.key});
 
-  final List<String> participants;
+  final Trip trip;
 
   Future<List<UserAccount>> _fetchParticipants(WidgetRef ref) async {
     final List<UserAccount> users = [];
-    for (int i = 0; i < participants.length; i++) {
-      final user = await ref.read(FetchUserProvider(participants[i]).future);
+    for (int i = 0; i < trip.participants.length; i++) {
+      final user =
+          await ref.read(FetchUserProvider(trip.participants[i]).future);
       if (user != null) {
         users.add(user);
       } else {
@@ -24,7 +26,7 @@ class ParticipantListView extends ConsumerWidget {
             displayName: 'Anonymous User',
             pictureUrl: CustomImages.defaultProfilePictureUrl,
             description: 'No description',
-            id: participants[i],
+            id: trip.participants[i],
           ),
         );
       }
@@ -41,7 +43,14 @@ class ParticipantListView extends ConsumerWidget {
           borderRadius: BorderRadius.circular(20),
         ),
         onPressed: () {
+          Navigator.pop(context);
           // Add participant to trip
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => AddParticipantScreen(trip: trip),
+            ),
+          );
         },
         label: const Text(
           'Add',

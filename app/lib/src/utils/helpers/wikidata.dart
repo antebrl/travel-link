@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:travel_link/src/features/activities/3_activities_screen/domain/api_activity.dart';
+import 'package:travel_link/src/features/activities/3_activities_screen/domain/activity.dart';
 import 'package:travel_link/src/utils/helpers/crypto.dart';
 
 class WikidataParser {

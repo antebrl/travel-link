@@ -46,31 +46,12 @@ class AccountRepository {
       );
   }
 
-//READ
-
-  Future<UserAccount?> fetchUser({required String uid}) async =>
-      _firestore
-        .collection(usersBasePath)
-        .doc(uid)
-        .withConverter<UserAccount>(
-          fromFirestore: (snapshot, _) => UserAccount.fromMap(
-              snapshot.data()!, snapshot.id), //tripId = document-id
-          toFirestore: (userAcc, _) => userAcc.toMap(),
-        )
-        .get()
-        .then((value) => value.data());
 }
+
 
 @Riverpod(keepAlive: true)
 AccountRepository accountRepository(
     AccountRepositoryRef ref,) {
   return AccountRepository(
       FirebaseFirestore.instance, FirebaseStorage.instance,);
-}
-
-//cache users (used everywhere)
-@Riverpod(keepAlive: true)
-Future<UserAccount?> fetchUser(FetchUserRef ref, String uid) {
-  final repository = ref.watch(accountRepositoryProvider);
-  return repository.fetchUser(uid: uid);
 }
