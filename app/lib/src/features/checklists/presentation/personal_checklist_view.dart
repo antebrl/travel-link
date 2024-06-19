@@ -6,7 +6,7 @@ import 'package:travel_link/src/features/authentication/data/firebase_auth_repos
 import 'package:travel_link/src/features/checklists/data/checklist_repository.dart';
 import 'package:travel_link/src/features/checklists/domain/checklist_item.dart';
 import 'package:travel_link/src/features/checklists/presentation/checklist_controller.dart';
-import '../lib/checklist_items.dart'; // Import the new file
+import '../lib/checklist_items.dart';
 
 class PersonalChecklistView extends ConsumerStatefulWidget {
   const PersonalChecklistView({required this.tripId, super.key});
@@ -19,8 +19,9 @@ class PersonalChecklistView extends ConsumerStatefulWidget {
 }
 
 class _PersonalChecklistViewState extends ConsumerState<PersonalChecklistView> {
-
   final TextEditingController _textController = TextEditingController();
+  final FocusNode _textFocusNode = FocusNode();
+  final FocusNode _suggestionFocusNode = FocusNode();
   List<String> _filteredSuggestions = [];
 
   List<ChecklistItem> tasks = [];
@@ -33,98 +34,108 @@ class _PersonalChecklistViewState extends ConsumerState<PersonalChecklistView> {
     _filteredSuggestions = suggestions;
 
     currentUser = ref.read(firebaseAuthProvider).currentUser;
-  }
 
-  void _filterSuggestions(String query) {
-    setState(() {
-      _filteredSuggestions = suggestions
-          .where((suggestion) =>
-              suggestion.toLowerCase().contains(query.toLowerCase()))
-          .toList();
+    _textFocusNode.addListener(() {
+      if (!_textFocusNode.hasFocus && !_suggestionFocusNode.hasFocus) {
+        setState(() {
+          _filteredSuggestions = [];
+        });
+      } else {
+        _filterSuggestions(_textController.text);
+      }
+    });
+
+    _suggestionFocusNode.addListener(() {
+      if (!_textFocusNode.hasFocus && !_suggestionFocusNode.hasFocus) {
+        setState(() {
+          _filteredSuggestions = [];
+        });
+      }
     });
   }
 
+  @override
+  void dispose() {
+    _textFocusNode.dispose();
+    _suggestionFocusNode.dispose();
+    _textController.dispose();
+    super.dispose();
+  }
+
+  void _filterSuggestions(String query) {
+    if (_textFocusNode.hasFocus || _suggestionFocusNode.hasFocus) {
+      setState(() {
+        _filteredSuggestions = suggestions
+            .where((suggestion) =>
+                suggestion.toLowerCase().contains(query.toLowerCase()))
+            .toList();
+      });
+    }
+  }
 
   int getUserIndex(int index) {
-
-    //gets the index of the user in the asignees list of a task
     return tasks[index].asignees.indexOf(currentUser!.uid);
   }
 
   bool getUserCompleted(int taskIndex) {
-    //gets the index of the user in the asignees list of a task
     final userIndex = getUserIndex(taskIndex);
     return tasks[taskIndex].asigneesCompleted[userIndex];
   }
 
-
   Future<void> updateTask(int index) async {
     await ref.read(checklistControllerProvider.notifier).updateChecklistItem(
-      data: tasks[index],
-      tripId: widget.tripId,
-    );
-    ref.invalidate(fetchTripChecklistProvider(tripId: widget.tripId, uid: currentUser?.uid));
+          data: tasks[index],
+          tripId: widget.tripId,
+        );
+    ref.invalidate(fetchTripChecklistProvider(
+        tripId: widget.tripId, uid: currentUser?.uid));
   }
 
-
-
-  Future<void> _addTask(String title) async{
-    // setState(() {
-    //   _tasks.add(Task(title: title));
-    // });
-    _textController.clear(); 
+  Future<void> _addTask(String title) async {
+    _textController.clear();
     _filterSuggestions('');
 
-    //don't add task if it already exists
-    if(tasks.any((task) => task.title == title)) {
+    if (tasks.any((task) => task.title == title)) {
       return;
     }
 
     await ref.read(checklistControllerProvider.notifier).createPersonalChecklistItem(
-      title: title,
-      tripId: widget.tripId,
-    );
+          title: title,
+          tripId: widget.tripId,
+        );
 
-    ref.invalidate(fetchTripChecklistProvider(tripId: widget.tripId, uid: currentUser?.uid));
+    ref.invalidate(fetchTripChecklistProvider(
+        tripId: widget.tripId, uid: currentUser?.uid));
   }
 
-  Future<void> _removePersonalTask(int index) async{
-
+  Future<void> _removePersonalTask(int index) async {
     final userIndex = getUserIndex(index);
-  
-  if (userIndex != -1) {
+
+    if (userIndex != -1) {
       tasks[index].asignees.removeAt(userIndex);
-    tasks[index].asigneesCompleted.removeAt(userIndex);
-    //remove task if everyone has removed: to do
+      tasks[index].asigneesCompleted.removeAt(userIndex);
+    }
+    final data = tasks[index];
+    setState(() {
+      tasks.removeAt(index);
+    });
+
+    await ref.read(checklistControllerProvider.notifier).updateChecklistItem(
+          data: data,
+          tripId: widget.tripId,
+        );
+    ref.invalidate(fetchTripChecklistProvider(
+        tripId: widget.tripId, uid: currentUser?.uid));
   }
-  final data = tasks[index];
-  setState(() {
-    tasks.removeAt(index);
-  });
 
-  await ref.read(checklistControllerProvider.notifier).updateChecklistItem(
-      data: data,
-      tripId: widget.tripId,
-    );
-    ref.invalidate(fetchTripChecklistProvider(tripId: widget.tripId, uid: currentUser?.uid));
+  Future<void> _toggleTaskCompletion(int index) async {
+    if (!getUserCompleted(index)) {
+      tasks[index].asigneesCompleted[getUserIndex(index)] = true;
+    } else {
+      tasks[index].asigneesCompleted[getUserIndex(index)] = false;
+    }
 
-  }
-
-
-  Future<void> _toggleTaskCompletion(int index) async{
-    //needs firebase: switch item from incomplete to complete list (or other way around)
-      if(!getUserCompleted(index)) {
-        tasks[index].asigneesCompleted[getUserIndex(index)] = true;
-      } else {
-                tasks[index].asigneesCompleted[getUserIndex(index)] = false;    
-      }
-
-    //update firebase
     await updateTask(index);
-
-    // setState(() {
-    //   _incompleteItems[index].isCompleted = !_tasks[index].isCompleted;
-    // });
   }
 
   void _reorderTasks(int oldIndex, int newIndex) {
@@ -193,11 +204,10 @@ class _PersonalChecklistViewState extends ConsumerState<PersonalChecklistView> {
             TextButton(
               child: const Text('Save'),
               onPressed: () async {
-                  tasks[index].title = _editController.text;
-                  tasks[index].dueDate = _selectedDueDate;
-                
+                tasks[index].title = _editController.text;
+                tasks[index].dueDate = _selectedDueDate;
+
                 Navigator.of(context).pop();
-                //update firebase
                 await updateTask(index);
               },
             ),
@@ -220,18 +230,6 @@ class _PersonalChecklistViewState extends ConsumerState<PersonalChecklistView> {
         data: (checklist) {
           tasks = checklist;
 
-          // for (var item in checklist) {
-          //   final index = item.asignees.indexOf(currentUser!.uid);
-          //   if (index == -1) {
-          //     continue;
-          //   } else if (item.asigneesCompleted[index]) {
-          //     _completedItems.add(item);
-          //   } else {
-          //     tasks.add(item);
-          //   }
-          // }
-
-          // Use checklist just like List
           return Column(
             children: [
               Padding(
@@ -243,6 +241,7 @@ class _PersonalChecklistViewState extends ConsumerState<PersonalChecklistView> {
                         Expanded(
                           child: TextField(
                             controller: _textController,
+                            focusNode: _textFocusNode,
                             decoration: const InputDecoration(
                               hintText: 'Add a new item',
                             ),
@@ -260,36 +259,42 @@ class _PersonalChecklistViewState extends ConsumerState<PersonalChecklistView> {
                       ],
                     ),
                     if (_filteredSuggestions.isNotEmpty)
-                      Container(
-                        height: 150, // Adjust height as needed
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(10)),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.6),
-                              spreadRadius: 2,
-                              blurRadius: 3,
-                              offset: const Offset(0, 3),
+                      FocusScope(
+                        node: FocusScopeNode(),
+                        child: Focus(
+                          focusNode: _suggestionFocusNode,
+                          child: Container(
+                            height: 150,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(10)),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.6),
+                                  spreadRadius: 2,
+                                  blurRadius: 3,
+                                  offset: const Offset(0, 3),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
-                        child: ListView.builder(
-                          itemCount: _filteredSuggestions.length,
-                          itemBuilder: (context, index) {
-                            String suggestion = _filteredSuggestions[index];
-                            IconData? icon = iconMap[suggestion];
-                            return ListTile(
-                              leading: icon != null ? Icon(icon) : null,
-                              title: Text(suggestion),
-                              onTap: () {
-                                _textController.text = suggestion;
-                                _filteredSuggestions = [];
-                                _addTask(_textController.text);
+                            child: ListView.builder(
+                              itemCount: _filteredSuggestions.length,
+                              itemBuilder: (context, index) {
+                                String suggestion = _filteredSuggestions[index];
+                                IconData? icon = iconMap[suggestion];
+                                return ListTile(
+                                  leading: icon != null ? Icon(icon) : null,
+                                  title: Text(suggestion),
+                                  onTap: () {
+                                    _textController.text = suggestion;
+                                    _filteredSuggestions = [];
+                                    _addTask(_textController.text);
+                                  },
+                                );
                               },
-                            );
-                          },
+                            ),
+                          ),
                         ),
                       ),
                   ],
@@ -312,9 +317,9 @@ class _PersonalChecklistViewState extends ConsumerState<PersonalChecklistView> {
                         confirmDismiss: (direction) async {
                           if (direction == DismissDirection.startToEnd) {
                             _toggleTaskCompletion(index);
-                            return false; // Prevent dismissal
+                            return false;
                           } else {
-                            return true; // Allow dismissal
+                            return true;
                           }
                         },
                         background: Container(color: Colors.blue),
@@ -327,7 +332,8 @@ class _PersonalChecklistViewState extends ConsumerState<PersonalChecklistView> {
                               Icon(
                                   iconMap[tasks[index].title] ?? Icons.circle),
                               Checkbox(
-                                value: getUserIndex(index) != -1 && tasks[index].asigneesCompleted[getUserIndex(index)],
+                                value: getUserIndex(index) != -1 &&
+                                    tasks[index].asigneesCompleted[getUserIndex(index)],
                                 onChanged: (bool? value) {
                                   _toggleTaskCompletion(index);
                                 },
@@ -383,4 +389,3 @@ class _PersonalChecklistViewState extends ConsumerState<PersonalChecklistView> {
     }
   }
 }
-
