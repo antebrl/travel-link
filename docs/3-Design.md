@@ -19,7 +19,7 @@ As an initial step in our design process, we developed two paper prototypes for 
 ### Checklist Screen
 ![paperprototype_6](assets/images/paperprototype_6.png){: width="200em"}
 ### Account Screen
-![paperprototype_7](assets/images/paperpapertype_7.png){: width="200em"}
+![paperprototype_7](assets/images/paperprototype_7.png){: width="200em"}
 
 After the discussion and feedback session, we realized that our prototypes needed adjustments to better implement the functionality we envisioned. We selected the screens which we deemed best and discussed changes such as adding headers and labels, replacing certain elements, and rearranging the layout. Additionally, we talked about new screens, useful features like filters, new categories, and markers on the map to enhance usability and functionality.
 
