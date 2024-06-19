@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:travel_link/src/features/activities/2_continents_screen/domain/continent.dart';
 
 class Activity {
@@ -14,10 +15,11 @@ class Activity {
     this.imagePaths = const [],
     this.description = '',
     this.continentType = ContinentType.none,
-    this.image,
     this.isPublic = true,
     this.isUserCreated = false,
     this.creatorId,
+    this.image,
+    this.imageBytes,
     this.amountVisitors,
   });
 
@@ -43,6 +45,7 @@ class Activity {
 
   //Only for local use#
   ContinentType continentType;
+  Uint8List? imageBytes;
   File? image;
   String? amountVisitors;
 

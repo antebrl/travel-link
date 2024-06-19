@@ -14,7 +14,7 @@ class CustomElevatedButtonTheme {
       disabledForegroundColor: Colors.grey,
       disabledBackgroundColor: Colors.grey,
       side: const BorderSide(color: CustomColors.primary),
-      padding: const EdgeInsets.all(18),
+      padding: const EdgeInsets.all(10),
       textStyle: const TextStyle(
         fontSize: 20,
         color: Colors.white,

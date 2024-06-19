@@ -21,6 +21,7 @@ nav:
     - Interviews: user-research/interviews.md
     - Personas: user-research/personas.md
     - Requirement Engineering: user-research/requirement-engineering.md
+    - User Evaluation: user-research/user-evaluation.md
   - Design: 3-Design.md
   - Implementation: 4-Implementation.md
   - Usability Evaluation: 6-UsabilityEvaluation.md
