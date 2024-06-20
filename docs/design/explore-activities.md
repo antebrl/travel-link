@@ -94,10 +94,10 @@ When a user adds an activity, it is stored in Firebase.
 
 ### Data Flow Diagram for the Map
 
-The Data Flow Section for the map represents but a small subsection of the Data Flow Section of the entierty of the Map. 
+The Data Flow Section for the map represents but a small subsection of the Data Flow Section of the entirety of the Map. 
 
-In this Diagram we can see that the main point of Data Transition between the Map Portion of the App and the Rest of the App is throug the API which gives access to the different Activities. Those activities then lead to the creation of the Marker Points on the Map. 
+In this diagram we can see that the main point of Data Transition between the Map Portion of the App and the Rest of the App is through the API which gives access to the different Activities. Those activities then lead to the creation of the Marker Points on the Map. 
 
-The same Data is then beeing used to calculate the route if the User so chooses. The Route then takes the the Position of the User and the informations of the activities to calculate and display the route.
+The same Data is then being used to calculate the route if the User so chooses. The Route then takes the Position of the User and the information of the activities to calculate and display the route.
 
 ![dataFlowForMap](../assets/images/activities/image_data_flow_for_map.svg)
