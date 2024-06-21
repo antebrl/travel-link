@@ -1,5 +1,3 @@
-// ignore_for_file: require_trailing_commas
-
 import 'dart:core';
 
 import 'package:flutter/material.dart';
@@ -8,17 +6,23 @@ import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:travel_link/src/features/account/domain/user_account.dart';
+import 'package:travel_link/src/features/account/presentation/account_controller.dart';
+import 'package:travel_link/src/features/authentication/data/firebase_auth_repository.dart';
 import 'package:travel_link/src/features/map/presentation/exchanged_way.dart';
+import 'package:travel_link/src/features/my_trips/domain/destination.dart';
+import 'package:travel_link/src/features/trip_overview/data/user_repository.dart';
+import 'package:travel_link/src/utils/constants/image_strings.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'marker_creation.dart';
 
-LatLng pointOfView = const LatLng(49.8728, 8.6512);
-List<Marker> listOfAllUsers = [
-  createUserMarker(const LatLng(49.713088, 8.472136)),
-  createUserMarker(const LatLng(49.714890, 8.472440)),
-  createUserMarker(const LatLng(49.712380, 8.472030)),
-];
+//LatLng pointOfView = const LatLng(49.8728, 8.6512);
+// List<Marker> listOfAllUsers = [
+//   createUserMarker(const LatLng(49.713088, 8.472136)),
+//   createUserMarker(const LatLng(49.714890, 8.472440)),
+//   createUserMarker(const LatLng(49.712380, 8.472030)),
+// ];
 
 // Define LatLng instances without const
 LatLng latLng1 = const LatLng(49.690025, 8.463075);
@@ -41,23 +45,106 @@ List<Marker> createDummyLocationMarkers(WidgetRef ref) {
     createNatureActivity(const LatLng(49.688520, 8.462580), ref),
     createSportsActivity(const LatLng(49.71, 8.5), ref),
     createActivActivity(const LatLng(49.73, 8.6), ref),
-    createCampingActivity(const LatLng(49.75, 8.7), ref)
+    createCampingActivity(const LatLng(49.75, 8.7), ref),
   ];
 }
 
 class TripMapScreen extends ConsumerStatefulWidget {
-  const TripMapScreen({super.key});
+  const TripMapScreen({required this.participants, required this.destination, super.key});
+
+  final List<String> participants;
+  final Destination destination;
+
+  Future<List<UserAccount>> _fetchParticipants(WidgetRef ref) async {
+    final currentUserId = ref.read(firebaseAuthProvider).currentUser?.uid;
+    final List<UserAccount> users = [];
+    for (int i = 0; i < participants.length; i++) {
+      final user = await ref.read(FetchUserProvider(participants[i]).future);
+      if (user != null && user.id != currentUserId && user.position != null) {
+        users.add(user);
+      }
+    }
+    return users;
+  }
 
   @override
   ConsumerState<TripMapScreen> createState() => _TripMapScreenState();
 }
 
 class _TripMapScreenState extends ConsumerState<TripMapScreen> {
+  LatLng? _lastPosition;
+  List<Marker> userMarkers = [];
+
+
+  @override
+  void initState() {
+    super.initState();
+    _startLocationUpdates();
+    _fetchAndDisplayParticipants();
+  }
+
+  void _startLocationUpdates() {
+    const locationSettings = LocationSettings(
+      accuracy: LocationAccuracy.high,
+      distanceFilter: 500,
+    );
+    Geolocator.getPositionStream(locationSettings: locationSettings).listen((Position position) async {
+      if (!mounted) return;
+      final currentLatLng = LatLng(position.latitude, position.longitude);
+      // Manually handle the distance filter
+      if (_lastPosition == null || Geolocator.distanceBetween(position.latitude, position.longitude, _lastPosition!.latitude, _lastPosition!.longitude,) > 500) {
+        _lastPosition = currentLatLng;
+        await _postPosition(currentLatLng);
+      }
+    });
+  }
+
+  Future<void> _postPosition(LatLng position) async {
+    final repo = ref.read(accountControllerProvider.notifier);
+    print('Position: $position');
+    await repo.updateUserData(data: {'position': position.toJson()});
+  }
+
+  Future<void> _fetchAndDisplayParticipants() async {
+    final users = await widget._fetchParticipants(ref);
+    setState(() {
+      userMarkers = users.map((user) {
+        return Marker(
+          width: 40,
+          height: 40,
+          point: LatLng(user.position!.latitude, user.position!.longitude),
+          child: GestureDetector(
+            onTap: () {
+              print('Marker tapped');
+              //Show public user profile
+            },
+            child: Container(
+              decoration: BoxDecoration(
+      shape: BoxShape.circle,
+      boxShadow: [
+        BoxShadow(
+          color: Colors.black.withOpacity(0.5),
+          spreadRadius: 0.1,
+          blurRadius: 8,
+          offset: Offset(0, 3), // changes position of shadow
+        ),
+      ],
+    ),
+              child: CircleAvatar(
+                backgroundImage: NetworkImage(user.pictureUrl ?? CustomImages.defaultProfilePictureUrl),
+              ),
+            ),
+          ),
+        );
+      }).toList();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final sharedState = ref.watch(sharedStateProvider);
     final List<Marker> listOfMarkers =
-        createDummyLocationMarkers(ref) + listOfAllUsers;
+        createDummyLocationMarkers(ref) + userMarkers;
 
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 204, 219, 226),
@@ -70,7 +157,7 @@ class _TripMapScreenState extends ConsumerState<TripMapScreen> {
             flex: 3,
             child: FlutterMap(
               options: MapOptions(
-                initialCenter: pointOfView,
+                initialCenter: LatLng(widget.destination.lat ?? 49.8728, widget.destination.lon ?? 8.6512,),
                 minZoom: 3,
                 maxZoom: 18,
                 initialZoom: 12,

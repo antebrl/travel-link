@@ -82,7 +82,7 @@ class _TripPlanningScreenState extends State<TripPlanningScreen> {
         PreviewTile(
           title: 'Map',
           preview: const Placeholder(fallbackHeight: 100),
-          detailsPageBuilder: (context) => const TripMapScreen(),
+          detailsPageBuilder: (context) => TripMapScreen(participants: widget.trip.participants, destination: widget.trip.destination),
         ),
         const SizedBox(height: 10),
         PreviewTile(
