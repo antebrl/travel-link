@@ -40,7 +40,7 @@ This comparison showcases several of the most popular travel planning apps. By h
 
 
 <div class="mobile-frame">
-<iframe width=450px src="https://hcimo4x-grey-trapp-hci-trapp-hci-lab-studi-sose2-e6afe3a1eb2adc.h-da.io/app/" seamless></iframe>
+<iframe src="https://hcimo4x-grey-trapp-hci-trapp-hci-lab-studi-sose2-e6afe3a1eb2adc.h-da.io/app/" seamless></iframe>
 </div>
 
 

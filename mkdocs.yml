@@ -23,10 +23,10 @@ nav:
     - Requirement Engineering: user-research/requirement-engineering.md
     - User Evaluation: user-research/user-evaluation.md
   - Design: 
-    - 3-Design.md
-    - Main Pages: design/user-pages.md
-    - Plan Trips: design/plan-trips.md
-    - Explore Activities: design/explore-activities.md
+    - Paper Prototypes: 3-Design.md
+    - Figma Main Pages: design/user-pages.md
+    - Figma Plan Trips: design/plan-trips.md
+    - Figma Explore Activities: design/explore-activities.md
   - Implementation: 4-Implementation.md
   - Usability Evaluation: 6-UsabilityEvaluation.md
   - Mkdocs Modules: test.md
