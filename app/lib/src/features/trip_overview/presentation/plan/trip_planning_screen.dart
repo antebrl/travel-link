@@ -81,24 +81,6 @@ class _TripPlanningScreenState extends State<TripPlanningScreen> {
           showAsModalSheet: true,
         ),
         const SizedBox(height: 10),
-        PreviewTile(
-          title: 'Map',
-          preview: const Placeholder(fallbackHeight: 100),
-          detailsPageBuilder: (context) => const TripMapScreen(),
-        ),
-        const SizedBox(height: 10),
-        PreviewTile(
-          title: 'Checklist',
-          preview: const Placeholder(fallbackHeight: 100),
-          detailsPageBuilder: (context) => const ChecklistsScreen(),
-        ),
-        const SizedBox(height: 10),
-        PreviewTile(
-          title: 'Costs',
-          preview: const Placeholder(fallbackHeight: 100),
-          detailsPageBuilder: (context) => const Placeholder(),
-        ),
-        const SizedBox(height: 10),
         Padding(
           padding: const EdgeInsets.only(left: 10),
           child: Column(
@@ -140,10 +122,29 @@ class _TripPlanningScreenState extends State<TripPlanningScreen> {
                 ],
               ),
               const SizedBox(height: 5),
-              TripActivitiesView(tripId: widget.trip.tripId),
+              TripActivitiesView(trip: widget.trip),
             ],
           ),
         ),
+        const SizedBox(height: 10),
+        PreviewTile(
+          title: 'Map',
+          preview: const Placeholder(fallbackHeight: 100),
+          detailsPageBuilder: (context) => const TripMapScreen(),
+        ),
+        const SizedBox(height: 10),
+        PreviewTile(
+          title: 'Checklist',
+          preview: const Placeholder(fallbackHeight: 100),
+          detailsPageBuilder: (context) => const ChecklistsScreen(),
+        ),
+        const SizedBox(height: 10),
+        PreviewTile(
+          title: 'Costs',
+          preview: const Placeholder(fallbackHeight: 100),
+          detailsPageBuilder: (context) => const Placeholder(),
+        ),
+        const SizedBox(height: 10),
       ],
     );
   }

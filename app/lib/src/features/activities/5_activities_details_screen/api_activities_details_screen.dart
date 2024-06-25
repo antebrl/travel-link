@@ -7,6 +7,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:travel_link/src/features/activities/3_activities_screen/domain/activity.dart';
 import 'package:travel_link/src/features/activities/5_activities_details_screen/add_to_trip_button.dart';
+import 'package:travel_link/src/features/authentication/data/firebase_auth_repository.dart';
+import 'package:travel_link/src/features/explore_trips/domain/trip.dart';
 import 'package:travel_link/src/features/my_trips/data/my_trips_repository.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
 import 'package:travel_link/src/utils/constants/image_strings.dart';
@@ -19,7 +21,7 @@ class ApiActivitiesDetailsScreen extends ConsumerStatefulWidget {
   });
 
   final Activity activity;
-  final String? addedTrip;
+  final Trip? addedTrip;
 
   @override
   ConsumerState<ApiActivitiesDetailsScreen> createState() =>
@@ -117,6 +119,7 @@ class _ApiActivitiesDetailsScreenState
       widget.activity.location.lon,
     );
     final myTrips = ref.watch(fetchMyTripsProvider);
+    final currentUser = ref.read(firebaseAuthProvider).currentUser;
 
     return Scaffold(
       appBar: AppBar(
@@ -231,13 +234,14 @@ class _ApiActivitiesDetailsScreenState
                         ),
                       ),
           ),
+          if(currentUser != null && widget.addedTrip != null && widget.addedTrip!.participants.contains(currentUser.uid))
           Positioned(
             top: 10,
             right: 10,
             child: AddToTripButton(
               myTrips: myTrips,
               activity: widget.activity,
-              addedTrip: widget.addedTrip
+              addedTrip: widget.addedTrip!.tripId,
             ),
           ),
           Positioned(

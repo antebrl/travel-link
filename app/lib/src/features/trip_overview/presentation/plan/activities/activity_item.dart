@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:travel_link/src/features/activities/3_activities_screen/domain/activity.dart';
 import 'package:travel_link/src/features/activities/5_activities_details_screen/api_activities_details_screen.dart';
+import 'package:travel_link/src/features/explore_trips/domain/trip.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
 import 'package:travel_link/src/utils/constants/image_strings.dart';
 import 'package:travel_link/src/utils/theme/widget_themes/text_theme.dart';
 
 class TripActivityItem extends StatefulWidget {
   const TripActivityItem(
-      {required this.activity, required this.tripId, super.key});
+      {required this.activity, required this.trip, super.key});
   final Activity activity;
-  final String tripId;
+  final Trip trip;
 
   @override
   State<TripActivityItem> createState() => _TripActivityItemState();
@@ -39,7 +40,7 @@ class _TripActivityItemState extends State<TripActivityItem> {
           MaterialPageRoute<ApiActivitiesDetailsScreen>(
             builder: (BuildContext context) => ApiActivitiesDetailsScreen(
               activity: widget.activity,
-              addedTrip: widget.tripId,
+              addedTrip: widget.trip,
             ),
           ),
         );

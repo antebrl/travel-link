@@ -228,7 +228,7 @@ class _ExploreTripsScreenState extends ConsumerState<ExploreTripsScreen> {
               viewportFraction: 0.83,
               enlargeFactor: 0.25,
               enlargeCenterPage: true,
-              height: 640,
+              height: 650,
               onPageChanged: (index, reason) {
                 _currentIndex = index;
                 setState(() {});
