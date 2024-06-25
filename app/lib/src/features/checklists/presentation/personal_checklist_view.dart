@@ -21,7 +21,6 @@ class PersonalChecklistView extends ConsumerStatefulWidget {
 class _PersonalChecklistViewState extends ConsumerState<PersonalChecklistView> {
   final TextEditingController _textController = TextEditingController();
   final FocusNode _textFocusNode = FocusNode();
-  final FocusNode _suggestionFocusNode = FocusNode();
   List<String> _filteredSuggestions = [];
 
   List<ChecklistItem> tasks = [];
@@ -31,22 +30,12 @@ class _PersonalChecklistViewState extends ConsumerState<PersonalChecklistView> {
   @override
   void initState() {
     super.initState();
-    _filteredSuggestions = suggestions;
+    _filteredSuggestions = [];
 
     currentUser = ref.read(firebaseAuthProvider).currentUser;
 
     _textFocusNode.addListener(() {
-      if (!_textFocusNode.hasFocus && !_suggestionFocusNode.hasFocus) {
-        setState(() {
-          _filteredSuggestions = [];
-        });
-      } else {
-        _filterSuggestions(_textController.text);
-      }
-    });
-
-    _suggestionFocusNode.addListener(() {
-      if (!_textFocusNode.hasFocus && !_suggestionFocusNode.hasFocus) {
+      if (!_textFocusNode.hasFocus) {
         setState(() {
           _filteredSuggestions = [];
         });
@@ -57,13 +46,12 @@ class _PersonalChecklistViewState extends ConsumerState<PersonalChecklistView> {
   @override
   void dispose() {
     _textFocusNode.dispose();
-    _suggestionFocusNode.dispose();
     _textController.dispose();
     super.dispose();
   }
 
   void _filterSuggestions(String query) {
-    if (_textFocusNode.hasFocus || _suggestionFocusNode.hasFocus) {
+    if (_textFocusNode.hasFocus) {
       setState(() {
         _filteredSuggestions = suggestions
             .where((suggestion) =>
@@ -106,6 +94,13 @@ class _PersonalChecklistViewState extends ConsumerState<PersonalChecklistView> {
 
     ref.invalidate(fetchTripChecklistProvider(
         tripId: widget.tripId, uid: currentUser?.uid));
+  }
+
+  Future<void> _addTaskAndClearSuggestions(String suggestion) async {
+    await _addTask(suggestion);
+    setState(() {
+      _filteredSuggestions = [];
+    });
   }
 
   Future<void> _removePersonalTask(int index) async {
@@ -259,42 +254,34 @@ class _PersonalChecklistViewState extends ConsumerState<PersonalChecklistView> {
                       ],
                     ),
                     if (_filteredSuggestions.isNotEmpty)
-                      FocusScope(
-                        node: FocusScopeNode(),
-                        child: Focus(
-                          focusNode: _suggestionFocusNode,
-                          child: Container(
-                            height: 150,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(10)),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.6),
-                                  spreadRadius: 2,
-                                  blurRadius: 3,
-                                  offset: const Offset(0, 3),
-                                ),
-                              ],
+                      Container(
+                        height: 150,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(10)),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.6),
+                              spreadRadius: 2,
+                              blurRadius: 3,
+                              offset: const Offset(0, 3),
                             ),
-                            child: ListView.builder(
-                              itemCount: _filteredSuggestions.length,
-                              itemBuilder: (context, index) {
-                                String suggestion = _filteredSuggestions[index];
-                                IconData? icon = iconMap[suggestion];
-                                return ListTile(
-                                  leading: icon != null ? Icon(icon) : null,
-                                  title: Text(suggestion),
-                                  onTap: () {
-                                    _textController.text = suggestion;
-                                    _filteredSuggestions = [];
-                                    _addTask(_textController.text);
-                                  },
-                                );
+                          ],
+                        ),
+                        child: ListView.builder(
+                          itemCount: _filteredSuggestions.length,
+                          itemBuilder: (context, index) {
+                            String suggestion = _filteredSuggestions[index];
+                            IconData? icon = iconMap[suggestion];
+                            return ListTile(
+                              leading: icon != null ? Icon(icon) : null,
+                              title: Text(suggestion),
+                              onTap: () async {
+                                await _addTaskAndClearSuggestions(suggestion);
                               },
-                            ),
-                          ),
+                            );
+                          },
                         ),
                       ),
                   ],

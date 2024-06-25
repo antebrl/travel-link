@@ -25,14 +25,12 @@ class _ChecklistViewState extends ConsumerState<ChecklistView> {
   List<String> _filteredSuggestions = [];
 
   List<ChecklistItem> tasks = [];
-
   late User? currentUser;
 
   @override
   void initState() {
     super.initState();
     _filteredSuggestions = suggestions;
-
     currentUser = ref.read(firebaseAuthProvider).currentUser;
   }
 
@@ -46,12 +44,10 @@ class _ChecklistViewState extends ConsumerState<ChecklistView> {
   }
 
   int getUserIndex(int index) {
-    //gets the index of the user in the asignees list of a task
     return tasks[index].asignees.indexOf(currentUser!.uid);
   }
 
   bool getUserCompleted(int taskIndex) {
-    //gets the index of the user in the asignees list of a task
     final userIndex = getUserIndex(taskIndex);
     return tasks[taskIndex].asigneesCompleted[userIndex];
   }
@@ -66,12 +62,9 @@ class _ChecklistViewState extends ConsumerState<ChecklistView> {
   }
 
   Future<void> _addTask(String title) async {
-    //Screen to show all the participants to assign
-
     _textController.clear();
     _filterSuggestions('');
 
-    //don't add task if it already exists
     if (tasks.any((task) => task.title == title)) {
       return;
     }
@@ -79,12 +72,10 @@ class _ChecklistViewState extends ConsumerState<ChecklistView> {
     await ref.read(checklistControllerProvider.notifier).createChecklistItem(
           title: title,
           tripId: widget.tripId,
-          asignees: widget
-              .participants, //At the moment all participants are assigned to the task
+          asignees: widget.participants,
           onlyOneCompletion: false,
         );
 
-    // ignore: unused_result
     ref.invalidate(
         fetchTripChecklistProvider(tripId: widget.tripId, onlyPublic: true));
   }
@@ -94,15 +85,12 @@ class _ChecklistViewState extends ConsumerState<ChecklistView> {
   }
 
   Future<void> _toggleTaskCompletion(int index) async {
-    //TODO: differentiate between onlyOneCompletion and multipleCompletion
-
     if (!getUserCompleted(index)) {
       tasks[index].asigneesCompleted[getUserIndex(index)] = true;
     } else {
       tasks[index].asigneesCompleted[getUserIndex(index)] = false;
     }
 
-    //update firebase
     await updateTask(index);
   }
 
@@ -117,74 +105,101 @@ class _ChecklistViewState extends ConsumerState<ChecklistView> {
   }
 
   void _editTask(int index) {
-    final TextEditingController _editController =
-        TextEditingController(text: tasks[index].title);
-    DateTime? _selectedDueDate = tasks[index].dueDate;
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Edit Task'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextField(
-                controller: _editController,
-                decoration: const InputDecoration(hintText: 'Edit item'),
-              ),
-              const SizedBox(height: 16),
-              Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      _selectedDueDate == null
-                          ? 'No due date set'
-                          : 'Due date: ${DateFormat('MM/dd/yyyy').format(_selectedDueDate!)}',
+  final TextEditingController _editController =
+      TextEditingController(text: tasks[index].title);
+  DateTime? _selectedDueDate = tasks[index].dueDate;
+  List<String> _selectedUsers = List.from(tasks[index].asignees);
+
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return StatefulBuilder(
+        builder: (context, setState) {
+          return AlertDialog(
+            title: const Text('Edit Task'),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextField(
+                  controller: _editController,
+                  decoration: const InputDecoration(hintText: 'Edit item'),
+                ),
+                const SizedBox(height: 16),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        _selectedDueDate == null
+                            ? 'No due date set'
+                            : 'Due date: ${DateFormat('MM/dd/yyyy').format(_selectedDueDate!)}',
+                      ),
                     ),
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.calendar_today),
-                    onPressed: () async {
-                      DateTime? pickedDate = await showDatePicker(
-                        context: context,
-                        initialDate: _selectedDueDate ?? DateTime.now(),
-                        firstDate: DateTime.now(),
-                        lastDate: DateTime(2101),
-                      );
-                      if (pickedDate != null) {
+                    IconButton(
+                      icon: const Icon(Icons.calendar_today),
+                      onPressed: () async {
+                        DateTime? pickedDate = await showDatePicker(
+                          context: context,
+                          initialDate: _selectedDueDate ?? DateTime.now(),
+                          firstDate: DateTime.now(),
+                          lastDate: DateTime(2101),
+                        );
+                        if (pickedDate != null) {
+                          setState(() {
+                            _selectedDueDate = pickedDate;
+                          });
+                        }
+                      },
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16),
+                const Text('Assign Users'),
+                Wrap(
+                  children: widget.participants.map((user) {
+                    final isSelected = _selectedUsers.contains(user);
+                    return ChoiceChip(
+                      label: Text(user),
+                      selected: isSelected,
+                      onSelected: (selected) {
                         setState(() {
-                          _selectedDueDate = pickedDate;
+                          if (selected) {
+                            _selectedUsers.add(user);
+                          } else {
+                            _selectedUsers.remove(user);
+                          }
                         });
-                      }
-                    },
-                  ),
-                ],
+                      },
+                    );
+                  }).toList(),
+                ),
+              ],
+            ),
+            actions: <Widget>[
+              TextButton(
+                child: const Text('Cancel'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              TextButton(
+                child: const Text('Save'),
+                onPressed: () async {
+                  tasks[index].title = _editController.text;
+                  tasks[index].dueDate = _selectedDueDate;
+                  tasks[index].asignees = _selectedUsers;
+
+                  Navigator.of(context).pop();
+                  await updateTask(index);
+                },
               ),
             ],
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('Cancel'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              child: const Text('Save'),
-              onPressed: () async {
-                tasks[index].title = _editController.text;
-                tasks[index].dueDate = _selectedDueDate;
+          );
+        },
+      );
+    },
+  );
+}
 
-                Navigator.of(context).pop();
-                //update firebase
-                await updateTask(index);
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -198,8 +213,6 @@ class _ChecklistViewState extends ConsumerState<ChecklistView> {
       return fetchedChecklist.when(
         data: (checklist) {
           tasks = checklist;
-
-          // Use checklist just like List
           return Column(
             children: [
               Padding(
@@ -229,7 +242,7 @@ class _ChecklistViewState extends ConsumerState<ChecklistView> {
                     ),
                     if (_filteredSuggestions.isNotEmpty)
                       Container(
-                        height: 150, // Adjust height as needed
+                        height: 150,
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius:
@@ -280,9 +293,9 @@ class _ChecklistViewState extends ConsumerState<ChecklistView> {
                         confirmDismiss: (direction) async {
                           if (direction == DismissDirection.startToEnd) {
                             _toggleTaskCompletion(index);
-                            return false; // Prevent dismissal
+                            return false;
                           } else {
-                            return true; // Allow dismissal
+                            return true;
                           }
                         },
                         background: Container(color: Colors.blue),
@@ -294,8 +307,8 @@ class _ChecklistViewState extends ConsumerState<ChecklistView> {
                             children: [
                               Icon(iconMap[tasks[index].title] ?? Icons.circle),
                               Checkbox(
-                                value: getUserIndex(index) != -1
-                                    && tasks[index]
+                                value: getUserIndex(index) != -1 &&
+                                    tasks[index]
                                         .asigneesCompleted[getUserIndex(index)],
                                 onChanged: getUserIndex(index) != -1
                                     ? (bool? value) {
@@ -312,8 +325,12 @@ class _ChecklistViewState extends ConsumerState<ChecklistView> {
                               if (tasks[index].dueDate != null)
                                 Text(
                                   'Due date: ${DateFormat('MM/dd/yyyy').format(tasks[index].dueDate!)}',
-                                  style: const TextStyle(
-                                      fontSize: 12, color: Colors.grey),
+                                  style: const TextStyle(fontSize: 12, color: Colors.grey),
+                                ),
+                              if (tasks[index].asignees.isNotEmpty)
+                                Text(
+                                  'Assignees: ${tasks[index].asignees.join(', ')}',
+                                  style: const TextStyle(fontSize: 12, color: Colors.grey),
                                 ),
                             ],
                           ),
