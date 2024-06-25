@@ -1,21 +1,21 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:travel_link/src/features/activities/3_activities_screen/domain/activity.dart';
 import 'package:travel_link/src/features/activities/5_activities_details_screen/api_activities_details_screen.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
+import 'package:travel_link/src/utils/constants/image_strings.dart';
 import 'package:travel_link/src/utils/theme/widget_themes/text_theme.dart';
 
 class TripActivityItem extends StatefulWidget {
-  const TripActivityItem({required this.activity, super.key});
+  const TripActivityItem(
+      {required this.activity, required this.tripId, super.key});
   final Activity activity;
+  final String tripId;
 
   @override
   State<TripActivityItem> createState() => _TripActivityItemState();
 }
 
 class _TripActivityItemState extends State<TripActivityItem> {
-  late Future<String> _imageFuture;
   static final Map<String, String> _imageCache = {};
 
   @override
@@ -28,7 +28,6 @@ class _TripActivityItemState extends State<TripActivityItem> {
           widget.activity.imagePaths[0] = imageName;
         });
       }
-      _imageFuture = Future.value(imageName);
     }
   }
 
@@ -40,7 +39,7 @@ class _TripActivityItemState extends State<TripActivityItem> {
           MaterialPageRoute<ApiActivitiesDetailsScreen>(
             builder: (BuildContext context) => ApiActivitiesDetailsScreen(
               activity: widget.activity,
-              wasAddedToTrip: true,
+              addedTrip: widget.tripId,
             ),
           ),
         );
@@ -69,7 +68,9 @@ class _TripActivityItemState extends State<TripActivityItem> {
                 topRight: Radius.circular(10),
               ),
               child: Image.network(
-                widget.activity.imagePaths[0],
+                widget.activity.imagePaths.isNotEmpty
+                    ? widget.activity.imagePaths[0]
+                    : CustomImages.tripDestinationImagePlaceholderUrl,
                 height: 100,
                 width: double.infinity,
                 fit: BoxFit.cover,

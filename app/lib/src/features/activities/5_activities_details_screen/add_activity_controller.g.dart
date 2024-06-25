@@ -7,7 +7,7 @@ part of 'add_activity_controller.dart';
 // **************************************************************************
 
 String _$addActivityControllerHash() =>
-    r'4c3d61afa5f5e15a09a647515c14407a163e1989';
+    r'6a297ff05055042bc3204628df078d025cc64036';
 
 /// See also [AddActivityController].
 @ProviderFor(AddActivityController)

@@ -12,18 +12,26 @@ class AddToTripButton extends ConsumerWidget {
   const AddToTripButton({
     required this.myTrips,
     required this.activity,
-    required this.wasAddedToTrip,
+    this.addedTrip,
     super.key,
   });
   final AsyncValue<List<Trip>> myTrips;
   final Activity activity;
-  final bool wasAddedToTrip;
+  final String? addedTrip;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    if (wasAddedToTrip == true) {
+    if (addedTrip != null) {
       return ElevatedButton(
-        onPressed: () {},
+        onPressed: () {
+          final rep = ref.read(addActivityControllerProvider.notifier);
+          // ignore: cascade_invocations
+          rep.removeActivityFromTrip(
+            tripId: addedTrip!,
+            firebaseActivityId: activity.firebaseId!,
+          );
+          context.pop();
+        },
         style: ElevatedButton.styleFrom(
           backgroundColor: CustomColors.primary.withOpacity(0.7),
           side: BorderSide.none,

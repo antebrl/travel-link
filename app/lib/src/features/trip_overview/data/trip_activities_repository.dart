@@ -32,9 +32,17 @@ class TripActivitiesRepository {
           .collection(tripActivitiesPath(tripId))
           .withConverter(
             fromFirestore: (snapshot, _) =>
-                Activity.fromFirebaseMap(snapshot.data()!),
+                Activity.fromFirebaseMap(snapshot.data()!, firebaseId: snapshot.id),
             toFirestore: (picturePost, _) => picturePost.toFirebaseMap(),
           );
+
+  // delete 
+
+  Future<void> removeActivity({
+    required String tripId,
+    required String activityId,
+  }) =>
+    _firestore.collection(tripActivitiesPath(tripId)).doc(activityId).delete();
 
 }
 

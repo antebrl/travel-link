@@ -25,6 +25,7 @@ class TripActivitiesView extends ConsumerWidget {
                 final activity = activities[index];
                 return TripActivityItem(
                   activity: activity,
+                  tripId: tripId,
                   key: UniqueKey(),
                 );
               },

@@ -15,11 +15,11 @@ class ApiActivitiesDetailsScreen extends ConsumerStatefulWidget {
   const ApiActivitiesDetailsScreen({
     required this.activity,
     super.key,
-    this.wasAddedToTrip = false,
+    this.addedTrip,
   });
 
   final Activity activity;
-  final bool wasAddedToTrip;
+  final String? addedTrip;
 
   @override
   ConsumerState<ApiActivitiesDetailsScreen> createState() =>
@@ -237,7 +237,7 @@ class _ApiActivitiesDetailsScreenState
             child: AddToTripButton(
               myTrips: myTrips,
               activity: widget.activity,
-              wasAddedToTrip: widget.wasAddedToTrip,
+              addedTrip: widget.addedTrip
             ),
           ),
           Positioned(

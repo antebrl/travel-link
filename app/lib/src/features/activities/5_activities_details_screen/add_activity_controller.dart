@@ -25,4 +25,17 @@ class AddActivityController extends _$AddActivityController {
     ref.invalidate(fetchTripActivitiesProvider(tripId));
   }
 
+  Future<void> removeActivityFromTrip({required String tripId, required String firebaseActivityId}) async {
+    //set state to loading
+    state = const AsyncLoading();
+
+    final repository = ref.read(tripActivitiesRepositoryProvider);
+
+    state = await AsyncValue.guard(
+      () => repository.removeActivity(tripId: tripId, activityId: firebaseActivityId),
+    );
+
+    ref.invalidate(fetchTripActivitiesProvider(tripId));
+  }
+
 }

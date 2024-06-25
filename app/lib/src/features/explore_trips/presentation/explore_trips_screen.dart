@@ -18,6 +18,7 @@ class ExploreTripsScreen extends ConsumerStatefulWidget {
 
 class _ExploreTripsScreenState extends ConsumerState<ExploreTripsScreen> {
   CarouselController? carouselController = CarouselController();
+  // ignore: unused_field
   int _currentIndex = 0;
 
   DateTime? _startDate;
