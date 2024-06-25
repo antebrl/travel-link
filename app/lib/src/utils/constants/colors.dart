@@ -61,4 +61,3 @@ class userNameColors {
       Colors.lightGreen,
     ];
 }
-

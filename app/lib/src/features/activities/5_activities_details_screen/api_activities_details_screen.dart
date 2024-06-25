@@ -110,6 +110,7 @@ class _ApiActivitiesDetailsScreenState
       widget.activity.location.lat,
       widget.activity.location.lon,
     );
+    final myTrips = ref.watch(fetchMyTripsProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -229,7 +230,6 @@ class _ApiActivitiesDetailsScreenState
             right: 10,
             child: ElevatedButton(
               onPressed: () {
-                final myTrips = ref.read(fetchMyTripsProvider);
                 showModalBottomSheet<void>(
                   context: context,
                   builder: (BuildContext context) => Column(
@@ -251,6 +251,7 @@ class _ApiActivitiesDetailsScreenState
                               //TODO: Design ListTile
                               return ListTile(
                                 title: Text(trips[index].name),
+                                leading: CircleAvatar(radius:17, backgroundImage: NetworkImage(trips[index].images.isNotEmpty ? trips[index].images[0] : CustomImages.tripDestinationImagePlaceholderUrl)),
                               );
                             },
                           );
