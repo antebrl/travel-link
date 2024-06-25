@@ -1,12 +1,13 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:travel_link/src/features/activities/3_activities_screen/presentation/activities_api_screen.dart';
+import 'package:go_router/go_router.dart';
 import 'package:travel_link/src/features/checklists/presentation/checklists_screen.dart';
 import 'package:travel_link/src/features/explore_trips/domain/trip.dart';
 import 'package:travel_link/src/features/map/presentation/trip_map_screen.dart';
 import 'package:travel_link/src/features/trip_overview/presentation/plan/participants/participant_list_view.dart';
 import 'package:travel_link/src/features/trip_overview/presentation/plan/participants/participants_preview.dart';
 import 'package:travel_link/src/features/trip_overview/presentation/plan/preview_tile.dart';
+import 'package:travel_link/src/routing/app_router.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
 import 'package:travel_link/src/utils/formatters/formatter.dart';
 
@@ -97,12 +98,42 @@ class _TripPlanningScreenState extends State<TripPlanningScreen> {
           detailsPageBuilder: (context) => const Placeholder(),
         ),
         const SizedBox(height: 10),
-        PreviewTile(
-          title: 'Activities',
-          preview: const Placeholder(fallbackHeight: 100),
-          detailsPageBuilder: (context) => APIActivitiesScreen(
-            destination: widget.trip.destination,
-            categoryList: const {'entertainment'},
+        Padding(
+          padding: const EdgeInsets.only(left: 10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Text(
+                    'Activities',
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.grey[700],
+                      fontWeight: FontWeight.w900,
+                    ),
+                  ),
+                  const SizedBox(width: 3),
+                  IconButton(
+                    onPressed: () {
+                      context.goNamed(
+                        TopLevelDestinations.activities.name,
+                        queryParameters: {
+                          'index': '1',
+                        },
+                      );
+                    },
+                    iconSize: 32,
+                    icon: const Icon(
+                      Icons.add_outlined,
+                      color: CustomColors.primary,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 5),
+              const Placeholder(fallbackHeight: 100),
+            ],
           ),
         ),
       ],
