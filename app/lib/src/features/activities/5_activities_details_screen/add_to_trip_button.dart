@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:travel_link/src/features/activities/3_activities_screen/domain/activity.dart';
 import 'package:travel_link/src/features/activities/5_activities_details_screen/add_activity_controller.dart';
 import 'package:travel_link/src/features/explore_trips/domain/trip.dart';
+import 'package:travel_link/src/routing/app_router.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
 import 'package:travel_link/src/utils/constants/image_strings.dart';
 
@@ -22,6 +23,7 @@ class AddToTripButton extends ConsumerWidget {
       onPressed: () {
         showModalBottomSheet<void>(
           context: context,
+          isScrollControlled: true,
           builder: (BuildContext context) => SingleChildScrollView(
             child: Column(
               children: [
@@ -53,12 +55,26 @@ class AddToTripButton extends ConsumerWidget {
                           ),
                           onTap: () {
                             // Handle trip selection
-                            final rep = ref.read(addActivityControllerProvider.notifier);
+                            final rep = ref
+                                .read(addActivityControllerProvider.notifier);
+                            // ignore: cascade_invocations
                             rep.addActivityToTrip(
                               tripId: trips[index].tripId,
                               activity: activity,
                             );
-                            context.pop();
+                            context.goNamed(
+                              TripRoutes.tripDetails.name,
+                              pathParameters: {
+                                'tripId': trips[index].tripId,
+                              },
+                            );
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: const Center(child: Text('Successfully added')),
+                                backgroundColor: Colors.green[500],
+                                duration: const Duration(seconds: 1, milliseconds: 400),
+                              ),
+                            );
                           },
                         );
                       },

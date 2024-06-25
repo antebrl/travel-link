@@ -115,20 +115,26 @@ class _TripPlanningScreenState extends State<TripPlanningScreen> {
                     ),
                   ),
                   const SizedBox(width: 3),
-                  IconButton(
-                    onPressed: () {
-                      context.goNamed(
-                        TopLevelDestinations.activities.name,
-                        queryParameters: {
-                          'index': '1',
-                        },
-                      );
-                    },
-                    padding: EdgeInsets.zero,
-                    iconSize: 32,
-                    icon: const Icon(
-                      Icons.add_outlined,
-                      color: CustomColors.primary,
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.7),
+                      shape: BoxShape.circle,
+                    ),
+                    child: IconButton(
+                      onPressed: () {
+                        context.goNamed(
+                          TopLevelDestinations.activities.name,
+                          queryParameters: {
+                            'index': '1',
+                          },
+                        );
+                      },
+                      padding: EdgeInsets.zero,
+                      iconSize: 32,
+                      icon: const Icon(
+                        Icons.add_outlined,
+                        color: CustomColors.primary,
+                      ),
                     ),
                   ),
                 ],

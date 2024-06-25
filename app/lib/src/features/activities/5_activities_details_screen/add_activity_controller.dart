@@ -21,6 +21,8 @@ class AddActivityController extends _$AddActivityController {
     state = await AsyncValue.guard(
       () => repository.addActivity(tripId: tripId, activity: activity),
     );
+
+    ref.invalidate(fetchTripActivitiesProvider(tripId));
   }
 
 }
