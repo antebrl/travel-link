@@ -3,20 +3,21 @@ import 'package:travel_link/src/features/activities/3_activities_screen/domain/a
 import 'package:travel_link/src/utils/constants/colors.dart';
 
 class MapScreenWithActivities extends StatefulWidget {
-  const MapScreenWithActivities({required this.fetchedActivities, super.key});
+  const MapScreenWithActivities({required this.fetchedApiActivities, required this.fetchedUserActivities, super.key});
 
-  final Future<List<Activity>> fetchedActivities;
+  final Future<List<Activity>> fetchedApiActivities;
+  final Future<List<Activity>> fetchedUserActivities;
 
   @override
-  State<MapScreenWithActivities> createState() =>
-      _MapScreenWithActivitiesState();
+  State<MapScreenWithActivities> createState() => _MapScreenWithActivitiesState();
 }
 
 class _MapScreenWithActivitiesState extends State<MapScreenWithActivities> {
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<Activity>>(
-      future: widget.fetchedActivities,
+      future: combineFutureLists(widget.fetchedApiActivities, widget.fetchedUserActivities),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(
@@ -29,12 +30,25 @@ class _MapScreenWithActivitiesState extends State<MapScreenWithActivities> {
         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
           return const Center(child: Text('No activities found'));
         } else {
-          final activity = snapshot.data![0];
-          return Center(
-            child: Text(activity.name),
+          final activities = snapshot.data!;
+          return ListView.builder(
+            itemCount: activities.length,
+            itemBuilder: (context, index) {
+              final activity = activities[index];
+              return ListTile(
+                title: Text(activity.name),
+                subtitle: Text(activity.description ?? 'No description available'),
+              );
+            },
           );
         }
       },
     );
+  }
+
+  Future<List<T>> combineFutureLists<T>(Future<List<T>> futureList1, Future<List<T>> futureList2) async {
+    List<T> list1 = await futureList1;
+    List<T> list2 = await futureList2;
+    return [...list1, ...list2];
   }
 }

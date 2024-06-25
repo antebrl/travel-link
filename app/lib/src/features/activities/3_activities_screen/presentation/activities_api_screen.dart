@@ -42,7 +42,7 @@ class _APIActivitiesScreenState extends ConsumerState<APIActivitiesScreen> {
 
   Future<String?> getCurrentUserId() async {
     final user = FirebaseAuth.instance.currentUser;
-    return user!.uid;
+    return user?.uid;
   }
 
   bool isActivityNearDestination(
@@ -194,8 +194,8 @@ class _APIActivitiesScreenState extends ConsumerState<APIActivitiesScreen> {
                                 widget.destination.lon!,
                               ) &&
                               activity.isUserCreated &&
-                              (activity.isPublic ||
-                                  activity.creatorId == userId),
+                              (activity.isPublic || ( userId != null &&
+                                  activity.creatorId == userId!)),
                         )
                         .toList();
                     if (nearbyActivities.isNotEmpty) {
@@ -306,7 +306,7 @@ class _APIActivitiesScreenState extends ConsumerState<APIActivitiesScreen> {
                 ),
               ],
             ),
-            MapScreenWithActivities(fetchedActivities: fetchedActivities),
+            MapScreenWithActivities(fetchedApiActivities: fetchedActivities, fetchedUserActivities: ref.read(fetchActivitiesProvider(categories: widget.categoryList).future),),
           ],
         ),
       ),
