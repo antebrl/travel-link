@@ -14,19 +14,6 @@ Future<void> main() async {
   // * Initialize Firebase
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  /*
-  final Map<Permission, PermissionStatus> statuses = await [
-    Permission.locationAlways,
-    Permission.locationWhenInUse,
-  ].request();
-
-  final alwaysGranted = statuses[Permission.locationAlways]!.isGranted;
-  final whenInUseGranted = statuses[Permission.locationWhenInUse]!.isGranted;
-
-  print('Always Granted: $alwaysGranted');
-  print('When In Use Granted: $whenInUseGranted');
-  */
-
   runApp(const ProviderScope(child: MyApp()));
 }
 

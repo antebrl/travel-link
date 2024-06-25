@@ -50,7 +50,8 @@ List<Marker> createDummyLocationMarkers(WidgetRef ref) {
 }
 
 class TripMapScreen extends ConsumerStatefulWidget {
-  const TripMapScreen({required this.participants, required this.destination, super.key});
+  const TripMapScreen(
+      {required this.participants, required this.destination, super.key});
 
   final List<String> participants;
   final Destination destination;
@@ -75,7 +76,6 @@ class _TripMapScreenState extends ConsumerState<TripMapScreen> {
   LatLng? _lastPosition;
   List<Marker> userMarkers = [];
 
-
   @override
   void initState() {
     super.initState();
@@ -88,11 +88,19 @@ class _TripMapScreenState extends ConsumerState<TripMapScreen> {
       accuracy: LocationAccuracy.high,
       distanceFilter: 500,
     );
-    Geolocator.getPositionStream(locationSettings: locationSettings).listen((Position position) async {
+    Geolocator.getPositionStream(locationSettings: locationSettings)
+        .listen((Position position) async {
       if (!mounted) return;
       final currentLatLng = LatLng(position.latitude, position.longitude);
       // Manually handle the distance filter
-      if (_lastPosition == null || Geolocator.distanceBetween(position.latitude, position.longitude, _lastPosition!.latitude, _lastPosition!.longitude,) > 500) {
+      if (_lastPosition == null ||
+          Geolocator.distanceBetween(
+                position.latitude,
+                position.longitude,
+                _lastPosition!.latitude,
+                _lastPosition!.longitude,
+              ) >
+              500) {
         _lastPosition = currentLatLng;
         await _postPosition(currentLatLng);
       }
@@ -120,18 +128,19 @@ class _TripMapScreenState extends ConsumerState<TripMapScreen> {
             },
             child: Container(
               decoration: BoxDecoration(
-      shape: BoxShape.circle,
-      boxShadow: [
-        BoxShadow(
-          color: Colors.black.withOpacity(0.5),
-          spreadRadius: 0.1,
-          blurRadius: 8,
-          offset: Offset(0, 3), // changes position of shadow
-        ),
-      ],
-    ),
+                shape: BoxShape.circle,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.5),
+                    spreadRadius: 0.1,
+                    blurRadius: 8,
+                    offset: Offset(0, 3), // changes position of shadow
+                  ),
+                ],
+              ),
               child: CircleAvatar(
-                backgroundImage: NetworkImage(user.pictureUrl ?? CustomImages.defaultProfilePictureUrl),
+                backgroundImage: NetworkImage(
+                    user.pictureUrl ?? CustomImages.defaultProfilePictureUrl),
               ),
             ),
           ),
@@ -139,6 +148,11 @@ class _TripMapScreenState extends ConsumerState<TripMapScreen> {
       }).toList();
     });
   }
+  //TODO: get all activities for the activity
+
+  //TODO: Modify the Widget that is displayed if an activity is clicked to reference more informations that are stored
+
+  //TODO: Soft the different activities to and cretae the activities markers acordingly.
 
   @override
   Widget build(BuildContext context) {
@@ -157,7 +171,10 @@ class _TripMapScreenState extends ConsumerState<TripMapScreen> {
             flex: 3,
             child: FlutterMap(
               options: MapOptions(
-                initialCenter: LatLng(widget.destination.lat ?? 49.8728, widget.destination.lon ?? 8.6512,),
+                initialCenter: LatLng(
+                  widget.destination.lat ?? 49.8728,
+                  widget.destination.lon ?? 8.6512,
+                ),
                 minZoom: 3,
                 maxZoom: 18,
                 initialZoom: 12,
