@@ -12,9 +12,14 @@ import 'package:travel_link/src/utils/constants/colors.dart';
 import 'package:travel_link/src/utils/constants/image_strings.dart';
 
 class ApiActivitiesDetailsScreen extends ConsumerStatefulWidget {
-  const ApiActivitiesDetailsScreen({required this.activity, super.key});
+  const ApiActivitiesDetailsScreen({
+    required this.activity,
+    super.key,
+    this.wasAddedToTrip = false,
+  });
 
   final Activity activity;
+  final bool wasAddedToTrip;
 
   @override
   ConsumerState<ApiActivitiesDetailsScreen> createState() =>
@@ -232,6 +237,7 @@ class _ApiActivitiesDetailsScreenState
             child: AddToTripButton(
               myTrips: myTrips,
               activity: widget.activity,
+              wasAddedToTrip: widget.wasAddedToTrip,
             ),
           ),
           Positioned(
