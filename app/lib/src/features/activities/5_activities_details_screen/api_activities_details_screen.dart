@@ -97,7 +97,7 @@ class _ApiActivitiesDetailsScreenState
     } else {
       if (widget.activity.image == null) {
         widget.activity.imagePaths = [
-          CustomImages.destinationImagePlaceholderUrl,
+          CustomImages.getPlaceholderImage(widget.activity.categories),
         ];
       }
     }
