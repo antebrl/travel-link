@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:travel_link/src/features/checklists/presentation/checklists_screen.dart';
 import 'package:travel_link/src/features/explore_trips/domain/trip.dart';
 import 'package:travel_link/src/features/map/presentation/trip_map_screen.dart';
+import 'package:travel_link/src/features/trip_overview/presentation/plan/activities/trip_activities_view.dart';
 import 'package:travel_link/src/features/trip_overview/presentation/plan/participants/participant_list_view.dart';
 import 'package:travel_link/src/features/trip_overview/presentation/plan/participants/participants_preview.dart';
 import 'package:travel_link/src/features/trip_overview/presentation/plan/preview_tile.dart';
@@ -123,6 +124,7 @@ class _TripPlanningScreenState extends State<TripPlanningScreen> {
                         },
                       );
                     },
+                    padding: EdgeInsets.zero,
                     iconSize: 32,
                     icon: const Icon(
                       Icons.add_outlined,
@@ -132,7 +134,7 @@ class _TripPlanningScreenState extends State<TripPlanningScreen> {
                 ],
               ),
               const SizedBox(height: 5),
-              const Placeholder(fallbackHeight: 100),
+              TripActivitiesView(tripId: widget.trip.tripId),
             ],
           ),
         ),

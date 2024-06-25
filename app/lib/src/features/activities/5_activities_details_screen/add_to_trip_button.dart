@@ -1,18 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:travel_link/src/features/activities/3_activities_screen/domain/activity.dart';
+import 'package:travel_link/src/features/activities/5_activities_details_screen/add_activity_controller.dart';
 import 'package:travel_link/src/features/explore_trips/domain/trip.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
 import 'package:travel_link/src/utils/constants/image_strings.dart';
 
-class AddToTripButton extends StatelessWidget {
+class AddToTripButton extends ConsumerWidget {
   const AddToTripButton({
     required this.myTrips,
+    required this.activity,
     super.key,
   });
   final AsyncValue<List<Trip>> myTrips;
+  final Activity activity;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return ElevatedButton(
       onPressed: () {
         showModalBottomSheet<void>(
@@ -48,6 +53,12 @@ class AddToTripButton extends StatelessWidget {
                           ),
                           onTap: () {
                             // Handle trip selection
+                            final rep = ref.read(addActivityControllerProvider.notifier);
+                            rep.addActivityToTrip(
+                              tripId: trips[index].tripId,
+                              activity: activity,
+                            );
+                            context.pop();
                           },
                         );
                       },

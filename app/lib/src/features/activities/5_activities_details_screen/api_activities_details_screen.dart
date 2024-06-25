@@ -231,6 +231,7 @@ class _ApiActivitiesDetailsScreenState
             right: 10,
             child: AddToTripButton(
               myTrips: myTrips,
+              activity: widget.activity,
             ),
           ),
           Positioned(
