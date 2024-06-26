@@ -52,10 +52,9 @@ class _ChecklistViewState extends ConsumerState<ChecklistView> {
   }
 
   Future<void> updateTask(int index) async {
-    await ref.read(checklistControllerProvider.notifier).updateChecklistItem(
-          data: tasks[index],
-          tripId: widget.tripId,
-        );
+    await ref
+        .read(checklistControllerProvider.notifier)
+        .updateChecklistItem(data: tasks[index], tripId: widget.tripId);
     ref.invalidate(
         fetchTripChecklistProvider(tripId: widget.tripId, onlyPublic: true));
   }
@@ -67,7 +66,9 @@ class _ChecklistViewState extends ConsumerState<ChecklistView> {
       return;
     }
 
-    await ref.read(checklistControllerProvider.notifier).createChecklistItem(
+    await ref
+        .read(checklistControllerProvider.notifier)
+        .createChecklistItem(
           title: title,
           tripId: widget.tripId,
           asignees: widget.participants,
@@ -192,14 +193,14 @@ class _ChecklistViewState extends ConsumerState<ChecklistView> {
                                   shape: BoxShape.circle,
                                   color: Colors.black.withOpacity(0.5),
                                 ),
-                                child: const Icon(Icons.check, color: Colors.white),
+                                child: const Icon(Icons.check,
+                                    color: Colors.white),
                               ),
                           ],
                         ),
                       );
                     }).toList(),
                   ),
-
                 ],
               ),
               actions: <Widget>[
@@ -226,6 +227,14 @@ class _ChecklistViewState extends ConsumerState<ChecklistView> {
         );
       },
     );
+  }
+
+  double _calculateCompletionPercentage(ChecklistItem item) {
+    if (item.asignees.isEmpty) {
+      return 0.0;
+    }
+    final completedCount = item.asigneesCompleted.where((completed) => completed).length;
+    return completedCount / item.asignees.length;
   }
 
   @override
@@ -361,7 +370,8 @@ class _ChecklistViewState extends ConsumerState<ChecklistView> {
                                   iconMap[tasks[index].title] ?? Icons.circle),
                               Checkbox(
                                 value: getUserIndex(index) != -1 &&
-                                    tasks[index].asigneesCompleted[getUserIndex(index)],
+                                    tasks[index].asigneesCompleted[
+                                        getUserIndex(index)],
                                 onChanged: getUserIndex(index) != -1
                                     ? (bool? value) {
                                         _toggleTaskCompletion(index);
@@ -387,6 +397,12 @@ class _ChecklistViewState extends ConsumerState<ChecklistView> {
                                     const SizedBox(height: 4),
                                     ParticipantsAvatarStack(
                                       participants: tasks[index].asignees,
+                                    ),
+                                    const SizedBox(height: 8),
+                                    LinearProgressIndicator(
+                                      value: _calculateCompletionPercentage(tasks[index]),
+                                      backgroundColor: Colors.grey[200],
+                                      color: Colors.blue,
                                     ),
                                   ],
                                 ),
