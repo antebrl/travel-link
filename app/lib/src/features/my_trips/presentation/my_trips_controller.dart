@@ -21,7 +21,7 @@ class MyTripsController extends _$MyTripsController {
   }
 
   Future<List<String>> fetchImageOfDestination(String? placeId) async {
-    if(placeId == null) return [CustomImages.destinationImagePlaceholderUrl];
+    if(placeId == null) return [CustomImages.tripDestinationImagePlaceholderUrl];
 
     //Fetch image of destination from geoapify api and wikidata
     final String url =
@@ -48,13 +48,13 @@ class MyTripsController extends _$MyTripsController {
           return WikidataParser.getImagesFromWikidataEntity(data: data, wikidataId: wikidataId);        
         }
       }
-      return [CustomImages.destinationImagePlaceholderUrl];
+      return [CustomImages.tripDestinationImagePlaceholderUrl];
     } else {
       logger.e(
         'Failed to load and parse destination images',
         error: response.body,
       );
-      return [CustomImages.destinationImagePlaceholderUrl];
+      return [CustomImages.tripDestinationImagePlaceholderUrl];
     }
   }
 
