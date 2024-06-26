@@ -214,6 +214,14 @@ class _ChecklistViewState extends ConsumerState<ChecklistView> {
     );
   }
 
+  double _calculateCompletionPercentage(ChecklistItem item) {
+    if (item.asignees.isEmpty) {
+      return 0.0;
+    }
+    final completedCount = item.asigneesCompleted.where((completed) => completed).length;
+    return completedCount / item.asignees.length;
+  }
+
   @override
   Widget build(BuildContext context) {
     final fetchedChecklist = ref.watch(
@@ -374,6 +382,12 @@ class _ChecklistViewState extends ConsumerState<ChecklistView> {
                                     const SizedBox(height: 4),
                                     ParticipantsAvatarStack(
                                       participants: tasks[index].asignees,
+                                    ),
+                                    const SizedBox(height: 8),
+                                    LinearProgressIndicator(
+                                      value: _calculateCompletionPercentage(tasks[index]),
+                                      backgroundColor: Colors.grey[200],
+                                      color: Colors.blue,
                                     ),
                                   ],
                                 ),
