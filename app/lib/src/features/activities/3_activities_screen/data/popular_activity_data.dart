@@ -236,21 +236,4 @@ List<Activity> popularActivityData = [
     ),
     amountVisitors: '4,576,436',
   ),
-  Activity(
-    imagePaths: [''],
-    name: 'Sagrada Família',
-    categories: {'tourism', 'religion'}.toList(),
-    continentType: ContinentType.europe,
-    description:
-        'Basilica and iconic masterpiece of Antoni Gaudí in Barcelona, Spain',
-    location: const PlaceLocation(
-      lat: 41.4036,
-      lon: 2.1744,
-      city: 'Barcelona',
-      country: 'Spain',
-      formatted: 'Sagrada Família, Barcelona, Spain',
-      countryCode: 'ES',
-    ),
-    amountVisitors: '4,500,000',
-  ),
 ];
