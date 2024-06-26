@@ -231,6 +231,7 @@ class _PersonalChecklistViewState extends ConsumerState<PersonalChecklistView> {
                       decoration: InputDecoration(
                         hintText: 'Add a new item',
                         suffixIcon: IconButton(
+                          padding: const EdgeInsets.only(right: 10),
                           onPressed: () async {
                             _focusNode.unfocus();
                             await _addTask(textEditingController.text);

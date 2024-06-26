@@ -80,7 +80,12 @@ class _ChecklistViewState extends ConsumerState<ChecklistView> {
   }
 
   Future<void> _removeTask(int index) async {
-    //firebase remove task: to do
+    await ref.read(checklistControllerProvider.notifier).removeChecklistItem(
+          id: tasks[index].id,
+          tripId: widget.tripId,
+        );
+    ref.invalidate(
+        fetchTripChecklistProvider(tripId: widget.tripId, onlyPublic: true));
   }
 
   Future<void> _toggleTaskCompletion(int index) async {
@@ -107,7 +112,8 @@ class _ChecklistViewState extends ConsumerState<ChecklistView> {
     final TextEditingController _editController =
         TextEditingController(text: tasks[index].title);
     DateTime? _selectedDueDate = tasks[index].dueDate;
-    List<String> _selectedUsers = List.from(tasks[index].asignees);
+    List<String> _selectedUsers = tasks[index].asignees;
+    List<bool> _selectedUsersComplete = tasks[index].asigneesCompleted;
 
     showDialog(
       context: context,
@@ -161,9 +167,12 @@ class _ChecklistViewState extends ConsumerState<ChecklistView> {
                         onTap: () {
                           setState(() {
                             if (isSelected) {
-                              _selectedUsers.remove(user);
+                              final userIndex = _selectedUsers.indexOf(user);
+                              _selectedUsers.removeAt(userIndex);
+                              _selectedUsersComplete.removeAt(userIndex);
                             } else {
                               _selectedUsers.add(user);
+                              _selectedUsersComplete.add(false);
                             }
                           });
                         },
@@ -216,6 +225,7 @@ class _ChecklistViewState extends ConsumerState<ChecklistView> {
                     tasks[index].title = _editController.text;
                     tasks[index].dueDate = _selectedDueDate;
                     tasks[index].asignees = _selectedUsers;
+                    tasks[index].asigneesCompleted = _selectedUsersComplete;
 
                     Navigator.of(context).pop();
                     await updateTask(index);
@@ -281,6 +291,7 @@ class _ChecklistViewState extends ConsumerState<ChecklistView> {
                       decoration: InputDecoration(
                         hintText: 'Add a new item',
                         suffixIcon: IconButton(
+                          padding: const EdgeInsets.only(right: 10),
                           onPressed: () async {
                             _focusNode.unfocus();
                             await _addTask(textEditingController.text);

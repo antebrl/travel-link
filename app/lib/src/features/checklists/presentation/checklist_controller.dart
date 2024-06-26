@@ -97,25 +97,25 @@ class ChecklistController extends _$ChecklistController {
   }
 
 
-  // Future<bool> removeChecklistItem({
-  //   required String id,
-  //   required String tripId,
-  // }) async {
+  Future<bool> removeChecklistItem({
+    required String id,
+    required String tripId,
+  }) async {
 
-  //   //set state to loading
-  //   state = const AsyncLoading();
+    //set state to loading
+    state = const AsyncLoading();
 
-  //   final repository = ref.read(checklistRepositoryProvider);
+    final repository = ref.read(checklistRepositoryProvider);
 
-  //   state = await AsyncValue.guard(
-  //     () => repository.updateChecklistData(
-  //       tripId: tripId,
-  //       data: data,
-  //     ),
-  //   );
+    state = await AsyncValue.guard(
+      () => repository.deleteChecklistItem(
+        tripId: tripId,
+        checklistItemId: id,
+      ),
+    );
 
-  //   if (state.hasError) logger.e(state.error);
-  //   return state.hasError == false;
-  // }
+    if (state.hasError) logger.e(state.error);
+    return state.hasError == false;
+  }
 
 }

@@ -37,6 +37,14 @@ class ChecklistRepository {
     return _firestore.collection(checklistPath(tripId)).doc(data.id).set(data.toMap());
   }
 
+  // delete checklist item
+  Future<void> deleteChecklistItem({
+    required String tripId,
+    required String checklistItemId,
+  }) async {
+    return _firestore.collection(checklistPath(tripId)).doc(checklistItemId).delete();
+  }
+
   // read
 
   Future<List<ChecklistItem>> fetchTripChecklist(
