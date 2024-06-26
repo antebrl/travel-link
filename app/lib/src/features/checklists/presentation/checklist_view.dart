@@ -20,9 +20,7 @@ class ChecklistView extends ConsumerStatefulWidget {
 }
 
 class _ChecklistViewState extends ConsumerState<ChecklistView> {
-  final TextEditingController _textController = TextEditingController();
-  final FocusNode _focusNode = FocusNode();
-  List<String> _filteredSuggestions = [];
+  TextEditingController _textController = TextEditingController();
 
   List<ChecklistItem> tasks = [];
   late User? currentUser;
@@ -30,17 +28,13 @@ class _ChecklistViewState extends ConsumerState<ChecklistView> {
   @override
   void initState() {
     super.initState();
-    _filteredSuggestions = suggestions;
     currentUser = ref.read(firebaseAuthProvider).currentUser;
   }
 
-  void _filterSuggestions(String query) {
-    setState(() {
-      _filteredSuggestions = suggestions
-          .where((suggestion) =>
-              suggestion.toLowerCase().contains(query.toLowerCase()))
-          .toList();
-    });
+  @override
+  void dispose() {
+    _textController.dispose();
+    super.dispose();
   }
 
   int getUserIndex(int index) {
@@ -63,7 +57,6 @@ class _ChecklistViewState extends ConsumerState<ChecklistView> {
 
   Future<void> _addTask(String title) async {
     _textController.clear();
-    _filterSuggestions('');
 
     if (tasks.any((task) => task.title == title)) {
       return;
@@ -105,101 +98,100 @@ class _ChecklistViewState extends ConsumerState<ChecklistView> {
   }
 
   void _editTask(int index) {
-  final TextEditingController _editController =
-      TextEditingController(text: tasks[index].title);
-  DateTime? _selectedDueDate = tasks[index].dueDate;
-  List<String> _selectedUsers = List.from(tasks[index].asignees);
+    final TextEditingController _editController =
+        TextEditingController(text: tasks[index].title);
+    DateTime? _selectedDueDate = tasks[index].dueDate;
+    List<String> _selectedUsers = List.from(tasks[index].asignees);
 
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return StatefulBuilder(
-        builder: (context, setState) {
-          return AlertDialog(
-            title: const Text('Edit Task'),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                TextField(
-                  controller: _editController,
-                  decoration: const InputDecoration(hintText: 'Edit item'),
-                ),
-                const SizedBox(height: 16),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        _selectedDueDate == null
-                            ? 'No due date set'
-                            : 'Due date: ${DateFormat('MM/dd/yyyy').format(_selectedDueDate!)}',
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return AlertDialog(
+              title: const Text('Edit Task'),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  TextField(
+                    controller: _editController,
+                    decoration: const InputDecoration(hintText: 'Edit item'),
+                  ),
+                  const SizedBox(height: 16),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          _selectedDueDate == null
+                              ? 'No due date set'
+                              : 'Due date: ${DateFormat('dd/MM/yyyy').format(_selectedDueDate!)}',
+                        ),
                       ),
-                    ),
-                    IconButton(
-                      icon: const Icon(Icons.calendar_today),
-                      onPressed: () async {
-                        DateTime? pickedDate = await showDatePicker(
-                          context: context,
-                          initialDate: _selectedDueDate ?? DateTime.now(),
-                          firstDate: DateTime.now(),
-                          lastDate: DateTime(2101),
-                        );
-                        if (pickedDate != null) {
-                          setState(() {
-                            _selectedDueDate = pickedDate;
-                          });
-                        }
-                      },
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 16),
-                const Text('Assign Users'),
-                Wrap(
-                  children: widget.participants.map((user) {
-                    final isSelected = _selectedUsers.contains(user);
-                    return ChoiceChip(
-                      label: Text(user),
-                      selected: isSelected,
-                      onSelected: (selected) {
-                        setState(() {
-                          if (selected) {
-                            _selectedUsers.add(user);
-                          } else {
-                            _selectedUsers.remove(user);
+                      IconButton(
+                        icon: const Icon(Icons.calendar_today),
+                        onPressed: () async {
+                          DateTime? pickedDate = await showDatePicker(
+                            context: context,
+                            initialDate: _selectedDueDate ?? DateTime.now(),
+                            firstDate: DateTime.now(),
+                            lastDate: DateTime(2101),
+                          );
+                          if (pickedDate != null) {
+                            setState(() {
+                              _selectedDueDate = pickedDate;
+                            });
                           }
-                        });
-                      },
-                    );
-                  }).toList(),
+                        },
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 16),
+                  const Text('Assign Users'),
+                  Wrap(
+                    children: widget.participants.map((user) {
+                      final isSelected = _selectedUsers.contains(user);
+                      return ChoiceChip(
+                        label: Text(user),
+                        selected: isSelected,
+                        onSelected: (selected) {
+                          setState(() {
+                            if (selected) {
+                              _selectedUsers.add(user);
+                            } else {
+                              _selectedUsers.remove(user);
+                            }
+                          });
+                        },
+                      );
+                    }).toList(),
+                  ),
+                ],
+              ),
+              actions: <Widget>[
+                TextButton(
+                  child: const Text('Cancel'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+                TextButton(
+                  child: const Text('Save'),
+                  onPressed: () async {
+                    tasks[index].title = _editController.text;
+                    tasks[index].dueDate = _selectedDueDate;
+                    tasks[index].asignees = _selectedUsers;
+
+                    Navigator.of(context).pop();
+                    await updateTask(index);
+                  },
                 ),
               ],
-            ),
-            actions: <Widget>[
-              TextButton(
-                child: const Text('Cancel'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-              TextButton(
-                child: const Text('Save'),
-                onPressed: () async {
-                  tasks[index].title = _editController.text;
-                  tasks[index].dueDate = _selectedDueDate;
-                  tasks[index].asignees = _selectedUsers;
-
-                  Navigator.of(context).pop();
-                  await updateTask(index);
-                },
-              ),
-            ],
-          );
-        },
-      );
-    },
-  );
-}
-
+            );
+          },
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -213,67 +205,37 @@ class _ChecklistViewState extends ConsumerState<ChecklistView> {
       return fetchedChecklist.when(
         data: (checklist) {
           tasks = checklist;
+
           return Column(
             children: [
               Padding(
                 padding: const EdgeInsets.all(8),
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        Expanded(
-                          child: TextField(
-                            controller: _textController,
-                            decoration: const InputDecoration(
-                              hintText: 'Add a new item',
-                            ),
-                            onChanged: _filterSuggestions,
-                          ),
-                        ),
-                        IconButton(
-                          icon: const Icon(Icons.add),
-                          onPressed: () {
-                            if (_textController.text.isNotEmpty) {
-                              _addTask(_textController.text);
-                            }
-                          },
-                        ),
-                      ],
-                    ),
-                    if (_filteredSuggestions.isNotEmpty)
-                      Container(
-                        height: 150,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(10)),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.6),
-                              spreadRadius: 2,
-                              blurRadius: 3,
-                              offset: const Offset(0, 3),
-                            ),
-                          ],
-                        ),
-                        child: ListView.builder(
-                          itemCount: _filteredSuggestions.length,
-                          itemBuilder: (context, index) {
-                            String suggestion = _filteredSuggestions[index];
-                            IconData? icon = iconMap[suggestion];
-                            return ListTile(
-                              leading: icon != null ? Icon(icon) : null,
-                              title: Text(suggestion),
-                              onTap: () {
-                                _textController.text = suggestion;
-                                _filteredSuggestions = [];
-                                _addTask(_textController.text);
-                              },
-                            );
-                          },
-                        ),
+                child: Autocomplete<String>(
+                  optionsBuilder: (TextEditingValue textEditingValue) {
+                    if (textEditingValue.text.isEmpty) {
+                      return const Iterable<String>.empty();
+                    }
+                    return suggestions.where((String suggestion) {
+                      return suggestion.toLowerCase().contains(
+                          textEditingValue.text.toLowerCase());
+                    });
+                  },
+                  onSelected: (String selection) async {
+                    await _addTask(selection);
+                  },
+                  fieldViewBuilder: (BuildContext context,
+                      TextEditingController textEditingController,
+                      FocusNode focusNode,
+                      VoidCallback onFieldSubmitted) {
+                    _textController = textEditingController;
+                    return TextField(
+                      controller: textEditingController,
+                      focusNode: focusNode,
+                      decoration: const InputDecoration(
+                        hintText: 'Add a new item',
                       ),
-                  ],
+                    );
+                  },
                 ),
               ),
               Expanded(
@@ -305,11 +267,11 @@ class _ChecklistViewState extends ConsumerState<ChecklistView> {
                           leading: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              Icon(iconMap[tasks[index].title] ?? Icons.circle),
+                              Icon(
+                                  iconMap[tasks[index].title] ?? Icons.circle),
                               Checkbox(
                                 value: getUserIndex(index) != -1 &&
-                                    tasks[index]
-                                        .asigneesCompleted[getUserIndex(index)],
+                                    tasks[index].asigneesCompleted[getUserIndex(index)],
                                 onChanged: getUserIndex(index) != -1
                                     ? (bool? value) {
                                         _toggleTaskCompletion(index);
@@ -324,13 +286,15 @@ class _ChecklistViewState extends ConsumerState<ChecklistView> {
                               Text(tasks[index].title),
                               if (tasks[index].dueDate != null)
                                 Text(
-                                  'Due date: ${DateFormat('MM/dd/yyyy').format(tasks[index].dueDate!)}',
-                                  style: const TextStyle(fontSize: 12, color: Colors.grey),
+                                  'Due date: ${DateFormat('dd/MM/yyyy').format(tasks[index].dueDate!)}',
+                                  style: const TextStyle(
+                                      fontSize: 12, color: Colors.grey),
                                 ),
                               if (tasks[index].asignees.isNotEmpty)
                                 Text(
                                   'Assignees: ${tasks[index].asignees.join(', ')}',
-                                  style: const TextStyle(fontSize: 12, color: Colors.grey),
+                                  style: const TextStyle(
+                                      fontSize: 12, color: Colors.grey),
                                 ),
                             ],
                           ),

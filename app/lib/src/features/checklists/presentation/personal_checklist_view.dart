@@ -19,46 +19,21 @@ class PersonalChecklistView extends ConsumerStatefulWidget {
 }
 
 class _PersonalChecklistViewState extends ConsumerState<PersonalChecklistView> {
-  final TextEditingController _textController = TextEditingController();
-  final FocusNode _textFocusNode = FocusNode();
-  List<String> _filteredSuggestions = [];
+  TextEditingController _textController = TextEditingController();
 
   List<ChecklistItem> tasks = [];
-
   late User? currentUser;
 
   @override
   void initState() {
     super.initState();
-    _filteredSuggestions = [];
-
     currentUser = ref.read(firebaseAuthProvider).currentUser;
-
-    _textFocusNode.addListener(() {
-      if (!_textFocusNode.hasFocus) {
-        setState(() {
-          _filteredSuggestions = [];
-        });
-      }
-    });
   }
 
   @override
   void dispose() {
-    _textFocusNode.dispose();
     _textController.dispose();
     super.dispose();
-  }
-
-  void _filterSuggestions(String query) {
-    if (_textFocusNode.hasFocus) {
-      setState(() {
-        _filteredSuggestions = suggestions
-            .where((suggestion) =>
-                suggestion.toLowerCase().contains(query.toLowerCase()))
-            .toList();
-      });
-    }
   }
 
   int getUserIndex(int index) {
@@ -81,7 +56,6 @@ class _PersonalChecklistViewState extends ConsumerState<PersonalChecklistView> {
 
   Future<void> _addTask(String title) async {
     _textController.clear();
-    _filterSuggestions('');
 
     if (tasks.any((task) => task.title == title)) {
       return;
@@ -98,9 +72,6 @@ class _PersonalChecklistViewState extends ConsumerState<PersonalChecklistView> {
 
   Future<void> _addTaskAndClearSuggestions(String suggestion) async {
     await _addTask(suggestion);
-    setState(() {
-      _filteredSuggestions = [];
-    });
   }
 
   Future<void> _removePersonalTask(int index) async {
@@ -229,62 +200,32 @@ class _PersonalChecklistViewState extends ConsumerState<PersonalChecklistView> {
             children: [
               Padding(
                 padding: const EdgeInsets.all(8),
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        Expanded(
-                          child: TextField(
-                            controller: _textController,
-                            focusNode: _textFocusNode,
-                            decoration: const InputDecoration(
-                              hintText: 'Add a new item',
-                            ),
-                            onChanged: _filterSuggestions,
-                          ),
-                        ),
-                        IconButton(
-                          icon: const Icon(Icons.add),
-                          onPressed: () {
-                            if (_textController.text.isNotEmpty) {
-                              _addTask(_textController.text);
-                            }
-                          },
-                        ),
-                      ],
-                    ),
-                    if (_filteredSuggestions.isNotEmpty)
-                      Container(
-                        height: 150,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(10)),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.6),
-                              spreadRadius: 2,
-                              blurRadius: 3,
-                              offset: const Offset(0, 3),
-                            ),
-                          ],
-                        ),
-                        child: ListView.builder(
-                          itemCount: _filteredSuggestions.length,
-                          itemBuilder: (context, index) {
-                            String suggestion = _filteredSuggestions[index];
-                            IconData? icon = iconMap[suggestion];
-                            return ListTile(
-                              leading: icon != null ? Icon(icon) : null,
-                              title: Text(suggestion),
-                              onTap: () async {
-                                await _addTaskAndClearSuggestions(suggestion);
-                              },
-                            );
-                          },
-                        ),
+                child: Autocomplete<String>(
+                  optionsBuilder: (TextEditingValue textEditingValue) {
+                    if (textEditingValue.text.isEmpty) {
+                      return const Iterable<String>.empty();
+                    }
+                    return suggestions.where((String suggestion) {
+                      return suggestion.toLowerCase().contains(
+                          textEditingValue.text.toLowerCase());
+                    });
+                  },
+                  onSelected: (String selection) async {
+                    await _addTaskAndClearSuggestions(selection);
+                  },
+                  fieldViewBuilder: (BuildContext context,
+                      TextEditingController textEditingController,
+                      FocusNode focusNode,
+                      VoidCallback onFieldSubmitted) {
+                    _textController = textEditingController;
+                    return TextField(
+                      controller: textEditingController,
+                      focusNode: focusNode,
+                      decoration: const InputDecoration(
+                        hintText: 'Add a new item',
                       ),
-                  ],
+                    );
+                  },
                 ),
               ),
               Expanded(
