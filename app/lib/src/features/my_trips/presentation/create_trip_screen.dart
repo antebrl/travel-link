@@ -100,7 +100,7 @@ class CreateTripScreenState extends ConsumerState<CreateTripScreen> {
     final state = ref.watch(myTripsControllerProvider);
     return DraggableScrollableSheet(
       expand: false,
-      initialChildSize: 0.68,
+      initialChildSize: 0.7,
       builder: (BuildContext context, ScrollController scrollController) {
         return SingleChildScrollView(
           controller: scrollController,

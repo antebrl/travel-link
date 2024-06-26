@@ -173,16 +173,24 @@ class _ActivitiesScreenState extends ConsumerState<ActivitiesScreen> {
               ],
             ),
           ),
-          Expanded(
-            child: ListView.builder(
-              itemCount: filteredActivitiesBySearch.length,
-              shrinkWrap: true,
-              itemBuilder: (context, index) => ActivityItem(
-                key: UniqueKey(),
-                activity: filteredActivitiesBySearch[index],
+          if (filteredActivitiesBySearch.isEmpty)
+            Center(
+              child: Text(
+                'No Activities found',
+                style: Theme.of(context).textTheme.bodyMedium,
               ),
             ),
-          ),
+          if (filteredActivitiesBySearch.isNotEmpty)
+            Expanded(
+              child: ListView.builder(
+                itemCount: filteredActivitiesBySearch.length,
+                shrinkWrap: true,
+                itemBuilder: (context, index) => ActivityItem(
+                  key: UniqueKey(),
+                  activity: filteredActivitiesBySearch[index],
+                ),
+              ),
+            )
         ],
       ),
     );

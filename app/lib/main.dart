@@ -2,7 +2,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:travel_link/firebase_options.dart';
 import 'package:travel_link/src/utils/theme/theme.dart';
 
@@ -13,19 +12,6 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // * Initialize Firebase
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-
-  /*
-  final Map<Permission, PermissionStatus> statuses = await [
-    Permission.locationAlways,
-    Permission.locationWhenInUse,
-  ].request();
-
-  final alwaysGranted = statuses[Permission.locationAlways]!.isGranted;
-  final whenInUseGranted = statuses[Permission.locationWhenInUse]!.isGranted;
-
-  print('Always Granted: $alwaysGranted');
-  print('When In Use Granted: $whenInUseGranted');
-  */
 
   runApp(const ProviderScope(child: MyApp()));
 }
