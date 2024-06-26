@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flag/flag.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:travel_link/src/common_widgets/boxed_content.dart';
 import 'package:travel_link/src/features/account/data/account_repository.dart';
 import 'package:travel_link/src/features/trip_overview/data/user_repository.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
@@ -101,7 +102,7 @@ class _ProfileScreenState extends ConsumerState<UserProfileScreen> {
               ),
             ),
             // About me
-            BoxedListTile(
+            BoxedContentBigHeadline(
               boxDecoration: boxDecoration,
               headline: 'About me',
               content: Column(
@@ -134,7 +135,7 @@ class _ProfileScreenState extends ConsumerState<UserProfileScreen> {
               ),
             ),
             // Languages
-            BoxedListTile(
+            BoxedContentBigHeadline(
               boxDecoration: boxDecoration,
               headline: 'Languages',
               content: Column(
@@ -158,7 +159,7 @@ class _ProfileScreenState extends ConsumerState<UserProfileScreen> {
               ),
             ),
             // Interests
-            BoxedListTile(
+            BoxedContentBigHeadline(
               boxDecoration: boxDecoration,
               headline: 'Interests',
               content: Container(
@@ -177,52 +178,6 @@ class _ProfileScreenState extends ConsumerState<UserProfileScreen> {
               ),
             ),
           ],
-        ),
-      ),
-    );
-  }
-}
-
-class BoxedListTile extends StatelessWidget {
-  const BoxedListTile({
-    super.key,
-    required this.boxDecoration,
-    required this.headline,
-    required this.content,
-    this.padding,
-    this.onTap,
-  });
-
-  final BoxDecoration boxDecoration;
-  final String headline;
-  final Widget content;
-  final EdgeInsets? padding;
-  final VoidCallback? onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: padding ?? const EdgeInsets.only(left: 10, right: 10, top: 10),
-      child: InkWell(
-        onTap: onTap ?? () {},
-        child: Ink(
-          decoration: boxDecoration,
-          child: Column(
-            children: [
-              Container(
-                padding: const EdgeInsets.only(left: 10, top: 10),
-                child: Text(
-                  headline,
-                  style: Theme.of(context).textTheme.headlineMedium,
-                ),
-              ),
-              const Divider(
-                indent: 50,
-                endIndent: 50,
-              ),
-              content,
-            ],
-          ),
         ),
       ),
     );
