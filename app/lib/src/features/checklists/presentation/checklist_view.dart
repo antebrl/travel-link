@@ -21,7 +21,8 @@ class ChecklistView extends ConsumerStatefulWidget {
 }
 
 class _ChecklistViewState extends ConsumerState<ChecklistView> {
-  TextEditingController _textController = TextEditingController();
+  final TextEditingController _textController = TextEditingController();
+  final FocusNode _focusNode = FocusNode();
 
   List<ChecklistItem> tasks = [];
   late User? currentUser;
@@ -229,29 +230,76 @@ class _ChecklistViewState extends ConsumerState<ChecklistView> {
             children: [
               Padding(
                 padding: const EdgeInsets.all(8),
-                child: Autocomplete<String>(
+                child: RawAutocomplete<String>(
+                  focusNode: _focusNode,
+                  textEditingController: _textController,
                   optionsBuilder: (TextEditingValue textEditingValue) {
-                    if (textEditingValue.text.isEmpty) {
-                      return const Iterable<String>.empty();
-                    }
+                    // if (textEditingValue.text.isEmpty) {
+                    //   return const Iterable<String>.empty();
+                    // }
                     return suggestions.where((String suggestion) {
-                      return suggestion.toLowerCase().contains(
-                          textEditingValue.text.toLowerCase());
+                      return suggestion
+                          .toLowerCase()
+                          .contains(textEditingValue.text.toLowerCase());
                     });
                   },
                   onSelected: (String selection) async {
                     await _addTask(selection);
+                    _focusNode.unfocus();
                   },
                   fieldViewBuilder: (BuildContext context,
                       TextEditingController textEditingController,
                       FocusNode focusNode,
                       VoidCallback onFieldSubmitted) {
-                    _textController = textEditingController;
                     return TextField(
                       controller: textEditingController,
                       focusNode: focusNode,
                       decoration: const InputDecoration(
                         hintText: 'Add a new item',
+                      ),
+                    );
+                  },
+                  optionsViewBuilder: (BuildContext context,
+                      AutocompleteOnSelected<String> onSelected,
+                      Iterable<String> options) {
+                    return Align(
+                      alignment: Alignment.topLeft,
+                      child: Container(
+                        margin: const EdgeInsets.fromLTRB(10, 0, 25, 0),
+                        child: ClipRRect(
+                          borderRadius: const BorderRadius.only(
+                            bottomLeft: Radius.circular(12),
+                            bottomRight: Radius.circular(12),
+                          ),
+                          child: Material(
+                            color: Colors.blue.shade50,
+                            elevation: 4,
+                            child: ConstrainedBox(
+                              constraints: BoxConstraints(
+                                  maxHeight: options.length * 50 < 200
+                                      ? options.length * 50
+                                      : 200),
+                              child: ListView.builder(
+                                padding: EdgeInsets.zero,
+                                itemCount: options.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  final option = options.elementAt(index);
+                                  return Container(
+                                    height: 50,
+                                    color: Colors.blue.shade50,
+                                    child: ListTile(
+                                      leading: Icon(iconMap[option]),
+                                      title: Text(option),
+                                      onTap: () {
+                                        onSelected(option);
+                                      },
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                          ),
+                        ),
                       ),
                     );
                   },
