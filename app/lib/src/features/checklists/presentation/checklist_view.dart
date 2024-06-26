@@ -6,6 +6,7 @@ import 'package:travel_link/src/features/authentication/data/firebase_auth_repos
 import 'package:travel_link/src/features/checklists/data/checklist_repository.dart';
 import 'package:travel_link/src/features/checklists/domain/checklist_item.dart';
 import 'package:travel_link/src/features/checklists/presentation/checklist_controller.dart';
+import 'package:travel_link/src/utils/constants/colors.dart';
 import '../lib/checklist_items.dart';
 import 'package:travel_link/src/common_widgets/participants_avatar_stack.dart';
 
@@ -254,8 +255,16 @@ class _ChecklistViewState extends ConsumerState<ChecklistView> {
                     return TextField(
                       controller: textEditingController,
                       focusNode: focusNode,
-                      decoration: const InputDecoration(
+                      decoration: InputDecoration(
                         hintText: 'Add a new item',
+                        suffixIcon: IconButton(
+                          onPressed: () async {
+                            _focusNode.unfocus();
+                            await _addTask(textEditingController.text);
+                          },
+                          icon: const Icon(Icons.check),
+                          color: CustomColors.primary,
+                        ),
                       ),
                     );
                   },
