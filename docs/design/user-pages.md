@@ -1,3 +1,10 @@
+## Login
+!!! info "Explanation"
+	Create a new account to join our community and enjoy exclusive features like planning your own trips or joining trips. Only `email` and `password` supported so far. For this demo `email`can be invalid. Login to `mail@gmail.com` as email and `Test123` as password for a fed account. For implementation [firebase ui auth](https://pub.dev/packages/firebase_auth) is used!
+
+<figure markdown="span">
+  ![User Flow Diagramm](../assets/images/login.svg){: width="500em"}
+</figure>
 
 ## Discover Public Trips
 !!! info "Explanation"
