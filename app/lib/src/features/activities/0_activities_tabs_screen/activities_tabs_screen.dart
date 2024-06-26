@@ -6,7 +6,9 @@ import 'package:travel_link/src/utils/constants/strings.dart';
 import 'package:travel_link/src/utils/helpers/helper_functions.dart';
 
 class ActivitiesStartScreen extends StatefulWidget {
-  const ActivitiesStartScreen({super.key});
+  const ActivitiesStartScreen({super.key, this.initialIndex = 0});
+
+  final int initialIndex;
 
   @override
   State<ActivitiesStartScreen> createState() => _ActivitiesStartScreenState();
@@ -17,6 +19,7 @@ class _ActivitiesStartScreenState extends State<ActivitiesStartScreen> {
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 2,
+      initialIndex: widget.initialIndex,
       child: Scaffold(
         appBar: AppBar(
           title: const Text(

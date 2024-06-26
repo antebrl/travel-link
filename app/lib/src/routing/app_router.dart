@@ -171,10 +171,12 @@ GoRouter goRouter(GoRouterRef ref) {
               GoRoute(
                 path: '/${TopLevelDestinations.activities.name}',
                 name: TopLevelDestinations.activities.name,
-                pageBuilder: (context, state) => NoTransitionPage(
+                pageBuilder: (context, state) {
+                  final index = int.tryParse(state.uri.queryParameters['index'] ?? '0');
+                  return NoTransitionPage(
                   key: state.pageKey,
-                  child: const ActivitiesStartScreen(),
-                ),
+                  child: ActivitiesStartScreen(initialIndex: index ?? 0,),
+                );},
                 routes: <RouteBase>[
                   GoRoute(
                     path: 'continent/:continent',

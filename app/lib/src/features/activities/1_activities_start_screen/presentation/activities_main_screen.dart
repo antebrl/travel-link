@@ -51,9 +51,12 @@ class _ActivitiesMainScreenState extends State<ActivitiesMainScreen> {
         _imageFuture = _loadImageUrls(activity);
         await _imageFuture;
       } else {
-        _imageFuture =
-            Future.value([CustomImages.destinationImagePlaceholderUrl]);
-        activity.imagePaths = [CustomImages.destinationImagePlaceholderUrl];
+        _imageFuture = Future.value([
+          CustomImages.getPlaceholderImage(activity.categories),
+        ]);
+        activity.imagePaths = [
+          CustomImages.getPlaceholderImage(activity.categories),
+        ];
       }
 
       if (mounted) {

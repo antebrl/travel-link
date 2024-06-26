@@ -42,7 +42,7 @@ class _APIActivityItemState extends State<APIActivityItem> {
               )
             : Future.value(
                 [
-                  CustomImages.destinationImagePlaceholderUrl,
+                  CustomImages.getPlaceholderImage(widget.activity.categories),
                 ],
               );
       }
@@ -120,7 +120,8 @@ class _APIActivityItemState extends State<APIActivityItem> {
                 } else if (snapshot.data == null || snapshot.data!.isEmpty) {
                   return Image.network(
                     //Wikipedia entry but no picture
-                    CustomImages.destinationImagePlaceholderUrl,
+                    CustomImages.getPlaceholderImage(
+                        widget.activity.categories),
                     height: 125,
                     width: double.infinity,
                     fit: BoxFit.cover,
