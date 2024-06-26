@@ -14,6 +14,7 @@ import 'package:travel_link/src/features/my_trips/domain/destination.dart';
 import 'package:travel_link/src/features/trip_overview/data/user_repository.dart';
 import 'package:travel_link/src/utils/constants/image_strings.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'marker_creation.dart';
 
@@ -81,6 +82,7 @@ class _TripMapScreenState extends ConsumerState<TripMapScreen> {
     super.initState();
     _startLocationUpdates();
     _fetchAndDisplayParticipants();
+    _fetchActivities();
   }
 
   void _startLocationUpdates() {
@@ -105,6 +107,33 @@ class _TripMapScreenState extends ConsumerState<TripMapScreen> {
         await _postPosition(currentLatLng);
       }
     });
+  }
+
+  Future<dynamic> _fetchActivities() async {
+    // Reference to the Firestore collection
+    CollectionReference activities =
+        FirebaseFirestore.instance.collection('activities');
+
+    // Query the collection with a limit of 100 documents
+    QuerySnapshot querySnapshot = await activities.limit(100).get();
+
+    // Process the query results
+    for (QueryDocumentSnapshot doc in querySnapshot.docs) {
+      final Map<String, dynamic> data = doc.data()! as Map<String, dynamic>;
+      final String documentId = doc.id;
+      final List<dynamic> categories = data['categories'] as List<dynamic>;
+      final String creatorId = data['creatorId'] as String;
+      final String description = data['description'] as String;
+      final List<dynamic> imagePaths = data['imagePaths'] as List<dynamic>;
+      final Map<String, dynamic> location =
+          data['location'] as Map<String, dynamic>;
+      final lati = location['lat'];
+      final long = location['lon'];
+
+      print('Categories: $categories');
+      print('Description: $description');
+      print('Coordinates: $long , $lati');
+    }
   }
 
   Future<void> _postPosition(LatLng position) async {
