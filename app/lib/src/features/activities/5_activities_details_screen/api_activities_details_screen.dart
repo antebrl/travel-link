@@ -7,12 +7,19 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:travel_link/src/features/activities/3_activities_screen/domain/activity.dart';
+import 'package:travel_link/src/features/activities/5_activities_details_screen/add_to_trip_button.dart';
+import 'package:travel_link/src/features/authentication/data/firebase_auth_repository.dart';
+import 'package:travel_link/src/features/explore_trips/domain/trip.dart';
 import 'package:travel_link/src/features/my_trips/data/my_trips_repository.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
 import 'package:travel_link/src/utils/constants/image_strings.dart';
 
 class ApiActivitiesDetailsScreen extends ConsumerStatefulWidget {
-  const ApiActivitiesDetailsScreen({required this.activity, super.key});
+  const ApiActivitiesDetailsScreen({
+    required this.activity,
+    super.key,
+    this.addedTrip,
+  });
 
   final Activity activity;
   final Trip? addedTrip;
@@ -230,61 +237,14 @@ class _ApiActivitiesDetailsScreenState
                         ),
                       ),
           ),
+          if(currentUser != null && widget.addedTrip != null && widget.addedTrip!.participants.contains(currentUser.uid))
           Positioned(
             top: 10,
             right: 10,
-            child: ElevatedButton(
-              onPressed: () {
-                final myTrips = ref.read(fetchMyTripsProvider);
-                showModalBottomSheet<void>(
-                  context: context,
-                  builder: (BuildContext context) => Column(
-                    children: [
-                      Text(
-                        'Select trip',
-                        style: Theme.of(context)
-                            .textTheme
-                            .headlineSmall!
-                            .copyWith(
-                                color: CustomColors.primary, fontSize: 20),
-                      ),
-                      myTrips.when(
-                        data: (trips) {
-                          return ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: trips.length,
-                            itemBuilder: (context, index) {
-                              //TODO: Design ListTile
-                              return ListTile(
-                                title: Text(trips[index].name),
-                              );
-                            },
-                          );
-                        },
-                        loading: () => const Center(
-                          child: CircularProgressIndicator(),
-                        ),
-                        error: (error, stackTrace) {
-                          return const Center(
-                            child: Text('Log In in order to see your trips!'),
-                          );
-                        },
-                      ),
-                    ],
-                  ),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: CustomColors.primary.withOpacity(0.7),
-                side: BorderSide.none,
-                padding: const EdgeInsets.all(5),
-              ),
-              child: const Text(
-                'Add to trip',
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-              ),
+            child: AddToTripButton(
+              myTrips: myTrips,
+              activity: widget.activity,
+              addedTrip: widget.addedTrip!.tripId,
             ),
           ),
           Positioned(
