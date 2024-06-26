@@ -1,4 +1,5 @@
 import 'dart:core';
+import 'dart:js_interop';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -76,6 +77,7 @@ class TripMapScreen extends ConsumerStatefulWidget {
 class _TripMapScreenState extends ConsumerState<TripMapScreen> {
   LatLng? _lastPosition;
   List<Marker> userMarkers = [];
+  List<Marker> activitiesMarker = [];
 
   @override
   void initState() {
@@ -109,10 +111,11 @@ class _TripMapScreenState extends ConsumerState<TripMapScreen> {
     });
   }
 
-  Future<dynamic> _fetchActivities() async {
+  Future<List<Marker>> _fetchActivities() async {
     // Reference to the Firestore collection
     CollectionReference activities =
         FirebaseFirestore.instance.collection('activities');
+    List<Marker> allActivitiesInDB = [];
 
     // Query the collection with a limit of 100 documents
     QuerySnapshot querySnapshot = await activities.limit(100).get();
@@ -127,12 +130,61 @@ class _TripMapScreenState extends ConsumerState<TripMapScreen> {
       final List<dynamic> imagePaths = data['imagePaths'] as List<dynamic>;
       final Map<String, dynamic> location =
           data['location'] as Map<String, dynamic>;
-      final lati = location['lat'];
-      final long = location['lon'];
+      final double lati = location['lat'] as double;
+      final double long = location['lon'] as double;
 
       print('Categories: $categories');
       print('Description: $description');
       print('Coordinates: $long , $lati');
+
+      allActivitiesInDB.add(
+        await _createMarkerBasedOnDescription(
+          categories,
+          description,
+          lati,
+          long,
+        ),
+      );
+      print(allActivitiesInDB.length);
+    }
+    activitiesMarker = allActivitiesInDB;
+    return allActivitiesInDB;
+  }
+
+  Future<Marker> _createMarkerBasedOnDescription(
+    List<dynamic> categories,
+    String description,
+    double latitude,
+    double longitude,
+  ) async {
+    final typeOfActivity = categories[0];
+    final LatLng positionOfActivity = LatLng(latitude, longitude);
+
+    switch (typeOfActivity) {
+      case ('natural'):
+        return createNatureActivity(positionOfActivity, ref);
+      case ('sport'):
+        return createSportsActivity(positionOfActivity, ref);
+      case ('accommodation'):
+        return createAccomodationActivity(positionOfActivity, ref);
+      case ('camping'):
+        return createCampingActivity(positionOfActivity, ref);
+      case ('entertainment'):
+        return createEntertainmentActivity(positionOfActivity, ref);
+      case ('tourism'):
+        return createTourismeActivity(positionOfActivity, ref);
+      case ('activity'):
+        return createActivActivity(positionOfActivity, ref);
+      case ('catering'):
+        return createCateringActivity(positionOfActivity, ref);
+      case ('education'):
+        return createEducationActivity(positionOfActivity, ref);
+      case ('leisure'):
+        return createLeisureActivity(positionOfActivity, ref);
+      case ('religion'):
+        return createReligousActivity(positionOfActivity, ref);
+      default:
+        return createLeisureActivity(positionOfActivity, ref);
     }
   }
 
@@ -185,9 +237,12 @@ class _TripMapScreenState extends ConsumerState<TripMapScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final sharedState = ref.watch(sharedStateProvider);
+    print(activitiesMarker);
+    _fetchActivities();
     final List<Marker> listOfMarkers =
-        createDummyLocationMarkers(ref) + userMarkers;
+        createDummyLocationMarkers(ref) + userMarkers + activitiesMarker;
+    final sharedState = ref.watch(sharedStateProvider);
+    print(activitiesMarker);
 
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 204, 219, 226),
