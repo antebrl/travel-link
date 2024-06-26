@@ -6,7 +6,8 @@ import 'package:travel_link/src/features/authentication/data/firebase_auth_repos
 import 'package:travel_link/src/features/checklists/data/checklist_repository.dart';
 import 'package:travel_link/src/features/checklists/domain/checklist_item.dart';
 import 'package:travel_link/src/features/checklists/presentation/checklist_controller.dart';
-import '../lib/checklist_items.dart'; // Import the new file
+import '../lib/checklist_items.dart';
+import 'package:travel_link/src/common_widgets/participants_avatar_stack.dart';
 
 class ChecklistView extends ConsumerStatefulWidget {
   const ChecklistView(
@@ -150,21 +151,39 @@ class _ChecklistViewState extends ConsumerState<ChecklistView> {
                   Wrap(
                     children: widget.participants.map((user) {
                       final isSelected = _selectedUsers.contains(user);
-                      return ChoiceChip(
-                        label: Text(user),
-                        selected: isSelected,
-                        onSelected: (selected) {
+                      return GestureDetector(
+                        onTap: () {
                           setState(() {
-                            if (selected) {
-                              _selectedUsers.add(user);
-                            } else {
+                            if (isSelected) {
                               _selectedUsers.remove(user);
+                            } else {
+                              _selectedUsers.add(user);
                             }
                           });
                         },
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            
+                            CircleAvatar(
+                              backgroundImage: NetworkImage('URL_OF_PROFILE_PICTURE_$user'),
+                              radius: 20,
+                            ),
+
+                            if (isSelected)
+                              Container(
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Colors.black.withOpacity(0.5),
+                                ),
+                                child: const Icon(Icons.check, color: Colors.white),
+                              ),
+                          ],
+                        ),
                       );
                     }).toList(),
                   ),
+
                 ],
               ),
               actions: <Widget>[
@@ -291,10 +310,14 @@ class _ChecklistViewState extends ConsumerState<ChecklistView> {
                                       fontSize: 12, color: Colors.grey),
                                 ),
                               if (tasks[index].asignees.isNotEmpty)
-                                Text(
-                                  'Assignees: ${tasks[index].asignees.join(', ')}',
-                                  style: const TextStyle(
-                                      fontSize: 12, color: Colors.grey),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const SizedBox(height: 4),
+                                    ParticipantsAvatarStack(
+                                      participants: tasks[index].asignees,
+                                    ),
+                                  ],
                                 ),
                             ],
                           ),
