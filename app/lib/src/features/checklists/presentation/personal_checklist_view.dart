@@ -200,32 +200,46 @@ class _PersonalChecklistViewState extends ConsumerState<PersonalChecklistView> {
             children: [
               Padding(
                 padding: const EdgeInsets.all(8),
-                child: Autocomplete<String>(
-                  optionsBuilder: (TextEditingValue textEditingValue) {
-                    if (textEditingValue.text.isEmpty) {
-                      return const Iterable<String>.empty();
-                    }
-                    return suggestions.where((String suggestion) {
-                      return suggestion.toLowerCase().contains(
-                          textEditingValue.text.toLowerCase());
-                    });
-                  },
-                  onSelected: (String selection) async {
-                    await _addTaskAndClearSuggestions(selection);
-                  },
-                  fieldViewBuilder: (BuildContext context,
-                      TextEditingController textEditingController,
-                      FocusNode focusNode,
-                      VoidCallback onFieldSubmitted) {
-                    _textController = textEditingController;
-                    return TextField(
-                      controller: textEditingController,
-                      focusNode: focusNode,
-                      decoration: const InputDecoration(
-                        hintText: 'Add a new item',
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Autocomplete<String>(
+                        optionsBuilder: (TextEditingValue textEditingValue) {
+                          if (textEditingValue.text.isEmpty) {
+                            return const Iterable<String>.empty();
+                          }
+                          return suggestions.where((String suggestion) {
+                            return suggestion.toLowerCase().contains(
+                                textEditingValue.text.toLowerCase());
+                          });
+                        },
+                        onSelected: (String selection) async {
+                          await _addTaskAndClearSuggestions(selection);
+                        },
+                        fieldViewBuilder: (BuildContext context,
+                            TextEditingController textEditingController,
+                            FocusNode focusNode,
+                            VoidCallback onFieldSubmitted) {
+                          _textController = textEditingController;
+                          return TextField(
+                            controller: textEditingController,
+                            focusNode: focusNode,
+                            decoration: const InputDecoration(
+                              hintText: 'Add a new item',
+                            ),
+                          );
+                        },
                       ),
-                    );
-                  },
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.add),
+                      onPressed: () async {
+                        if (_textController.text.isNotEmpty) {
+                          await _addTask(_textController.text);
+                        }
+                      },
+                    ),
+                  ],
                 ),
               ),
               Expanded(

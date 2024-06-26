@@ -48,10 +48,9 @@ class _ChecklistViewState extends ConsumerState<ChecklistView> {
   }
 
   Future<void> updateTask(int index) async {
-    await ref.read(checklistControllerProvider.notifier).updateChecklistItem(
-          data: tasks[index],
-          tripId: widget.tripId,
-        );
+    await ref
+        .read(checklistControllerProvider.notifier)
+        .updateChecklistItem(data: tasks[index], tripId: widget.tripId);
     ref.invalidate(
         fetchTripChecklistProvider(tripId: widget.tripId, onlyPublic: true));
   }
@@ -63,7 +62,9 @@ class _ChecklistViewState extends ConsumerState<ChecklistView> {
       return;
     }
 
-    await ref.read(checklistControllerProvider.notifier).createChecklistItem(
+    await ref
+        .read(checklistControllerProvider.notifier)
+        .createChecklistItem(
           title: title,
           tripId: widget.tripId,
           asignees: widget.participants,
@@ -164,26 +165,25 @@ class _ChecklistViewState extends ConsumerState<ChecklistView> {
                         child: Stack(
                           alignment: Alignment.center,
                           children: [
-                            
                             CircleAvatar(
-                              backgroundImage: NetworkImage('URL_OF_PROFILE_PICTURE_$user'),
+                              backgroundImage: NetworkImage(
+                                  'URL_OF_PROFILE_PICTURE_$user'),
                               radius: 20,
                             ),
-
                             if (isSelected)
                               Container(
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   color: Colors.black.withOpacity(0.5),
                                 ),
-                                child: const Icon(Icons.check, color: Colors.white),
+                                child: const Icon(Icons.check,
+                                    color: Colors.white),
                               ),
                           ],
                         ),
                       );
                     }).toList(),
                   ),
-
                 ],
               ),
               actions: <Widget>[
@@ -229,32 +229,47 @@ class _ChecklistViewState extends ConsumerState<ChecklistView> {
             children: [
               Padding(
                 padding: const EdgeInsets.all(8),
-                child: Autocomplete<String>(
-                  optionsBuilder: (TextEditingValue textEditingValue) {
-                    if (textEditingValue.text.isEmpty) {
-                      return const Iterable<String>.empty();
-                    }
-                    return suggestions.where((String suggestion) {
-                      return suggestion.toLowerCase().contains(
-                          textEditingValue.text.toLowerCase());
-                    });
-                  },
-                  onSelected: (String selection) async {
-                    await _addTask(selection);
-                  },
-                  fieldViewBuilder: (BuildContext context,
-                      TextEditingController textEditingController,
-                      FocusNode focusNode,
-                      VoidCallback onFieldSubmitted) {
-                    _textController = textEditingController;
-                    return TextField(
-                      controller: textEditingController,
-                      focusNode: focusNode,
-                      decoration: const InputDecoration(
-                        hintText: 'Add a new item',
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Autocomplete<String>(
+                        optionsBuilder: (TextEditingValue textEditingValue) {
+                          if (textEditingValue.text.isEmpty) {
+                            return const Iterable<String>.empty();
+                          }
+                          return suggestions.where((String suggestion) {
+                            return suggestion
+                                .toLowerCase()
+                                .contains(textEditingValue.text.toLowerCase());
+                          });
+                        },
+                        onSelected: (String selection) async {
+                          await _addTask(selection);
+                        },
+                        fieldViewBuilder: (BuildContext context,
+                            TextEditingController textEditingController,
+                            FocusNode focusNode,
+                            VoidCallback onFieldSubmitted) {
+                          _textController = textEditingController;
+                          return TextField(
+                            controller: textEditingController,
+                            focusNode: focusNode,
+                            decoration: const InputDecoration(
+                              hintText: 'Add a new item',
+                            ),
+                          );
+                        },
                       ),
-                    );
-                  },
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.add),
+                      onPressed: () async {
+                        if (_textController.text.isNotEmpty) {
+                          await _addTask(_textController.text);
+                        }
+                      },
+                    ),
+                  ],
                 ),
               ),
               Expanded(
@@ -290,7 +305,8 @@ class _ChecklistViewState extends ConsumerState<ChecklistView> {
                                   iconMap[tasks[index].title] ?? Icons.circle),
                               Checkbox(
                                 value: getUserIndex(index) != -1 &&
-                                    tasks[index].asigneesCompleted[getUserIndex(index)],
+                                    tasks[index].asigneesCompleted[
+                                        getUserIndex(index)],
                                 onChanged: getUserIndex(index) != -1
                                     ? (bool? value) {
                                         _toggleTaskCompletion(index);
