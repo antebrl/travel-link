@@ -2,11 +2,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:travel_link/src/features/account/data/account_repository.dart';
 import 'package:travel_link/src/features/authentication/data/firebase_auth_repository.dart';
 import 'package:travel_link/src/features/checklists/data/checklist_repository.dart';
 import 'package:travel_link/src/features/checklists/domain/checklist_item.dart';
 import 'package:travel_link/src/features/checklists/presentation/checklist_controller.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
+import 'package:travel_link/src/utils/constants/image_strings.dart';
 import '../lib/checklist_items.dart';
 import 'package:travel_link/src/common_widgets/participants_avatar_stack.dart';
 
@@ -153,6 +155,7 @@ class _ChecklistViewState extends ConsumerState<ChecklistView> {
                   Wrap(
                     children: widget.participants.map((user) {
                       final isSelected = _selectedUsers.contains(user);
+                      final userAvatar = ref.read(FetchUserProvider(user).future);
                       return GestureDetector(
                         onTap: () {
                           setState(() {
@@ -167,10 +170,21 @@ class _ChecklistViewState extends ConsumerState<ChecklistView> {
                           alignment: Alignment.center,
                           children: [
                             
-                            CircleAvatar(
-                              backgroundImage: NetworkImage('URL_OF_PROFILE_PICTURE_$user'),
-                              radius: 20,
+                            FutureBuilder(future: userAvatar, builder: 
+                              (context, snapshot) {
+                                if (snapshot.connectionState == ConnectionState.waiting || snapshot.data == null) {
+                                  return const CircleAvatar(radius: 20, child: const Placeholder());
+                                } else if (snapshot.hasError) {
+                                  return const CircleAvatar(radius: 20, child: const Placeholder());
+                                } else {
+                                  return CircleAvatar(
+                                    backgroundImage: NetworkImage(snapshot.data!.pictureUrl ?? CustomImages.defaultProfilePictureUrl),
+                                    radius: 20,
+                                  );
+                                }
+                              }
                             ),
+                            
 
                             if (isSelected)
                               Container(
