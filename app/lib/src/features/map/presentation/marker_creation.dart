@@ -66,7 +66,8 @@ Marker createUserMarker(LatLng position) {
   return newMarker;
 }
 
-Marker createEntertainmentActivity(LatLng position, WidgetRef ref) {
+Marker createEntertainmentActivity(
+    LatLng position, String name, String description, WidgetRef ref) {
   final LatLng locationPosition = position;
   String usedMobility = 'Car';
   String mobilityForAPI = 'cycling-regular';
@@ -90,11 +91,24 @@ Marker createEntertainmentActivity(LatLng position, WidgetRef ref) {
             showDialog(
               context: context,
               builder: (context) => AlertDialog(
+                title: Text(name), // Set the title to the name
                 content: StatefulBuilder(
                   builder: (context, setState) {
                     return Column(
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
+                        Text(description), // Display the description
+                        const SizedBox(height: 10), // Add some spacing
+                        // Text above the dropdown menu with smaller size and underlined
+                        const Text(
+                          'Choose your mobility to go to the Location:',
+                          style: TextStyle(
+                            fontSize: 14, // Smaller font size
+                            decoration:
+                                TextDecoration.underline, // Underlined text
+                          ),
+                        ),
+                        const SizedBox(height: 10), // Add some spacing
                         // Dropdown menu
                         DropdownButton<String>(
                           value: usedMobility,
@@ -174,7 +188,8 @@ Marker createEntertainmentActivity(LatLng position, WidgetRef ref) {
   );
 }
 
-Marker createEducationActivity(LatLng position, WidgetRef ref) {
+Marker createEducationActivity(
+    LatLng position, String name, String description, WidgetRef ref) {
   final LatLng locationPosition = position;
   String usedMobility = 'Car';
   String mobilityForAPI = 'cycling-regular';
@@ -198,11 +213,24 @@ Marker createEducationActivity(LatLng position, WidgetRef ref) {
             showDialog(
               context: context,
               builder: (context) => AlertDialog(
+                title: Text(name), // Set the title to the name
                 content: StatefulBuilder(
                   builder: (context, setState) {
                     return Column(
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
+                        Text(description), // Display the description
+                        const SizedBox(height: 10), // Add some spacing
+                        // Text above the dropdown menu with smaller size and underlined
+                        const Text(
+                          'Choose your mobility to go to the Location:',
+                          style: TextStyle(
+                            fontSize: 14, // Smaller font size
+                            decoration:
+                                TextDecoration.underline, // Underlined text
+                          ),
+                        ),
+                        const SizedBox(height: 10), // Add some spacing
                         // Dropdown menu
                         DropdownButton<String>(
                           value: usedMobility,
@@ -224,7 +252,6 @@ Marker createEducationActivity(LatLng position, WidgetRef ref) {
                             });
                           },
                         ),
-                        // Text field
                         const SizedBox(height: 10),
                         ValueListenableBuilder<bool>(
                           valueListenable: isLoadingNotifier,
@@ -254,7 +281,8 @@ Marker createEducationActivity(LatLng position, WidgetRef ref) {
                                               locationPosition),
                                         );
 
-                                        // Update the shared state with the new route
+                                        // Update the shared state
+                                        // with the new route
                                         ref.read(sharedStateProvider).way =
                                             route;
 
@@ -282,7 +310,8 @@ Marker createEducationActivity(LatLng position, WidgetRef ref) {
   );
 }
 
-Marker createNatureActivity(LatLng position, WidgetRef ref) {
+Marker createNatureActivity(
+    LatLng position, String name, String description, WidgetRef ref) {
   final LatLng locationPosition = position;
   String usedMobility = 'Car';
   String mobilityForAPI = 'cycling-regular';
@@ -306,11 +335,24 @@ Marker createNatureActivity(LatLng position, WidgetRef ref) {
             showDialog(
               context: context,
               builder: (context) => AlertDialog(
+                title: Text(name), // Set the title to the name
                 content: StatefulBuilder(
                   builder: (context, setState) {
                     return Column(
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
+                        Text(description), // Display the description
+                        const SizedBox(height: 10), // Add some spacing
+                        // Text above the dropdown menu with smaller size and underlined
+                        const Text(
+                          'Choose your mobility to go to the Location:',
+                          style: TextStyle(
+                            fontSize: 14, // Smaller font size
+                            decoration:
+                                TextDecoration.underline, // Underlined text
+                          ),
+                        ),
+                        const SizedBox(height: 10), // Add some spacing
                         // Dropdown menu
                         DropdownButton<String>(
                           value: usedMobility,
@@ -332,7 +374,6 @@ Marker createNatureActivity(LatLng position, WidgetRef ref) {
                             });
                           },
                         ),
-                        // Text field
                         const SizedBox(height: 10),
                         ValueListenableBuilder<bool>(
                           valueListenable: isLoadingNotifier,
@@ -362,7 +403,8 @@ Marker createNatureActivity(LatLng position, WidgetRef ref) {
                                               locationPosition),
                                         );
 
-                                        // Update the shared state with the new route
+                                        // Update the shared state
+                                        // with the new route
                                         ref.read(sharedStateProvider).way =
                                             route;
 
@@ -390,7 +432,8 @@ Marker createNatureActivity(LatLng position, WidgetRef ref) {
   );
 }
 
-Marker createSportsActivity(LatLng position, WidgetRef ref) {
+Marker createSportsActivity(
+    LatLng position, String name, String description, WidgetRef ref) {
   final LatLng locationPosition = position;
   String usedMobility = 'Car';
   String mobilityForAPI = 'cycling-regular';
@@ -414,11 +457,24 @@ Marker createSportsActivity(LatLng position, WidgetRef ref) {
             showDialog(
               context: context,
               builder: (context) => AlertDialog(
+                title: Text(name), // Set the title to the name
                 content: StatefulBuilder(
                   builder: (context, setState) {
                     return Column(
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
+                        Text(description), // Display the description
+                        const SizedBox(height: 10), // Add some spacing
+                        // Text above the dropdown menu with smaller size and underlined
+                        const Text(
+                          'Choose your mobility to go to the Location:',
+                          style: TextStyle(
+                            fontSize: 14, // Smaller font size
+                            decoration:
+                                TextDecoration.underline, // Underlined text
+                          ),
+                        ),
+                        const SizedBox(height: 10), // Add some spacing
                         // Dropdown menu
                         DropdownButton<String>(
                           value: usedMobility,
@@ -435,13 +491,11 @@ Marker createSportsActivity(LatLng position, WidgetRef ref) {
                                 usedMobility =
                                     value; // Update the selected value
                                 mobilityForAPI = translateMobilityToApiReadable(
-                                  usedMobility,
-                                );
+                                    usedMobility);
                               }
                             });
                           },
                         ),
-                        // Text field
                         const SizedBox(height: 10),
                         ValueListenableBuilder<bool>(
                           valueListenable: isLoadingNotifier,
@@ -466,12 +520,13 @@ Marker createSportsActivity(LatLng position, WidgetRef ref) {
                                         route = await calculateRoute(
                                           mobilityForAPI,
                                           convertLatLngToCoordinates(
-                                            currentUserLocation,
-                                          ),
+                                              currentUserLocation),
                                           convertLatLngToCoordinates(
-                                            locationPosition,
-                                          ),
+                                              locationPosition),
                                         );
+
+                                        // Update the shared state
+                                        // with the new route
                                         ref.read(sharedStateProvider).way =
                                             route;
 
@@ -499,7 +554,8 @@ Marker createSportsActivity(LatLng position, WidgetRef ref) {
   );
 }
 
-Marker createCateringActivity(LatLng position, WidgetRef ref) {
+Marker createCateringActivity(
+    LatLng position, String name, String description, WidgetRef ref) {
   final LatLng locationPosition = position;
   String usedMobility = 'Car';
   String mobilityForAPI = 'cycling-regular';
@@ -523,11 +579,24 @@ Marker createCateringActivity(LatLng position, WidgetRef ref) {
             showDialog(
               context: context,
               builder: (context) => AlertDialog(
+                title: Text(name), // Set the title to the name
                 content: StatefulBuilder(
                   builder: (context, setState) {
                     return Column(
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
+                        Text(description), // Display the description
+                        const SizedBox(height: 10), // Add some spacing
+                        // Text above the dropdown menu with smaller size and underlined
+                        const Text(
+                          'Choose your mobility to go to the Location:',
+                          style: TextStyle(
+                            fontSize: 14, // Smaller font size
+                            decoration:
+                                TextDecoration.underline, // Underlined text
+                          ),
+                        ),
+                        const SizedBox(height: 10), // Add some spacing
                         // Dropdown menu
                         DropdownButton<String>(
                           value: usedMobility,
@@ -544,13 +613,11 @@ Marker createCateringActivity(LatLng position, WidgetRef ref) {
                                 usedMobility =
                                     value; // Update the selected value
                                 mobilityForAPI = translateMobilityToApiReadable(
-                                  usedMobility,
-                                );
+                                    usedMobility);
                               }
                             });
                           },
                         ),
-                        // Text field
                         const SizedBox(height: 10),
                         ValueListenableBuilder<bool>(
                           valueListenable: isLoadingNotifier,
@@ -575,12 +642,13 @@ Marker createCateringActivity(LatLng position, WidgetRef ref) {
                                         route = await calculateRoute(
                                           mobilityForAPI,
                                           convertLatLngToCoordinates(
-                                            currentUserLocation,
-                                          ),
+                                              currentUserLocation),
                                           convertLatLngToCoordinates(
-                                            locationPosition,
-                                          ),
+                                              locationPosition),
                                         );
+
+                                        // Update the shared state
+                                        // with the new route
                                         ref.read(sharedStateProvider).way =
                                             route;
 
@@ -608,12 +676,13 @@ Marker createCateringActivity(LatLng position, WidgetRef ref) {
   );
 }
 
-Marker createReligousActivity(LatLng position, WidgetRef ref) {
+Marker createReligousActivity(
+    LatLng position, String name, String description, WidgetRef ref) {
   final LatLng locationPosition = position;
   String usedMobility = 'Car';
   String mobilityForAPI = 'cycling-regular';
   final ValueNotifier<Color> colorNotifier =
-      ValueNotifier<Color>(Color.fromARGB(255, 117, 14, 96));
+      ValueNotifier<Color>(Color.fromARGB(255, 255, 255, 255));
   final ValueNotifier<Color> starColorNotifier =
       ValueNotifier<Color>(Colors.grey);
   final ValueNotifier<bool> isLoadingNotifier = ValueNotifier<bool>(false);
@@ -626,17 +695,30 @@ Marker createReligousActivity(LatLng position, WidgetRef ref) {
       valueListenable: colorNotifier,
       builder: (context, color, child) {
         return IconButton(
-          icon: Icon(Icons.church, color: color),
+          icon: Icon(Icons.church_rounded, color: color),
           onPressed: () {
             // ignore: inference_failure_on_function_invocation
             showDialog(
               context: context,
               builder: (context) => AlertDialog(
+                title: Text(name), // Set the title to the name
                 content: StatefulBuilder(
                   builder: (context, setState) {
                     return Column(
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
+                        Text(description), // Display the description
+                        const SizedBox(height: 10), // Add some spacing
+                        // Text above the dropdown menu with smaller size and underlined
+                        const Text(
+                          'Choose your mobility to go to the Location:',
+                          style: TextStyle(
+                            fontSize: 14, // Smaller font size
+                            decoration:
+                                TextDecoration.underline, // Underlined text
+                          ),
+                        ),
+                        const SizedBox(height: 10), // Add some spacing
                         // Dropdown menu
                         DropdownButton<String>(
                           value: usedMobility,
@@ -653,13 +735,11 @@ Marker createReligousActivity(LatLng position, WidgetRef ref) {
                                 usedMobility =
                                     value; // Update the selected value
                                 mobilityForAPI = translateMobilityToApiReadable(
-                                  usedMobility,
-                                );
+                                    usedMobility);
                               }
                             });
                           },
                         ),
-                        // Text field
                         const SizedBox(height: 10),
                         ValueListenableBuilder<bool>(
                           valueListenable: isLoadingNotifier,
@@ -684,12 +764,13 @@ Marker createReligousActivity(LatLng position, WidgetRef ref) {
                                         route = await calculateRoute(
                                           mobilityForAPI,
                                           convertLatLngToCoordinates(
-                                            currentUserLocation,
-                                          ),
+                                              currentUserLocation),
                                           convertLatLngToCoordinates(
-                                            locationPosition,
-                                          ),
+                                              locationPosition),
                                         );
+
+                                        // Update the shared state
+                                        // with the new route
                                         ref.read(sharedStateProvider).way =
                                             route;
 
@@ -717,12 +798,13 @@ Marker createReligousActivity(LatLng position, WidgetRef ref) {
   );
 }
 
-Marker createActivActivity(LatLng position, WidgetRef ref) {
+Marker createActivActivity(
+    LatLng position, String name, String description, WidgetRef ref) {
   final LatLng locationPosition = position;
   String usedMobility = 'Car';
   String mobilityForAPI = 'cycling-regular';
   final ValueNotifier<Color> colorNotifier =
-      ValueNotifier<Color>(const Color.fromARGB(255, 117, 14, 14));
+      ValueNotifier<Color>(Color.fromARGB(255, 252, 255, 58));
   final ValueNotifier<Color> starColorNotifier =
       ValueNotifier<Color>(Colors.grey);
   final ValueNotifier<bool> isLoadingNotifier = ValueNotifier<bool>(false);
@@ -735,17 +817,30 @@ Marker createActivActivity(LatLng position, WidgetRef ref) {
       valueListenable: colorNotifier,
       builder: (context, color, child) {
         return IconButton(
-          icon: Icon(Icons.attractions, color: color),
+          icon: Icon(Icons.attractions_rounded, color: color),
           onPressed: () {
             // ignore: inference_failure_on_function_invocation
             showDialog(
               context: context,
               builder: (context) => AlertDialog(
+                title: Text(name), // Set the title to the name
                 content: StatefulBuilder(
                   builder: (context, setState) {
                     return Column(
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
+                        Text(description), // Display the description
+                        const SizedBox(height: 10), // Add some spacing
+                        // Text above the dropdown menu with smaller size and underlined
+                        const Text(
+                          'Choose your mobility to go to the Location:',
+                          style: TextStyle(
+                            fontSize: 14, // Smaller font size
+                            decoration:
+                                TextDecoration.underline, // Underlined text
+                          ),
+                        ),
+                        const SizedBox(height: 10), // Add some spacing
                         // Dropdown menu
                         DropdownButton<String>(
                           value: usedMobility,
@@ -762,13 +857,11 @@ Marker createActivActivity(LatLng position, WidgetRef ref) {
                                 usedMobility =
                                     value; // Update the selected value
                                 mobilityForAPI = translateMobilityToApiReadable(
-                                  usedMobility,
-                                );
+                                    usedMobility);
                               }
                             });
                           },
                         ),
-                        // Text field
                         const SizedBox(height: 10),
                         ValueListenableBuilder<bool>(
                           valueListenable: isLoadingNotifier,
@@ -793,12 +886,13 @@ Marker createActivActivity(LatLng position, WidgetRef ref) {
                                         route = await calculateRoute(
                                           mobilityForAPI,
                                           convertLatLngToCoordinates(
-                                            currentUserLocation,
-                                          ),
+                                              currentUserLocation),
                                           convertLatLngToCoordinates(
-                                            locationPosition,
-                                          ),
+                                              locationPosition),
                                         );
+
+                                        // Update the shared state
+                                        // with the new route
                                         ref.read(sharedStateProvider).way =
                                             route;
 
@@ -826,12 +920,13 @@ Marker createActivActivity(LatLng position, WidgetRef ref) {
   );
 }
 
-Marker createAccomodationActivity(LatLng position, WidgetRef ref) {
+Marker createAccomodationActivity(
+    LatLng position, String name, String description, WidgetRef ref) {
   final LatLng locationPosition = position;
   String usedMobility = 'Car';
   String mobilityForAPI = 'cycling-regular';
   final ValueNotifier<Color> colorNotifier =
-      ValueNotifier<Color>(const Color.fromARGB(255, 117, 14, 14));
+      ValueNotifier<Color>(Color.fromARGB(255, 241, 92, 12));
   final ValueNotifier<Color> starColorNotifier =
       ValueNotifier<Color>(Colors.grey);
   final ValueNotifier<bool> isLoadingNotifier = ValueNotifier<bool>(false);
@@ -844,17 +939,30 @@ Marker createAccomodationActivity(LatLng position, WidgetRef ref) {
       valueListenable: colorNotifier,
       builder: (context, color, child) {
         return IconButton(
-          icon: Icon(Icons.hotel, color: color),
+          icon: Icon(Icons.hotel_rounded, color: color),
           onPressed: () {
             // ignore: inference_failure_on_function_invocation
             showDialog(
               context: context,
               builder: (context) => AlertDialog(
+                title: Text(name), // Set the title to the name
                 content: StatefulBuilder(
                   builder: (context, setState) {
                     return Column(
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
+                        Text(description), // Display the description
+                        const SizedBox(height: 10), // Add some spacing
+                        // Text above the dropdown menu with smaller size and underlined
+                        const Text(
+                          'Choose your mobility to go to the Location:',
+                          style: TextStyle(
+                            fontSize: 14, // Smaller font size
+                            decoration:
+                                TextDecoration.underline, // Underlined text
+                          ),
+                        ),
+                        const SizedBox(height: 10), // Add some spacing
                         // Dropdown menu
                         DropdownButton<String>(
                           value: usedMobility,
@@ -871,13 +979,11 @@ Marker createAccomodationActivity(LatLng position, WidgetRef ref) {
                                 usedMobility =
                                     value; // Update the selected value
                                 mobilityForAPI = translateMobilityToApiReadable(
-                                  usedMobility,
-                                );
+                                    usedMobility);
                               }
                             });
                           },
                         ),
-                        // Text field
                         const SizedBox(height: 10),
                         ValueListenableBuilder<bool>(
                           valueListenable: isLoadingNotifier,
@@ -902,12 +1008,13 @@ Marker createAccomodationActivity(LatLng position, WidgetRef ref) {
                                         route = await calculateRoute(
                                           mobilityForAPI,
                                           convertLatLngToCoordinates(
-                                            currentUserLocation,
-                                          ),
+                                              currentUserLocation),
                                           convertLatLngToCoordinates(
-                                            locationPosition,
-                                          ),
+                                              locationPosition),
                                         );
+
+                                        // Update the shared state
+                                        // with the new route
                                         ref.read(sharedStateProvider).way =
                                             route;
 
@@ -935,12 +1042,13 @@ Marker createAccomodationActivity(LatLng position, WidgetRef ref) {
   );
 }
 
-Marker createTourismeActivity(LatLng position, WidgetRef ref) {
+Marker createTourismeActivity(
+    LatLng position, String name, String description, WidgetRef ref) {
   final LatLng locationPosition = position;
   String usedMobility = 'Car';
   String mobilityForAPI = 'cycling-regular';
   final ValueNotifier<Color> colorNotifier =
-      ValueNotifier<Color>(const Color.fromARGB(255, 117, 14, 14));
+      ValueNotifier<Color>(Color.fromARGB(255, 255, 213, 0));
   final ValueNotifier<Color> starColorNotifier =
       ValueNotifier<Color>(Colors.grey);
   final ValueNotifier<bool> isLoadingNotifier = ValueNotifier<bool>(false);
@@ -959,11 +1067,24 @@ Marker createTourismeActivity(LatLng position, WidgetRef ref) {
             showDialog(
               context: context,
               builder: (context) => AlertDialog(
+                title: Text(name), // Set the title to the name
                 content: StatefulBuilder(
                   builder: (context, setState) {
                     return Column(
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
+                        Text(description), // Display the description
+                        const SizedBox(height: 10), // Add some spacing
+                        // Text above the dropdown menu with smaller size and underlined
+                        const Text(
+                          'Choose your mobility to go to the Location:',
+                          style: TextStyle(
+                            fontSize: 14, // Smaller font size
+                            decoration:
+                                TextDecoration.underline, // Underlined text
+                          ),
+                        ),
+                        const SizedBox(height: 10), // Add some spacing
                         // Dropdown menu
                         DropdownButton<String>(
                           value: usedMobility,
@@ -980,13 +1101,11 @@ Marker createTourismeActivity(LatLng position, WidgetRef ref) {
                                 usedMobility =
                                     value; // Update the selected value
                                 mobilityForAPI = translateMobilityToApiReadable(
-                                  usedMobility,
-                                );
+                                    usedMobility);
                               }
                             });
                           },
                         ),
-                        // Text field
                         const SizedBox(height: 10),
                         ValueListenableBuilder<bool>(
                           valueListenable: isLoadingNotifier,
@@ -1011,12 +1130,13 @@ Marker createTourismeActivity(LatLng position, WidgetRef ref) {
                                         route = await calculateRoute(
                                           mobilityForAPI,
                                           convertLatLngToCoordinates(
-                                            currentUserLocation,
-                                          ),
+                                              currentUserLocation),
                                           convertLatLngToCoordinates(
-                                            locationPosition,
-                                          ),
+                                              locationPosition),
                                         );
+
+                                        // Update the shared state
+                                        // with the new route
                                         ref.read(sharedStateProvider).way =
                                             route;
 
@@ -1044,12 +1164,13 @@ Marker createTourismeActivity(LatLng position, WidgetRef ref) {
   );
 }
 
-Marker createCampingActivity(LatLng position, WidgetRef ref) {
+Marker createCampingActivity(
+    LatLng position, String name, String description, WidgetRef ref) {
   final LatLng locationPosition = position;
   String usedMobility = 'Car';
   String mobilityForAPI = 'cycling-regular';
   final ValueNotifier<Color> colorNotifier =
-      ValueNotifier<Color>(const Color.fromARGB(255, 117, 14, 14));
+      ValueNotifier<Color>(Color.fromARGB(255, 255, 47, 0));
   final ValueNotifier<Color> starColorNotifier =
       ValueNotifier<Color>(Colors.grey);
   final ValueNotifier<bool> isLoadingNotifier = ValueNotifier<bool>(false);
@@ -1068,11 +1189,24 @@ Marker createCampingActivity(LatLng position, WidgetRef ref) {
             showDialog(
               context: context,
               builder: (context) => AlertDialog(
+                title: Text(name), // Set the title to the name
                 content: StatefulBuilder(
                   builder: (context, setState) {
                     return Column(
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
+                        Text(description), // Display the description
+                        const SizedBox(height: 10), // Add some spacing
+                        // Text above the dropdown menu with smaller size and underlined
+                        const Text(
+                          'Choose your mobility to go to the Location:',
+                          style: TextStyle(
+                            fontSize: 14, // Smaller font size
+                            decoration:
+                                TextDecoration.underline, // Underlined text
+                          ),
+                        ),
+                        const SizedBox(height: 10), // Add some spacing
                         // Dropdown menu
                         DropdownButton<String>(
                           value: usedMobility,
@@ -1089,13 +1223,11 @@ Marker createCampingActivity(LatLng position, WidgetRef ref) {
                                 usedMobility =
                                     value; // Update the selected value
                                 mobilityForAPI = translateMobilityToApiReadable(
-                                  usedMobility,
-                                );
+                                    usedMobility);
                               }
                             });
                           },
                         ),
-                        // Text field
                         const SizedBox(height: 10),
                         ValueListenableBuilder<bool>(
                           valueListenable: isLoadingNotifier,
@@ -1120,12 +1252,13 @@ Marker createCampingActivity(LatLng position, WidgetRef ref) {
                                         route = await calculateRoute(
                                           mobilityForAPI,
                                           convertLatLngToCoordinates(
-                                            currentUserLocation,
-                                          ),
+                                              currentUserLocation),
                                           convertLatLngToCoordinates(
-                                            locationPosition,
-                                          ),
+                                              locationPosition),
                                         );
+
+                                        // Update the shared state
+                                        // with the new route
                                         ref.read(sharedStateProvider).way =
                                             route;
 
@@ -1153,12 +1286,13 @@ Marker createCampingActivity(LatLng position, WidgetRef ref) {
   );
 }
 
-Marker createLeisureActivity(LatLng position, WidgetRef ref) {
+Marker createLeisureActivity(
+    LatLng position, String name, String description, WidgetRef ref) {
   final LatLng locationPosition = position;
   String usedMobility = 'Car';
   String mobilityForAPI = 'cycling-regular';
   final ValueNotifier<Color> colorNotifier =
-      ValueNotifier<Color>(const Color.fromARGB(255, 117, 14, 14));
+      ValueNotifier<Color>(Color.fromARGB(255, 94, 85, 83));
   final ValueNotifier<Color> starColorNotifier =
       ValueNotifier<Color>(Colors.grey);
   final ValueNotifier<bool> isLoadingNotifier = ValueNotifier<bool>(false);
@@ -1171,17 +1305,30 @@ Marker createLeisureActivity(LatLng position, WidgetRef ref) {
       valueListenable: colorNotifier,
       builder: (context, color, child) {
         return IconButton(
-          icon: Icon(Icons.rocket, color: color),
+          icon: Icon(Icons.rocket_launch_rounded, color: color),
           onPressed: () {
             // ignore: inference_failure_on_function_invocation
             showDialog(
               context: context,
               builder: (context) => AlertDialog(
+                title: Text(name), // Set the title to the name
                 content: StatefulBuilder(
                   builder: (context, setState) {
                     return Column(
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
+                        Text(description), // Display the description
+                        const SizedBox(height: 10), // Add some spacing
+                        // Text above the dropdown menu with smaller size and underlined
+                        const Text(
+                          'Choose your mobility to go to the Location:',
+                          style: TextStyle(
+                            fontSize: 14, // Smaller font size
+                            decoration:
+                                TextDecoration.underline, // Underlined text
+                          ),
+                        ),
+                        const SizedBox(height: 10), // Add some spacing
                         // Dropdown menu
                         DropdownButton<String>(
                           value: usedMobility,
@@ -1198,13 +1345,11 @@ Marker createLeisureActivity(LatLng position, WidgetRef ref) {
                                 usedMobility =
                                     value; // Update the selected value
                                 mobilityForAPI = translateMobilityToApiReadable(
-                                  usedMobility,
-                                );
+                                    usedMobility);
                               }
                             });
                           },
                         ),
-                        // Text field
                         const SizedBox(height: 10),
                         ValueListenableBuilder<bool>(
                           valueListenable: isLoadingNotifier,
@@ -1229,12 +1374,13 @@ Marker createLeisureActivity(LatLng position, WidgetRef ref) {
                                         route = await calculateRoute(
                                           mobilityForAPI,
                                           convertLatLngToCoordinates(
-                                            currentUserLocation,
-                                          ),
+                                              currentUserLocation),
                                           convertLatLngToCoordinates(
-                                            locationPosition,
-                                          ),
+                                              locationPosition),
                                         );
+
+                                        // Update the shared state
+                                        // with the new route
                                         ref.read(sharedStateProvider).way =
                                             route;
 

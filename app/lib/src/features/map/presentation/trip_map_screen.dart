@@ -1,6 +1,6 @@
 import 'dart:core';
-import 'dart:js_interop';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
@@ -15,7 +15,6 @@ import 'package:travel_link/src/features/my_trips/domain/destination.dart';
 import 'package:travel_link/src/features/trip_overview/data/user_repository.dart';
 import 'package:travel_link/src/utils/constants/image_strings.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'marker_creation.dart';
 
@@ -28,20 +27,22 @@ List<LatLng> locations = [latLng1, latLng2, latLng3];
 bool displayRoute = false;
 
 List<Marker> createDummyLocationMarkers(WidgetRef ref) {
-  List<Marker> listOfAllActivities = [];
-  return listOfAllActivities = [
-    createLeisureActivity(const LatLng(49.690025, 8.463075), ref),
-    createReligousActivity(const LatLng(49.691430, 8.463370), ref),
-    createNatureActivity(const LatLng(49.688520, 8.462580), ref),
-    createSportsActivity(const LatLng(49.71, 8.5), ref),
-    createActivActivity(const LatLng(49.73, 8.6), ref),
-    createCampingActivity(const LatLng(49.75, 8.7), ref),
+  return [
+    createLeisureActivity(const LatLng(49.690025, 8.463075), '', '', ref),
+    createReligousActivity(const LatLng(49.691430, 8.463370), '', '', ref),
+    createNatureActivity(const LatLng(49.688520, 8.462580), '', '', ref),
+    createSportsActivity(const LatLng(49.71, 8.5), '', '', ref),
+    createActivActivity(const LatLng(49.73, 8.6), '', '', ref),
+    createCampingActivity(const LatLng(49.75, 8.7), '', '', ref),
   ];
 }
 
 class TripMapScreen extends ConsumerStatefulWidget {
-  const TripMapScreen(
-      {required this.participants, required this.destination, super.key});
+  const TripMapScreen({
+    required this.participants,
+    required this.destination,
+    super.key,
+  });
 
   final List<String> participants;
   final Destination destination;
@@ -100,17 +101,17 @@ class _TripMapScreenState extends ConsumerState<TripMapScreen> {
   }
 
   Future<void> _fetchActivities() async {
-    CollectionReference activities =
+    final CollectionReference activities =
         FirebaseFirestore.instance.collection('activities');
-    List<Marker> allActivitiesInDB = [];
+    final List<Marker> allActivitiesInDB = [];
 
-    QuerySnapshot querySnapshot = await activities.limit(100).get();
+    final QuerySnapshot querySnapshot = await activities.limit(100).get();
 
-    for (QueryDocumentSnapshot doc in querySnapshot.docs) {
+    for (final QueryDocumentSnapshot doc in querySnapshot.docs) {
       final Map<String, dynamic> data = doc.data()! as Map<String, dynamic>;
-      final String documentId = doc.id;
       final List<dynamic> categories = data['categories'] as List<dynamic>;
       final String description = data['description'] as String;
+      final String name = data['name'] as String;
       final Map<String, dynamic> location =
           data['location'] as Map<String, dynamic>;
       final double lati = location['lat'] as double;
@@ -120,6 +121,7 @@ class _TripMapScreenState extends ConsumerState<TripMapScreen> {
         await _createMarkerBasedOnDescription(
           categories,
           description,
+          name,
           lati,
           long,
         ),
@@ -135,6 +137,7 @@ class _TripMapScreenState extends ConsumerState<TripMapScreen> {
   Future<Marker> _createMarkerBasedOnDescription(
     List<dynamic> categories,
     String description,
+    String name,
     double latitude,
     double longitude,
   ) async {
@@ -143,35 +146,79 @@ class _TripMapScreenState extends ConsumerState<TripMapScreen> {
 
     switch (typeOfActivity) {
       case ('natural'):
-        return createNatureActivity(positionOfActivity, ref);
+        return createNatureActivity(positionOfActivity, name, description, ref);
       case ('sport'):
-        return createSportsActivity(positionOfActivity, ref);
+        return createSportsActivity(positionOfActivity, name, description, ref);
       case ('accommodation'):
-        return createAccomodationActivity(positionOfActivity, ref);
+        return createAccomodationActivity(
+          positionOfActivity,
+          name,
+          description,
+          ref,
+        );
       case ('camping'):
-        return createCampingActivity(positionOfActivity, ref);
+        return createCampingActivity(
+          positionOfActivity,
+          name,
+          description,
+          ref,
+        );
       case ('entertainment'):
-        return createEntertainmentActivity(positionOfActivity, ref);
+        return createEntertainmentActivity(
+          positionOfActivity,
+          name,
+          description,
+          ref,
+        );
       case ('tourism'):
-        return createTourismeActivity(positionOfActivity, ref);
+        return createTourismeActivity(
+          positionOfActivity,
+          name,
+          description,
+          ref,
+        );
       case ('activity'):
-        return createActivActivity(positionOfActivity, ref);
+        return createActivActivity(positionOfActivity, name, description, ref);
       case ('catering'):
-        return createCateringActivity(positionOfActivity, ref);
+        return createCateringActivity(
+          positionOfActivity,
+          name,
+          description,
+          ref,
+        );
       case ('education'):
-        return createEducationActivity(positionOfActivity, ref);
+        return createEducationActivity(
+          positionOfActivity,
+          name,
+          description,
+          ref,
+        );
       case ('leisure'):
-        return createLeisureActivity(positionOfActivity, ref);
+        return createLeisureActivity(
+          positionOfActivity,
+          name,
+          description,
+          ref,
+        );
       case ('religion'):
-        return createReligousActivity(positionOfActivity, ref);
+        return createReligousActivity(
+          positionOfActivity,
+          name,
+          description,
+          ref,
+        );
       default:
-        return createLeisureActivity(positionOfActivity, ref);
+        return createLeisureActivity(
+          positionOfActivity,
+          name,
+          description,
+          ref,
+        );
     }
   }
 
   Future<void> _postPosition(LatLng position) async {
     final repo = ref.read(accountControllerProvider.notifier);
-    print('Position: $position');
     await repo.updateUserData(data: {'position': position.toJson()});
   }
 
@@ -184,9 +231,7 @@ class _TripMapScreenState extends ConsumerState<TripMapScreen> {
           height: 40,
           point: LatLng(user.position!.latitude, user.position!.longitude),
           child: GestureDetector(
-            onTap: () {
-              print('Marker tapped');
-            },
+            onTap: () {},
             child: Container(
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
@@ -195,13 +240,14 @@ class _TripMapScreenState extends ConsumerState<TripMapScreen> {
                     color: Colors.black.withOpacity(0.5),
                     spreadRadius: 0.1,
                     blurRadius: 8,
-                    offset: Offset(0, 3),
+                    offset: const Offset(0, 3),
                   ),
                 ],
               ),
               child: CircleAvatar(
                 backgroundImage: NetworkImage(
-                    user.pictureUrl ?? CustomImages.defaultProfilePictureUrl),
+                  user.pictureUrl ?? CustomImages.defaultProfilePictureUrl,
+                ),
               ),
             ),
           ),
@@ -234,13 +280,17 @@ class _TripMapScreenState extends ConsumerState<TripMapScreen> {
                       maxZoom: 18,
                       initialZoom: 12,
                     ),
+                    // ignore: deprecated_member_use
                     nonRotatedChildren: [
                       RichAttributionWidget(
                         attributions: [
                           TextSourceAttribution(
                             'OpenStreetMap contributors',
-                            onTap: () => launchUrl(Uri.parse(
-                                'https://openstreetmap.org/copyright')),
+                            onTap: () => launchUrl(
+                              Uri.parse(
+                                'https://openstreetmap.org/copyright',
+                              ),
+                            ),
                           ),
                         ],
                       ),
@@ -292,7 +342,7 @@ class _TripMapScreenState extends ConsumerState<TripMapScreen> {
                       ),
                     ],
                   )
-                : Center(child: CircularProgressIndicator()),
+                : const Center(child: CircularProgressIndicator()),
           ),
         ],
       ),
