@@ -26,12 +26,10 @@ class ApiActivitiesDetailsScreen extends ConsumerStatefulWidget {
 
   @override
   ConsumerState<ApiActivitiesDetailsScreen> createState() =>
-  ConsumerState<ApiActivitiesDetailsScreen> createState() =>
       _ApiActivitiesDetailsScreenState();
 }
 
 class _ApiActivitiesDetailsScreenState
-    extends ConsumerState<ApiActivitiesDetailsScreen> {
     extends ConsumerState<ApiActivitiesDetailsScreen> {
   int _current = 0;
   final CarouselController _controller = CarouselController();
@@ -237,16 +235,18 @@ class _ApiActivitiesDetailsScreenState
                         ),
                       ),
           ),
-          if(currentUser != null && widget.addedTrip != null && widget.addedTrip!.participants.contains(currentUser.uid))
-          Positioned(
-            top: 10,
-            right: 10,
-            child: AddToTripButton(
-              myTrips: myTrips,
-              activity: widget.activity,
-              addedTrip: widget.addedTrip!.tripId,
+          if (currentUser != null &&
+              widget.addedTrip != null &&
+              widget.addedTrip!.participants.contains(currentUser.uid))
+            Positioned(
+              top: 10,
+              right: 10,
+              child: AddToTripButton(
+                myTrips: myTrips,
+                activity: widget.activity,
+                addedTrip: widget.addedTrip!.tripId,
+              ),
             ),
-          ),
           Positioned(
             top: 200,
             left: 0,
@@ -440,12 +440,6 @@ class _ApiActivitiesDetailsScreenState
                                       ),
                                       label: Text(
                                         category,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodySmall!
-                                            .copyWith(
-                                              color: CustomColors.primary,
-                                            ),
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodySmall!

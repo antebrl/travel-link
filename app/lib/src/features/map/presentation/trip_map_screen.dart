@@ -63,7 +63,6 @@ class TripMapScreen extends ConsumerStatefulWidget {
 
   @override
   ConsumerState<TripMapScreen> createState() => _TripMapScreenState();
-  ConsumerState<TripMapScreen> createState() => _TripMapScreenState();
 }
 
 class _TripMapScreenState extends ConsumerState<TripMapScreen> {
