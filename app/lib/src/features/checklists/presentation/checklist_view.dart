@@ -7,6 +7,7 @@ import 'package:travel_link/src/features/authentication/data/firebase_auth_repos
 import 'package:travel_link/src/features/checklists/data/checklist_repository.dart';
 import 'package:travel_link/src/features/checklists/domain/checklist_item.dart';
 import 'package:travel_link/src/features/checklists/presentation/checklist_controller.dart';
+import 'package:travel_link/src/features/trip_overview/data/user_repository.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
 import 'package:travel_link/src/utils/constants/image_strings.dart';
 import '../lib/checklist_items.dart';
