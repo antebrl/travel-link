@@ -1,4 +1,4 @@
-=== "Sebastian Ott (2)"
+=== "Sebastian Ott (24)"
 
     ##### Personal Questions
     - Latest Travel: France
@@ -9,7 +9,7 @@
     - Plan Trips (currnt): Searching for tournaments,  Searching for destinations Online, looking for weather, searching for interesting activities, looking at travel blocs/ Social Media. Bookinf throug specialised websites
     - Comparaison of different offers such as flights/accomodation and lookinf for recomodations. 
     - Problems encountered: Finding affordable offeres, coordination with friends, familiy and the club, additionaly time managment.
-    - Important aspects: Easy to use interface, social features, ffedback for POI'S
+    - Important aspects: Easy to use interface, social features, feedback for POI'S
     ______________________________
     - Small groups like friends/ family or the fencing club
     - Top 3 Worst things:
@@ -26,21 +26,28 @@
     - Quantity of Pictures: ~25 - 50
     - What type of vacation: Adventure/ Cultural Vaccation
     - Travel outside of EU: NO
-    - Ranking of aspekts: Activities, People, Hotel/Resting
+    - Ranking of aspects: 
+        ```markdown
+        1. Activities,
+        2. People, 
+        3. Hotel/Resting
+        ```
     - Ranking of Features:
-    - Map with planned activities
-    - Plan activities for the day/whole trip
-    - Weather for travel time period
-    - Flight/transportation details
-    - Checklists
-    - Travel documents organization
-    - Financial management
-    - Travel souvenirs (pictures/videos)
-    - Voting
-    - Chat
+        ```markdown
+        1. Map with planned activities
+        2. Plan activities for the day/whole trip
+        3. Weather for travel time period
+        4. Flight/transportation details
+        5. Checklists
+        6. Travel documents organization
+        7. Chat
+        8. Travel souvenirs (pictures/videos)
+        9. Voting
+        10. Financial management
+        ```
 
 
-=== "Samuel Cruz (60)"
+=== "Samuel Cruz (65)"
 
     ##### Personal Questions
     - Latest Travel: Austria
@@ -68,20 +75,27 @@
     - Quantity of Pictures: ~50 - 100
     - What type of vacation: Adventure and Relaxation
     - Travel outside of EU: YES (NA, OC)
-    - Ranking of aspekts: People, Activities, Hotel/Resting
+    - Ranking of aspects:
+        ```markdown
+        1. People,
+        2. Activities, 
+        3. Hotel/Resting
+        ```
     - Ranking of Features:
-    - Checklist
-    - Financial management
-    - Plan activities for the day/whole trip
-    - Travel documents organization
-    - Weather for travel time period
-    - Flight/transportation details
-    - Map with planned activities
-    - Travel souvenirs (pictures/videos)
-    - Voting
-    - Chat
-
-## Concluiosns of the Interview
+        ```markdown
+        1. Checklist
+        2. Financial management
+        3. Plan activities for the day/whole trip
+        4. Chat
+        5. Weather for travel time period
+        6. Travel documents organization
+        7. Map with planned activities
+        8. Travel souvenirs (pictures/videos)
+        9. Voting
+        10. Flight/transportation details
+        ```
+----------------------------------
+## Conclusion of the Interviews
 
 ### What went well?
 - The majority of the questions lead to satisfying answers.
