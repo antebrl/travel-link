@@ -45,6 +45,23 @@ class _APIActivitiesScreenState extends ConsumerState<APIActivitiesScreen> {
     return user!.uid;
   }
 
+  String? userId;
+
+  @override
+  void initState() {
+    super.initState();
+    getCurrentUserId().then((id) {
+      setState(() {
+        userId = id;
+      });
+    });
+  }
+
+  Future<String?> getCurrentUserId() async {
+    final user = FirebaseAuth.instance.currentUser;
+    return user!.uid;
+  }
+
   bool isActivityNearDestination(
     Activity activity,
     double destLat,
@@ -196,6 +213,7 @@ class _APIActivitiesScreenState extends ConsumerState<APIActivitiesScreen> {
                               activity.isUserCreated &&
                               (activity.isPublic ||
                                   activity.creatorId == userId),
+                          (activity.isPublic || activity.creatorId == userId),
                         )
                         .toList();
                     if (nearbyActivities.isNotEmpty) {
@@ -275,6 +293,7 @@ class _APIActivitiesScreenState extends ConsumerState<APIActivitiesScreen> {
                       return SliverToBoxAdapter(
                         child: Center(
                           child: Text(
+                            'No activities found.',
                             'No activities found.',
                             style: Theme.of(context).textTheme.bodyMedium,
                           ),
