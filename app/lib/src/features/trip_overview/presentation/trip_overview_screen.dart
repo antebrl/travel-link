@@ -45,6 +45,70 @@ class _TripOverviewScreenState extends ConsumerState<TripOverviewScreen>
         return Scaffold(
           appBar: AppBar(
             title: Text(trip.name),
+            actions: [
+              if (userId != null)
+                PopupMenuButton(
+                  elevation: 3,
+                  position: PopupMenuPosition.under,
+                  padding: const EdgeInsets.all(3),
+                  itemBuilder: (BuildContext context) {
+                    return [
+                      PopupMenuItem(
+                        height: 33,
+                        child: const Row(
+                          children: [
+                            Icon(
+                              Icons.exit_to_app,
+                              color: Colors.red,
+                              size: 18,
+                            ),
+                            SizedBox(width: 5),
+                            Text(
+                              'Leave Trip',
+                              style: TextStyle(
+                                color: Colors.red,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                        onTap: () {
+                          showDialog<AlertDialog>(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: const Text('Leave Trip'),
+                                content: const Text(
+                                  'Are you sure you want to leave this trip?',
+                                ),
+                                actions: [
+                                  TextButton(
+                                    child: const Text('Cancel'),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                  ),
+                                  TextButton(
+                                    child: const Text('Leave'),
+                                    onPressed: () async {
+                                      // Perform leave trip logic
+                                      await ref.read(myTripsControllerProvider.notifier).leaveTrip(trip: trip);
+                                      ref.invalidate(fetchMyTripsProvider);
+
+                                      if(mounted)
+                                      Navigator.of(context).pop();
+                                    },
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        },
+                      ),
+                    ];
+                  },
+                ),
+            ],
           ),
           body: Column(
             children: [

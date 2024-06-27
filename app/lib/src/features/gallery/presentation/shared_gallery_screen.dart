@@ -29,7 +29,10 @@ class SharedGalleryScreen extends ConsumerWidget {
             },
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 6),
-              child: ImagesGridView(images: images),
+              child: ImagesGridView(
+                images: images,
+                tripId: trip.tripId,
+              ),
             ),
           ),
           floatingActionButton: FloatingActionButton(

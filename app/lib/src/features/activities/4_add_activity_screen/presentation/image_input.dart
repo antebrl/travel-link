@@ -7,14 +7,15 @@ import 'package:travel_link/src/utils/constants/colors.dart';
 class ImageInput extends StatefulWidget {
   const ImageInput({required this.onPickImage, super.key});
 
-  final void Function(File image) onPickImage;
+  final void Function(Uint8List image) onPickImage;
 
   @override
   State<ImageInput> createState() => _ImageInputState();
 }
 
 class _ImageInputState extends State<ImageInput> {
-  File? _selectedImage;
+  Uint8List? _selectedImage;
+  File? _tempImage;
   final imagePicker = ImagePicker();
 
   Future<void> _pickImageFromCamera() async {
@@ -25,9 +26,10 @@ class _ImageInputState extends State<ImageInput> {
     if (pickedImage == null) {
       return;
     }
+    _selectedImage = await pickedImage.readAsBytes();
 
     setState(() {
-      _selectedImage = File(pickedImage.path);
+      _tempImage = File(pickedImage.path);
     });
 
     widget.onPickImage(_selectedImage!);
@@ -40,8 +42,10 @@ class _ImageInputState extends State<ImageInput> {
       return;
     }
 
+    _selectedImage = await pickedImage.readAsBytes();
+
     setState(() {
-      _selectedImage = File(pickedImage.path); // XFile to File
+    _tempImage = File(pickedImage.path);
     });
 
     widget.onPickImage(_selectedImage!);
@@ -57,10 +61,10 @@ class _ImageInputState extends State<ImageInput> {
 
     if (_selectedImage != null) {
       if (kIsWeb) {
-        content = Image.network(_selectedImage!.path);
+        content = Image.network(_tempImage!.path);
       } else {
         content = Image.file(
-          _selectedImage!,
+         _tempImage!,
           fit: BoxFit.cover,
           width: double.infinity,
           height: double.infinity,

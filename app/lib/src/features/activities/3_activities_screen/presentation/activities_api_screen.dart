@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:travel_link/src/features/activities/3_activities_screen/data/activity_repository.dart';
@@ -27,14 +28,29 @@ class APIActivitiesScreen extends ConsumerStatefulWidget {
 }
 
 class _APIActivitiesScreenState extends ConsumerState<APIActivitiesScreen> {
-  List<Activity> addedActivities = [];
+  String? userId;
+
+  @override
+  void initState() {
+    super.initState();
+    getCurrentUserId().then((id) {
+      setState(() {
+        userId = id;
+      });
+    });
+  }
+
+  Future<String?> getCurrentUserId() async {
+    final user = FirebaseAuth.instance.currentUser;
+    return user!.uid;
+  }
 
   bool isActivityNearDestination(
     Activity activity,
     double destLat,
     double destLon,
   ) {
-    const double thresholdDistance = 100; // Threshold distance in Kilometers
+    const double thresholdDistance = 50; // Threshold distance in Kilometers
     final double activityLat = activity.location.lat;
     final double activityLon = activity.location.lon;
 
@@ -67,11 +83,11 @@ class _APIActivitiesScreenState extends ConsumerState<APIActivitiesScreen> {
         builder: (ctx) => const AddActivityScreen(),
       ),
     );
-    if (newActivity == null) return;
-
-    setState(() {
-      addedActivities.add(newActivity);
-    });
+    if (newActivity != null) {
+      ref.invalidate(fetchActivitiesProvider(
+        categories: widget.categoryList,
+      ));
+    }
   }
 
   @override
@@ -84,7 +100,8 @@ class _APIActivitiesScreenState extends ConsumerState<APIActivitiesScreen> {
       ).future,
     );
 
-    final fetchedUserActivities = ref.watch(fetchActivitiesProvider(categories: widget.categoryList));
+    final fetchedUserActivities =
+        ref.watch(fetchActivitiesProvider(categories: widget.categoryList));
 
     return DefaultTabController(
       length: 2,
@@ -177,18 +194,40 @@ class _APIActivitiesScreenState extends ConsumerState<APIActivitiesScreen> {
                                 widget.destination.lon!,
                               ) &&
                               activity.isUserCreated &&
-                              (activity.isPublic || activity.creatorId == 'ME'),
+                              (activity.isPublic ||
+                                  activity.creatorId == userId),
                         )
                         .toList();
-                    return SliverList(
-                      delegate: SliverChildBuilderDelegate(
-                        (context, index) => APIActivityItem(
-                          key: UniqueKey(),
-                          activity: nearbyActivities[index],
+                    if (nearbyActivities.isNotEmpty) {
+                      return SliverToBoxAdapter(
+                        child: Column(
+                          children: [
+                            Text(
+                              'Added by Users: ',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headlineSmall!
+                                  .copyWith(
+                                    color: CustomColors.primary,
+                                  ),
+                            ),
+                            ListView.builder(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: nearbyActivities.length,
+                              itemBuilder: (context, index) {
+                                return APIActivityItem(
+                                  key: UniqueKey(),
+                                  activity: nearbyActivities[index],
+                                );
+                              },
+                            ),
+                          ],
                         ),
-                        childCount: nearbyActivities.length,
-                      ),
-                    );
+                      );
+                    } else {
+                      return const SliverToBoxAdapter();
+                    }
                   },
                   loading: () => const SliverToBoxAdapter(
                     child: Center(
@@ -227,12 +266,16 @@ class _APIActivitiesScreenState extends ConsumerState<APIActivitiesScreen> {
                         ),
                       );
                     } else if (snapshot.hasError) {
-                      return Center(child: Text('Error: ${snapshot.error}'));
+                      return Center(
+                          child: Text(
+                        'Error: ${snapshot.error}',
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      ));
                     } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                       return SliverToBoxAdapter(
                         child: Center(
                           child: Text(
-                            'Error loading activies. Please try again later.',
+                            'No activities found.',
                             style: Theme.of(context).textTheme.bodyMedium,
                           ),
                         ),

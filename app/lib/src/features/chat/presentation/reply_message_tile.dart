@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:travel_link/src/features/account/data/account_repository.dart';
+import 'package:travel_link/src/features/trip_overview/data/user_repository.dart';
 import 'package:travel_link/src/utils/constants/image_strings.dart';
 import 'package:travel_link/src/utils/formatters/formatter.dart';
 
@@ -66,7 +66,7 @@ class ReplyMessageTile extends ConsumerWidget {
               ),
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(15),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -93,10 +93,10 @@ class ReplyMessageTile extends ConsumerWidget {
                     ),
                   Padding(
                     padding: EdgeInsets.fromLTRB(
-                      16,
-                      isFirstInSequence ? 0 : 16,
-                      16,
-                      16,
+                      15,
+                      isFirstInSequence ? 0 : 12,
+                      15,
+                      12,
                     ),
                     child: Text(
                       message,

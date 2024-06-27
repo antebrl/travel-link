@@ -21,7 +21,12 @@ nav:
     - Interviews: user-research/interviews.md
     - Personas: user-research/personas.md
     - Requirement Engineering: user-research/requirement-engineering.md
-  - Design: 3-Design.md
+    - User Evaluation: user-research/user-evaluation.md
+  - Design: 
+    - Paper Prototypes: 3-Design.md
+    - Figma Main Pages: design/user-pages.md
+    - Figma Plan Trips: design/plan-trips.md
+    - Figma Explore Activities: design/explore-activities.md
   - Implementation: 4-Implementation.md
   - Usability Evaluation: 6-UsabilityEvaluation.md
   - Mkdocs Modules: test.md
@@ -54,6 +59,7 @@ theme:
     - navigation.expand
     - toc.follow
     - content.code.copy
+    - content.footnote.tooltips
 
 # Extensions
 markdown_extensions:
@@ -80,8 +86,13 @@ markdown_extensions:
       alternate_style: true
   - pymdownx.tasklist:
       custom_checkbox: true
+  - pymdownx.superfences
+  - footnotes
 
 extra_javascript:
   - https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.6.1/mermaid.min.js
+
+extra_css:
+  - stylesheets/extra.css
 
 

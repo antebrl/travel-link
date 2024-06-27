@@ -21,7 +21,7 @@ class MyTripsController extends _$MyTripsController {
   }
 
   Future<List<String>> fetchImageOfDestination(String? placeId) async {
-    if(placeId == null) return [CustomImages.destinationImagePlaceholderUrl];
+    if(placeId == null) return [CustomImages.tripDestinationImagePlaceholderUrl];
 
     //Fetch image of destination from geoapify api and wikidata
     final String url =
@@ -48,13 +48,13 @@ class MyTripsController extends _$MyTripsController {
           return WikidataParser.getImagesFromWikidataEntity(data: data, wikidataId: wikidataId);        
         }
       }
-      return [CustomImages.destinationImagePlaceholderUrl];
+      return [CustomImages.tripDestinationImagePlaceholderUrl];
     } else {
       logger.e(
         'Failed to load and parse destination images',
         error: response.body,
       );
-      return [CustomImages.destinationImagePlaceholderUrl];
+      return [CustomImages.tripDestinationImagePlaceholderUrl];
     }
   }
 
@@ -106,16 +106,30 @@ class MyTripsController extends _$MyTripsController {
     );
   }
 
-  // Future<void> leaveTrip(String tripId) async {
-  //   final currentUser = ref.read(firebaseAuthProvider).currentUser;
+  Future<void> addToTrip({required Trip trip, required String uid}) async {
 
-  //   //set state to loading
-  //   state = const AsyncLoading();
+    //set state to loading
+    state = const AsyncLoading();
 
-  //   final repository = ref.read(myTripsRepositoryProvider);
+    final repository = ref.read(myTripsRepositoryProvider);
 
-  //   state = await AsyncValue.guard(
-  //     () => repository.leaveTrip(uid: currentUser!.uid, tripId: tripId),
-  //   );
-  // }
+    state = await AsyncValue.guard(
+      () => repository.joinTrip(uid: uid, trip: trip),
+    );
+  }
+
+  Future<void> leaveTrip({required Trip trip}) async {
+    final currentUser = ref.read(firebaseAuthProvider).currentUser;
+
+    //set state to loading
+    state = const AsyncLoading();
+
+    final repository = ref.read(myTripsRepositoryProvider);
+
+    trip.participants.remove(currentUser!.uid);
+
+    state = await AsyncValue.guard(
+      () => repository.leaveTrip(tripId: trip.tripId, participants: trip.participants),
+    );
+  }
 }

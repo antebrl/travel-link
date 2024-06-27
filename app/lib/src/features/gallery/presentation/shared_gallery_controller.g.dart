@@ -7,7 +7,7 @@ part of 'shared_gallery_controller.dart';
 // **************************************************************************
 
 String _$sharedGalleryControllerHash() =>
-    r'd354ced6f0e3140934a358c065d379b4d07f1cb6';
+    r'13a81ec696fa247f23932e9b26ab36d876ca2f84';
 
 /// See also [SharedGalleryController].
 @ProviderFor(SharedGalleryController)

@@ -3,23 +3,33 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:travel_link/src/features/activities/3_activities_screen/domain/activity.dart';
+import 'package:travel_link/src/features/activities/5_activities_details_screen/add_to_trip_button.dart';
+import 'package:travel_link/src/features/authentication/data/firebase_auth_repository.dart';
+import 'package:travel_link/src/features/explore_trips/domain/trip.dart';
+import 'package:travel_link/src/features/my_trips/data/my_trips_repository.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
 import 'package:travel_link/src/utils/constants/image_strings.dart';
 
-class ApiActivitiesDetailsScreen extends StatefulWidget {
-  const ApiActivitiesDetailsScreen({required this.activity, super.key});
+class ApiActivitiesDetailsScreen extends ConsumerStatefulWidget {
+  const ApiActivitiesDetailsScreen({
+    required this.activity,
+    super.key,
+    this.addedTrip,
+  });
 
   final Activity activity;
+  final Trip? addedTrip;
 
   @override
-  State<ApiActivitiesDetailsScreen> createState() =>
+  ConsumerState<ApiActivitiesDetailsScreen> createState() =>
       _ApiActivitiesDetailsScreenState();
 }
 
 class _ApiActivitiesDetailsScreenState
-    extends State<ApiActivitiesDetailsScreen> {
+    extends ConsumerState<ApiActivitiesDetailsScreen> {
   int _current = 0;
   final CarouselController _controller = CarouselController();
 
@@ -94,7 +104,7 @@ class _ApiActivitiesDetailsScreenState
     } else {
       if (widget.activity.image == null) {
         widget.activity.imagePaths = [
-          CustomImages.destinationImagePlaceholderUrl,
+          CustomImages.getPlaceholderImage(widget.activity.categories),
         ];
       }
     }
@@ -108,6 +118,8 @@ class _ApiActivitiesDetailsScreenState
       widget.activity.location.lat,
       widget.activity.location.lon,
     );
+    final myTrips = ref.watch(fetchMyTripsProvider);
+    final currentUser = ref.read(firebaseAuthProvider).currentUser;
 
     return Scaffold(
       appBar: AppBar(
@@ -222,6 +234,16 @@ class _ApiActivitiesDetailsScreenState
                         ),
                       ),
           ),
+          if(currentUser != null && widget.addedTrip != null && widget.addedTrip!.participants.contains(currentUser.uid))
+          Positioned(
+            top: 10,
+            right: 10,
+            child: AddToTripButton(
+              myTrips: myTrips,
+              activity: widget.activity,
+              addedTrip: widget.addedTrip!.tripId,
+            ),
+          ),
           Positioned(
             top: 200,
             left: 0,
@@ -294,8 +316,8 @@ class _ApiActivitiesDetailsScreenState
                                   widget.activity.openingHours!,
                                   style: Theme.of(context).textTheme.bodyLarge,
                                 ),
+                                const SizedBox(height: 10),
                               ],
-                              const SizedBox(height: 10),
                               Text(
                                 'Location: ',
                                 style: Theme.of(context)
@@ -329,6 +351,36 @@ class _ApiActivitiesDetailsScreenState
                                     .bodyLarge!
                                     .copyWith(color: CustomColors.primary),
                               ),
+                              if (widget.activity.isPublic == false) ...{
+                                Padding(
+                                  padding: const EdgeInsets.all(10),
+                                  child: Chip(
+                                    side: const BorderSide(
+                                      color: CustomColors.primary,
+                                    ),
+                                    backgroundColor: CustomColors.white,
+                                    labelStyle: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall!
+                                        .copyWith(
+                                          color: CustomColors.primary,
+                                        ),
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 12,
+                                      vertical: 12,
+                                    ),
+                                    label: Text(
+                                      'private',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall!
+                                          .copyWith(
+                                            color: CustomColors.primary,
+                                          ),
+                                    ),
+                                  ),
+                                ),
+                              },
                               Padding(
                                 padding: const EdgeInsets.all(10),
                                 child: Wrap(
@@ -354,9 +406,12 @@ class _ApiActivitiesDetailsScreenState
                                       ),
                                       label: Text(
                                         category,
-                                        style: const TextStyle(
-                                          color: CustomColors.primary,
-                                        ),
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodySmall!
+                                            .copyWith(
+                                              color: CustomColors.primary,
+                                            ),
                                       ),
                                     );
                                   }).toList(),

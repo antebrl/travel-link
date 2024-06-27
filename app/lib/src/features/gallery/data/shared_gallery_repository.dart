@@ -37,6 +37,12 @@ class SharedGalleryRepository {
     });
   }
 
+  // delete
+  Future<void> deletePicture({required String tripId, required String pictureId}) async {
+    await _firestore.collection(tripGalleryPath(tripId)).doc(pictureId).delete();
+    await _storage.ref().child('gallery/$pictureId').delete();
+  }
+
   Future<List<PicturePost>> fetchPicturePosts({required String tripId}) async {
     final posts = await queryTripsPicturePosts(tripId: tripId).get();
     return posts.docs.map((doc) => doc.data()).toList();

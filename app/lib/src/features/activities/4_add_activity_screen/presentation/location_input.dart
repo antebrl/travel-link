@@ -1,10 +1,14 @@
+import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:geocoding/geocoding.dart' as gecoding;
+import 'package:http/http.dart' as http;
 import 'package:latlong2/latlong.dart';
 import 'package:location/location.dart';
 import 'package:travel_link/src/features/activities/3_activities_screen/domain/activity.dart';
 import 'package:travel_link/src/features/activities/4_add_activity_screen/presentation/map_screen.dart';
+import 'package:travel_link/src/utils/constants/api_constants.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
 import 'package:travel_link/src/utils/logging/logger.dart';
 
@@ -24,34 +28,77 @@ class _LocationInput extends State<LocationInput> {
   var _isGettingLocation = false;
 
   Future<void> _savePlace(double latitude, double longitude) async {
-    try {
-      final List<gecoding.Placemark> placemarks =
-          await gecoding.placemarkFromCoordinates(latitude, longitude);
-      // Extract address from placemark
-      final gecoding.Placemark placemark = placemarks[0];
-      final String city = placemark.locality!;
-      final String country = placemark.country!;
-      final String countryCode = placemark.isoCountryCode!;
+    if (!kIsWeb) {
+      try {
+        final List<gecoding.Placemark> placemarks =
+            await gecoding.placemarkFromCoordinates(latitude, longitude);
+        // Extract address from placemark
+        final gecoding.Placemark placemark = placemarks[0];
+        final String city = placemark.locality!;
+        final String country = placemark.country!;
+        final String countryCode = placemark.isoCountryCode!;
 
-      final String address =
-          '${placemark.street}, ${placemark.locality}, ${placemark.country}';
+        final String address =
+            '${placemark.street}, ${placemark.locality}, ${placemark.country}';
 
-      setState(() {
-        _pickedLocation = PlaceLocation(
-          lat: latitude,
-          lon: longitude,
-          city: city,
-          country: country,
-          formatted: address,
-          countryCode: countryCode,
-        );
-        _isGettingLocation = false;
-      });
+        setState(() {
+          _pickedLocation = PlaceLocation(
+            lat: latitude,
+            lon: longitude,
+            city: city,
+            country: country,
+            formatted: address,
+            countryCode: countryCode,
+          );
+          _isGettingLocation = false;
+        });
 
-      widget.onSelectLocation(_pickedLocation!);
-    } catch (e) {
-      logger.e(e);
-      return;
+        widget.onSelectLocation(_pickedLocation!);
+      } catch (e) {
+        logger.e(e);
+        return;
+      }
+    } else {
+      // Use Geoapify API for web
+      try {
+        final url =
+            'https://api.geoapify.com/v1/geocode/reverse?lat=$latitude&lon=$longitude&format=json&apiKey=${CustomApiConstants.geoapifySecretKey}';
+
+        final response = await http.get(Uri.parse(url));
+
+        if (response.statusCode == 200) {
+          final data = json.decode(response.body);
+          final results = data['results'];
+          if (results != null) {
+            final result = results[0];
+            final String city = result['city'] as String;
+            final String country = result['country'] as String;
+            final String countryCode = result['country_code'] as String;
+            final String address = result['formatted'] as String;
+
+            setState(() {
+              _pickedLocation = PlaceLocation(
+                lat: latitude,
+                lon: longitude,
+                city: city,
+                country: country,
+                formatted: address,
+                countryCode: countryCode,
+              );
+              _isGettingLocation = false;
+            });
+
+            widget.onSelectLocation(_pickedLocation!);
+          } else {
+            throw Exception('No results found');
+          }
+        } else {
+          throw Exception('Failed to fetch data');
+        }
+      } catch (e) {
+        logger.e(e);
+        return;
+      }
     }
   }
 
@@ -179,7 +226,7 @@ class _LocationInput extends State<LocationInput> {
             Expanded(
               child: ElevatedButton.icon(
                 icon: const Icon(Icons.location_on),
-                label: const Text('Get Current Location'),
+                label: const Text('Get Location'),
                 onPressed: _getCurrentLocation,
               ),
             ),

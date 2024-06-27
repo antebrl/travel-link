@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:travel_link/src/features/account/domain/user_account.dart';
 
 part 'account_repository.g.dart';
 
@@ -46,31 +45,12 @@ class AccountRepository {
       );
   }
 
-//READ
-
-  Future<UserAccount?> fetchUser({required String uid}) async =>
-      _firestore
-        .collection(usersBasePath)
-        .doc(uid)
-        .withConverter<UserAccount>(
-          fromFirestore: (snapshot, _) => UserAccount.fromMap(
-              snapshot.data()!, snapshot.id), //tripId = document-id
-          toFirestore: (userAcc, _) => userAcc.toMap(),
-        )
-        .get()
-        .then((value) => value.data());
 }
+
 
 @Riverpod(keepAlive: true)
 AccountRepository accountRepository(
     AccountRepositoryRef ref,) {
   return AccountRepository(
       FirebaseFirestore.instance, FirebaseStorage.instance,);
-}
-
-//cache users (used everywhere)
-@Riverpod(keepAlive: true)
-Future<UserAccount?> fetchUser(FetchUserRef ref, String uid) {
-  final repository = ref.watch(accountRepositoryProvider);
-  return repository.fetchUser(uid: uid);
 }

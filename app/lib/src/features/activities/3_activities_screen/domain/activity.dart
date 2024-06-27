@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:travel_link/src/features/activities/2_continents_screen/domain/continent.dart';
 
 class Activity {
@@ -14,11 +15,13 @@ class Activity {
     this.imagePaths = const [],
     this.description = '',
     this.continentType = ContinentType.none,
-    this.image,
     this.isPublic = true,
     this.isUserCreated = false,
     this.creatorId,
+    this.image,
+    this.imageBytes,
     this.amountVisitors,
+    this.firebaseId,
   });
 
   final String name;
@@ -43,8 +46,11 @@ class Activity {
 
   //Only for local use#
   ContinentType continentType;
+  Uint8List? imageBytes;
   File? image;
   String? amountVisitors;
+
+  String? firebaseId;
 
   static Activity? fromMap(Map<String, dynamic> map) {
     if (!(map.containsKey('name') &&
@@ -105,7 +111,7 @@ class Activity {
   }
 
   // Converts a map to a Place object
-  factory Activity.fromFirebaseMap(Map<String, dynamic> map) {
+  factory Activity.fromFirebaseMap(Map<String, dynamic> map, {String? firebaseId}) {
     return Activity(
       name: map['name'] as String,
       categories: (map['categories'] as List<dynamic>).cast<String>(),
@@ -119,6 +125,7 @@ class Activity {
       isUserCreated: map['isUserCreated'] as bool,
       creatorId: map['creatorId'] as String?,
       location: PlaceLocation.fromMap(map['location'] as Map<String, dynamic>),
+      firebaseId: firebaseId,
     );
   }
 }
