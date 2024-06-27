@@ -11,15 +11,16 @@ class TripActivitiesView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final fetchedActivities = ref.watch(fetchTripActivitiesProvider(trip.tripId));
+    final fetchedActivities =
+        ref.watch(fetchTripActivitiesProvider(trip.tripId));
 
     return Padding(
       padding: const EdgeInsets.only(left: 10, top: 5, right: 30),
-      child: SizedBox(
-        height: 200,
-        child: fetchedActivities.when(
-          data: (activities) {
-            return ListView.builder(
+      child: fetchedActivities.when(
+        data: (activities) {
+          return SizedBox(
+            height: activities.isNotEmpty ? 200 : 10,
+            child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: activities.length,
               itemBuilder: (context, index) {
@@ -30,11 +31,11 @@ class TripActivitiesView extends ConsumerWidget {
                   key: UniqueKey(),
                 );
               },
-            );
-          },
-          loading: () => const Center(child: CircularProgressIndicator()),
-          error: (err, stack) => Center(child: Text('Error: $err')),
-        ),
+            ),
+          );
+        },
+        loading: () => const Center(child: CircularProgressIndicator()),
+        error: (err, stack) => Center(child: Text('Error: $err')),
       ),
     );
   }
