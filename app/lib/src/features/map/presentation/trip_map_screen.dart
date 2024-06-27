@@ -19,27 +19,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'marker_creation.dart';
 
-//LatLng pointOfView = const LatLng(49.8728, 8.6512);
-// List<Marker> listOfAllUsers = [
-//   createUserMarker(const LatLng(49.713088, 8.472136)),
-//   createUserMarker(const LatLng(49.714890, 8.472440)),
-//   createUserMarker(const LatLng(49.712380, 8.472030)),
-// ];
-
-// Define LatLng instances without const
 LatLng latLng1 = const LatLng(49.690025, 8.463075);
 LatLng latLng2 = const LatLng(49.691430, 8.463370);
 LatLng latLng3 = const LatLng(49.688520, 8.462580);
 
-// List of LatLng instances
 List<LatLng> locations = [latLng1, latLng2, latLng3];
-
-// Initialize listOfAllActivities with createLocationMarker function
 
 bool displayRoute = false;
 
 List<Marker> createDummyLocationMarkers(WidgetRef ref) {
-  // ignore: unused_local_variable
   List<Marker> listOfAllActivities = [];
   return listOfAllActivities = [
     createLeisureActivity(const LatLng(49.690025, 8.463075), ref),
@@ -78,6 +66,7 @@ class _TripMapScreenState extends ConsumerState<TripMapScreen> {
   LatLng? _lastPosition;
   List<Marker> userMarkers = [];
   List<Marker> activitiesMarker = [];
+  bool activitiesFetched = false;
 
   @override
   void initState() {
@@ -96,7 +85,6 @@ class _TripMapScreenState extends ConsumerState<TripMapScreen> {
         .listen((Position position) async {
       if (!mounted) return;
       final currentLatLng = LatLng(position.latitude, position.longitude);
-      // Manually handle the distance filter
       if (_lastPosition == null ||
           Geolocator.distanceBetween(
                 position.latitude,
@@ -111,31 +99,22 @@ class _TripMapScreenState extends ConsumerState<TripMapScreen> {
     });
   }
 
-  Future<List<Marker>> _fetchActivities() async {
-    // Reference to the Firestore collection
+  Future<void> _fetchActivities() async {
     CollectionReference activities =
         FirebaseFirestore.instance.collection('activities');
     List<Marker> allActivitiesInDB = [];
 
-    // Query the collection with a limit of 100 documents
     QuerySnapshot querySnapshot = await activities.limit(100).get();
 
-    // Process the query results
     for (QueryDocumentSnapshot doc in querySnapshot.docs) {
       final Map<String, dynamic> data = doc.data()! as Map<String, dynamic>;
       final String documentId = doc.id;
       final List<dynamic> categories = data['categories'] as List<dynamic>;
-      final String creatorId = data['creatorId'] as String;
       final String description = data['description'] as String;
-      final List<dynamic> imagePaths = data['imagePaths'] as List<dynamic>;
       final Map<String, dynamic> location =
           data['location'] as Map<String, dynamic>;
       final double lati = location['lat'] as double;
       final double long = location['lon'] as double;
-
-      print('Categories: $categories');
-      print('Description: $description');
-      print('Coordinates: $long , $lati');
 
       allActivitiesInDB.add(
         await _createMarkerBasedOnDescription(
@@ -145,10 +124,12 @@ class _TripMapScreenState extends ConsumerState<TripMapScreen> {
           long,
         ),
       );
-      print(allActivitiesInDB.length);
     }
-    activitiesMarker = allActivitiesInDB;
-    return allActivitiesInDB;
+
+    setState(() {
+      activitiesMarker = allActivitiesInDB;
+      activitiesFetched = true;
+    });
   }
 
   Future<Marker> _createMarkerBasedOnDescription(
@@ -205,7 +186,6 @@ class _TripMapScreenState extends ConsumerState<TripMapScreen> {
           child: GestureDetector(
             onTap: () {
               print('Marker tapped');
-              //Show public user profile
             },
             child: Container(
               decoration: BoxDecoration(
@@ -215,7 +195,7 @@ class _TripMapScreenState extends ConsumerState<TripMapScreen> {
                     color: Colors.black.withOpacity(0.5),
                     spreadRadius: 0.1,
                     blurRadius: 8,
-                    offset: Offset(0, 3), // changes position of shadow
+                    offset: Offset(0, 3),
                   ),
                 ],
               ),
@@ -229,20 +209,10 @@ class _TripMapScreenState extends ConsumerState<TripMapScreen> {
       }).toList();
     });
   }
-  //TODO: get all activities for the activity
-
-  //TODO: Modify the Widget that is displayed if an activity is clicked to reference more informations that are stored
-
-  //TODO: Soft the different activities to and cretae the activities markers acordingly.
 
   @override
   Widget build(BuildContext context) {
-    print(activitiesMarker);
-    _fetchActivities();
-    final List<Marker> listOfMarkers =
-        createDummyLocationMarkers(ref) + userMarkers + activitiesMarker;
     final sharedState = ref.watch(sharedStateProvider);
-    print(activitiesMarker);
 
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 204, 219, 226),
@@ -253,70 +223,76 @@ class _TripMapScreenState extends ConsumerState<TripMapScreen> {
         children: [
           Expanded(
             flex: 3,
-            child: FlutterMap(
-              options: MapOptions(
-                initialCenter: LatLng(
-                  widget.destination.lat ?? 49.8728,
-                  widget.destination.lon ?? 8.6512,
-                ),
-                minZoom: 3,
-                maxZoom: 18,
-                initialZoom: 12,
-              ),
-              // ignore: deprecated_member_use
-              nonRotatedChildren: [
-                RichAttributionWidget(
-                  attributions: [
-                    TextSourceAttribution(
-                      'OpenStreetMap contributors',
-                      onTap: () => launchUrl(
-                          Uri.parse('https://openstreetmap.org/copyright')),
-                    ),
-                  ],
-                ),
-              ],
-              children: [
-                TileLayer(
-                  urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                  userAgentPackageName: 'com.example.app',
-                ),
-                CurrentLocationLayer(
-                  style: LocationMarkerStyle(
-                    marker: const DefaultLocationMarker(
-                      color: Colors.red,
-                      child: Icon(
-                        Icons.person,
-                        color: Colors.white,
+            child: activitiesFetched
+                ? FlutterMap(
+                    options: MapOptions(
+                      initialCenter: LatLng(
+                        widget.destination.lat ?? 49.8728,
+                        widget.destination.lon ?? 8.6512,
                       ),
+                      minZoom: 3,
+                      maxZoom: 18,
+                      initialZoom: 12,
                     ),
-                    markerSize: const Size.square(35),
-                    accuracyCircleColor: Colors.green.withOpacity(0.1),
-                    headingSectorColor: Colors.green.withOpacity(0.8),
-                  ),
-                  moveAnimationDuration: Duration.zero,
-                  positionStream: const LocationMarkerDataStreamFactory()
-                      .fromGeolocatorPositionStream(
-                    stream: Geolocator.getPositionStream(
-                      locationSettings: const LocationSettings(
-                        accuracy: LocationAccuracy.high,
-                        timeLimit: Duration(minutes: 1),
+                    nonRotatedChildren: [
+                      RichAttributionWidget(
+                        attributions: [
+                          TextSourceAttribution(
+                            'OpenStreetMap contributors',
+                            onTap: () => launchUrl(Uri.parse(
+                                'https://openstreetmap.org/copyright')),
+                          ),
+                        ],
                       ),
-                    ),
-                  ),
-                ),
-                PolylineLayer(
-                  polylines: [
-                    Polyline(
-                      points: sharedState.way,
-                      color: Theme.of(context).primaryColor,
-                      borderColor: Colors.deepPurple,
-                      borderStrokeWidth: 5,
-                    ),
-                  ],
-                ),
-                MarkerLayer(markers: listOfMarkers),
-              ],
-            ),
+                    ],
+                    children: [
+                      TileLayer(
+                        urlTemplate:
+                            'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                        userAgentPackageName: 'com.example.app',
+                      ),
+                      CurrentLocationLayer(
+                        style: LocationMarkerStyle(
+                          marker: const DefaultLocationMarker(
+                            color: Colors.red,
+                            child: Icon(
+                              Icons.person,
+                              color: Colors.white,
+                            ),
+                          ),
+                          markerSize: const Size.square(35),
+                          accuracyCircleColor: Colors.green.withOpacity(0.1),
+                          headingSectorColor: Colors.green.withOpacity(0.8),
+                        ),
+                        moveAnimationDuration: Duration.zero,
+                        positionStream: const LocationMarkerDataStreamFactory()
+                            .fromGeolocatorPositionStream(
+                          stream: Geolocator.getPositionStream(
+                            locationSettings: const LocationSettings(
+                              accuracy: LocationAccuracy.high,
+                              timeLimit: Duration(minutes: 1),
+                            ),
+                          ),
+                        ),
+                      ),
+                      PolylineLayer(
+                        polylines: [
+                          Polyline(
+                            points: sharedState.way,
+                            color: Theme.of(context).primaryColor,
+                            borderColor: Colors.deepPurple,
+                            borderStrokeWidth: 5,
+                          ),
+                        ],
+                      ),
+                      MarkerLayer(
+                        markers: createDummyLocationMarkers(ref) +
+                            userMarkers +
+                            activitiesMarker,
+                      ),
+                    ],
+                  )
+                : Center(child: CircularProgressIndicator()),
           ),
         ],
       ),
