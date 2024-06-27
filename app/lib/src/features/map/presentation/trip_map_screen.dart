@@ -278,7 +278,7 @@ class _TripMapScreenState extends ConsumerState<TripMapScreen> {
                       ),
                       minZoom: 3,
                       maxZoom: 18,
-                      initialZoom: 12,
+                      initialZoom: 8,
                     ),
                     // ignore: deprecated_member_use
                     nonRotatedChildren: [
