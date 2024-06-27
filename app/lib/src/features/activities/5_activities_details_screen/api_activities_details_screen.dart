@@ -234,14 +234,14 @@ class _ApiActivitiesDetailsScreenState
                         ),
                       ),
           ),
-          if(currentUser != null && widget.addedTrip != null && widget.addedTrip!.participants.contains(currentUser.uid))
+          if(currentUser != null && (widget.addedTrip != null ? widget.addedTrip!.participants.contains(currentUser.uid) : true))
           Positioned(
             top: 10,
             right: 10,
             child: AddToTripButton(
               myTrips: myTrips,
               activity: widget.activity,
-              addedTrip: widget.addedTrip!.tripId,
+              addedTrip: widget.addedTrip?.tripId,
             ),
           ),
           Positioned(
