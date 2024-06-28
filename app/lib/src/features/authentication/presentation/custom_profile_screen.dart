@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:travel_link/src/features/authentication/presentation/auth_providers.dart';
 
+// NOT USED - TO BE REMOVED
 class CustomProfileScreen extends ConsumerWidget {
   const CustomProfileScreen({super.key});
 
