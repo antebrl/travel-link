@@ -20,6 +20,7 @@ class ChecklistPreview extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final checklistProvider = ref.watch(fetchTripChecklistProvider(tripId: tripId, uid: ref.read(firebaseAuthProvider).currentUser?.uid));
     final currentUser = ref.watch(firebaseAuthProvider).currentUser;
 
     if (currentUser == null) {
@@ -28,23 +29,22 @@ class ChecklistPreview extends ConsumerWidget {
       );
     }
 
-    final checklistProvider = ref.watch(
-      fetchTripChecklistProvider(tripId: tripId, uid: currentUser.uid),
-    );
-
 //Ensure that only checklist items are displayed that are unchecked in personal checklist
     return checklistProvider.when(
       data: (checklist) {
-        final uncheckedItems = checklist.where((item) {
+
+        if(currentUser != null) {
+          checklist = checklist.where((item) {
           final userIndex = item.asignees.indexOf(currentUser.uid);
           return userIndex != -1 && !item.asigneesCompleted[userIndex];
         }).toList();
+        }
 
 
         return ListView.builder(
-          itemCount: uncheckedItems.length > maxItems ? maxItems : uncheckedItems.length,
+          itemCount: checklist.length > maxItems ? maxItems : checklist.length,
           itemBuilder: (context, index) {
-            final item = uncheckedItems[index];
+            final item = checklist[index];
             final completedCount = item.asigneesCompleted.where((completed) => completed).length;
             final totalCount = item.asigneesCompleted.length;
             return ListTile(
