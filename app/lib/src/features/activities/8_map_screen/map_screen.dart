@@ -1,20 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:travel_link/src/features/activities/3_activities_screen/domain/activity.dart';
-import 'package:travel_link/src/utils/constants/colors.dart';
-import 'package:flutter_geocoder/geocoder.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:latlong2/latlong.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:travel_link/src/features/account/domain/user_account.dart';
-import 'package:travel_link/src/features/account/presentation/account_controller.dart';
-import 'package:travel_link/src/features/authentication/data/firebase_auth_repository.dart';
+import 'package:latlong2/latlong.dart';
+import 'package:travel_link/src/features/activities/3_activities_screen/domain/activity.dart';
 import 'package:travel_link/src/features/map/presentation/exchanged_way.dart';
-import 'package:travel_link/src/features/my_trips/domain/destination.dart';
-import 'package:travel_link/src/features/trip_overview/data/user_repository.dart';
-import 'package:travel_link/src/utils/constants/image_strings.dart';
+import 'package:travel_link/src/utils/constants/colors.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'marker_creation.dart';
