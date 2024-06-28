@@ -36,6 +36,7 @@ class MapScreenWithActivities extends ConsumerStatefulWidget {
 
 class _MapScreenWithActivitiesState
     extends ConsumerState<MapScreenWithActivities> {
+  LatLng firstView = LatLng(49.8728, 8.6512); // Initial center
   List<Marker> allActivityMarkers = [];
   bool activitiesFetched = false;
 
@@ -66,6 +67,7 @@ class _MapScreenWithActivitiesState
             final double lat = activities[i].location.lat;
             final double long = activities[i].location.lon;
             final LatLng position = LatLng(lat, long);
+            firstView = position; // Update firstView
 
             switch (typeOfActivity) {
               case 'natural':
@@ -134,11 +136,8 @@ class _MapScreenWithActivitiesState
                   flex: 3,
                   child: activitiesFetched
                       ? FlutterMap(
-                          options: const MapOptions(
-                            center: LatLng(
-                              49.8728,
-                              8.6512,
-                            ),
+                          options: MapOptions(
+                            center: firstView, // Use firstView here
                             minZoom: 3,
                             maxZoom: 18,
                             zoom: 8,
@@ -218,7 +217,9 @@ class _MapScreenWithActivitiesState
   Future<List<T>> combineFutureLists<T>(
       Future<List<T>> futureList1, Future<List<T>> futureList2) async {
     List<T> list1 = await futureList1;
-    List<T> list2 = await futureList2;
-    return [...list1, ...list2];
+    //List<T> list2 = await futureList2;
+    return [
+      ...list1, /*...list2*/
+    ];
   }
 }
