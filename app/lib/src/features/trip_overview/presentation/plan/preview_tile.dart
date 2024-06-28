@@ -7,11 +7,12 @@ class PreviewTile extends StatelessWidget {
     required this.preview,
     required this.detailsPageBuilder,
     this.showAsModalSheet = false,
-    super.key,
+    super.key, this.icon = Icons.arrow_forward_ios,
   });
 
   final String title;
   final Widget preview;
+  final IconData icon;
   final WidgetBuilder detailsPageBuilder;
   final bool showAsModalSheet;
 
@@ -49,8 +50,8 @@ class PreviewTile extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 3),
-                const Icon(
-                  Icons.arrow_forward_ios,
+                 Icon(
+                  icon,
                   color: CustomColors.primary,
                   size: 20,
                 ),
