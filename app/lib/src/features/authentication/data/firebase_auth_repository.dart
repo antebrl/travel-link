@@ -8,6 +8,15 @@ part 'firebase_auth_repository.g.dart';
 class AuthRepository {
   AuthRepository(this._auth);
   final FirebaseAuth _auth;
+  bool onboardingCompleted = false;
+
+  bool toogleOnboardingCompleted() {
+    if(!onboardingCompleted) {
+      onboardingCompleted = true;
+      return false;
+    }
+    return true;
+  }
 
   Stream<User?> authStateChanges() => _auth.authStateChanges();
   User? get currentUser => _auth.currentUser;
@@ -26,4 +35,9 @@ AuthRepository authRepository(AuthRepositoryRef ref) {
 @riverpod
 Stream<User?> authStateChanges(AuthStateChangesRef ref) {
   return ref.watch(authRepositoryProvider).authStateChanges();
+}
+
+@riverpod
+bool onboardingCompleted(OnboardingCompletedRef ref) {
+  return ref.watch(authRepositoryProvider).toogleOnboardingCompleted();
 }
