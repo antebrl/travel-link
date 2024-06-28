@@ -172,11 +172,15 @@ GoRouter goRouter(GoRouterRef ref) {
                 path: '/${TopLevelDestinations.activities.name}',
                 name: TopLevelDestinations.activities.name,
                 pageBuilder: (context, state) {
-                  final index = int.tryParse(state.uri.queryParameters['index'] ?? '0');
+                  final index =
+                      int.tryParse(state.uri.queryParameters['index'] ?? '0');
                   return NoTransitionPage(
-                  key: state.pageKey,
-                  child: ActivitiesStartScreen(initialIndex: index ?? 0,),
-                );},
+                    key: state.pageKey,
+                    child: ActivitiesStartScreen(
+                      initialIndex: index ?? 0,
+                    ),
+                  );
+                },
                 routes: <RouteBase>[
                   GoRoute(
                     path: 'continent/:continent',
@@ -209,7 +213,7 @@ GoRouter goRouter(GoRouterRef ref) {
                     parentNavigatorKey: _rootNavigatorKey,
                     name: AccountRoutes.edit.name,
                     builder: (BuildContext context, GoRouterState state) {
-                      return const EditProfileScreen();
+                      return EditProfileScreen();
                     },
                   ),
                   GoRoute(
