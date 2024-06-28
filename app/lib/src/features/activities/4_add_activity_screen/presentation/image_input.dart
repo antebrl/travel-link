@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
+import 'package:travel_link/src/utils/helpers/localization.dart';
 
 class ImageInput extends StatefulWidget {
   const ImageInput({required this.onPickImage, super.key});
@@ -45,7 +46,7 @@ class _ImageInputState extends State<ImageInput> {
     _selectedImage = await pickedImage.readAsBytes();
 
     setState(() {
-    _tempImage = File(pickedImage.path);
+      _tempImage = File(pickedImage.path);
     });
 
     widget.onPickImage(_selectedImage!);
@@ -54,7 +55,7 @@ class _ImageInputState extends State<ImageInput> {
   @override
   Widget build(BuildContext context) {
     Widget content = Text(
-      'Add Image',
+      context.loc.addImage,
       textAlign: TextAlign.center,
       style: Theme.of(context).textTheme.bodyLarge,
     );
@@ -64,7 +65,7 @@ class _ImageInputState extends State<ImageInput> {
         content = Image.network(_tempImage!.path);
       } else {
         content = Image.file(
-         _tempImage!,
+          _tempImage!,
           fit: BoxFit.cover,
           width: double.infinity,
           height: double.infinity,
@@ -95,7 +96,7 @@ class _ImageInputState extends State<ImageInput> {
             Expanded(
               child: ElevatedButton.icon(
                 icon: const Icon(Icons.camera_alt),
-                label: const Text('Capture'),
+                label: Text(context.loc.capture),
                 onPressed: _pickImageFromCamera,
               ),
             ),
@@ -105,8 +106,8 @@ class _ImageInputState extends State<ImageInput> {
             Expanded(
               child: ElevatedButton.icon(
                 icon: const Icon(Icons.upload),
-                label: const Text(
-                  'Upload',
+                label: Text(
+                  context.loc.upload,
                 ),
                 onPressed: _pickImageFromGallery,
               ),

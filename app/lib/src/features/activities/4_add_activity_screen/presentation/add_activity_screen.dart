@@ -8,6 +8,7 @@ import 'package:travel_link/src/features/activities/4_add_activity_screen/presen
 import 'package:travel_link/src/features/activities/4_add_activity_screen/presentation/image_input.dart';
 import 'package:travel_link/src/features/activities/4_add_activity_screen/presentation/location_input.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
+import 'package:travel_link/src/utils/helpers/localization.dart';
 
 class AddActivityScreen extends ConsumerStatefulWidget {
   const AddActivityScreen({super.key});
@@ -47,7 +48,7 @@ class _AddActivityScreenState extends ConsumerState<AddActivityScreen> {
         value.isEmpty ||
         value.trim().isEmpty ||
         value.trim().length > 50) {
-      return 'Must be between 1 and 50 characters.';
+      return context.loc.characterLengthRange;
     }
     return null;
   }
@@ -87,9 +88,9 @@ class _AddActivityScreenState extends ConsumerState<AddActivityScreen> {
     } else {
       ScaffoldMessenger.of(context).clearSnackBars();
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Please fill out all required fields.'),
-          duration: Duration(seconds: 3),
+        SnackBar(
+          content: Text(context.loc.fillOutRequiredFields),
+          duration: const Duration(seconds: 3),
         ),
       );
     }
@@ -97,21 +98,20 @@ class _AddActivityScreenState extends ConsumerState<AddActivityScreen> {
 
   @override
   Widget build(BuildContext context) {
-
-    if(_user == null) {
+    if (_user == null) {
       return Scaffold(
         appBar: AppBar(
-        title: const Text('Add activity'),
-      ),
-        body: const Center(
-          child: Text('You need to log in to add an activity.'),
+          title: Text(context.loc.addActivity),
+        ),
+        body: Center(
+          child: Text(context.loc.loginToAddActivity),
         ),
       );
     }
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add activity'),
+        title: Text(context.loc.addActivity),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -124,8 +124,8 @@ class _AddActivityScreenState extends ConsumerState<AddActivityScreen> {
                   children: [
                     TextFormField(
                       maxLength: 50,
-                      decoration: const InputDecoration(
-                        labelText: 'Name',
+                      decoration: InputDecoration(
+                        labelText: context.loc.name,
                       ),
                       validator: stringValidator,
                       onSaved: (value) {
@@ -134,8 +134,8 @@ class _AddActivityScreenState extends ConsumerState<AddActivityScreen> {
                     ),
                     const SizedBox(height: 10),
                     TextFormField(
-                      decoration: const InputDecoration(
-                        labelText: 'Description',
+                      decoration: InputDecoration(
+                        labelText: context.loc.description,
                       ),
                       validator: stringValidator,
                       onSaved: (value) {
@@ -156,7 +156,7 @@ class _AddActivityScreenState extends ConsumerState<AddActivityScreen> {
                     ),
                     const SizedBox(height: 20),
                     Text(
-                      'Select Categories: ',
+                      context.loc.selectCategories,
                       style:
                           Theme.of(context).textTheme.headlineSmall!.copyWith(
                                 color: CustomColors.primary,
@@ -180,7 +180,9 @@ class _AddActivityScreenState extends ConsumerState<AddActivityScreen> {
                         ),
                         const SizedBox(width: 8),
                         Text(
-                          _isPublic ? 'Public Activity' : 'Private Activity',
+                          _isPublic
+                              ? context.loc.publicActivity
+                              : context.loc.privateActivity,
                           style: Theme.of(context).textTheme.bodyMedium,
                         ),
                       ],
@@ -222,7 +224,7 @@ class _AddActivityScreenState extends ConsumerState<AddActivityScreen> {
                         Expanded(
                           child: ElevatedButton(
                             onPressed: _saveActivity,
-                            child: const Text('Save'),
+                            child: Text(context.loc.save),
                           ),
                         ),
                       ],

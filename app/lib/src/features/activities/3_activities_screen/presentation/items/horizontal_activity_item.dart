@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:travel_link/src/features/activities/3_activities_screen/domain/activity.dart';
 import 'package:travel_link/src/features/activities/5_activities_details_screen/api_activities_details_screen.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
+import 'package:travel_link/src/utils/helpers/localization.dart';
 import 'package:travel_link/src/utils/theme/widget_themes/text_theme.dart';
 
 class HorizontalActivityItem extends StatefulWidget {
@@ -135,7 +136,7 @@ class _HorizontalActivityItemState extends State<HorizontalActivityItem> {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    'Visitiors last year: ',
+                    context.loc.visitorsLastYear,
                     style: CustomTextTheme.lightTextTheme.bodySmall,
                     overflow: TextOverflow.ellipsis,
                   ),

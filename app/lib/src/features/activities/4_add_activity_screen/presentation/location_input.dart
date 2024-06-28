@@ -10,6 +10,7 @@ import 'package:travel_link/src/features/activities/3_activities_screen/domain/a
 import 'package:travel_link/src/features/activities/4_add_activity_screen/presentation/map_screen.dart';
 import 'package:travel_link/src/utils/constants/api_constants.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
+import 'package:travel_link/src/utils/helpers/localization.dart';
 import 'package:travel_link/src/utils/logging/logger.dart';
 
 class LocationInput extends StatefulWidget {
@@ -90,10 +91,10 @@ class _LocationInput extends State<LocationInput> {
 
             widget.onSelectLocation(_pickedLocation!);
           } else {
-            throw Exception('No results found');
+            throw Exception(context.loc.noResultsFound);
           }
         } else {
-          throw Exception('Failed to fetch data');
+          throw Exception(context.loc.failedToFetchData);
         }
       } catch (e) {
         logger.e(e);
@@ -188,7 +189,7 @@ class _LocationInput extends State<LocationInput> {
     Widget content;
 
     content = Text(
-      'Add location',
+      context.loc.addLocation,
       textAlign: TextAlign.center,
       style: Theme.of(context).textTheme.bodyLarge,
     );
@@ -226,7 +227,7 @@ class _LocationInput extends State<LocationInput> {
             Expanded(
               child: ElevatedButton.icon(
                 icon: const Icon(Icons.location_on),
-                label: const Text('Get Location'),
+                label: Text(context.loc.getLocation),
                 onPressed: _getCurrentLocation,
               ),
             ),
@@ -236,7 +237,7 @@ class _LocationInput extends State<LocationInput> {
             Expanded(
               child: ElevatedButton.icon(
                 icon: const Icon(Icons.map),
-                label: const Text('Select on Map'),
+                label: Text(context.loc.selectOnMap),
                 onPressed: _selectOnMap,
               ),
             ),
