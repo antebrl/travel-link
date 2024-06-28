@@ -1,6 +1,7 @@
 // checklist_preview.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:travel_link/src/features/authentication/data/firebase_auth_repository.dart';
 import 'package:travel_link/src/features/checklists/data/checklist_repository.dart';
 import 'package:travel_link/src/features/checklists/domain/checklist_item.dart';
@@ -19,43 +20,50 @@ class ChecklistPreview extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final checklistProvider = ref.watch(fetchTripChecklistProvider(tripId: tripId, uid: ref.read(firebaseAuthProvider).currentUser?.uid));
+    final currentUser = ref.watch(firebaseAuthProvider).currentUser;
 
+    if (currentUser == null) {
+      return const Center(
+        child: Text('You need to log in to view the checklist'),
+      );
+    }
+
+    final checklistProvider = ref.watch(
+      fetchTripChecklistProvider(tripId: tripId, uid: currentUser.uid),
+    );
+
+//Ensure that only checklist items are displayed that are unchecked in personal checklist
     return checklistProvider.when(
       data: (checklist) {
-        final uncheckedItems = checklist.where((item) => item.asigneesCompleted.any((completed) => !completed)).toList();
+        final uncheckedItems = checklist.where((item) {
+          final userIndex = item.asignees.indexOf(currentUser.uid);
+          return userIndex != -1 && !item.asigneesCompleted[userIndex];
+        }).toList();
+
+
         return ListView.builder(
           itemCount: uncheckedItems.length > maxItems ? maxItems : uncheckedItems.length,
           itemBuilder: (context, index) {
             final item = uncheckedItems[index];
+            final completedCount = item.asigneesCompleted.where((completed) => completed).length;
+            final totalCount = item.asigneesCompleted.length;
             return ListTile(
-              title: Text(
-                item.title,
-                style: TextStyle(
-                  decoration: item.asigneesCompleted.any((completed) => completed)
-                      ? TextDecoration.lineThrough
-                      : TextDecoration.none,
-                ),
+              title: Text(item.title),
+              subtitle: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  if (item.dueDate != null) Text('Due: ${DateFormat('dd/MM/yyyy').format(item.dueDate!)}'),
+                  Text('Completed: $completedCount/$totalCount'),
+                ],
               ),
-              subtitle: item.dueDate != null
-                  ? Text('Due: ${item.dueDate}')
-                  : null,
-              /*
-              trailing: Checkbox(
-                value: item.asigneesCompleted.any((completed) => completed),
-                onChanged: (value) {
-                  ref.read(checklistControllerProvider.notifier).toggleChecklistItemCompletion(item, tripId);
-                },
-              ),
-              */ //toggleChecklistItemCompletion ist noch nicht implementiert, aber noch unklar ob das erledigt werden soll oder nicht, da ich noch überlege ob es sinn macht, dass man die checklist bearbeiten kann ohne auf den checklist screen zu kommen.
             );
           },
           shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
         );
       },
-      loading: () => Center(child: CircularProgressIndicator()),
-      error: (error, stackTrace) => Center(child: Text('Error loading checklist')),
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (error, stackTrace) => const Center(child: Text('Error loading checklist')),
     );
   }
 }

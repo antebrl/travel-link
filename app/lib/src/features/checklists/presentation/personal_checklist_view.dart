@@ -141,7 +141,7 @@ class _PersonalChecklistViewState extends ConsumerState<PersonalChecklistView> {
                     child: Text(
                       _selectedDueDate == null
                           ? 'No due date set'
-                          : 'Due date: ${DateFormat('MM/dd/yyyy').format(_selectedDueDate!)}',
+                          : 'Due date: ${DateFormat('dd/MM/yyyy').format(_selectedDueDate!)}',
                     ),
                   ),
                   IconButton(
@@ -334,7 +334,7 @@ class _PersonalChecklistViewState extends ConsumerState<PersonalChecklistView> {
                               Text(tasks[index].title),
                               if (tasks[index].dueDate != null)
                                 Text(
-                                  'Due date: ${DateFormat('MM/dd/yyyy').format(tasks[index].dueDate!)}',
+                                  'Due date: ${DateFormat('dd/MM/yyyy').format(tasks[index].dueDate!)}',
                                   style: const TextStyle(
                                       fontSize: 12, color: Colors.grey),
                                 ),

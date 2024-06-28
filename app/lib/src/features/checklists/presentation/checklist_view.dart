@@ -255,7 +255,7 @@ class _ChecklistViewState extends ConsumerState<ChecklistView> {
 
     if (currentUser == null) {
       return const Center(
-          child: Text('You need to log in to view personal Checklist'));
+          child: Text('You need to log in to view group Checklist'));
     } else {
       return fetchedChecklist.when(
         data: (checklist) {
