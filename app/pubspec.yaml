@@ -70,7 +70,6 @@ dev_dependencies:
   flutter_lints: ^4.0.0
   build_runner: ^2.4.6
   build_verify: ^3.1.0
-  dcdg: ^2.12.0
   # riverpod generator/dev stuff
   riverpod_generator: ^2.4.0
   riverpod_lint: ^2.3.10
