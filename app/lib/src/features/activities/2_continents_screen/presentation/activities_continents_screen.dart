@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:travel_link/src/features/activities/2_continents_screen/data/continent_data.dart';
 import 'package:travel_link/src/features/activities/2_continents_screen/presentation/continent_item.dart';
 import 'package:travel_link/src/features/activities/3_activities_screen/presentation/activities_screen.dart';
-import 'package:travel_link/src/utils/constants/strings.dart';
+import 'package:travel_link/src/utils/helpers/localization.dart';
 
 class ActivitiesContinentsScreen extends StatelessWidget {
   const ActivitiesContinentsScreen({super.key});
@@ -11,8 +11,8 @@ class ActivitiesContinentsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          CustomStrings.appbarExploreActivities,
+        title: Text(
+         context.loc.exploreActivities,
         ),
       ),
       body: LayoutBuilder(
