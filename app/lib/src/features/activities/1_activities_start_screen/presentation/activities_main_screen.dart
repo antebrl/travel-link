@@ -128,13 +128,12 @@ class _ActivitiesMainScreenState extends State<ActivitiesMainScreen> {
         children: [
           CurvedSearchContainer(controller: _controller),
           const SizedBox(height: 10),
-          Center(
-            child: Text(
-              'Explore top Activities from all continents:',
-              style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                    color: CustomColors.primary,
-                  ),
-            ),
+          Text(
+            'Explore top Activities from all continents:',
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                  color: CustomColors.primary,
+                ),
           ),
           const SizedBox(height: 10),
           const CustomContainerWithWorldMap(),
