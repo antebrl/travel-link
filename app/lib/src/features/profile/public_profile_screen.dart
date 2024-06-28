@@ -9,6 +9,8 @@ import 'package:travel_link/src/utils/constants/colors.dart';
 import 'package:travel_link/src/utils/constants/image_strings.dart';
 import 'package:travel_link/src/utils/theme/widget_themes/boxDecoration_theme.dart';
 
+import '../../common_widgets/profile_widgets.dart';
+
 class UserProfileScreen extends ConsumerStatefulWidget {
   UserProfileScreen({super.key, required this.targetuid});
 
@@ -179,62 +181,6 @@ class _ProfileScreenState extends ConsumerState<UserProfileScreen> {
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class LanguageChip extends StatelessWidget {
-  const LanguageChip({
-    required this.flag,
-    required this.language,
-    Key? key,
-  }) : super(key: key);
-
-  final Widget flag;
-  final String language;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(right: 10),
-      child: ActionChip(
-        avatar: flag,
-        label: Text(language),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-        ),
-        onPressed: () {
-          print('Language chip pressed');
-        },
-      ),
-    );
-  }
-}
-
-class InterestsChip extends StatelessWidget {
-  const InterestsChip({
-    required this.icon,
-    required this.label,
-    Key? key,
-  }) : super(key: key);
-
-  final Widget icon;
-  final String label;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(right: 10),
-      child: ActionChip(
-        avatar: icon,
-        label: Text(label),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-        ),
-        onPressed: () {
-          print('Interests chip pressed');
-        },
       ),
     );
   }
