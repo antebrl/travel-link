@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:travel_link/src/features/activities/3_activities_screen/domain/activity.dart';
 import 'package:travel_link/src/features/activities/5_activities_details_screen/api_activities_details_screen.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
+import 'package:travel_link/src/utils/helpers/localization.dart';
 import 'package:travel_link/src/utils/theme/widget_themes/text_theme.dart';
 
 class ActivityItem extends StatefulWidget {
@@ -90,7 +91,7 @@ class _ActivityItemState extends State<ActivityItem> {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const CircularProgressIndicator();
                   } else if (snapshot.hasError) {
-                    return Text('Fehler: ${snapshot.error}');
+                    return Text('${context.loc.error} ${snapshot.error}');
                   } else {
                     return ClipRRect(
                       borderRadius: const BorderRadius.only(

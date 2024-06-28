@@ -6,6 +6,7 @@ import 'package:travel_link/src/features/activities/3_activities_screen/presenta
 import 'package:travel_link/src/features/activities/6_activities_filter_screen/activities_filter_screen.dart';
 import 'package:travel_link/src/features/activities/providers/activities_provider.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
+import 'package:travel_link/src/utils/helpers/localization.dart';
 
 class ActivitiesScreen extends ConsumerStatefulWidget {
   ActivitiesScreen({
@@ -176,7 +177,7 @@ class _ActivitiesScreenState extends ConsumerState<ActivitiesScreen> {
           if (filteredActivitiesBySearch.isEmpty)
             Center(
               child: Text(
-                'No Activities found',
+                context.loc.noActivitiesFound,
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
             ),

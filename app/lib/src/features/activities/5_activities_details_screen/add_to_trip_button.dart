@@ -7,6 +7,7 @@ import 'package:travel_link/src/features/explore_trips/domain/trip.dart';
 import 'package:travel_link/src/routing/app_router.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
 import 'package:travel_link/src/utils/constants/image_strings.dart';
+import 'package:travel_link/src/utils/helpers/localization.dart';
 
 class AddToTripButton extends ConsumerWidget {
   const AddToTripButton({
@@ -38,7 +39,7 @@ class AddToTripButton extends ConsumerWidget {
           padding: const EdgeInsets.all(5),
         ),
         child: Text(
-          'Remove',
+          context.loc.remove,
           style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                 color: CustomColors.white,
               ),
@@ -54,7 +55,7 @@ class AddToTripButton extends ConsumerWidget {
               child: Column(
                 children: [
                   Text(
-                    'Select trip',
+                    context.loc.selectTrip,
                     style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                           color: CustomColors.primary,
                           fontSize: 20,
@@ -96,9 +97,9 @@ class AddToTripButton extends ConsumerWidget {
                               );
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
-                                  content: const Center(
-                                      child: Text('Successfully added')),
-                                  backgroundColor: Colors.green[500],
+                                  content: Center(
+                                    child: Text(context.loc.successfullyAdded),
+                                  ),
                                   duration: const Duration(
                                       seconds: 1, milliseconds: 400),
                                 ),
@@ -112,8 +113,8 @@ class AddToTripButton extends ConsumerWidget {
                       child: CircularProgressIndicator(),
                     ),
                     error: (error, stackTrace) {
-                      return const Center(
-                        child: Text('Log In in order to see your trips!'),
+                      return Center(
+                        child: Text(context.loc.loginToSeeTrips),
                       );
                     },
                   ),
@@ -128,7 +129,7 @@ class AddToTripButton extends ConsumerWidget {
           padding: const EdgeInsets.all(5),
         ),
         child: Text(
-          'Add to trip',
+          context.loc.addToTrip,
           style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                 color: CustomColors.white,
               ),
