@@ -15,9 +15,25 @@ class OnboardingScreen extends ConsumerWidget {
       appBar: AppBar(
         title: const Text('Sign in'),
       ),
-      body: SignInScreen(
-        providers: authProviders,
-        footerBuilder: (context, action) => const SignInAnonymouslyFooter(),
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          children: <Widget>[
+            Image.asset(
+              'assets/images/my-trips/travel.gif',
+              fit: BoxFit.cover,
+              height: 170,
+            ),
+            // Sign-in screen
+            Expanded(
+              child: SignInScreen(
+                providers: authProviders,
+                footerBuilder: (context, action) =>
+                    const SignInAnonymouslyFooter(),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
