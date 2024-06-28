@@ -56,8 +56,10 @@ class _ChecklistViewState extends ConsumerState<ChecklistView> {
     await ref
         .read(checklistControllerProvider.notifier)
         .updateChecklistItem(data: tasks[index], tripId: widget.tripId);
-    ref.invalidate(
-        fetchTripChecklistProvider(tripId: widget.tripId, onlyPublic: true));
+    ref..invalidate(
+        fetchTripChecklistProvider(tripId: widget.tripId, onlyPublic: true))
+    ..invalidate(fetchTripChecklistProvider(
+        tripId: widget.tripId, uid: currentUser?.uid));
   }
 
   Future<void> _addTask(String title) async {
@@ -76,8 +78,11 @@ class _ChecklistViewState extends ConsumerState<ChecklistView> {
           onlyOneCompletion: false,
         );
 
-    ref.invalidate(
-        fetchTripChecklistProvider(tripId: widget.tripId, onlyPublic: true));
+    ref..invalidate(
+        fetchTripChecklistProvider(tripId: widget.tripId, onlyPublic: true))
+     
+    ..invalidate(fetchTripChecklistProvider(
+        tripId: widget.tripId, uid: currentUser?.uid));
   }
 
   Future<void> _removeTask(int index) async {
@@ -85,8 +90,10 @@ class _ChecklistViewState extends ConsumerState<ChecklistView> {
           id: tasks[index].id,
           tripId: widget.tripId,
         );
-    ref.invalidate(
-        fetchTripChecklistProvider(tripId: widget.tripId, onlyPublic: true));
+    ref..invalidate(
+        fetchTripChecklistProvider(tripId: widget.tripId, onlyPublic: true))
+    ..invalidate(fetchTripChecklistProvider(
+        tripId: widget.tripId, uid: currentUser?.uid));
   }
 
   Future<void> _toggleTaskCompletion(int index) async {
