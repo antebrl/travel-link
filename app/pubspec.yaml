@@ -73,6 +73,8 @@ dev_dependencies:
   # riverpod generator/dev stuff
   riverpod_generator: ^2.4.0
   riverpod_lint: ^2.3.10
+  flutter_native_splash: ^2.4.0
+  flutter_launcher_icons: "^0.13.1"
   
 flutter:
   assets:
