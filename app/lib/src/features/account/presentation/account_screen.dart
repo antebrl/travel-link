@@ -214,74 +214,34 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
                           ),
                           Expanded(
                             child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                TextButton.icon(
-                                  onPressed: () async {
-                                    final newName = await _showEditPopup(
-                                      label: 'Username',
-                                      intialValue:
-                                          userData.asData?.value?.displayName ??
-                                              defaultName,
-                                    );
-                                    if (newName != null) {
-                                      await accountController.updateDisplayName(
-                                        displayName: newName,
-                                      );
-                                    }
-                                    userData = ref.refresh(
-                                      fetchUserProvider(
-                                        auth.currentUser!.uid,
-                                      ),
-                                    );
-                                  },
-                                  icon: const Icon(Icons.edit),
-                                  label: userData.when(
-                                    data: (userAccount) => Text(
-                                      userAccount?.displayName ?? defaultName,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .headlineSmall,
-                                      overflow: TextOverflow.fade,
-                                    ),
-                                    loading: () =>
-                                        const CircularProgressIndicator(),
-                                    error: (_, __) => const Text('Error'),
+                                Text(
+                                  userData.when(
+                                    data: (userAccount) =>
+                                        userAccount?.displayName ?? defaultName,
+                                    loading: () => 'Loading...',
+                                    error: (_, __) => 'Error',
                                   ),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium!
+                                      .copyWith(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                ),
+                                Text(
+                                  userData.when(
+                                    data: (userAccount) =>
+                                        userAccount?.description ??
+                                        defaultDescription,
+                                    loading: () => 'Loading...',
+                                    error: (_, __) => 'Error',
+                                  ),
+                                  style: Theme.of(context).textTheme.bodySmall,
                                 ),
                                 const SizedBox(height: 5),
-                                TextButton.icon(
-                                  onPressed: () async {
-                                    final newDescription = await _showEditPopup(
-                                      label: 'Description',
-                                      intialValue:
-                                          userData.asData?.value?.description ??
-                                              defaultDescription,
-                                    );
-                                    if (newDescription != null) {
-                                      await accountController.updateDescription(
-                                        description: newDescription,
-                                      );
-                                    }
-                                    userData = ref.refresh(
-                                      fetchUserProvider(
-                                        auth.currentUser!.uid,
-                                      ),
-                                    );
-                                  },
-                                  icon: const Icon(Icons.edit),
-                                  label: userData.when(
-                                    data: (userAccount) => Text(
-                                      userAccount?.description ??
-                                          defaultDescription,
-                                      style:
-                                          Theme.of(context).textTheme.bodySmall,
-                                    ),
-                                    loading: () =>
-                                        const CircularProgressIndicator(),
-                                    error: (_, __) => const Text('Error'),
-                                  ),
-                                ),
                               ],
                             ),
                           ),
