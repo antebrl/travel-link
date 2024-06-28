@@ -7,6 +7,7 @@ import 'package:travel_link/src/features/activities/2_continents_screen/domain/c
 import 'package:travel_link/src/features/activities/3_activities_screen/presentation/activities_screen.dart';
 import 'package:travel_link/src/features/authentication/data/firebase_auth_repository.dart';
 import 'package:travel_link/src/features/authentication/presentation/custom_sign_in_screen.dart';
+import 'package:travel_link/src/features/authentication/presentation/onboarding_screen.dart';
 import 'package:travel_link/src/features/explore_trips/presentation/explore_trips_screen.dart';
 import 'package:travel_link/src/features/my_trips/presentation/my_trips_screen.dart';
 import 'package:travel_link/src/features/trip_overview/presentation/trip_overview_screen.dart';
@@ -20,7 +21,7 @@ part 'app_router.g.dart';
 
 // shell routes, appear in the bottom navigation
 // see https://pub.dev/documentation/go_router/latest/go_router/ShellRoute-class.html
-enum TopLevelDestinations { trips, myTrips, activities, profile, signIn }
+enum TopLevelDestinations { trips, myTrips, activities, profile, signIn, onboarding }
 
 enum AccountRoutes { settings, security, help, about }
 
@@ -55,11 +56,14 @@ GoRouter goRouter(GoRouterRef ref) {
       final isLoggedIn = authRepository.currentUser != null;
       final path = state.uri.path;
       if (isLoggedIn) {
-        if (path.startsWith('/${TopLevelDestinations.signIn.name}')) {
+        if (path.startsWith('/${TopLevelDestinations.signIn.name}') || path.startsWith('/${TopLevelDestinations.onboarding.name}')) {
           return '/${TopLevelDestinations.myTrips.name}';
         }
       } else {
-        // TODO(Ante): also switch to signIn Page if user tries to join trip or add activity
+        final onboardingCompleted = ref.read(onboardingCompletedProvider);
+        if(!onboardingCompleted) {
+          return '/${TopLevelDestinations.onboarding.name}';
+        }
         if (path.startsWith('/${TopLevelDestinations.myTrips.name}') ||
             path.startsWith('/${TopLevelDestinations.profile.name}')) {
           return '/${TopLevelDestinations.signIn.name}';
@@ -82,6 +86,13 @@ GoRouter goRouter(GoRouterRef ref) {
         name: TopLevelDestinations.signIn.name,
         pageBuilder: (context, state) => const NoTransitionPage(
           child: CustomSignInScreen(),
+        ),
+      ),
+      GoRoute(
+        path: '/${TopLevelDestinations.onboarding.name}',
+        name: TopLevelDestinations.onboarding.name,
+        pageBuilder: (context, state) => const NoTransitionPage(
+          child: OnboardingScreen(),
         ),
       ),
       // Stateful navigation based on:
