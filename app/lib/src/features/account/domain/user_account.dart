@@ -1,23 +1,36 @@
 import 'package:equatable/equatable.dart';
+import 'package:flag/flag.dart';
+import 'package:flag/flag_enum.dart';
 
 class UserAccount extends Equatable {
   const UserAccount({
     required this.id,
     required this.description,
+    required this.publicName,
     required this.displayName,
+    required this.city,
     required this.pictureUrl,
+    required this.interests,
+    required this.languages,
   });
 
   final String id;
   final String? description;
   final String? displayName;
+  final String? publicName;
   final String? pictureUrl;
+  final String? city;
+
+  final List<String> interests;
+  final List<String> languages;
 
   @override
   List<Object?> get props => [
         id,
         description,
         displayName,
+        publicName,
+        city,
         pictureUrl,
       ];
 
@@ -29,7 +42,11 @@ class UserAccount extends Equatable {
       id: id,
       description: value['description'] as String?,
       displayName: value['displayName'] as String?,
+      publicName: value['publicName'] as String?,
       pictureUrl: value['pictureUrl'] as String?,
+      city: value['city'] as String?,
+      interests: (value['interests'] as List<dynamic>).cast<String>(),
+      languages: (value['languages'] as List<dynamic>).cast<String>(),
     );
   }
 
@@ -37,7 +54,11 @@ class UserAccount extends Equatable {
     return <String, dynamic>{
       'description': description,
       'displayName': displayName,
+      'publicName': publicName,
+      'city': city,
       'pictureUrl': pictureUrl,
+      'interests': interests,
+      'languages': languages,
     };
   }
 }

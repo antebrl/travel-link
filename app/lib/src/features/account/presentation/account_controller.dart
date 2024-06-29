@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:travel_link/src/features/account/data/account_repository.dart';
 import 'package:travel_link/src/features/authentication/data/firebase_auth_repository.dart';
+import 'package:travel_link/src/features/trip_overview/data/user_repository.dart';
 import 'package:travel_link/src/utils/logging/logger.dart';
 
 part 'account_controller.g.dart';
@@ -31,6 +32,8 @@ class AccountController extends _$AccountController {
       ),
     );
 
+    ref.invalidate(fetchUserProvider(currentUser!.uid));
+
     if (state.hasError) logger.e(state.error);
     return state.hasError == false;
   }
@@ -54,6 +57,8 @@ class AccountController extends _$AccountController {
       ),
     );
 
+    ref.invalidate(fetchUserProvider(currentUser.uid));
+
     if (state.hasError) logger.e(state.error);
     return state.hasError == false;
   }
@@ -74,6 +79,8 @@ class AccountController extends _$AccountController {
         data: data,
       ),
     );
+
+    ref.invalidate(fetchUserProvider(currentUser!.uid));
 
     if (state.hasError) logger.e(state.error);
     return state.hasError == false;
