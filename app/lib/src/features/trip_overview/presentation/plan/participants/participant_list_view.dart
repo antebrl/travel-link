@@ -23,10 +23,14 @@ class ParticipantListView extends ConsumerWidget {
       } else {
         users.add(
           UserAccount(
-            displayName: 'Anonymous User',
+            displayName: 'anonymous_user',
+            publicName: 'Anonymous User',
+            city: 'Unknown',
             pictureUrl: CustomImages.defaultProfilePictureUrl,
             description: 'No description',
             id: trip.participants[i],
+            languages: [],
+            interests: [],
           ),
         );
       }
@@ -89,7 +93,7 @@ class ParticipantListView extends ConsumerWidget {
                     // Go to user public profile
                     final uid = users[index].id;
                     context.pushNamed(
-                      TopLevelDestinations.user.name,
+                      TopLevelDestinations.profile.name,
                       pathParameters: {
                         'uid': uid,
                       },

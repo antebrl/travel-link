@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:travel_link/src/features/account/presentation/account_controller.dart';
+import 'package:travel_link/src/features/account/presentation/edit_profile_screen.dart';
 import 'package:travel_link/src/features/authentication/data/firebase_auth_repository.dart';
 import 'package:travel_link/src/features/trip_overview/data/user_repository.dart';
 import 'package:travel_link/src/routing/app_router.dart';
@@ -165,7 +166,7 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
                 onTap: () {
                   final uid = auth.currentUser!.uid;
                   context.pushNamed(
-                    TopLevelDestinations.user.name,
+                    TopLevelDestinations.profile.name,
                     pathParameters: {
                       'uid': uid,
                     },
@@ -245,14 +246,24 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
                               ],
                             ),
                           ),
-                          IconButton(
-                            onPressed: () {
-                              context.pushNamed(AccountRoutes.edit.name);
-                            },
-                            icon: const Icon(
-                              Icons.edit,
-                              color: CustomColors.buttonPrimary,
+                          userData.when(
+                            data: (userAccount) => IconButton(
+                              onPressed: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => EditProfileScreen(
+                                      userAccount: userAccount!,
+                                    ),
+                                  ),
+                                );
+                              },
+                              icon: const Icon(
+                                Icons.edit,
+                                color: CustomColors.buttonPrimary,
+                              ),
                             ),
+                            loading: () => const CircularProgressIndicator(),
+                            error: (_, __) => const Text('Error'),
                           ),
                           const VerticalDivider(
                             color: CustomColors.grey,

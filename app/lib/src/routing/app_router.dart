@@ -26,12 +26,13 @@ enum TopLevelDestinations {
   trips,
   myTrips,
   activities,
+  account,
   profile,
   signIn,
   onboarding
 }
 
-enum AccountRoutes { edit, settings, security, help, about }
+enum AccountRoutes { settings, security, help, about }
 
 enum ActivitiesRoutes { activityDetails, continent }
 
@@ -48,10 +49,10 @@ final _myTripsNavigatorKey =
     GlobalKey<NavigatorState>(debugLabel: TopLevelDestinations.myTrips.name);
 final _activitiesNavigatorKey =
     GlobalKey<NavigatorState>(debugLabel: TopLevelDestinations.activities.name);
+final _profileNavigatorKey =
+    GlobalKey<NavigatorState>(debugLabel: TopLevelDestinations.profile.name);
 final _accountNavigatorKey =
     GlobalKey<NavigatorState>(debugLabel: TopLevelDestinations.account.name);
-final _userNavigatorKey =
-    GlobalKey<NavigatorState>(debugLabel: TopLevelDestinations.user.name);
 
 //https://github.com/flutter/packages/blob/main/packages/go_router/example/lib/stateful_shell_route.dart
 
@@ -69,9 +70,6 @@ GoRouter goRouter(GoRouterRef ref) {
         if (path.startsWith('/${TopLevelDestinations.signIn.name}') ||
             path.startsWith('/${TopLevelDestinations.onboarding.name}')) {
           return '/${TopLevelDestinations.myTrips.name}';
-        }
-        if (path.startsWith('/${TopLevelDestinations.signInAccount.name}')) {
-          return '/${TopLevelDestinations.account.name}';
         }
       } else {
         final onboardingCompleted = ref.read(onboardingCompletedProvider);
@@ -108,6 +106,18 @@ GoRouter goRouter(GoRouterRef ref) {
           child: OnboardingScreen(),
         ),
       ),
+      GoRoute(
+        path: '/${TopLevelDestinations.profile.name}/:uid',
+        name: TopLevelDestinations.profile.name,
+        pageBuilder: (context, state) {
+          final uid = state.pathParameters['uid']!;
+          return NoTransitionPage(
+            child: UserProfileScreen(
+              targetuid: uid,
+            ),
+          );
+        },
+      ),
       // Stateful navigation based on:
       // https://github.com/flutter/packages/blob/main/packages/go_router/example/lib/stateful_shell_route.dart
       StatefulShellRoute.indexedStack(
@@ -126,13 +136,6 @@ GoRouter goRouter(GoRouterRef ref) {
                 pageBuilder: (context, state) => NoTransitionPage(
                   key: state.pageKey,
                   child: const MyTripsScreen(),
-                ),
-              ),
-              GoRoute(
-                path: '/${TopLevelDestinations.signInHome.name}',
-                name: TopLevelDestinations.signInHome.name,
-                pageBuilder: (context, state) => const NoTransitionPage(
-                  child: CustomSignInScreen(),
                 ),
               ),
             ],
@@ -198,10 +201,11 @@ GoRouter goRouter(GoRouterRef ref) {
               ),
             ],
           ),
+          //Account Screen
           StatefulShellBranch(
             navigatorKey: _accountNavigatorKey,
             routes: [
-              // Route for the user's own account
+              //base route
               GoRoute(
                 path: '/${TopLevelDestinations.account.name}',
                 name: TopLevelDestinations.account.name,
@@ -218,13 +222,6 @@ GoRouter goRouter(GoRouterRef ref) {
                     },
                   ),
                 ],
-              ),
-              GoRoute(
-                path: '/${TopLevelDestinations.signInAccount.name}',
-                name: TopLevelDestinations.signInAccount.name,
-                pageBuilder: (context, state) => const NoTransitionPage(
-                  child: CustomSignInScreen(),
-                ),
               ),
             ],
           ),

@@ -114,7 +114,7 @@ class _AddParticipantScreenState extends ConsumerState<AddParticipantScreen> {
                           //Go to user public
                           final uid = option.id;
                           context.pushNamed(
-                            TopLevelDestinations.user.name,
+                            TopLevelDestinations.profile.name,
                             pathParameters: {
                               'uid': uid,
                             },
