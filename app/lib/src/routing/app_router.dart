@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:travel_link/src/features/account/presentation/account_account_information_screen.dart';
 import 'package:travel_link/src/features/account/presentation/account_screen.dart';
 import 'package:travel_link/src/features/activities/0_activities_tabs_screen/activities_tabs_screen.dart';
 import 'package:travel_link/src/features/activities/2_continents_screen/domain/continent.dart';
@@ -32,7 +33,14 @@ enum TopLevelDestinations {
   onboarding
 }
 
-enum AccountRoutes { settings, security, help, about }
+enum AccountRoutes {
+  accountInformation,
+  notifications,
+  security,
+  settings,
+  help,
+  about
+}
 
 enum ActivitiesRoutes { activityDetails, continent }
 
@@ -215,8 +223,43 @@ GoRouter goRouter(GoRouterRef ref) {
                 ),
                 routes: <RouteBase>[
                   GoRoute(
+                    path: 'account_information',
+                    name: AccountRoutes.accountInformation.name,
+                    builder: (BuildContext context, GoRouterState state) {
+                      return const AccountAccountInformationScreen();
+                    },
+                  ),
+                  GoRoute(
+                    path: 'notifications',
+                    name: AccountRoutes.notifications.name,
+                    builder: (BuildContext context, GoRouterState state) {
+                      return const Placeholder();
+                    },
+                  ),
+                  GoRoute(
+                    path: 'security',
+                    name: AccountRoutes.security.name,
+                    builder: (BuildContext context, GoRouterState state) {
+                      return const Placeholder();
+                    },
+                  ),
+                  GoRoute(
                     path: 'settings',
                     name: AccountRoutes.settings.name,
+                    builder: (BuildContext context, GoRouterState state) {
+                      return const Placeholder();
+                    },
+                  ),
+                  GoRoute(
+                    path: 'help',
+                    name: AccountRoutes.help.name,
+                    builder: (BuildContext context, GoRouterState state) {
+                      return const Placeholder();
+                    },
+                  ),
+                  GoRoute(
+                    path: 'about',
+                    name: AccountRoutes.about.name,
                     builder: (BuildContext context, GoRouterState state) {
                       return const Placeholder();
                     },
