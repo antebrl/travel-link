@@ -1,9 +1,7 @@
-import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:travel_link/src/features/account/presentation/account_screen.dart';
-import 'package:travel_link/src/features/account/presentation/edit_profile_screen.dart';
 import 'package:travel_link/src/features/activities/0_activities_tabs_screen/activities_tabs_screen.dart';
 import 'package:travel_link/src/features/activities/2_continents_screen/domain/continent.dart';
 import 'package:travel_link/src/features/activities/3_activities_screen/presentation/activities_screen.dart';
@@ -208,14 +206,6 @@ GoRouter goRouter(GoRouterRef ref) {
                   child: const AccountScreen(),
                 ),
                 routes: <RouteBase>[
-                  GoRoute(
-                    path: 'edit',
-                    parentNavigatorKey: _rootNavigatorKey,
-                    name: AccountRoutes.edit.name,
-                    builder: (BuildContext context, GoRouterState state) {
-                      return EditProfileScreen();
-                    },
-                  ),
                   GoRoute(
                     path: 'settings',
                     name: AccountRoutes.settings.name,
