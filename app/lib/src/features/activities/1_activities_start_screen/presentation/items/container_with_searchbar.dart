@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:travel_link/src/common_widgets/auto_complete_search.dart';
 import 'package:travel_link/src/common_widgets/curved_edges.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
+import 'package:travel_link/src/utils/helpers/localization.dart';
 
 class CurvedSearchContainer extends StatelessWidget {
   const CurvedSearchContainer({required this.controller, super.key});
@@ -50,7 +51,7 @@ class CurvedSearchContainer extends StatelessWidget {
                     horizontalPadding: 95,
                     filterByType: 'amenity',
                     textFieldDecoration: InputDecoration(
-                      hintText: 'Activity...',
+                      hintText: context.loc.activityHintText,
                       hintStyle:
                           Theme.of(context).textTheme.bodyMedium!.copyWith(
                                 color: CustomColors.primary,

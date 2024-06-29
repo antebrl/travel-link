@@ -11,6 +11,7 @@ import 'package:travel_link/src/features/activities/8_map_screen/map_screen.dart
 import 'package:travel_link/src/features/my_trips/domain/destination.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
 import 'package:travel_link/src/utils/helpers/helper_functions.dart';
+import 'package:travel_link/src/utils/helpers/localization.dart';
 
 class APIActivitiesScreen extends ConsumerStatefulWidget {
   const APIActivitiesScreen({
@@ -107,9 +108,7 @@ class _APIActivitiesScreenState extends ConsumerState<APIActivitiesScreen> {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text(
-            'Explore Activities!',
-          ),
+          title: Text(context.loc.exploreActivities),
           actions: [
             IconButton(
               onPressed: addActivity,
@@ -122,12 +121,12 @@ class _APIActivitiesScreenState extends ConsumerState<APIActivitiesScreen> {
             labelColor: CustomHelperFunctions.isDarkMode(context)
                 ? CustomColors.white
                 : CustomColors.primary,
-            tabs: const [
+            tabs: [
               Tab(
-                child: Text('Search'),
+                child: Text(context.loc.search),
               ),
               Tab(
-                child: Text('Map'),
+                child: Text(context.loc.map),
               ),
             ],
           ),
@@ -143,7 +142,7 @@ class _APIActivitiesScreenState extends ConsumerState<APIActivitiesScreen> {
                       Padding(
                         padding: const EdgeInsets.only(left: 20, right: 20),
                         child: Text(
-                          'Activities in ${widget.destination.formatted}',
+                          '${context.loc.activitiesIn} ${widget.destination.formatted}',
                           style: Theme.of(context)
                               .textTheme
                               .headlineSmall!
@@ -203,7 +202,7 @@ class _APIActivitiesScreenState extends ConsumerState<APIActivitiesScreen> {
                         child: Column(
                           children: [
                             Text(
-                              'Added by Users: ',
+                              context.loc.addedByUsers,
                               style: Theme.of(context)
                                   .textTheme
                                   .headlineSmall!
@@ -235,10 +234,11 @@ class _APIActivitiesScreenState extends ConsumerState<APIActivitiesScreen> {
                     ),
                   ),
                   error: (error, stackTrace) {
-                    return const SliverToBoxAdapter(
+                    return SliverToBoxAdapter(
                       child: Center(
                         child: Text(
-                            'Error loading images. Please try again later.'),
+                          context.loc.errorLoadingImages,
+                        ),
                       ),
                     );
                   },
@@ -246,7 +246,7 @@ class _APIActivitiesScreenState extends ConsumerState<APIActivitiesScreen> {
                 SliverToBoxAdapter(
                   child: Center(
                     child: Text(
-                      'Explore more: ',
+                      context.loc.exploreMore,
                       style:
                           Theme.of(context).textTheme.headlineSmall!.copyWith(
                                 color: CustomColors.primary,
@@ -275,7 +275,7 @@ class _APIActivitiesScreenState extends ConsumerState<APIActivitiesScreen> {
                       return SliverToBoxAdapter(
                         child: Center(
                           child: Text(
-                            'No activities found.',
+                            context.loc.noActivitiesFound,
                             style: Theme.of(context).textTheme.bodyMedium,
                           ),
                         ),

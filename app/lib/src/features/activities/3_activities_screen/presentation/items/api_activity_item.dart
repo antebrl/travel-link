@@ -5,6 +5,7 @@ import 'package:travel_link/src/features/activities/3_activities_screen/domain/a
 import 'package:travel_link/src/features/activities/5_activities_details_screen/api_activities_details_screen.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
 import 'package:travel_link/src/utils/constants/image_strings.dart';
+import 'package:travel_link/src/utils/helpers/localization.dart';
 import 'package:travel_link/src/utils/helpers/wikidata.dart';
 import 'package:travel_link/src/utils/theme/widget_themes/text_theme.dart';
 
@@ -116,7 +117,7 @@ class _APIActivityItemState extends State<APIActivityItem> {
                     color: CustomColors.primary,
                   );
                 } else if (snapshot.hasError) {
-                  return Text('Fehler: ${snapshot.error}');
+                  return Text('${context.loc.error} ${snapshot.error}');
                 } else if (snapshot.data == null || snapshot.data!.isEmpty) {
                   return Image.network(
                     //Wikipedia entry but no picture

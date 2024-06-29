@@ -17,6 +17,7 @@ import 'package:travel_link/src/features/my_trips/domain/destination.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
 import 'package:travel_link/src/utils/constants/image_strings.dart';
 import 'package:travel_link/src/utils/helpers/helper_functions.dart';
+import 'package:travel_link/src/utils/helpers/localization.dart';
 import 'package:travel_link/src/utils/helpers/wikidata.dart';
 
 class ActivitiesMainScreen extends StatefulWidget {
@@ -129,7 +130,7 @@ class _ActivitiesMainScreenState extends State<ActivitiesMainScreen> {
           CurvedSearchContainer(controller: _controller),
           const SizedBox(height: 10),
           Text(
-            'Explore top Activities from all continents:',
+            context.loc.exploreTopActivitiesFromAllContinents,
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                   color: CustomColors.primary,
@@ -140,7 +141,8 @@ class _ActivitiesMainScreenState extends State<ActivitiesMainScreen> {
           const SizedBox(height: 10),
           Center(
             child: Text(
-              'Activities in ${CustomHelperFunctions.getContinentDisplayName(selectedContinent)}:',
+              '${context.loc.activitiesIn} '
+              ' ${CustomHelperFunctions.getContinentDisplayName(selectedContinent)}:',
               style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                     color: CustomColors.primary,
                   ),
@@ -150,7 +152,7 @@ class _ActivitiesMainScreenState extends State<ActivitiesMainScreen> {
           const SizedBox(height: 10),
           Center(
             child: Text(
-              'Most popular activities: ',
+              context.loc.mostPopularActivities,
               style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                     color: CustomColors.primary,
                   ),

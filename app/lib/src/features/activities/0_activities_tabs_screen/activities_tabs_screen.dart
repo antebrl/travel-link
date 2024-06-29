@@ -4,6 +4,7 @@ import 'package:travel_link/src/features/activities/7_search_screen/search_scree
 import 'package:travel_link/src/utils/constants/colors.dart';
 import 'package:travel_link/src/utils/constants/strings.dart';
 import 'package:travel_link/src/utils/helpers/helper_functions.dart';
+import 'package:travel_link/src/utils/helpers/localization.dart';
 
 class ActivitiesStartScreen extends StatefulWidget {
   const ActivitiesStartScreen({super.key, this.initialIndex = 0});
@@ -22,8 +23,8 @@ class _ActivitiesStartScreenState extends State<ActivitiesStartScreen> {
       initialIndex: widget.initialIndex,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text(
-            CustomStrings.appbarExploreActivities,
+          title: Text(
+            context.loc.exploreActivities,
           ),
           bottom: TabBar(
             indicatorColor: CustomColors.primary,
@@ -31,12 +32,12 @@ class _ActivitiesStartScreenState extends State<ActivitiesStartScreen> {
             labelColor: CustomHelperFunctions.isDarkMode(context)
                 ? CustomColors.white
                 : CustomColors.primary,
-            tabs: const [
+            tabs: [
               Tab(
-                child: Text(CustomStrings.tabBarRecommended),
+                child: Text(context.loc.recommended),
               ),
               Tab(
-                child: Text(CustomStrings.tabBarExploreAll),
+                child: Text(context.loc.exploreAll),
               ),
             ],
           ),
