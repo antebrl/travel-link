@@ -29,12 +29,17 @@ class _ProfileScreenState extends ConsumerState<UserProfileScreen> {
     var defaultDescription = 'No description';
     var defaultName = 'No name';
     final user_name = userData.when(
-      data: (userAccount) => userAccount?.displayName ?? defaultName,
+      data: (userAccount) => userAccount?.publicName ?? defaultName,
       loading: () => 'Loading...',
       error: (_, __) => 'Error',
     );
     final user_description = userData.when(
       data: (userAccount) => userAccount?.description ?? defaultDescription,
+      loading: () => 'Loading...',
+      error: (_, __) => 'Error',
+    );
+    final user_city = userData.when(
+      data: (userAccount) => userAccount?.city ?? 'Unknown',
       loading: () => 'Loading...',
       error: (_, __) => 'Error',
     );
@@ -47,6 +52,16 @@ class _ProfileScreenState extends ConsumerState<UserProfileScreen> {
       ),
       loading: () => const CircularProgressIndicator(),
       error: (_, __) => const Text('Error'),
+    );
+    final List<String> languageList = userData.when(
+      data: (userAccount) => userAccount?.languages ?? [],
+      loading: () => [],
+      error: (_, __) => [],
+    );
+    final List<String> interestList = userData.when(
+      data: (userAccount) => userAccount?.interests ?? [],
+      loading: () => [],
+      error: (_, __) => [],
     );
     return Scaffold(
       appBar: AppBar(
@@ -84,7 +99,7 @@ class _ProfileScreenState extends ConsumerState<UserProfileScreen> {
                               ),
                               const SizedBox(height: 5),
                               Text(
-                                user_description,
+                                user_city,
                                 style: Theme.of(context).textTheme.bodySmall,
                               ),
                             ],
@@ -111,18 +126,19 @@ class _ProfileScreenState extends ConsumerState<UserProfileScreen> {
                 children: [
                   Row(
                     children: [
-                      Expanded(
+                      Flexible(
+                        fit: FlexFit.tight,
                         child: Container(
-                          height: 200,
+                          height: 100,
                           padding: const EdgeInsets.only(
                               left: 30, right: 20, bottom: 5),
                           child: ListView(
-                            physics: BouncingScrollPhysics(),
-                            children: const [
+                            physics: const BouncingScrollPhysics(),
+                            children: [
                               Wrap(
                                 children: [
                                   Text(
-                                    'Hi there! \n\nI am a software engineer with a passion for mobile development. I have been working in the industry for 5 years and I am always looking for new challenges. I am a team player and I love to work in a multicultural environment',
+                                    user_description,
                                     overflow: TextOverflow.fade,
                                   ),
                                 ],
@@ -143,20 +159,21 @@ class _ProfileScreenState extends ConsumerState<UserProfileScreen> {
               content: Column(
                 children: [
                   Container(
-                    height: 100,
-                    padding: EdgeInsets.only(left: 10, right: 20),
-                    child: ListView.builder(
-                      physics: BouncingScrollPhysics(),
-                      itemCount: 20,
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) {
-                        return LanguageChip(
-                          flag: Flag.fromCode(FlagsCode.DE),
-                          language: "Test",
-                        );
-                      },
-                    ),
-                  ),
+                      height: 100,
+                      padding: EdgeInsets.only(left: 10, right: 20),
+                      child: Wrap(
+                        children: languageList.map((language) {
+                          return CustomChip(
+                            avatar: Flag.fromString(language),
+                            onPressed: () {
+                              setState(() {
+                                languageList.remove(language);
+                              });
+                            },
+                            label: language,
+                          );
+                        }).toList(),
+                      )),
                 ],
               ),
             ),
@@ -165,19 +182,21 @@ class _ProfileScreenState extends ConsumerState<UserProfileScreen> {
               boxDecoration: boxDecoration,
               headline: 'Interests',
               content: Container(
-                height: 100,
-                padding: EdgeInsets.only(left: 10, right: 20),
-                child: ListView.builder(
-                  itemCount: 20,
-                  scrollDirection: Axis.horizontal,
-                  physics: BouncingScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    return InterestsChip(
-                        icon: Icon(Icons.sports_basketball),
-                        label: "Basketball");
-                  },
-                ),
-              ),
+                  height: 100,
+                  padding: EdgeInsets.only(left: 10, right: 20),
+                  child: Wrap(
+                    children: interestList.map((interest) {
+                      return CustomChip(
+                        avatar: const Icon(Icons.circle),
+                        onPressed: () {
+                          setState(() {
+                            languageList.remove(interest);
+                          });
+                        },
+                        label: interest,
+                      );
+                    }).toList(),
+                  )),
             ),
           ],
         ),
