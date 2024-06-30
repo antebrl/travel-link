@@ -48,6 +48,10 @@ namespace Firestore {
         +String pictureUrl
         +Float[] position
         +String description
+        +String[] interests
+        +String[] languages
+        +String city
+        +String publicName
     }
 
     
