@@ -14,44 +14,6 @@ import 'package:travel_link/src/utils/constants/colors.dart';
 import 'package:travel_link/src/utils/constants/image_strings.dart';
 import 'package:travel_link/src/utils/theme/widget_themes/boxDecoration_theme.dart';
 
-var menuItems = <Map<String, dynamic>>[
-  {
-    'label': 'Account information',
-    'icon': Icons.account_circle,
-    'color': CustomColors.primary
-  },
-  {
-    'label': 'Notifications',
-    'icon': Icons.notifications,
-    'color': CustomColors.primary
-  },
-  //{'label': 'Privacy', 'icon': Icons.privacy_tip, 'color': Colors.blue},
-  {
-    'option': AccountRoutes.security,
-    'label': 'Security',
-    'icon': Icons.security,
-    'color': CustomColors.primary
-  },
-  {
-    'option': AccountRoutes.settings,
-    'label': 'Settings',
-    'icon': Icons.settings,
-    'color': CustomColors.primary
-  },
-  {
-    'option': AccountRoutes.help,
-    'label': 'Help',
-    'icon': Icons.help,
-    'color': CustomColors.primary
-  },
-  {
-    'option': AccountRoutes.about,
-    'label': 'About',
-    'icon': Icons.info,
-    'color': CustomColors.primary
-  },
-];
-
 class AccountScreen extends ConsumerStatefulWidget {
   const AccountScreen({super.key});
 
@@ -60,6 +22,33 @@ class AccountScreen extends ConsumerStatefulWidget {
 }
 
 class _AccountScreenState extends ConsumerState<AccountScreen> {
+  final List<Map<String, dynamic>> menuItems = [
+    {
+      'label': 'Account Information',
+      'icon': Icons.person,
+      'color': CustomColors.buttonPrimary,
+      'option': AccountRoutes.accountInformation.name,
+    },
+    {
+      'label': 'Settings',
+      'icon': Icons.settings,
+      'color': CustomColors.buttonPrimary,
+      'option': AccountRoutes.settings.name,
+    },
+    {
+      'label': 'Help',
+      'icon': Icons.help,
+      'color': CustomColors.buttonPrimary,
+      'option': AccountRoutes.help.name,
+    },
+    {
+      'label': 'About',
+      'icon': Icons.info,
+      'color': CustomColors.buttonPrimary,
+      'option': AccountRoutes.about.name,
+    },
+  ];
+
   final double borderRadius = 10;
 
   final String defaultName = 'User Name';
@@ -233,13 +222,7 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
                                       ),
                                 ),
                                 Text(
-                                  userData.when(
-                                    data: (userAccount) =>
-                                        userAccount?.description ??
-                                        defaultDescription,
-                                    loading: () => 'Loading...',
-                                    error: (_, __) => 'Error',
-                                  ),
+                                  auth.currentUser!.email ?? 'Unknown',
                                   style: Theme.of(context).textTheme.bodySmall,
                                 ),
                                 const SizedBox(height: 5),
@@ -290,38 +273,35 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
                 decoration: boxDecoration,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
-                  children: [
-                    for (var i = 0; i < menuItems.length; i++) ...[
-                      InkWell(
-                        onTap: () =>
-                            context.goNamed(AccountRoutes.settings.name),
-                        borderRadius: BorderRadius.circular(10),
-                        child: Column(
-                          children: [
-                            ListTile(
-                              title: Text(
-                                menuItems[i]['label'] as String,
-                                style: textTheme.bodySmall?.copyWith(
-                                  color: CustomColors.black,
-                                ),
-                              ),
-                              leading: Icon(
-                                menuItems[i]['icon'] as IconData?,
-                                color: menuItems[i]['color'] as Color?,
+                  children: menuItems.map((item) {
+                    return InkWell(
+                      onTap: () => context.pushNamed(item['option'] as String),
+                      borderRadius: BorderRadius.circular(10),
+                      child: Column(
+                        children: [
+                          ListTile(
+                            title: Text(
+                              item['label'] as String,
+                              style: textTheme.bodySmall?.copyWith(
+                                color: CustomColors.black,
                               ),
                             ),
-                            if (i != menuItems.length - 1)
-                              const Divider(
-                                endIndent: 10,
-                                indent: 10,
-                                thickness: 1,
-                                height: 1,
-                              ),
-                          ],
-                        ),
+                            leading: Icon(
+                              item['icon'] as IconData?,
+                              color: item['color'] as Color?,
+                            ),
+                          ),
+                          if (item != menuItems.last)
+                            const Divider(
+                              endIndent: 10,
+                              indent: 10,
+                              thickness: 1,
+                              height: 1,
+                            ),
+                        ],
                       ),
-                    ],
-                  ],
+                    );
+                  }).toList(),
                 ),
               ),
               const SizedBox(height: 5),
