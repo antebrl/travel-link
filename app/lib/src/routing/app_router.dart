@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:travel_link/src/features/account/presentation/account_account_information_screen.dart';
+import 'package:travel_link/src/features/account/presentation/actions/about_screen.dart';
+import 'package:travel_link/src/features/account/presentation/actions/account_information_screen.dart';
 import 'package:travel_link/src/features/account/presentation/account_screen.dart';
+import 'package:travel_link/src/features/account/presentation/actions/help_screen.dart';
+import 'package:travel_link/src/features/account/presentation/actions/settings_screen.dart';
 import 'package:travel_link/src/features/activities/0_activities_tabs_screen/activities_tabs_screen.dart';
 import 'package:travel_link/src/features/activities/2_continents_screen/domain/continent.dart';
 import 'package:travel_link/src/features/activities/3_activities_screen/presentation/activities_screen.dart';
@@ -247,21 +250,21 @@ GoRouter goRouter(GoRouterRef ref) {
                     path: 'settings',
                     name: AccountRoutes.settings.name,
                     builder: (BuildContext context, GoRouterState state) {
-                      return const Placeholder();
+                      return const AccountSettingsScreen();
                     },
                   ),
                   GoRoute(
                     path: 'help',
                     name: AccountRoutes.help.name,
                     builder: (BuildContext context, GoRouterState state) {
-                      return const Placeholder();
+                      return const AccountHelpScreen();
                     },
                   ),
                   GoRoute(
                     path: 'about',
                     name: AccountRoutes.about.name,
                     builder: (BuildContext context, GoRouterState state) {
-                      return const Placeholder();
+                      return const AccountAboutScreen();
                     },
                   ),
                 ],
