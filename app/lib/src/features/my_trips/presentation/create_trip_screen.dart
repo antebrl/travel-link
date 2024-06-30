@@ -88,8 +88,7 @@ class CreateTripScreenState extends ConsumerState<CreateTripScreen> {
             );
 
     if (success && mounted) {
-      // ignore: unused_result
-      ref.refresh(fetchMyTripsProvider); //load new Trip into MyTrips List
+      ref.invalidate(fetchMyTripsProvider); //load new Trip into MyTrips List
       context.pop();
     }
   }

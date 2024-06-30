@@ -1,0 +1,35 @@
+{
+    "EditTask": "Edit Task",
+    "@EditTask": {
+      "description": "Title for the Editing the Task"
+    },
+    "NoDueDateSet": "No due date set",
+    "@NoDueDateSet": {
+      "description": "Hint if no due date was set"
+    },
+    "DueDate": "Due Date",
+    "@DueDate": {
+      "description": "Label for due date"
+    },
+    "Save": "Save",
+    "@Save": {
+      "description": "Save button text"
+    },
+    "Cancel": "Cancel",
+    "@Cancel": {
+      "description": "Cancel button text"
+    },
+    "YouNeedToLogInToViewPersonalChecklist": "You need to log in to view personal Checklist",
+    "@YouNeedToLogInToViewPersonalChecklist": {
+      "description": "Hint text that a user should log in"
+    },
+    "AddANewItem": "Add a new item",
+    "@AddANewItem": {
+      "description": "Add a new item"
+    },
+    "ErrorLoadingTripsPleaseTryAgainLater": "Error loading trips. Please try again later.",
+    "@ErrorLoadingTripsPleaseTryAgainLater": {
+      "description": "Hint that an error occured"
+    }
+  }
+  

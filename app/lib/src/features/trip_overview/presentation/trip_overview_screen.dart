@@ -228,8 +228,7 @@ class _TripOverviewScreenState extends ConsumerState<TripOverviewScreen>
                               .read(myTripsControllerProvider.notifier)
                               .joinTrip(trip: trip);
 
-                          // ignore: unused_result
-                          ref.refresh(fetchMyTripsProvider);
+                          ref.invalidate(fetchMyTripsProvider);
                         },
                         child: const Text(
                           'Join',
