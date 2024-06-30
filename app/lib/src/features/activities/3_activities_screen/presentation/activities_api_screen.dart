@@ -306,7 +306,12 @@ class _APIActivitiesScreenState extends ConsumerState<APIActivitiesScreen> {
                 ),
               ],
             ),
-            MapScreenWithActivities(fetchedActivities: fetchedActivities),
+            MapScreenWithActivities(
+              fetchedApiActivities: fetchedActivities,
+              fetchedUserActivities: ref.read(
+                  fetchActivitiesProvider(categories: widget.categoryList)
+                      .future),
+            ),
           ],
         ),
       ),
