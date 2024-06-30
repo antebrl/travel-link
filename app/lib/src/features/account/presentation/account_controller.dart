@@ -38,6 +38,56 @@ class AccountController extends _$AccountController {
     return state.hasError == false;
   }
 
+  Future<bool> updateEmail({required String email}) async {
+    final currentUser = ref.read(firebaseAuthProvider).currentUser;
+
+    //set state to loading
+    state = const AsyncLoading();
+
+    final repository = ref.read(accountRepositoryProvider);
+
+    await currentUser!.verifyBeforeUpdateEmail(email);
+
+    state = await AsyncValue.guard(
+      () => repository.updateFirestoreUserData(
+        uid: currentUser.uid,
+        data: {
+          'email': email,
+        },
+      ),
+    );
+
+    ref.invalidate(fetchUserProvider(currentUser.uid));
+
+    if (state.hasError) logger.e(state.error);
+    return state.hasError == false;
+  }
+
+  Future<bool> updatePassword({required String password}) async {
+    final currentUser = ref.read(firebaseAuthProvider).currentUser;
+
+    //set state to loading
+    state = const AsyncLoading();
+
+    final repository = ref.read(accountRepositoryProvider);
+
+    await currentUser!.updatePassword(password);
+
+    state = await AsyncValue.guard(
+      () => repository.updateFirestoreUserData(
+        uid: currentUser.uid,
+        data: {
+          'password': password,
+        },
+      ),
+    );
+
+    ref.invalidate(fetchUserProvider(currentUser.uid));
+
+    if (state.hasError) logger.e(state.error);
+    return state.hasError == false;
+  }
+
   Future<bool> updateDisplayName({required String displayName}) async {
     final currentUser = ref.read(firebaseAuthProvider).currentUser;
 
