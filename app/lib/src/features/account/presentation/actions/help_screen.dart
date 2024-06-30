@@ -23,6 +23,7 @@ class AccountHelpScreen extends StatelessWidget {
                 },
                 label: const Text('Documentation'),
                 icon: const Icon(Icons.menu_book)),
+            const SizedBox(height: 20),
             ElevatedButton.icon(
                 onPressed: () {
                   const url = 'https://h-da.de/';
