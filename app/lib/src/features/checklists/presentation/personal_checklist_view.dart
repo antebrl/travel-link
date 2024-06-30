@@ -119,69 +119,16 @@ class _PersonalChecklistViewState extends ConsumerState<PersonalChecklistView> {
   }
 
   void _editTask(int index) {
-    final TextEditingController _editController =
-        TextEditingController(text: tasks[index].title);
-    DateTime? _selectedDueDate = tasks[index].dueDate;
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Edit Task'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextField(
-                controller: _editController,
-                decoration: const InputDecoration(hintText: 'Edit item'),
-              ),
-              const SizedBox(height: 16),
-              Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      _selectedDueDate == null
-                          ? 'No due date set'
-                          : 'Due date: ${DateFormat('dd/MM/yyyy').format(_selectedDueDate!)}',
-                    ),
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.calendar_today),
-                    onPressed: () async {
-                      DateTime? pickedDate = await showDatePicker(
-                        context: context,
-                        initialDate: _selectedDueDate ?? DateTime.now(),
-                        firstDate: DateTime.now(),
-                        lastDate: DateTime(2101),
-                      );
-                      if (pickedDate != null) {
-                        setState(() {
-                          _selectedDueDate = pickedDate;
-                        });
-                      }
-                    },
-                  ),
-                ],
-              ),
-            ],
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('Cancel'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              child: const Text('Save'),
-              onPressed: () async {
-                tasks[index].title = _editController.text;
-                tasks[index].dueDate = _selectedDueDate;
-
-                Navigator.of(context).pop();
-                await updateTask(index);
-              },
-            ),
-          ],
+        return EditTaskDialog(
+          task: tasks[index],
+          onSave: (newTitle, newDueDate) async {
+            tasks[index].title = newTitle;
+            tasks[index].dueDate = newDueDate;
+            await updateTask(index);
+          },
         );
       },
     );
@@ -375,5 +322,92 @@ class _PersonalChecklistViewState extends ConsumerState<PersonalChecklistView> {
         },
       );
     }
+  }
+}
+
+class EditTaskDialog extends StatefulWidget {
+  final ChecklistItem task;
+  final Function(String, DateTime?) onSave;
+
+  EditTaskDialog({required this.task, required this.onSave});
+
+  @override
+  _EditTaskDialogState createState() => _EditTaskDialogState();
+}
+
+class _EditTaskDialogState extends State<EditTaskDialog> {
+  late TextEditingController _editController;
+  DateTime? _selectedDueDate;
+
+  @override
+  void initState() {
+    super.initState();
+    _editController = TextEditingController(text: widget.task.title);
+    _selectedDueDate = widget.task.dueDate;
+  }
+
+  @override
+  void dispose() {
+    _editController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text('Edit Task'),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          TextField(
+            controller: _editController,
+            decoration: const InputDecoration(hintText: 'Edit item'),
+          ),
+          const SizedBox(height: 16),
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  _selectedDueDate == null
+                      ? 'No due date set'
+                      : 'Due date: ${DateFormat('dd/MM/yyyy').format(_selectedDueDate!)}',
+                ),
+              ),
+              IconButton(
+                icon: const Icon(Icons.calendar_today),
+                onPressed: () async {
+                  DateTime? pickedDate = await showDatePicker(
+                    context: context,
+                    initialDate: _selectedDueDate ?? DateTime.now(),
+                    firstDate: DateTime.now(),
+                    lastDate: DateTime(2101),
+                  );
+                  if (pickedDate != null) {
+                    setState(() {
+                      _selectedDueDate = pickedDate;
+                    });
+                  }
+                },
+              ),
+            ],
+          ),
+        ],
+      ),
+      actions: <Widget>[
+        TextButton(
+          child: const Text('Cancel'),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+        TextButton(
+          child: const Text('Save'),
+          onPressed: () {
+            widget.onSave(_editController.text, _selectedDueDate);
+            Navigator.of(context).pop();
+          },
+        ),
+      ],
+    );
   }
 }
