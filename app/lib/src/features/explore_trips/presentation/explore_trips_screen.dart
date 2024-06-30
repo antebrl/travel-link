@@ -19,6 +19,7 @@ class ExploreTripsScreen extends ConsumerStatefulWidget {
 class _ExploreTripsScreenState extends ConsumerState<ExploreTripsScreen> {
   CarouselController? carouselController = CarouselController();
   // ignore: unused_field
+  // ignore: unused_field
   int _currentIndex = 0;
 
   DateTime? _startDate;
@@ -38,7 +39,6 @@ class _ExploreTripsScreenState extends ConsumerState<ExploreTripsScreen> {
       archived: _upcomingArchivedSelection == archivedString,
       country: _selectedCountry,
     ));
-
 
     return Scaffold(
       appBar: AppBar(
@@ -223,23 +223,23 @@ class _ExploreTripsScreenState extends ConsumerState<ExploreTripsScreen> {
         data: (tripsList) {
           if (tripsList.isNotEmpty) {
             return CarouselSlider(
-            carouselController: carouselController,
-            options: CarouselOptions(
-              viewportFraction: 0.83,
-              enlargeFactor: 0.25,
-              enlargeCenterPage: true,
-              height: 650,
-              onPageChanged: (index, reason) {
-                _currentIndex = index;
-                setState(() {});
-              },
-            ),
-            items: tripsList.map((i) {
-              return PublicTripCard(
-                trip: i,
-              );
-            }).toList(),
-                          );
+              carouselController: carouselController,
+              options: CarouselOptions(
+                viewportFraction: 0.83,
+                enlargeFactor: 0.25,
+                enlargeCenterPage: true,
+                height: 650,
+                onPageChanged: (index, reason) {
+                  _currentIndex = index;
+                  setState(() {});
+                },
+              ),
+              items: tripsList.map((i) {
+                return PublicTripCard(
+                  trip: i,
+                );
+              }).toList(),
+            );
           } else {
             return const Center(
               child: Text(

@@ -4,6 +4,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:travel_link/src/features/activities/3_activities_screen/domain/activity.dart';
 import 'package:travel_link/src/features/activities/5_activities_details_screen/add_to_trip_button.dart';
@@ -321,6 +322,7 @@ class _ApiActivitiesDetailsScreenState
                                   style: Theme.of(context).textTheme.bodyLarge,
                                 ),
                                 const SizedBox(height: 10),
+                                const SizedBox(height: 10),
                               ],
                               Text(
                                 context.loc.location,
@@ -375,6 +377,36 @@ class _ApiActivitiesDetailsScreenState
                                     ),
                                     label: Text(
                                       context.loc.private,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall!
+                                          .copyWith(
+                                            color: CustomColors.primary,
+                                          ),
+                                    ),
+                                  ),
+                                ),
+                              },
+                              if (widget.activity.isPublic == false) ...{
+                                Padding(
+                                  padding: const EdgeInsets.all(10),
+                                  child: Chip(
+                                    side: const BorderSide(
+                                      color: CustomColors.primary,
+                                    ),
+                                    backgroundColor: CustomColors.white,
+                                    labelStyle: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall!
+                                        .copyWith(
+                                          color: CustomColors.primary,
+                                        ),
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 12,
+                                      vertical: 12,
+                                    ),
+                                    label: Text(
+                                      'private',
                                       style: Theme.of(context)
                                           .textTheme
                                           .bodySmall!
