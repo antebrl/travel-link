@@ -1073,10 +1073,10 @@ packages:
     dependency: transitive
     description:
       name: js
-      sha256: c1b2e9b5ea78c45e1a0788d29606ba27dc5f71f019f32ca5140f61ef071838cf
+      sha256: f2c445dce49627136094980615a031419f7f3eb393237e4ecd97ac15dea343f3
       url: "https://pub.dev"
     source: hosted
-    version: "0.7.1"
+    version: "0.6.7"
   json_annotation:
     dependency: "direct main"
     description:
@@ -1153,10 +1153,10 @@ packages:
     dependency: transitive
     description:
       name: location_web
-      sha256: "924da8436db7ded5eef92a7ef3ae6aa3715831a93965376c91738f586302350e"
+      sha256: "49dda13d415c4603c5775a33fb22f575e0aa3f0ec2916644ddcd722db31ee884"
       url: "https://pub.dev"
     source: hosted
-    version: "5.0.0"
+    version: "5.0.2"
   logger:
     dependency: "direct main"
     description:
@@ -1445,6 +1445,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.1"
+  qr_bar_code_scanner_dialog:
+    dependency: "direct main"
+    description:
+      name: qr_bar_code_scanner_dialog
+      sha256: dcb937816d4e562141530265bd1ca39fe00f57000fd79e26c163c957d443e9e4
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.5"
+  qr_code_scanner:
+    dependency: transitive
+    description:
+      name: qr_code_scanner
+      sha256: f23b68d893505a424f0bd2e324ebea71ed88465d572d26bb8d2e78a4749591fd
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.1"
   qr_flutter:
     dependency: "direct main"
     description:
@@ -1980,4 +1996,4 @@ packages:
     version: "3.1.2"
 sdks:
   dart: ">=3.4.0 <4.0.0"
-  flutter: ">=3.19.2"
+  flutter: ">=3.22.0"
