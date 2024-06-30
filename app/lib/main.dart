@@ -10,7 +10,7 @@ import 'src/utils/helpers/localization.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // * Initialize Firebase
+  // * Initialize FirebaseS
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   runApp(const ProviderScope(child: MyApp()));

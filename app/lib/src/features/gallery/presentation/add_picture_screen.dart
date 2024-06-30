@@ -38,8 +38,7 @@ class _AddPictureScreenState extends ConsumerState<AddPictureScreen> {
             );
 
     if (success && mounted) {
-      // ignore: unused_result
-      ref.refresh(
+      ref.invalidate(
         fetchPicturePostsProvider(widget.trip.tripId),
       );
       Navigator.pop(context);

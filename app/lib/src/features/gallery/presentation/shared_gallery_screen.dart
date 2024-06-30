@@ -25,8 +25,7 @@ class SharedGalleryScreen extends ConsumerWidget {
             color: CustomColors.primary,
             strokeWidth: 3,
             onRefresh: () async {
-              // ignore: unused_result
-              ref.refresh(fetchPicturePostsProvider(trip.tripId));
+              ref.invalidate(fetchPicturePostsProvider(trip.tripId));
             },
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 6),
