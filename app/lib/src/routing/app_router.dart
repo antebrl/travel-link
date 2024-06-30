@@ -10,7 +10,6 @@ import 'package:travel_link/src/features/activities/0_activities_tabs_screen/act
 import 'package:travel_link/src/features/activities/2_continents_screen/domain/continent.dart';
 import 'package:travel_link/src/features/activities/3_activities_screen/presentation/activities_screen.dart';
 import 'package:travel_link/src/features/authentication/data/firebase_auth_repository.dart';
-import 'package:travel_link/src/features/authentication/presentation/custom_sign_in_screen.dart';
 import 'package:travel_link/src/features/authentication/presentation/onboarding_screen.dart';
 import 'package:travel_link/src/features/explore_trips/presentation/explore_trips_screen.dart';
 import 'package:travel_link/src/features/my_trips/presentation/my_trips_screen.dart';
@@ -88,8 +87,8 @@ GoRouter goRouter(GoRouterRef ref) {
           return '/${TopLevelDestinations.onboarding.name}';
         }
         if (path.startsWith('/${TopLevelDestinations.myTrips.name}') ||
-            path.startsWith('/${TopLevelDestinations.profile.name}')) {
-          return '/${TopLevelDestinations.signIn.name}';
+            path.startsWith('/${TopLevelDestinations.account.name}')) {
+          return '/${TopLevelDestinations.onboarding.name}';
         }
       }
       return null;
@@ -101,13 +100,6 @@ GoRouter goRouter(GoRouterRef ref) {
         name: 'root',
         pageBuilder: (context, state) => const NoTransitionPage(
           child: ExploreTripsScreen(),
-        ),
-      ),
-      GoRoute(
-        path: '/${TopLevelDestinations.signIn.name}',
-        name: TopLevelDestinations.signIn.name,
-        pageBuilder: (context, state) => const NoTransitionPage(
-          child: CustomSignInScreen(),
         ),
       ),
       GoRoute(
