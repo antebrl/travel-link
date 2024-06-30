@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 import 'package:travel_link/src/features/account/presentation/account_controller.dart';
 import 'package:travel_link/src/features/account/presentation/edit_profile_screen.dart';
 import 'package:travel_link/src/features/authentication/data/firebase_auth_repository.dart';
@@ -53,6 +54,33 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
 
   final String defaultName = 'User Name';
   final String defaultDescription = 'Shine bright like a diamond💎';
+
+  Future<void> showQRCodeDialog({required String qrCodeData}) async {
+    ByteData? qrCodeBytes = await QrPainter(
+      data: qrCodeData,
+      version: QrVersions.auto,
+      gapless: false,
+    ).toImageData(200.0);
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Your QR Code', textAlign: TextAlign.center),
+          content: qrCodeBytes != null
+              ? Image.memory(qrCodeBytes.buffer.asUint8List())
+              : const CircularProgressIndicator(),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Close'),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   Future<void> _showLogoutConfirmation({required FirebaseAuth auth}) async {
     return showDialog<void>(
@@ -256,7 +284,11 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
                             width: 1,
                           ),
                           IconButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              showQRCodeDialog(
+                                qrCodeData: auth.currentUser!.uid,
+                              );
+                            },
                             icon: const Icon(
                               Icons.qr_code,
                               color: CustomColors.buttonPrimary,
