@@ -108,6 +108,9 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
 
   final cityController = TextEditingController();
 
+  final newLanguageController = TextEditingController();
+  final newInterestController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     nameController.text = widget.userAccount.publicName ?? defaultUsername;
@@ -256,7 +259,86 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                             const Spacer(),
                             if (editMode != EditMode.language)
                               IconButton(
-                                  onPressed: () {}, icon: Icon(Icons.add)),
+                                  onPressed: () {
+                                    // Add language
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        Widget? getFlagIcon(FlagsCode flag) {
+                                          Flag? flagIcon;
+                                          try {
+                                            flagIcon = Flag.fromCode(
+                                              flag,
+                                              width: 30,
+                                              height: 30,
+                                            );
+                                          } catch (e) {
+                                            flagIcon = Flag.fromCode(
+                                              FlagsCode.US,
+                                              width: 30,
+                                              height: 30,
+                                            );
+                                          }
+                                          return flagIcon;
+                                        }
+
+                                        return AlertDialog(
+                                          title: const Text('Add Language'),
+                                          actions: [
+                                            ElevatedButton(
+                                              onPressed: () {
+                                                setState(() {
+                                                  languageList.add(
+                                                      newLanguageController
+                                                          .text);
+                                                });
+                                                Navigator.pop(context);
+                                              },
+                                              child: const Text('Add'),
+                                            ),
+                                            ElevatedButton(
+                                              onPressed: () {
+                                                Navigator.pop(context);
+                                              },
+                                              child: const Text('Cancel'),
+                                            ),
+                                          ],
+                                          content: DropdownMenu(
+                                            initialSelection: FlagsCode.US,
+                                            requestFocusOnTap: true,
+                                            label: const Text('Language'),
+                                            controller: newLanguageController,
+                                            onSelected: (flag) {
+                                              newLanguageController.text = flag
+                                                  .toString()
+                                                  .split('.')
+                                                  .last;
+                                            },
+                                            dropdownMenuEntries:
+                                                FlagsCode.values.map<
+                                                    DropdownMenuEntry<
+                                                        FlagsCode>>(
+                                              (FlagsCode flag) {
+                                                return DropdownMenuEntry<
+                                                    FlagsCode>(
+                                                  value: flag,
+                                                  label: flag
+                                                      .toString()
+                                                      .split('.')
+                                                      .last,
+                                                  leadingIcon: getFlagIcon(
+                                                          flag) ??
+                                                      Icon(Icons
+                                                          .flag), // Fallback icon
+                                                );
+                                              },
+                                            ).toList(),
+                                          ),
+                                        );
+                                      },
+                                    );
+                                  },
+                                  icon: Icon(Icons.add)),
                             const VerticalDivider(
                               color: CustomColors.grey,
                               thickness: 1,
@@ -329,7 +411,58 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                             const Spacer(),
                             if (editMode != EditMode.interest)
                               IconButton(
-                                  onPressed: () {}, icon: Icon(Icons.add)),
+                                  onPressed: () {
+                                    // Add interest
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return AlertDialog(
+                                          title: const Text('Add Interest'),
+                                          content: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              TextFormField(
+                                                controller:
+                                                    newInterestController,
+                                                decoration:
+                                                    const InputDecoration(
+                                                  labelText: 'Interest',
+                                                  labelStyle:
+                                                      TextStyle(fontSize: 15),
+                                                  hintStyle:
+                                                      TextStyle(fontSize: 15),
+                                                ),
+                                              ),
+                                              const SizedBox(height: 10),
+                                              Row(
+                                                children: [
+                                                  ElevatedButton(
+                                                    onPressed: () {
+                                                      setState(() {
+                                                        interestsList.add(
+                                                            newInterestController
+                                                                .text);
+                                                      });
+                                                      Navigator.pop(context);
+                                                    },
+                                                    child: const Text('Add'),
+                                                  ),
+                                                  const Spacer(),
+                                                  ElevatedButton(
+                                                    onPressed: () {
+                                                      Navigator.pop(context);
+                                                    },
+                                                    child: const Text('Cancel'),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      },
+                                    );
+                                  },
+                                  icon: Icon(Icons.add)),
                             const VerticalDivider(
                               color: CustomColors.grey,
                               thickness: 1,

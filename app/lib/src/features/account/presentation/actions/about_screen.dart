@@ -25,7 +25,7 @@ class AccountAboutScreen extends StatelessWidget {
             ),
             SizedBox(height: 16),
             Text(
-              'Made with ❤️ by the TravelLink team',
+              'Made with ❤️ by the TraveLink team',
               style: Theme.of(context).textTheme.bodyMedium,
             ),
             SizedBox(height: 16),
