@@ -1,5 +1,7 @@
 import 'dart:typed_data';
 
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:travel_link/src/features/account/data/account_repository.dart';
 import 'package:travel_link/src/features/authentication/data/firebase_auth_repository.dart';
@@ -44,20 +46,12 @@ class AccountController extends _$AccountController {
     //set state to loading
     state = const AsyncLoading();
 
-    final repository = ref.read(accountRepositoryProvider);
-
-    await currentUser!.verifyBeforeUpdateEmail(email);
-
-    state = await AsyncValue.guard(
-      () => repository.updateFirestoreUserData(
-        uid: currentUser.uid,
-        data: {
-          'email': email,
-        },
-      ),
-    );
-
-    ref.invalidate(fetchUserProvider(currentUser.uid));
+    try{
+      // ignore: deprecated_member_use
+      await currentUser!.updateEmail(email);
+    } catch(e){
+      logger.e(e);
+    }
 
     if (state.hasError) logger.e(state.error);
     return state.hasError == false;
@@ -69,20 +63,7 @@ class AccountController extends _$AccountController {
     //set state to loading
     state = const AsyncLoading();
 
-    final repository = ref.read(accountRepositoryProvider);
-
     await currentUser!.updatePassword(password);
-
-    state = await AsyncValue.guard(
-      () => repository.updateFirestoreUserData(
-        uid: currentUser.uid,
-        data: {
-          'password': password,
-        },
-      ),
-    );
-
-    ref.invalidate(fetchUserProvider(currentUser.uid));
 
     if (state.hasError) logger.e(state.error);
     return state.hasError == false;

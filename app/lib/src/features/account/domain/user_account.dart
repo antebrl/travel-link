@@ -1,6 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:flag/flag.dart';
-import 'package:flag/flag_enum.dart';
 
 class UserAccount extends Equatable {
   const UserAccount({
@@ -45,8 +43,8 @@ class UserAccount extends Equatable {
       publicName: value['publicName'] as String?,
       pictureUrl: value['pictureUrl'] as String?,
       city: value['city'] as String?,
-      interests: (value['interests'] as List<dynamic>).cast<String>(),
-      languages: (value['languages'] as List<dynamic>).cast<String>(),
+      interests: value['interests'] != null ? (value['interests'] as List<dynamic>).cast<String>() : [],
+      languages: value['languages'] != null ? (value['languages'] as List<dynamic>).cast<String>() : [],
     );
   }
 
