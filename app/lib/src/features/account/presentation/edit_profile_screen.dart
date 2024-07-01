@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:country_picker/country_picker.dart';
 import 'package:flag/flag.dart';
 import 'package:flag/flag_enum.dart';
 import 'package:flag/flag_widget.dart';
@@ -64,6 +65,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
 
   late List<String> languageList = [];
   late List<String> interestsList = [];
+  String _selectedCountry = 'England';
 
   void saveProfileToDatabase() {
     final accountController = ref.read(accountControllerProvider.notifier);
@@ -259,85 +261,37 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                             const Spacer(),
                             if (editMode != EditMode.language)
                               IconButton(
-                                  onPressed: () {
-                                    // Add language
-                                    showDialog(
-                                      context: context,
-                                      builder: (context) {
-                                        Widget? getFlagIcon(FlagsCode flag) {
-                                          Flag? flagIcon;
-                                          try {
-                                            flagIcon = Flag.fromCode(
-                                              flag,
-                                              width: 30,
-                                              height: 30,
-                                            );
-                                          } catch (e) {
-                                            flagIcon = Flag.fromCode(
-                                              FlagsCode.US,
-                                              width: 30,
-                                              height: 30,
-                                            );
-                                          }
-                                          return flagIcon;
-                                        }
-
-                                        return AlertDialog(
-                                          title: const Text('Add Language'),
-                                          actions: [
-                                            ElevatedButton(
-                                              onPressed: () {
-                                                setState(() {
-                                                  languageList.add(
-                                                      newLanguageController
-                                                          .text);
-                                                });
-                                                Navigator.pop(context);
-                                              },
-                                              child: const Text('Add'),
-                                            ),
-                                            ElevatedButton(
-                                              onPressed: () {
-                                                Navigator.pop(context);
-                                              },
-                                              child: const Text('Cancel'),
-                                            ),
-                                          ],
-                                          content: DropdownMenu(
-                                            initialSelection: FlagsCode.US,
-                                            requestFocusOnTap: true,
-                                            label: const Text('Language'),
-                                            controller: newLanguageController,
-                                            onSelected: (flag) {
-                                              newLanguageController.text = flag
-                                                  .toString()
-                                                  .split('.')
-                                                  .last;
-                                            },
-                                            dropdownMenuEntries:
-                                                FlagsCode.values.map<
-                                                    DropdownMenuEntry<
-                                                        FlagsCode>>(
-                                              (FlagsCode flag) {
-                                                return DropdownMenuEntry<
-                                                    FlagsCode>(
-                                                  value: flag,
-                                                  label: flag
-                                                      .toString()
-                                                      .split('.')
-                                                      .last,
-                                                  leadingIcon: getFlagIcon(
-                                                          flag) ??
-                                                      Icon(Icons
-                                                          .flag), // Fallback icon
-                                                );
-                                              },
-                                            ).toList(),
+                                  onPressed: () => showCountryPicker(
+                                        context: context,
+                                        onSelect: (Country country) {
+                                          setState(() {
+                                            languageList
+                                                .add(country.countryCode);
+                                          });
+                                        },
+                                        countryListTheme: CountryListThemeData(
+                                          borderRadius: const BorderRadius.only(
+                                            topLeft: Radius.circular(40),
+                                            topRight: Radius.circular(40),
                                           ),
-                                        );
-                                      },
-                                    );
-                                  },
+                                          inputDecoration: InputDecoration(
+                                            labelText: 'Search',
+                                            hintText: 'Start typing to search',
+                                            prefixIcon:
+                                                const Icon(Icons.search),
+                                            border: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                color: const Color(0xFF8C98A8)
+                                                    .withOpacity(0.2),
+                                              ),
+                                            ),
+                                          ),
+                                          searchTextStyle: const TextStyle(
+                                            color: Colors.blue,
+                                            fontSize: 18,
+                                          ),
+                                        ),
+                                      ),
                                   icon: Icon(Icons.add)),
                             const VerticalDivider(
                               color: CustomColors.grey,
@@ -411,57 +365,55 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                             const Spacer(),
                             if (editMode != EditMode.interest)
                               IconButton(
-                                  onPressed: () {
-                                    // Add interest
-                                    showDialog(
-                                      context: context,
-                                      builder: (context) {
-                                        return AlertDialog(
-                                          title: const Text('Add Interest'),
-                                          content: Column(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              TextFormField(
-                                                controller:
-                                                    newInterestController,
-                                                decoration:
-                                                    const InputDecoration(
-                                                  labelText: 'Interest',
-                                                  labelStyle:
-                                                      TextStyle(fontSize: 15),
-                                                  hintStyle:
-                                                      TextStyle(fontSize: 15),
+                                  onPressed: () => showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return AlertDialog(
+                                            title: const Text('Add Interest'),
+                                            content: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                TextFormField(
+                                                  controller:
+                                                      newInterestController,
+                                                  decoration:
+                                                      const InputDecoration(
+                                                    labelText: 'Interest',
+                                                    labelStyle:
+                                                        TextStyle(fontSize: 15),
+                                                    hintStyle:
+                                                        TextStyle(fontSize: 15),
+                                                  ),
                                                 ),
-                                              ),
-                                              const SizedBox(height: 10),
-                                              Row(
-                                                children: [
-                                                  ElevatedButton(
-                                                    onPressed: () {
-                                                      setState(() {
-                                                        interestsList.add(
-                                                            newInterestController
-                                                                .text);
-                                                      });
-                                                      Navigator.pop(context);
-                                                    },
-                                                    child: const Text('Add'),
-                                                  ),
-                                                  const Spacer(),
-                                                  ElevatedButton(
-                                                    onPressed: () {
-                                                      Navigator.pop(context);
-                                                    },
-                                                    child: const Text('Cancel'),
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                        );
-                                      },
-                                    );
-                                  },
+                                                const SizedBox(height: 10),
+                                                Row(
+                                                  children: [
+                                                    ElevatedButton(
+                                                      onPressed: () {
+                                                        setState(() {
+                                                          interestsList.add(
+                                                              newInterestController
+                                                                  .text);
+                                                        });
+                                                        Navigator.pop(context);
+                                                      },
+                                                      child: const Text('Add'),
+                                                    ),
+                                                    const Spacer(),
+                                                    ElevatedButton(
+                                                      onPressed: () {
+                                                        Navigator.pop(context);
+                                                      },
+                                                      child:
+                                                          const Text('Cancel'),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                          );
+                                        },
+                                      ),
                                   icon: Icon(Icons.add)),
                             const VerticalDivider(
                               color: CustomColors.grey,
