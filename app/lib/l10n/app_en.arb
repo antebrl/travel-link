@@ -137,6 +137,17 @@
   "searchHint": "Start typing to search",
   "flexibleLabel": "Flexible",
   "noTripsFound": "No trips found",
-  "exploreTripsTitle": "Explore Trips"
+  "exploreTripsTitle": "Explore Trips",
+
+
+  "addPicture": "Add a picture",
+  "addPictureSelectImage": "Please select an image",
+  "addPictureNotParticipant": "You are not a participant of this trip",
+  "addPictureCaption": "Add a caption",
+  "deletePicture": "Delete Picture",
+  "deletePictureConfirmation": "Are you sure you want to delete this picture?",
+
+  "anonymousUser": "Anonym User"
+
 
 }

@@ -124,5 +124,15 @@
   "searchHint": "Suchbegriff eingeben",
   "flexibleLabel": "Flexibel",
   "noTripsFound": "Keine Reisen gefunden",
-  "exploreTripsTitle": "Entdecke Reisen"
+  "exploreTripsTitle": "Entdecke Reisen",
+
+
+  "addPicture": "Bild hinzufügen",
+  "addPictureSelectImage": "Bitte Bild auswählen",
+  "addPictureNotParticipant": "Sie sind kein Teilnehmer dieser Reise",
+  "addPictureCaption": "Beschriftung hinzufügen",
+  "deletePicture": "Bild löschen",
+  "deletePictureConfirmation": "Möchten Sie dieses Bild wirklich löschen?",
+
+  "anonymousUser": "Anonymer Benutzer"
 }
