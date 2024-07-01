@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
+import 'package:travel_link/src/utils/helpers/localization.dart';
 
 class TripPrivacyInformationDialog extends StatelessWidget {
   const TripPrivacyInformationDialog({super.key});
@@ -27,27 +29,27 @@ class TripPrivacyInformationDialog extends StatelessWidget {
                 ),
                 width: double.infinity,
                 padding: const EdgeInsets.all(16),
-                child: const Text(
-                  'Who can join this trip?',
-                  style: TextStyle(
+                child: Text(
+                  context.loc.tripPrivacyInformation,
+                  style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
-              const ListTile(
-                leading: Icon(
+              ListTile(
+                leading: const Icon(
                   Icons.public,
                   color: Colors.blue,
                 ),
                 title: Text(
-                  'Public',
-                  style: TextStyle(
+                  context.loc.public,
+                  style: const TextStyle(
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 subtitle: Text(
-                  'Meet new people in a public trip. A public trip is visible to all users. Everybody can join if it is not full.',
+                  context.loc.publicTripDescription,
                 ),
               ),
               const SizedBox(height: 5),
@@ -55,19 +57,19 @@ class TripPrivacyInformationDialog extends StatelessWidget {
                 height: 0,
                 color: Colors.grey,
               ),
-              const ListTile(
-                leading: Icon(
+              ListTile(
+                leading: const Icon(
                   Icons.lock_outline,
                   color: Colors.blue,
                 ),
                 title: Text(
-                  'Private',
-                  style: TextStyle(
+                  context.loc.private,
+                  style: const TextStyle(
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 subtitle: Text(
-                  'A private trip is only accessible to invited participants. It is not visible to other users unless they are invited.',
+                  context.loc.privateTripDescription,
                 ),
               ),
               const SizedBox(height: 16),

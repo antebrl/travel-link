@@ -97,6 +97,35 @@
   "validCityError": "Please enter a valid city.",
   "selectCategoryError": "Please select at least one category.",
   "addActivity": "Add an Activity",
-  "activityHintText": "Activity..."
+  "activityHintText": "Activity...",
   
-  }
+
+
+
+  "myTripsTitle": "My Trips",
+  "upcomingTripsTitle": "Upcoming trips",
+  "noUpcomingTripsFound": "No upcoming trips yet.",
+  "previousTripsTitle": "Previous trips",
+  "noPreviousTripsFound": "No previous trips found",
+  "errorLoadingTrips": "Error loading trips. Please try again later.",
+
+  "tripPrivacyInformation": "Who can join this trip?",
+  "public": "Public",
+  "publicTripDescription": "Meet new people in a public trip. A public trip is visible to all users. Everybody can join if it is not full.",
+  "private": "Private",
+  "privateTripDescription": "A private trip is only accessible to invited participants. It is not visible to other users unless they are invited.",
+
+  "flexibleDates": "Flexible Dates",
+
+  "createTrip": "Create a Trip",
+  "tripName": "Name",
+  "tripNameEmptyError": "Name can't be empty",
+  "tripDescriptionEmptyError": "Description can't be empty if the trip is public",
+  "tripDescription": "Description",
+  "tripDateSelect": "Select Dates",
+  "optional": "optional",
+  "publicTrip": "Public Trip",
+  "privateTrip": "Private Trip",
+  "maxParticipants": "Max Particpants",
+  "createTrip": "Create"
+}

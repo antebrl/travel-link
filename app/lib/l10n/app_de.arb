@@ -87,6 +87,33 @@
   "validCityError": "Geben Sie eine gültige Stadt ein.",
   "selectCategoryError": "Wählen Sie mindestens eine Kategorie aus.",
   "addActivity": "Aktivität hinzufügen",
-     "activityHintText": "Aktivität..."
+     "activityHintText": "Aktivität...",
 
+
+  "myTripsTitle": "Meine Reisen",
+  "upcomingTripsTitle": "Kommende Reisen",
+  "noUpcomingTripsFound": "Noch keine kommenden Reisen.",
+  "previousTripsTitle": "Vergangene Reisen",
+  "noPreviousTripsFound": "Keine vergangenen Reisen",
+  "errorLoadingTrips": "Fehler beim Laden der Reisen. Bitte versuchen Sie es später erneut.",
+
+  "tripPrivacyInformation": "Wer kann teilnehmen?",
+  "public": "Öffentlich",
+  "publicTripDescription": "Lerne neue Leute bei einer öffentlichen Reise kennen. Eine öffentliche Reise ist für alle Nutzer sichtbar. Jeder kann teilnehmen, sofern die Reise nicht ausgebucht ist.",
+  "private": "Privat",
+  "privateTripDescription": "Eine private Reise ist nur für eingeladene Teilnehmer zugänglich. Sie ist für andere Nutzer nicht sichtbar, es sei denn, sie sind eingeladen.",
+  
+  "flexibleDates": "Flexibler Zeitraum",
+  
+  "createTrip": "Reise erstellen",
+  "tripName": "Name",
+  "tripNameEmptyError": "Name darf nicht leer sein",
+  "tripDescriptionEmptyError": "Beschreibung darf nicht leer sein, wenn die Reise öffentlich ist",
+  "tripDescription": "Beschreibung",
+  "tripDateSelect": "Zeitraum auswählen",
+  "optional": "optional",
+  "publicTrip": "Offene Reise",
+  "privateTrip": "Private Reise",
+  "maxParticipants": "Max Teilnehmer",
+  "createTrip": "Erstellen"
 }
