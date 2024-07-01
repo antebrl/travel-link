@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
 import 'package:travel_link/src/utils/helpers/localization.dart';
 

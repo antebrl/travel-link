@@ -127,5 +127,16 @@
   "publicTrip": "Public Trip",
   "privateTrip": "Private Trip",
   "maxParticipants": "Max Particpants",
-  "createTrip": "Create"
+  "createTrip": "Create",
+
+
+  "countryWorldWide": "World Wide",
+  "archivedTripSelection": "Archived",
+  "upcomingTripsSelection": "Upcoming",
+  "searchLabel": "Search",
+  "searchHint": "Start typing to search",
+  "flexibleLabel": "Flexible",
+  "noTripsFound": "No trips found",
+  "exploreTripsTitle": "Explore Trips"
+
 }
