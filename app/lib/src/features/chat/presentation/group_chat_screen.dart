@@ -8,6 +8,7 @@ import 'package:travel_link/src/features/chat/presentation/my_message_tile.dart'
 import 'package:travel_link/src/features/chat/presentation/reply_message_tile.dart';
 import 'package:travel_link/src/features/explore_trips/domain/trip.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
+import 'package:travel_link/src/utils/helpers/localization.dart';
 import 'package:travel_link/src/utils/logging/logger.dart';
 
 class GroupChatScreen extends ConsumerStatefulWidget {
@@ -48,10 +49,10 @@ class _GroupChatScreenState extends ConsumerState<GroupChatScreen> {
         logger.e('Error loading chat', error: error, stackTrace: stackTrace);
         return Scaffold(
           appBar: AppBar(
-            title: const Text('Trip Group Chat'),
+            title: Text(context.loc.tripGroupChat),
           ),
-          body: const Center(
-            child: Text('Error loading chat. Please try again later.'),
+          body: Center(
+            child: Text(context.loc.errorLoadingChat),
           ),
         );
       },
@@ -159,11 +160,11 @@ class _GroupChatScreenState extends ConsumerState<GroupChatScreen> {
                           padding: const EdgeInsets.only(left: 10),
                           child: TextField(
                             controller: _controller,
-                            decoration: const InputDecoration(
+                            decoration: InputDecoration(
                               border: InputBorder.none,
                               enabledBorder: InputBorder.none,
                               focusedBorder: InputBorder.none,
-                              hintText: 'Type message...',
+                              hintText: context.loc.typeMessage,
                             ),
                           ),
                         ),
@@ -175,8 +176,8 @@ class _GroupChatScreenState extends ConsumerState<GroupChatScreen> {
 
                           if (_controller.text.isEmpty) {
                             ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text('Cannot send empty Message.'),
+                             SnackBar(
+                                content: Text(context.loc.chatEmptyMessage),
                               ),
                             );
                             return;
@@ -184,9 +185,9 @@ class _GroupChatScreenState extends ConsumerState<GroupChatScreen> {
 
                           if (auth.currentUser?.displayName == null) {
                             ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
+                              SnackBar(
                                 content: Text(
-                                  'Please sign in and assign yourself a name in your profile to send messages.',
+                                  context.loc.signInToSendMessage,
                                 ),
                               ),
                             );

@@ -8,6 +8,7 @@ import 'package:travel_link/src/common_widgets/participants_avatar_stack.dart';
 import 'package:travel_link/src/features/explore_trips/domain/trip.dart';
 import 'package:travel_link/src/routing/app_router.dart';
 import 'package:travel_link/src/utils/constants/image_strings.dart';
+import 'package:travel_link/src/utils/helpers/localization.dart';
 
 class MyTripTile extends ConsumerWidget {
   const MyTripTile({
@@ -136,7 +137,7 @@ class MyTripTile extends ConsumerWidget {
                                     trip.startDate != null
                                         ? DateFormat('dd/MM/yyyy')
                                             .format(trip.startDate!)
-                                        : 'Flexible Dates',
+                                        : context.loc.flexibleDates,
                                     style: const TextStyle(
                                       fontSize: 16,
                                       color: Colors.black87,
