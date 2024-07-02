@@ -1,35 +1,17 @@
 {
-    "EditTask": "Aufgabe bearbeiten",
-    "@EditTask": {
-      "description": "Title for the Editing the Task"
-    },
-    "NoDueDateSet": "Kein Enddatum gesetzt",
-    "@NoDueDateSet": {
-      "description": "Hint if no due date was set"
-    },
-    "DueDate": "Enddatum",
-    "@DueDate": {
-      "description": "Label for due date"
-    },
-    "Save": "Speichern",
-    "@Save": {
-      "description": "Save button text"
-    },
-    "Cancel": "Abbrechen",
-    "@Cancel": {
-      "description": "Cancel button text"
-    },
-    "YouNeedToLogInToViewPersonalChecklist": "Du musst eingeloggt sein um die persönliche Checkliste zu sehen",
-    "@YouNeedToLogInToViewPersonalChecklist": {
-      "description": "Hint text that a user should log in"
-    },
-    "AddANewItem": "Aufgabe hinzufügen",
-    "@AddANewItem": {
-      "description": "Add a new item"
-    },
-    "ErrorLoadingTripsPleaseTryAgainLater": "Fehler beim laden der Trips. Bitte versuche es später erneut.",
-    "@ErrorLoadingTripsPleaseTryAgainLater": {
-      "description": "Hint that an error occured"
-    }
-  }
+  "EditTask": "Aufgabe bearbeiten",
+  "NoDueDateSet": "Kein Enddatum gesetzt",
+  "DueDate": "Enddatum",
+  "Save": "Speichern",
+  "Cancel": "Abbrechen",
+  "YouNeedToLogInToViewPersonalChecklist": "Du musst eingeloggt sein um die persönliche Checkliste zu sehen",
+  "AddANewItem": "Aufgabe hinzufügen",
+  "ErrorLoadingTripsPleaseTryAgainLater": "Fehler beim laden der Trips. Bitte versuche es später erneut.",
+  "Due": "Bis",
+  "Completed": "Erledigt",
+  "ErrorLoadingChecklist": "Fehler beim Laden der Checklist",
+  "EditItem": "Item bearbeiten",
+  "AssignUsers": "Nutzer zuweisen",
+  "YouNeedToLogInToViewGroupChecklist":"Du musst eingeloggt sein um die Gruppen Checkliste zu sehen."
+}
   
