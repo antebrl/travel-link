@@ -144,6 +144,27 @@
   "signInToSendMessage": "Bitte melden Sie sich an und vergeben Sie in Ihrem Profil einen Namen, um Nachrichten zu senden.",
 
   "signIn": "Anmelden",
-  "tryAsGuest": "Als Gast",
-  "or": "oder"
+  "tryAsGuest": "Als Gast fortfahren",
+  "or": "oder",
+
+
+  "leaveTrip": "Reise verlassen",
+  "leave": "Verlassen",
+  "confirmLeaveTrip": "Möchten Sie diese Reise wirklich verlassen?",
+  "plan": "Plan",
+  "chat": "Chat",
+  "gallery": "Galerie",
+  "tripFull": "Reise ist voll",
+  "join": "Beitreten",
+  "loadingTrip": "Reise wird geladen...",
+  "tripOverview": "Reiseübersicht",
+  "errorLoadingTrip": "Fehler beim Laden der Reise. Bitte versuchen Sie es später erneut.",
+  "participantsTitle": "Teilnehmer",
+  "activitiesTitle": "Aktivitäten",
+  "mapTitle": "Karte",
+  "checklistTitle": "Checkliste",
+  "noImagesAvailable": "Keine Bilder verfügbar",
+
+  "addUser": "Benutzer hinzufügen",
+  "addParticipant": "Teilnehmer hinzufügen"
 }

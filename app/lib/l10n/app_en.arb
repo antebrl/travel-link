@@ -158,7 +158,26 @@
 
   "signIn": "Sign in",
   "tryAsGuest": "Try anonymously",
-  "or": "or"
+  "or": "or",
 
 
+  "leaveTrip": "Leave Trip",
+  "leave": "Leave",
+  "confirmLeaveTrip": "Are you sure you want to leave this trip?",
+  "plan": "Plan",
+  "chat": "Chat",
+  "gallery": "Gallery",
+  "tripFull": "Trip is full",
+  "join": "Join",
+  "loadingTrip": "Loading Trip...",
+  "tripOverview": "Trip Overview",
+  "errorLoadingTrip": "Error loading trip. Please try again later.",
+  "participantsTitle": "Participants",
+  "activitiesTitle": "Activities",
+  "mapTitle": "Map",
+  "checklistTitle": "Checklist",
+  "noImagesAvailable": "No images available",
+
+  "addUser": "Add User",
+  "addParticipant": "Add Participant"
 }
