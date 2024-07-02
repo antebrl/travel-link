@@ -7,75 +7,22 @@ import 'package:flutter_geocoder/geocoder.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:travel_link/src/features/activities/3_activities_screen/domain/activity.dart';
+import 'package:travel_link/src/features/activities/5_activities_details_screen/api_activities_details_screen.dart';
 
 import 'converter.dart';
 import 'exchanged_way.dart';
 import 'path_finding.dart';
 
-Marker createUserMarker(LatLng position) {
-  final Completer<Marker> markerCompleter = Completer<Marker>();
-  final ValueNotifier<Color> colorNotifier =
-      ValueNotifier<Color>(Colors.purple);
-  final ValueNotifier<Color> starColorNotifier =
-      ValueNotifier<Color>(Colors.grey);
-
-  final Marker newMarker = Marker(
-    point: position,
-    width: 20,
-    height: 20,
-    child: ValueListenableBuilder<Color>(
-      valueListenable: colorNotifier,
-      builder: (context, color, child) {
-        return IconButton(
-          icon: Icon(Icons.person, color: color),
-          onPressed: () {
-            // ignore: inference_failure_on_function_invocation
-            showDialog(
-              context: context,
-              builder: (context) => AlertDialog(
-                content: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    ValueListenableBuilder<Color>(
-                      valueListenable: starColorNotifier,
-                      builder: (context, starColor, child) {
-                        return IconButton(
-                          icon: Icon(
-                            Icons.star,
-                            color: starColor,
-                          ),
-                          onPressed: () {
-                            /*
-                            Nutzerfunktionalitaet hinzufuegen
-                            */
-                          },
-                        );
-                      },
-                    ),
-                  ],
-                ),
-              ),
-            );
-          },
-        );
-      },
-    ),
-  );
-
-  markerCompleter.complete(newMarker);
-  return newMarker;
-}
-
 Marker createEntertainmentActivity(
-    LatLng position, String name, String description, WidgetRef ref) {
-  final LatLng locationPosition = position;
-  String usedMobility = 'Car';
-  String mobilityForAPI = 'cycling-regular';
+  LatLng position,
+  String name,
+  String description,
+  WidgetRef ref,
+  Activity associatedActivity,
+) {
   final ValueNotifier<Color> colorNotifier =
       ValueNotifier<Color>(const Color.fromARGB(255, 109, 162, 30));
-  final ValueNotifier<Color> starColorNotifier =
-      ValueNotifier<Color>(Colors.grey);
-  final ValueNotifier<bool> isLoadingNotifier = ValueNotifier<bool>(false);
 
   return Marker(
     point: position,
@@ -84,24 +31,51 @@ Marker createEntertainmentActivity(
     child: ValueListenableBuilder<Color>(
       valueListenable: colorNotifier,
       builder: (context, color, child) {
-        return IconButton(
-          icon: Icon(Icons.theater_comedy, color: color),
-          onPressed: () {
-            // ignore: inference_failure_on_function_invocation
-            showDialog(
-              context: context,
-              builder: (context) => AlertDialog(
-                title: Text(name), // Set the title to the name
-                content: StatefulBuilder(
-                  builder: (context, setState) {
-                    return Column(
-                      mainAxisSize: MainAxisSize.min,
-                    );
-                  },
-                ),
-              ),
-            );
-          },
+        return Column(
+          children: [
+            IconButton(
+              icon: Icon(Icons.theater_comedy, color: color),
+              onPressed: () {
+                // ignore: inference_failure_on_function_invocation
+                showDialog(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    title: Text(name), // Set the title to the name
+                    content: StatefulBuilder(
+                      builder: (context, setState) {
+                        return Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(description),
+                            const SizedBox(height: 20),
+                            ElevatedButton(
+                              onPressed: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        ApiActivitiesDetailsScreen(
+                                            activity: associatedActivity),
+                                  ),
+                                );
+                              },
+                              child: const Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(Icons.search),
+                                  SizedBox(width: 10),
+                                  Text('Details'),
+                                ],
+                              ),
+                            ),
+                          ],
+                        );
+                      },
+                    ),
+                  ),
+                );
+              },
+            ),
+          ],
         );
       },
     ),
@@ -109,15 +83,14 @@ Marker createEntertainmentActivity(
 }
 
 Marker createEducationActivity(
-    LatLng position, String name, String description, WidgetRef ref) {
-  final LatLng locationPosition = position;
-  String usedMobility = 'Car';
-  String mobilityForAPI = 'cycling-regular';
+  LatLng position,
+  String name,
+  String description,
+  WidgetRef ref,
+  Activity associatedActivity,
+) {
   final ValueNotifier<Color> colorNotifier =
       ValueNotifier<Color>(const Color.fromARGB(255, 19, 146, 181));
-  final ValueNotifier<Color> starColorNotifier =
-      ValueNotifier<Color>(Colors.grey);
-  final ValueNotifier<bool> isLoadingNotifier = ValueNotifier<bool>(false);
 
   return Marker(
     point: position,
@@ -138,6 +111,29 @@ Marker createEducationActivity(
                   builder: (context, setState) {
                     return Column(
                       mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(description),
+                        const SizedBox(height: 20),
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    ApiActivitiesDetailsScreen(
+                                        activity: associatedActivity),
+                              ),
+                            );
+                          },
+                          child: const Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(Icons.search),
+                              SizedBox(width: 10),
+                              Text('Details'),
+                            ],
+                          ),
+                        ),
+                      ],
                     );
                   },
                 ),
@@ -151,15 +147,14 @@ Marker createEducationActivity(
 }
 
 Marker createNatureActivity(
-    LatLng position, String name, String description, WidgetRef ref) {
-  final LatLng locationPosition = position;
-  String usedMobility = 'Car';
-  String mobilityForAPI = 'cycling-regular';
+  LatLng position,
+  String name,
+  String description,
+  WidgetRef ref,
+  Activity associatedActivity,
+) {
   final ValueNotifier<Color> colorNotifier =
       ValueNotifier<Color>(const Color.fromARGB(255, 4, 88, 9));
-  final ValueNotifier<Color> starColorNotifier =
-      ValueNotifier<Color>(Colors.grey);
-  final ValueNotifier<bool> isLoadingNotifier = ValueNotifier<bool>(false);
 
   return Marker(
     point: position,
@@ -180,6 +175,29 @@ Marker createNatureActivity(
                   builder: (context, setState) {
                     return Column(
                       mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(description),
+                        const SizedBox(height: 20),
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    ApiActivitiesDetailsScreen(
+                                        activity: associatedActivity),
+                              ),
+                            );
+                          },
+                          child: const Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(Icons.search),
+                              SizedBox(width: 10),
+                              Text('Details'),
+                            ],
+                          ),
+                        ),
+                      ],
                     );
                   },
                 ),
@@ -193,15 +211,14 @@ Marker createNatureActivity(
 }
 
 Marker createSportsActivity(
-    LatLng position, String name, String description, WidgetRef ref) {
-  final LatLng locationPosition = position;
-  String usedMobility = 'Car';
-  String mobilityForAPI = 'cycling-regular';
+  LatLng position,
+  String name,
+  String description,
+  WidgetRef ref,
+  Activity associatedActivity,
+) {
   final ValueNotifier<Color> colorNotifier =
       ValueNotifier<Color>(const Color.fromARGB(255, 117, 14, 14));
-  final ValueNotifier<Color> starColorNotifier =
-      ValueNotifier<Color>(Colors.grey);
-  final ValueNotifier<bool> isLoadingNotifier = ValueNotifier<bool>(false);
 
   return Marker(
     point: position,
@@ -222,6 +239,29 @@ Marker createSportsActivity(
                   builder: (context, setState) {
                     return Column(
                       mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(description),
+                        const SizedBox(height: 20),
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    ApiActivitiesDetailsScreen(
+                                        activity: associatedActivity),
+                              ),
+                            );
+                          },
+                          child: const Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(Icons.search),
+                              SizedBox(width: 10),
+                              Text('Details'),
+                            ],
+                          ),
+                        ),
+                      ],
                     );
                   },
                 ),
@@ -235,15 +275,14 @@ Marker createSportsActivity(
 }
 
 Marker createCateringActivity(
-    LatLng position, String name, String description, WidgetRef ref) {
-  final LatLng locationPosition = position;
-  String usedMobility = 'Car';
-  String mobilityForAPI = 'cycling-regular';
+  LatLng position,
+  String name,
+  String description,
+  WidgetRef ref,
+  Activity associatedActivity,
+) {
   final ValueNotifier<Color> colorNotifier =
-      ValueNotifier<Color>(Color.fromARGB(255, 204, 193, 41));
-  final ValueNotifier<Color> starColorNotifier =
-      ValueNotifier<Color>(Colors.grey);
-  final ValueNotifier<bool> isLoadingNotifier = ValueNotifier<bool>(false);
+      ValueNotifier<Color>(const Color.fromARGB(255, 204, 193, 41));
 
   return Marker(
     point: position,
@@ -264,6 +303,29 @@ Marker createCateringActivity(
                   builder: (context, setState) {
                     return Column(
                       mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(description),
+                        const SizedBox(height: 20),
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    ApiActivitiesDetailsScreen(
+                                        activity: associatedActivity),
+                              ),
+                            );
+                          },
+                          child: const Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(Icons.search),
+                              SizedBox(width: 10),
+                              Text('Details'),
+                            ],
+                          ),
+                        ),
+                      ],
                     );
                   },
                 ),
@@ -277,15 +339,14 @@ Marker createCateringActivity(
 }
 
 Marker createReligousActivity(
-    LatLng position, String name, String description, WidgetRef ref) {
-  final LatLng locationPosition = position;
-  String usedMobility = 'Car';
-  String mobilityForAPI = 'cycling-regular';
+  LatLng position,
+  String name,
+  String description,
+  WidgetRef ref,
+  Activity associatedActivity,
+) {
   final ValueNotifier<Color> colorNotifier =
-      ValueNotifier<Color>(Color.fromARGB(255, 255, 255, 255));
-  final ValueNotifier<Color> starColorNotifier =
-      ValueNotifier<Color>(Colors.grey);
-  final ValueNotifier<bool> isLoadingNotifier = ValueNotifier<bool>(false);
+      ValueNotifier<Color>(const Color.fromARGB(255, 255, 255, 255));
 
   return Marker(
     point: position,
@@ -306,6 +367,29 @@ Marker createReligousActivity(
                   builder: (context, setState) {
                     return Column(
                       mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(description),
+                        const SizedBox(height: 20),
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    ApiActivitiesDetailsScreen(
+                                        activity: associatedActivity),
+                              ),
+                            );
+                          },
+                          child: const Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(Icons.search),
+                              SizedBox(width: 10),
+                              Text('Details'),
+                            ],
+                          ),
+                        ),
+                      ],
                     );
                   },
                 ),
@@ -319,15 +403,14 @@ Marker createReligousActivity(
 }
 
 Marker createActivActivity(
-    LatLng position, String name, String description, WidgetRef ref) {
-  final LatLng locationPosition = position;
-  String usedMobility = 'Car';
-  String mobilityForAPI = 'cycling-regular';
+  LatLng position,
+  String name,
+  String description,
+  WidgetRef ref,
+  Activity associatedActivity,
+) {
   final ValueNotifier<Color> colorNotifier =
-      ValueNotifier<Color>(Color.fromARGB(255, 252, 255, 58));
-  final ValueNotifier<Color> starColorNotifier =
-      ValueNotifier<Color>(Colors.grey);
-  final ValueNotifier<bool> isLoadingNotifier = ValueNotifier<bool>(false);
+      ValueNotifier<Color>(const Color.fromARGB(255, 167, 74, 255));
 
   return Marker(
     point: position,
@@ -348,6 +431,29 @@ Marker createActivActivity(
                   builder: (context, setState) {
                     return Column(
                       mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(description),
+                        const SizedBox(height: 20),
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    ApiActivitiesDetailsScreen(
+                                        activity: associatedActivity),
+                              ),
+                            );
+                          },
+                          child: const Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(Icons.search),
+                              SizedBox(width: 10),
+                              Text('Details'),
+                            ],
+                          ),
+                        ),
+                      ],
                     );
                   },
                 ),
@@ -361,15 +467,14 @@ Marker createActivActivity(
 }
 
 Marker createAccomodationActivity(
-    LatLng position, String name, String description, WidgetRef ref) {
-  final LatLng locationPosition = position;
-  String usedMobility = 'Car';
-  String mobilityForAPI = 'cycling-regular';
+  LatLng position,
+  String name,
+  String description,
+  WidgetRef ref,
+  Activity associatedActivity,
+) {
   final ValueNotifier<Color> colorNotifier =
-      ValueNotifier<Color>(Color.fromARGB(255, 241, 92, 12));
-  final ValueNotifier<Color> starColorNotifier =
-      ValueNotifier<Color>(Colors.grey);
-  final ValueNotifier<bool> isLoadingNotifier = ValueNotifier<bool>(false);
+      ValueNotifier<Color>(const Color.fromARGB(255, 241, 92, 12));
 
   return Marker(
     point: position,
@@ -390,6 +495,29 @@ Marker createAccomodationActivity(
                   builder: (context, setState) {
                     return Column(
                       mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(description),
+                        const SizedBox(height: 20),
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    ApiActivitiesDetailsScreen(
+                                        activity: associatedActivity),
+                              ),
+                            );
+                          },
+                          child: const Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(Icons.search),
+                              SizedBox(width: 10),
+                              Text('Details'),
+                            ],
+                          ),
+                        ),
+                      ],
                     );
                   },
                 ),
@@ -403,15 +531,14 @@ Marker createAccomodationActivity(
 }
 
 Marker createTourismeActivity(
-    LatLng position, String name, String description, WidgetRef ref) {
-  final LatLng locationPosition = position;
-  String usedMobility = 'Car';
-  String mobilityForAPI = 'cycling-regular';
+  LatLng position,
+  String name,
+  String description,
+  WidgetRef ref,
+  Activity associatedActivity,
+) {
   final ValueNotifier<Color> colorNotifier =
-      ValueNotifier<Color>(Color.fromARGB(255, 255, 213, 0));
-  final ValueNotifier<Color> starColorNotifier =
-      ValueNotifier<Color>(Colors.grey);
-  final ValueNotifier<bool> isLoadingNotifier = ValueNotifier<bool>(false);
+      ValueNotifier<Color>(const Color.fromARGB(255, 82, 255, 76));
 
   return Marker(
     point: position,
@@ -432,6 +559,29 @@ Marker createTourismeActivity(
                   builder: (context, setState) {
                     return Column(
                       mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(description),
+                        const SizedBox(height: 20),
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    ApiActivitiesDetailsScreen(
+                                        activity: associatedActivity),
+                              ),
+                            );
+                          },
+                          child: const Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(Icons.search),
+                              SizedBox(width: 10),
+                              Text('Details'),
+                            ],
+                          ),
+                        ),
+                      ],
                     );
                   },
                 ),
@@ -445,15 +595,14 @@ Marker createTourismeActivity(
 }
 
 Marker createCampingActivity(
-    LatLng position, String name, String description, WidgetRef ref) {
-  final LatLng locationPosition = position;
-  String usedMobility = 'Car';
-  String mobilityForAPI = 'cycling-regular';
+  LatLng position,
+  String name,
+  String description,
+  WidgetRef ref,
+  Activity associatedActivity,
+) {
   final ValueNotifier<Color> colorNotifier =
-      ValueNotifier<Color>(Color.fromARGB(255, 255, 47, 0));
-  final ValueNotifier<Color> starColorNotifier =
-      ValueNotifier<Color>(Colors.grey);
-  final ValueNotifier<bool> isLoadingNotifier = ValueNotifier<bool>(false);
+      ValueNotifier<Color>(const Color.fromARGB(255, 255, 47, 0));
 
   return Marker(
     point: position,
@@ -474,6 +623,29 @@ Marker createCampingActivity(
                   builder: (context, setState) {
                     return Column(
                       mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(description),
+                        const SizedBox(height: 20),
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    ApiActivitiesDetailsScreen(
+                                        activity: associatedActivity),
+                              ),
+                            );
+                          },
+                          child: const Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(Icons.search),
+                              SizedBox(width: 10),
+                              Text('Details'),
+                            ],
+                          ),
+                        ),
+                      ],
                     );
                   },
                 ),
@@ -487,15 +659,14 @@ Marker createCampingActivity(
 }
 
 Marker createLeisureActivity(
-    LatLng position, String name, String description, WidgetRef ref) {
-  final LatLng locationPosition = position;
-  String usedMobility = 'Car';
-  String mobilityForAPI = 'cycling-regular';
+  LatLng position,
+  String name,
+  String description,
+  WidgetRef ref,
+  Activity associatedActivity,
+) {
   final ValueNotifier<Color> colorNotifier =
-      ValueNotifier<Color>(Color.fromARGB(255, 94, 85, 83));
-  final ValueNotifier<Color> starColorNotifier =
-      ValueNotifier<Color>(Colors.grey);
-  final ValueNotifier<bool> isLoadingNotifier = ValueNotifier<bool>(false);
+      ValueNotifier<Color>(const Color.fromARGB(255, 94, 85, 83));
 
   return Marker(
     point: position,
@@ -505,7 +676,7 @@ Marker createLeisureActivity(
       valueListenable: colorNotifier,
       builder: (context, color, child) {
         return IconButton(
-          icon: Icon(Icons.rocket_launch_rounded, color: color),
+          icon: Icon(Icons.beach_access_rounded, color: color),
           onPressed: () {
             // ignore: inference_failure_on_function_invocation
             showDialog(
@@ -516,6 +687,29 @@ Marker createLeisureActivity(
                   builder: (context, setState) {
                     return Column(
                       mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(description),
+                        const SizedBox(height: 20),
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    ApiActivitiesDetailsScreen(
+                                        activity: associatedActivity),
+                              ),
+                            );
+                          },
+                          child: const Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(Icons.search),
+                              SizedBox(width: 10),
+                              Text('Details'),
+                            ],
+                          ),
+                        ),
+                      ],
                     );
                   },
                 ),
@@ -528,7 +722,9 @@ Marker createLeisureActivity(
   );
 }
 
-String translateMobilityToApiReadable(String selectedMobility) {
+String translateMobilityToApiReadable(
+  String selectedMobility,
+) {
   switch (selectedMobility) {
     case ('Bicycle'):
       return 'cycling-regular';
