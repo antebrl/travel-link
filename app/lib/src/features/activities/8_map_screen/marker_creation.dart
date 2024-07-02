@@ -26,56 +26,58 @@ Marker createEntertainmentActivity(
 
   return Marker(
     point: position,
-    width: 20,
-    height: 20,
+    width: 40,
+    height: 40,
     child: ValueListenableBuilder<Color>(
       valueListenable: colorNotifier,
       builder: (context, color, child) {
-        return Column(
-          children: [
-            IconButton(
-              icon: Icon(Icons.theater_comedy, color: color),
-              onPressed: () {
-                // ignore: inference_failure_on_function_invocation
-                showDialog(
-                  context: context,
-                  builder: (context) => AlertDialog(
-                    title: Text(name), // Set the title to the name
-                    content: StatefulBuilder(
-                      builder: (context, setState) {
-                        return Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(description),
-                            const SizedBox(height: 20),
-                            ElevatedButton(
-                              onPressed: () {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (BuildContext context) =>
-                                        ApiActivitiesDetailsScreen(
-                                            activity: associatedActivity),
+        return SingleChildScrollView(
+          child: Column(
+            children: [
+              IconButton(
+                icon: Icon(Icons.theater_comedy, color: color),
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                      title: Text(name),
+                      content: StatefulBuilder(
+                        builder: (context, setState) {
+                          return SingleChildScrollView(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(description),
+                                ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (BuildContext context) =>
+                                            ApiActivitiesDetailsScreen(
+                                                activity: associatedActivity),
+                                      ),
+                                    );
+                                  },
+                                  child: const Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Icon(Icons.search),
+                                      SizedBox(width: 10),
+                                      Text('Details'),
+                                    ],
                                   ),
-                                );
-                              },
-                              child: const Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Icon(Icons.search),
-                                  SizedBox(width: 10),
-                                  Text('Details'),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
-                          ],
-                        );
-                      },
+                          );
+                        },
+                      ),
                     ),
-                  ),
-                );
-              },
-            ),
-          ],
+                  );
+                },
+              ),
+            ],
+          ),
         );
       },
     ),
@@ -113,7 +115,6 @@ Marker createEducationActivity(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(description),
-                        const SizedBox(height: 20),
                         ElevatedButton(
                           onPressed: () {
                             Navigator.of(context).push(
@@ -177,7 +178,6 @@ Marker createNatureActivity(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(description),
-                        const SizedBox(height: 20),
                         ElevatedButton(
                           onPressed: () {
                             Navigator.of(context).push(
@@ -241,7 +241,6 @@ Marker createSportsActivity(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(description),
-                        const SizedBox(height: 20),
                         ElevatedButton(
                           onPressed: () {
                             Navigator.of(context).push(
@@ -305,7 +304,6 @@ Marker createCateringActivity(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(description),
-                        const SizedBox(height: 20),
                         ElevatedButton(
                           onPressed: () {
                             Navigator.of(context).push(
@@ -369,7 +367,6 @@ Marker createReligousActivity(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(description),
-                        const SizedBox(height: 20),
                         ElevatedButton(
                           onPressed: () {
                             Navigator.of(context).push(
@@ -433,7 +430,6 @@ Marker createActivActivity(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(description),
-                        const SizedBox(height: 20),
                         ElevatedButton(
                           onPressed: () {
                             Navigator.of(context).push(
@@ -497,7 +493,6 @@ Marker createAccomodationActivity(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(description),
-                        const SizedBox(height: 20),
                         ElevatedButton(
                           onPressed: () {
                             Navigator.of(context).push(
@@ -561,7 +556,6 @@ Marker createTourismeActivity(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(description),
-                        const SizedBox(height: 20),
                         ElevatedButton(
                           onPressed: () {
                             Navigator.of(context).push(
@@ -625,7 +619,6 @@ Marker createCampingActivity(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(description),
-                        const SizedBox(height: 20),
                         ElevatedButton(
                           onPressed: () {
                             Navigator.of(context).push(
@@ -689,7 +682,6 @@ Marker createLeisureActivity(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(description),
-                        const SizedBox(height: 20),
                         ElevatedButton(
                           onPressed: () {
                             Navigator.of(context).push(
