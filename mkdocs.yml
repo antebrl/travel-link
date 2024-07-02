@@ -27,6 +27,7 @@ nav:
     - Figma Main Pages: design/user-pages.md
     - Figma Plan Trips: design/plan-trips.md
     - Figma Explore Activities: design/explore-activities.md
+    - Figma Account: design/user-account.md
   - Implementation: 4-Implementation.md
   - Usability Evaluation: 6-UsabilityEvaluation.md
   - Mkdocs Modules: test.md
