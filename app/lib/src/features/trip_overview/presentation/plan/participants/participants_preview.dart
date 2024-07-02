@@ -31,6 +31,7 @@ class ParticipantsPreview extends ConsumerWidget {
         imagesCount++;
       }
     }
+    //Add + Icon
     avatars.add('https://cdn-icons-png.flaticon.com/512/10233/10233645.png');
     return avatars;
   }

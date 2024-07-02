@@ -51,7 +51,7 @@ final authStateChangesProvider = AutoDisposeStreamProvider<User?>.internal(
 
 typedef AuthStateChangesRef = AutoDisposeStreamProviderRef<User?>;
 String _$onboardingCompletedHash() =>
-    r'51ce1ddc47fc9406fa52d6936e9574caf8a6baab';
+    r'b6139d2e5802403ea066246e04463d1b5d9f2d3e';
 
 /// See also [onboardingCompleted].
 @ProviderFor(onboardingCompleted)
