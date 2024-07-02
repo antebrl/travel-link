@@ -3,6 +3,7 @@
 import 'dart:convert';
 import 'dart:core';
 
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_geocoder/geocoder.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -13,6 +14,8 @@ import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:location/location.dart' as loc;
+import 'package:location/location.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 Future<List<LatLng>> calculateRoute(
@@ -64,20 +67,32 @@ Future<List<LatLng>> calculateRoute(
 }
 
 Future<LatLng> getCurrentLocation() async {
+  final loc.Location location = loc.Location();
+
   try {
     // Ensure the location services are enabled
-    final bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    bool serviceEnabled = await location.serviceEnabled();
     if (!serviceEnabled) {
-      throw Exception('Location services are disabled.');
+      serviceEnabled = await location.requestService();
+      if (!serviceEnabled) {
+        throw Exception('Location services are disabled.');
+      }
     }
 
-    // Get the current position
-    final Position position = await Geolocator.getCurrentPosition(
-      desiredAccuracy: LocationAccuracy.high,
-    );
+    // Check for location permissions
+    loc.PermissionStatus permissionGranted = await location.hasPermission();
+    if (permissionGranted == loc.PermissionStatus.denied) {
+      permissionGranted = await location.requestPermission();
+      if (permissionGranted != loc.PermissionStatus.granted) {
+        throw Exception('Location permissions are denied.');
+      }
+    }
+
+    // Get the current location
+    loc.LocationData locationData = await location.getLocation();
 
     // Return the position as a LatLng
-    return LatLng(position.latitude, position.longitude);
+    return LatLng(locationData.latitude!, locationData.longitude!);
   } catch (e) {
     // Handle any errors here
     throw Exception('Could not get the current location: $e');

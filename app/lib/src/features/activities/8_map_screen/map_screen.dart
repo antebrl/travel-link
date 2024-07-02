@@ -59,56 +59,117 @@ class _MapScreenWithActivitiesState
             final double lat = activities[i].location.lat;
             final double long = activities[i].location.lon;
             final LatLng position = LatLng(lat, long);
+            final Activity associatedActivity = activities[i];
             firstView = position; // Update firstView
 
             switch (typeOfActivity) {
               case 'natural':
-                createdActivity =
-                    createNatureActivity(position, name, description, ref);
+                createdActivity = createNatureActivity(
+                  position,
+                  name,
+                  description,
+                  ref,
+                  associatedActivity,
+                );
                 break;
               case 'sport':
-                createdActivity =
-                    createSportsActivity(position, name, description, ref);
+                createdActivity = createSportsActivity(
+                  position,
+                  name,
+                  description,
+                  ref,
+                  associatedActivity,
+                );
                 break;
               case 'accommodation':
                 createdActivity = createAccomodationActivity(
-                    position, name, description, ref);
+                  position,
+                  name,
+                  description,
+                  ref,
+                  associatedActivity,
+                );
                 break;
               case 'camping':
-                createdActivity =
-                    createCampingActivity(position, name, description, ref);
+                createdActivity = createCampingActivity(
+                  position,
+                  name,
+                  description,
+                  ref,
+                  associatedActivity,
+                );
                 break;
               case 'entertainment':
                 createdActivity = createEntertainmentActivity(
-                    position, name, description, ref);
+                  position,
+                  name,
+                  description,
+                  ref,
+                  associatedActivity,
+                );
                 break;
               case 'tourism':
-                createdActivity =
-                    createTourismeActivity(position, name, description, ref);
+                createdActivity = createTourismeActivity(
+                  position,
+                  name,
+                  description,
+                  ref,
+                  associatedActivity,
+                );
                 break;
               case 'activity':
-                createdActivity =
-                    createActivActivity(position, name, description, ref);
+                createdActivity = createActivActivity(
+                  position,
+                  name,
+                  description,
+                  ref,
+                  associatedActivity,
+                );
                 break;
               case 'catering':
-                createdActivity =
-                    createCateringActivity(position, name, description, ref);
+                createdActivity = createCateringActivity(
+                  position,
+                  name,
+                  description,
+                  ref,
+                  associatedActivity,
+                );
                 break;
               case 'education':
-                createdActivity =
-                    createEducationActivity(position, name, description, ref);
+                createdActivity = createEducationActivity(
+                  position,
+                  name,
+                  description,
+                  ref,
+                  associatedActivity,
+                );
                 break;
               case 'leisure':
-                createdActivity =
-                    createLeisureActivity(position, name, description, ref);
+                createdActivity = createLeisureActivity(
+                  position,
+                  name,
+                  description,
+                  ref,
+                  associatedActivity,
+                );
                 break;
               case 'religion':
-                createdActivity =
-                    createReligousActivity(position, name, description, ref);
+                createdActivity = createReligousActivity(
+                  position,
+                  name,
+                  description,
+                  ref,
+                  associatedActivity,
+                );
                 break;
               default:
                 createdActivity = createEntertainmentActivity(
-                    position, name, description, ref);
+                  position,
+                  name,
+                  description,
+                  ref,
+                  associatedActivity,
+                );
                 break;
             }
             allActivityMarkers.add(createdActivity);
