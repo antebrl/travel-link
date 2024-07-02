@@ -118,3 +118,22 @@ A visual representation of completed versus pending tasks. It provides a quick o
 <figure markdown="span">
   ![Custom item](../assets/images/Progress_bar.svg)
 </figure>
+
+## Example usage - walkthough
+Right after creating a trip or joining an existing one, you may start to sort your thoughts and have a place to write down all the things you have to prepare for the trip. There might be things you have to worry about multiple months before the trip, like requesting a visa. Some things have to be done some weeks before the trip, like buying a new swimsuit. And some to-dos have to be completed on the day the trip starts, for example, packing your toothbrush into your bag.
+
+Everything can be placed in the checklist for the corresponding trip. Some checklist items are only relevant to you. You can enter things like contact lenses or your favorite book into your personal checklist, only visible to you. Since you may want to read your favorite book before the trip, you can set the due date to the date the trip starts. Other items like the contact lenses can be marked as done right after you put them in your bag. Let's say you finished your book earlier; you have the option to adjust the title of the checklist item to match your new book title. Or let's say you made the decision to take glasses with you instead of contact lenses; you can delete the contact lenses and start typing in the text field, and you should already get a matching suggestion.
+
+If you or other trip participants want to create checklist items that are relevant for all trip participants, they can create them in the group screen. Let's say you and your friends go on a camping trip in the mountains. You probably need just one or two tents, so not everyone has to carry their own while hiking. You can create a custom checklist item and use the edit task option to assign users. You can assign no one if you just want to write it down so it stays in your mind and assign users later, maybe after you discuss in the chat who has a tent and who doesn’t. If you already know that you will be an assignee, you can assign yourself and maybe one more user. The group checklist item will be placed in the group checklist view as well as in your personal checklist view so all to-dos that have to be done by you are in your personal view.
+
+Let's say your mate marks the tent checklist item as done; the progress bar will go to 50 percent to indicate that half of the assignees have already completed this checklist item. If you also mark it as done, the progress bar will rise to 100 percent.
+
+If another user creates a group checklist item and you are not assigned, you can still see this item. This avoids the same item being created by multiple users. But there is a slight difference: you can’t mark the item as done. Only assigned users can toggle the item state.
+
+When you are in the checklist overview screen, you will receive a preview of your personal checklist screen since this one even stores the group checklist items where you have been assigned. This preview of the unchecked items always gives you an idea of what you can do to come a bit closer to a perfectly organized trip.
+
+Lets say your mate makrs the tent checklist item as done ther will go a progress bar to 50 percent to indicate that half of the assignees already compledet this checklist item. If you also mark it as done th progressbar will rise to 100 percent.
+
+If another user creates a group checklist item and you are not assigned. You still can see this item, this avoids that the same item gets created by multiple users. But there is a slightly difference, you cant mark the item as done. Only assigned users can toggle the item state.
+
+When you are in the checklist overview screen you will receive a preview of yor personal checklist screen, since this one even stores the group checklist items where you have been assigned. This preview of thee unckecked items always gives you an idea of what you can do to come a bit closer to a perfect organized trip.
