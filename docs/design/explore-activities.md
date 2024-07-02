@@ -67,8 +67,8 @@ This section presents and describes the screens related to exploring activities 
 ![pages6](../assets/images/activities/pages6.svg)
 </figure>
 
-##
-### Data Flow Diagram
+
+## <ins>Data Flow Diagram</ins>
 
 Here you can see the data flow diagram, which shows how data flows through the application.
 
