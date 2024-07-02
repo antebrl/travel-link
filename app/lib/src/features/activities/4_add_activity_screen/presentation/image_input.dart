@@ -1,19 +1,22 @@
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
+import 'package:travel_link/src/utils/helpers/localization.dart';
 
 class ImageInput extends StatefulWidget {
-  const ImageInput({Key? key, required this.onPickImage}) : super(key: key);
+  const ImageInput({required this.onPickImage, super.key});
 
-  final void Function(File image) onPickImage;
+  final void Function(Uint8List image) onPickImage;
 
   @override
   State<ImageInput> createState() => _ImageInputState();
 }
 
 class _ImageInputState extends State<ImageInput> {
-  File? _selectedImage;
+  Uint8List? _selectedImage;
+  File? _tempImage;
   final imagePicker = ImagePicker();
 
   Future<void> _pickImageFromCamera() async {
@@ -22,27 +25,28 @@ class _ImageInputState extends State<ImageInput> {
       maxWidth: 600,
     );
     if (pickedImage == null) {
-      // Kamera geschlossen ohne ein Bild gemacht zu haben
       return;
     }
+    _selectedImage = await pickedImage.readAsBytes();
 
     setState(() {
-      _selectedImage = File(pickedImage.path); // XFile zu File
+      _tempImage = File(pickedImage.path);
     });
 
     widget.onPickImage(_selectedImage!);
   }
 
-  void _pickImageFromGallery() async {
+  Future<void> _pickImageFromGallery() async {
     final pickedImage =
         await imagePicker.pickImage(source: ImageSource.gallery);
     if (pickedImage == null) {
-      // Galerie geschlossen ohne ein Bild ausgewählt zu haben
       return;
     }
 
+    _selectedImage = await pickedImage.readAsBytes();
+
     setState(() {
-      _selectedImage = File(pickedImage.path); // XFile zu File
+      _tempImage = File(pickedImage.path);
     });
 
     widget.onPickImage(_selectedImage!);
@@ -51,18 +55,22 @@ class _ImageInputState extends State<ImageInput> {
   @override
   Widget build(BuildContext context) {
     Widget content = Text(
-      'Add Image',
+      context.loc.addImage,
       textAlign: TextAlign.center,
-      style: Theme.of(context).textTheme.bodyLarge
+      style: Theme.of(context).textTheme.bodyLarge,
     );
 
     if (_selectedImage != null) {
-      content = Image.file(
-        _selectedImage!,
-        fit: BoxFit.cover,
-        width: double.infinity,
-        height: double.infinity,
-      );
+      if (kIsWeb) {
+        content = Image.network(_tempImage!.path);
+      } else {
+        content = Image.file(
+          _tempImage!,
+          fit: BoxFit.cover,
+          width: double.infinity,
+          height: double.infinity,
+        );
+      }
     }
 
     return Column(
@@ -88,7 +96,7 @@ class _ImageInputState extends State<ImageInput> {
             Expanded(
               child: ElevatedButton.icon(
                 icon: const Icon(Icons.camera_alt),
-                label: const Text('Capture'),
+                label: Text(context.loc.capture),
                 onPressed: _pickImageFromCamera,
               ),
             ),
@@ -98,8 +106,8 @@ class _ImageInputState extends State<ImageInput> {
             Expanded(
               child: ElevatedButton.icon(
                 icon: const Icon(Icons.upload),
-                label: const Text(
-                  'Upload',
+                label: Text(
+                  context.loc.upload,
                 ),
                 onPressed: _pickImageFromGallery,
               ),

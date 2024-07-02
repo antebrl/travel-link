@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:travel_link/src/features/authentication/data/firebase_auth_repository.dart';
 import 'package:travel_link/src/features/explore_trips/domain/trip.dart';
+import 'package:travel_link/src/features/my_trips/domain/destination.dart';
 
 part 'my_trips_repository.g.dart';
 
@@ -15,20 +16,24 @@ class MyTripsRepository {
   Future<void> createTrip({
     required String uid,
     required String name,
+    required String? description,
     required DateTime? start,
     required DateTime? end,
-    required String destination,
+    required Destination destination,
+    required List<String> images,
     bool isPublic = false,
     int? maxParticipants,
   }) =>
       _firestore.collection(tripsBasePath).add({
         'name': name,
+        'description': description,
         'startDate': start != null ? Timestamp.fromDate(start) : null,
         'endDate': end != null ? Timestamp.fromDate(end) : null,
-        'destination': destination,
+        'destination': destination.toMap(),
         'isPublic': isPublic,
         'participants': [uid],
         'maxParticipants': maxParticipants,
+        'images': images,
       });
 
   Future<void> joinTrip({required Trip trip, required String uid}) async {
@@ -44,11 +49,20 @@ class MyTripsRepository {
     return trips.docs.map((doc) => doc.data()).toList();
   }
 
+  Future<void> leaveTrip({
+    required String tripId,
+    required List<String> participants,
+  }) =>
+      _firestore
+          .doc('$tripsBasePath/$tripId')
+          .update({'participants': participants});
+
   //QUERIES
 
   Query<Trip> queryMyTrips({required String uid}) => _firestore
       .collection(tripsBasePath)
       .where('participants', arrayContains: uid)
+      .orderBy('startDate')
       .withConverter(
         fromFirestore: (snapshot, _) =>
             Trip.fromMap(snapshot.data()!, snapshot.id),

@@ -1,4 +1,4 @@
-site_name: Flutter Demo Project
+site_name: Travel App
 #site_url: @ToDo adapt to your project https://hci-trapp.h-da.io/sose24-hci-lab-base-project/pages
 site_url: https://hcimo4x-grey-trapp-hci-trapp-hci-lab-studi-sose2-e6afe3a1eb2adc.h-da.io/
 site_dir: public/docs
@@ -11,6 +11,26 @@ plugins:
   - autorefs
   - mermaid2
 
+nav:
+  - Home: index.md
+  - User Research: 
+    - user-research/index.md
+    - Interview Guide: user-research/interview-guide.md
+    - NZSE User Research: user-research/nzse-user-research.md
+    - Survey: user-research/survey-evaluation.md
+    - Interviews: user-research/interviews.md
+    - Personas: user-research/personas.md
+    - Requirement Engineering: user-research/requirement-engineering.md
+    - User Evaluation: user-research/user-evaluation.md
+  - Design: 
+    - Paper Prototypes: 3-Design.md
+    - Figma Main Pages: design/user-pages.md
+    - Figma Plan Trips: design/plan-trips.md
+    - Figma Explore Activities: design/explore-activities.md
+  - Implementation: 4-Implementation.md
+  - Usability Evaluation: 6-UsabilityEvaluation.md
+  - Mkdocs Modules: test.md
+
 theme:
   logo: https://fbi.h-da.de/Cms/Resources/Public/Design/i-lgo.svg
   favicon: https://fbi.h-da.de/typo3conf/ext/hda/Resources/Public/Icons/favicon.ico
@@ -20,7 +40,7 @@ theme:
     # Palette toggle for light mode
     - media: "(prefers-color-scheme: light)"
       scheme: default
-      primary: light green
+      primary: light blue
       toggle:
         icon: material/brightness-7
         name: Switch to dark mode
@@ -28,17 +48,18 @@ theme:
     # Palette toggle for dark mode
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
-      primary: light green
+      primary: light blue
       toggle:
         icon: material/brightness-4
         name: Switch to light mode
   features:
     - navigation.indexes
-    - navigation.sections
     - navigation.tracking
+    - navigation.path
     - navigation.expand
     - toc.follow
     - content.code.copy
+    - content.footnote.tooltips
 
 # Extensions
 markdown_extensions:
@@ -61,8 +82,17 @@ markdown_extensions:
         - name: mermaid
           class: mermaid
           format: !!python/name:mermaid2.fence_mermaid_custom
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.superfences
+  - footnotes
 
 extra_javascript:
   - https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.6.1/mermaid.min.js
+
+extra_css:
+  - stylesheets/extra.css
 
 

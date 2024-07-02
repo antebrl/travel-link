@@ -1,15 +1,20 @@
+import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:geocoding/geocoding.dart' as gecoding;
+import 'package:http/http.dart' as http;
 import 'package:latlong2/latlong.dart';
 import 'package:location/location.dart';
 import 'package:travel_link/src/features/activities/3_activities_screen/domain/activity.dart';
 import 'package:travel_link/src/features/activities/4_add_activity_screen/presentation/map_screen.dart';
+import 'package:travel_link/src/utils/constants/api_constants.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
+import 'package:travel_link/src/utils/helpers/localization.dart';
+import 'package:travel_link/src/utils/logging/logger.dart';
 
 class LocationInput extends StatefulWidget {
-  const LocationInput({super.key, required this.onSelectLocation});
+  const LocationInput({required this.onSelectLocation, super.key});
 
   final void Function(PlaceLocation location) onSelectLocation;
 
@@ -24,32 +29,77 @@ class _LocationInput extends State<LocationInput> {
   var _isGettingLocation = false;
 
   Future<void> _savePlace(double latitude, double longitude) async {
-    try {
-      final List<gecoding.Placemark> placemarks =
-          await gecoding.placemarkFromCoordinates(latitude, longitude);
-      // Extrahiere die Adresse aus dem Placemark
-      final gecoding.Placemark placemark = placemarks[0];
-      final String street = placemark.street!;
-      final String city = placemark.locality!;
-      final String country = placemark.country!;
-      print(country);
+    if (!kIsWeb) {
+      try {
+        final List<gecoding.Placemark> placemarks =
+            await gecoding.placemarkFromCoordinates(latitude, longitude);
+        // Extract address from placemark
+        final gecoding.Placemark placemark = placemarks[0];
+        final String city = placemark.locality!;
+        final String country = placemark.country!;
+        final String countryCode = placemark.isoCountryCode!;
 
-      final String address =
-          '${placemark.street}, ${placemark.locality}, ${placemark.country}';
+        final String address =
+            '${placemark.street}, ${placemark.locality}, ${placemark.country}';
 
-      setState(() {
-        _pickedLocation = PlaceLocation(
-            latitude: latitude,
-            longitude: longitude,
-            street: street,
+        setState(() {
+          _pickedLocation = PlaceLocation(
+            lat: latitude,
+            lon: longitude,
             city: city,
-            country: country);
-        _isGettingLocation = false;
-      });
+            country: country,
+            formatted: address,
+            countryCode: countryCode,
+          );
+          _isGettingLocation = false;
+        });
 
-      widget.onSelectLocation(_pickedLocation!);
-    } catch (e) {
-      return;
+        widget.onSelectLocation(_pickedLocation!);
+      } catch (e) {
+        logger.e(e);
+        return;
+      }
+    } else {
+      // Use Geoapify API for web
+      try {
+        final url =
+            'https://api.geoapify.com/v1/geocode/reverse?lat=$latitude&lon=$longitude&format=json&apiKey=${CustomApiConstants.geoapifySecretKey}';
+
+        final response = await http.get(Uri.parse(url));
+
+        if (response.statusCode == 200) {
+          final data = json.decode(response.body);
+          final results = data['results'];
+          if (results != null) {
+            final result = results[0];
+            final String city = result['city'] as String;
+            final String country = result['country'] as String;
+            final String countryCode = result['country_code'] as String;
+            final String address = result['formatted'] as String;
+
+            setState(() {
+              _pickedLocation = PlaceLocation(
+                lat: latitude,
+                lon: longitude,
+                city: city,
+                country: country,
+                formatted: address,
+                countryCode: countryCode,
+              );
+              _isGettingLocation = false;
+            });
+
+            widget.onSelectLocation(_pickedLocation!);
+          } else {
+            throw Exception(context.loc.noResultsFound);
+          }
+        } else {
+          throw Exception(context.loc.failedToFetchData);
+        }
+      } catch (e) {
+        logger.e(e);
+        return;
+      }
     }
   }
 
@@ -110,10 +160,9 @@ class _LocationInput extends State<LocationInput> {
       key: UniqueKey(),
       options: MapOptions(
         initialCenter: LatLng(latitude, longitude),
-        // Disable all user interactions
       ),
       children: [
-        openStreetMapTileLater,
+        openStreetMapTileLayer,
         MarkerLayer(
           markers: [
             Marker(
@@ -123,14 +172,14 @@ class _LocationInput extends State<LocationInput> {
                 size: 40,
                 color: CustomColors.primary,
               ),
-            )
+            ),
           ],
-        )
+        ),
       ],
     );
   }
 
-  TileLayer get openStreetMapTileLater => TileLayer(
+  TileLayer get openStreetMapTileLayer => TileLayer(
         urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
         userAgentPackageName: 'dev.fleaflet.flutter_map.exaple',
       );
@@ -140,7 +189,7 @@ class _LocationInput extends State<LocationInput> {
     Widget content;
 
     content = Text(
-      'Add location',
+      context.loc.addLocation,
       textAlign: TextAlign.center,
       style: Theme.of(context).textTheme.bodyLarge,
     );
@@ -152,8 +201,7 @@ class _LocationInput extends State<LocationInput> {
     }
 
     if (_pickedLocation != null) {
-      content =
-          _createMap(_pickedLocation!.latitude, _pickedLocation!.longitude);
+      content = _createMap(_pickedLocation!.lat, _pickedLocation!.lon);
     }
 
     return Column(
@@ -179,7 +227,7 @@ class _LocationInput extends State<LocationInput> {
             Expanded(
               child: ElevatedButton.icon(
                 icon: const Icon(Icons.location_on),
-                label: const Text('Get Current Location'),
+                label: Text(context.loc.getLocation),
                 onPressed: _getCurrentLocation,
               ),
             ),
@@ -189,7 +237,7 @@ class _LocationInput extends State<LocationInput> {
             Expanded(
               child: ElevatedButton.icon(
                 icon: const Icon(Icons.map),
-                label: const Text('Select on Map'),
+                label: Text(context.loc.selectOnMap),
                 onPressed: _selectOnMap,
               ),
             ),

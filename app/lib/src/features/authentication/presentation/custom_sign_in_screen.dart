@@ -13,8 +13,23 @@ class CustomSignInScreen extends ConsumerWidget {
       appBar: AppBar(
         title: const Text('Sign in'),
       ),
-      body: SignInScreen(
-        providers: authProviders,
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: <Widget>[
+            Image.asset(
+              'assets/images/my-trips/travel.gif',
+              fit: BoxFit.cover,
+              height: 170,
+            ),
+            // Sign-in screen
+            Expanded(
+              child: SignInScreen(
+                providers: authProviders,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

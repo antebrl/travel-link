@@ -11,6 +11,7 @@ class ContinentItem extends StatelessWidget {
 
   final Continent continent;
   final void Function() onSelectContintent;
+  
   @override
   Widget build(BuildContext context) {
     return InkWell(

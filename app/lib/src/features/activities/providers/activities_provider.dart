@@ -12,7 +12,7 @@ class ActivitiesNotifier extends StateNotifier<List<Activity>> {
 
 final activitiesProvider =
     StateNotifierProvider<ActivitiesNotifier, List<Activity>>((ref) {
-  final initialState = activityData; // Verwende activityData als Startzustand
+  final initialState = activityData;
   return ActivitiesNotifier(initialState);
 });
 

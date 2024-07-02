@@ -1,11 +1,20 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:http/http.dart' as http;
+import 'package:travel_link/src/common_widgets/auto_complete_search.dart';
 import 'package:travel_link/src/common_widgets/calendar_popup_view.dart';
 import 'package:travel_link/src/features/my_trips/data/my_trips_repository.dart';
+import 'package:travel_link/src/features/my_trips/domain/destination.dart';
 import 'package:travel_link/src/features/my_trips/presentation/my_trips_controller.dart';
+import 'package:travel_link/src/features/my_trips/presentation/trip_information_dialog.dart';
+import 'package:travel_link/src/utils/constants/api_constants.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
+import 'package:travel_link/src/utils/formatters/formatter.dart';
+import 'package:travel_link/src/utils/logging/logger.dart';
 
 class CreateTripScreen extends ConsumerStatefulWidget {
   const CreateTripScreen({super.key});
@@ -20,10 +29,33 @@ class CreateTripScreenState extends ConsumerState<CreateTripScreen> {
   DateTime? _endDate;
   DateTime? _startDate;
   String? _name;
-  String? _destination;
+  String? _description;
+
+  final DestinationController _controller = DestinationController();
 
   bool _isPublic = false;
   int? _maxParticipants;
+
+  Future<Iterable<Destination>> getDestinationSuggestion(String input) async {
+    //TODO (Ante): Request with language code
+    final String request =
+        '${CustomApiConstants.autocompleteBaseURL}?text=$input&apiKey=${CustomApiConstants.geoapifySecretKey}&limit=3&format=json';
+    final response = await http.get(Uri.parse(request));
+
+    if (response.statusCode == 200) {
+      final destinations =
+          json.decode(response.body)['results'] as List<dynamic>;
+
+      return destinations.map((destination) =>
+          Destination.fromMap(destination as Map<dynamic, dynamic>));
+    } else {
+      logger.e(
+        'Failed to load and parse destination suggestions',
+        error: response.body,
+      );
+      return [];
+    }
+  }
 
   bool _validateAndSaveForm() {
     final form = _formKey.currentState!;
@@ -37,10 +69,18 @@ class CreateTripScreenState extends ConsumerState<CreateTripScreen> {
   Future<void> _submit() async {
     if (!_validateAndSaveForm()) return;
 
+    if (_controller.selectedDestination == null ||
+        _controller.selectedDestination!.formatted !=
+            _controller.queryDestination) {
+      _controller.selectedDestination =
+          Destination(formatted: _controller.queryDestination ?? '');
+    }
+
     final success =
         await ref.read(myTripsControllerProvider.notifier).createTrip(
               name: _name ?? '',
-              destination: _destination ?? '',
+              description: _description,
+              destination: _controller.selectedDestination!,
               start: _startDate,
               end: _endDate,
               isPublic: _isPublic,
@@ -48,18 +88,18 @@ class CreateTripScreenState extends ConsumerState<CreateTripScreen> {
             );
 
     if (success && mounted) {
-      // ignore: unused_result
-      ref.refresh(fetchMyTripsProvider); //load new Trip into MyTrips List
+      ref.invalidate(fetchMyTripsProvider); //load new Trip into MyTrips List
       context.pop();
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    //final textTheme = Theme.of(context).textTheme;
     final state = ref.watch(myTripsControllerProvider);
     return DraggableScrollableSheet(
       expand: false,
-      initialChildSize: 0.62,
+      initialChildSize: 0.7,
       builder: (BuildContext context, ScrollController scrollController) {
         return SingleChildScrollView(
           controller: scrollController,
@@ -87,7 +127,7 @@ class CreateTripScreenState extends ConsumerState<CreateTripScreen> {
                       padding: const EdgeInsets.symmetric(horizontal: 18),
                       child: TextFormField(
                         onSaved: (value) => _name = value,
-                        maxLength: 30,
+                        maxLength: 20,
                         maxLengthEnforcement: MaxLengthEnforcement.enforced,
                         validator: (value) => (value ?? '').isNotEmpty
                             ? null
@@ -97,17 +137,27 @@ class CreateTripScreenState extends ConsumerState<CreateTripScreen> {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 12),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 18),
                       child: TextFormField(
-                        onSaved: (value) => _destination = value,
+                        onSaved: (value) => _description = value,
+                        maxLength: 70,
+                        maxLengthEnforcement: MaxLengthEnforcement.enforced,
                         validator: (value) => (value ?? '').isNotEmpty
                             ? null
-                            : "Destination can't be empty",
+                            : _isPublic
+                                ? "Description can't be empty if the trip is public"
+                                : null,
                         decoration: const InputDecoration(
-                          labelText: 'Destination',
+                          labelText: 'Description',
                         ),
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 18),
+                      child: AutoCompleteSearch(
+                        controller: _controller,
                       ),
                     ),
                   ],
@@ -127,7 +177,7 @@ class CreateTripScreenState extends ConsumerState<CreateTripScreen> {
                             builder: (context) => CalendarPopupView(
                               minimumDate: DateTime.now(),
                               onApplyClick:
-                                  (DateTime startData, DateTime endData) {
+                                  (DateTime? startData, DateTime? endData) {
                                 setState(() {
                                   _startDate = startData;
                                   _endDate = endData;
@@ -141,7 +191,10 @@ class CreateTripScreenState extends ConsumerState<CreateTripScreen> {
                             ? Row(
                                 children: [
                                   Text(
-                                    '${_startDate!.day}.${_startDate!.month}.${_startDate!.year} - ${_endDate!.day}.${_endDate!.month}.${_endDate!.year}',
+                                    CustomFormatter.formatDateRange(
+                                      startDate: _startDate!,
+                                      endDate: _endDate!,
+                                    ),
                                     style:
                                         Theme.of(context).textTheme.bodyMedium,
                                   ),
@@ -205,7 +258,21 @@ class CreateTripScreenState extends ConsumerState<CreateTripScreen> {
                       _isPublic ? 'Public Trip' : 'Private Trip',
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
-                    Expanded(child: Container()),
+                    IconButton(
+                      icon: Icon(
+                        Icons.info,
+                        color: CustomColors.primary.withOpacity(0.8),
+                      ),
+                      onPressed: () {
+                        showDialog<TripPrivacyInformationDialog>(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return const TripPrivacyInformationDialog();
+                          },
+                        );
+                      },
+                    ),
+                    const Spacer(),
                     if (_isPublic)
                       Row(
                         children: [

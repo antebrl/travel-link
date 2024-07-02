@@ -1,6 +1,6 @@
-## Lab2 Vorbereitung
+## Lab2 Preperation
 
-Die Anwendung wurde gemäß diesen Vorgaben aufgebaut
+The application was built according to these specifications.
 
 - the first screen contains a greeting message, an image and a button
 - when you click on the button you will be navigated to the second screen
@@ -14,14 +14,14 @@ Die Anwendung wurde gemäß diesen Vorgaben aufgebaut
 ### Game Screens
 ![Game start Screen](assets/docs/game_start.png)
 
-Gebe Text in das Feld ein und drücke Play, um das Spiel zu starten.
+Enter text into the field and press Play to start the game.
 ![Game input Screen](assets/docs/game_input.png)
 
-Klicke nun die Wörter in der richtigen Reihenfolge nacheinander an.
+Now click the words in the correct order one after another.
 ![Game play Screen](assets/docs/game_play.png)
 
-Wenn ein Wort angeklickt wurde, erscheint es wieder in dem Text-Feld.
+When a word is clicked, it reappears in the text field.
 ![Game word clicked Screen](assets/docs/game_word_clicked.png)
 
-Wenn der Satz wieder vollständig zusammengesetzt wurde, erscheint eine Benachrichtigung.
+When the sentence is fully reassembled, a notification will appear.
 ![Game end Screen](assets/docs/game_end.png)
