@@ -6,6 +6,7 @@ import 'package:travel_link/src/features/my_trips/presentation/create_trip_scree
 import 'package:travel_link/src/features/my_trips/presentation/current_trip_tile.dart';
 import 'package:travel_link/src/features/my_trips/presentation/my_trip_tile.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
+import 'package:travel_link/src/utils/helpers/localization.dart';
 import 'package:travel_link/src/utils/logging/logger.dart';
 
 class MyTripsScreen extends ConsumerWidget {
@@ -83,10 +84,10 @@ class MyTripsScreen extends ConsumerWidget {
                               height: 50,
                             ),
                           ),
-                          const Align(
+                          Align(
                             child: Text(
-                              'My Trips',
-                              style: TextStyle(
+                              context.loc.myTripsTitle,
+                              style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 34,
                                 color: Colors.black,
@@ -112,7 +113,7 @@ class MyTripsScreen extends ConsumerWidget {
                     Padding(
                       padding: const EdgeInsets.only(left: 15, top: 16),
                       child: Text(
-                        'Upcoming trips',
+                        context.loc.upcomingTripsTitle,
                         style: TextStyle(
                           fontSize: 28,
                           fontFamily: 'Inter',
@@ -126,7 +127,7 @@ class MyTripsScreen extends ConsumerWidget {
                         padding: const EdgeInsets.symmetric(vertical: 10),
                         child: Center(
                           child: Text(
-                            'No upcoming trips yet.',
+                            context.loc.noUpcomingTripsFound,
                             style: TextStyle(
                               fontSize: 21,
                               fontFamily: 'Inter',
@@ -175,7 +176,7 @@ class MyTripsScreen extends ConsumerWidget {
                     Padding(
                       padding: const EdgeInsets.only(left: 15, top: 16),
                       child: Text(
-                        'Previous trips',
+                        context.loc.previousTripsTitle,
                         style: TextStyle(
                           fontSize: 28,
                           fontFamily: 'Inter',
@@ -189,7 +190,7 @@ class MyTripsScreen extends ConsumerWidget {
                         padding: const EdgeInsets.symmetric(vertical: 10),
                         child: Center(
                           child: Text(
-                            'No previous trips found',
+                            context.loc.noPreviousTripsFound,
                             style: TextStyle(
                               fontSize: 21,
                               fontFamily: 'Inter',
@@ -238,9 +239,9 @@ class MyTripsScreen extends ConsumerWidget {
       ),
       error: (error, stackTrace) {
         logger.e('Error loading trips', error: error, stackTrace: stackTrace);
-        return const Scaffold(
+        return Scaffold(
           body: Center(
-            child: Text('Error loading trips. Please try again later.'),
+            child: Text(context.loc.errorLoadingTrips),
           ),
         );
       },

@@ -1,6 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_ui_localizations/firebase_ui_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:travel_link/firebase_options.dart';
 import 'package:travel_link/src/utils/theme/theme.dart';
@@ -29,7 +31,16 @@ class MyApp extends ConsumerWidget {
       routerConfig: goRouter,
       debugShowCheckedModeBanner: false,
       onGenerateTitle: (context) => context.loc.appTitle,
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      // localizationsDelegates:
+      //   AppLocalizations.localizationsDelegates,
+      localizationsDelegates: [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        FirebaseUILocalizations.delegate,
+      ],
+
       supportedLocales: AppLocalizations.supportedLocales,
       // use to find missing semantics
       // showSemanticsDebugger: true,

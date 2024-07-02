@@ -87,6 +87,84 @@
   "validCityError": "Geben Sie eine gültige Stadt ein.",
   "selectCategoryError": "Wählen Sie mindestens eine Kategorie aus.",
   "addActivity": "Aktivität hinzufügen",
-     "activityHintText": "Aktivität..."
+     "activityHintText": "Aktivität...",
 
+
+  "myTripsTitle": "Meine Reisen",
+  "upcomingTripsTitle": "Kommende Reisen",
+  "noUpcomingTripsFound": "Noch keine kommenden Reisen.",
+  "previousTripsTitle": "Vergangene Reisen",
+  "noPreviousTripsFound": "Keine vergangenen Reisen",
+  "errorLoadingTrips": "Fehler beim Laden der Reisen. Bitte versuchen Sie es später erneut.",
+
+  "tripPrivacyInformation": "Wer kann teilnehmen?",
+  "public": "Öffentlich",
+  "publicTripDescription": "Lerne neue Leute bei einer öffentlichen Reise kennen. Eine öffentliche Reise ist für alle Nutzer sichtbar. Jeder kann teilnehmen, sofern die Reise nicht ausgebucht ist.",
+  "private": "Privat",
+  "privateTripDescription": "Eine private Reise ist nur für eingeladene Teilnehmer zugänglich. Sie ist für andere Nutzer nicht sichtbar, es sei denn, sie sind eingeladen.",
+  
+  "flexibleDates": "Flexibler Zeitraum",
+  
+  "createTrip": "Reise erstellen",
+  "tripName": "Name",
+  "tripNameEmptyError": "Name darf nicht leer sein",
+  "tripDescriptionEmptyError": "Beschreibung darf nicht leer sein, wenn die Reise öffentlich ist",
+  "tripDescription": "Beschreibung",
+  "tripDateSelect": "Zeitraum auswählen",
+  "optional": "optional",
+  "publicTrip": "Offene Reise",
+  "privateTrip": "Private Reise",
+  "maxParticipants": "Max Teilnehmer",
+  "createTrip": "Erstellen",
+
+  "countryWorldWide": "Weltweit",
+  "archivedTripSelection": "Archiviert",
+  "upcomingTripsSelection": "Bevorstehend",
+  "searchLabel": "Suche",
+  "searchHint": "Suchbegriff eingeben",
+  "flexibleLabel": "Flexibel",
+  "noTripsFound": "Keine Reisen gefunden",
+  "exploreTripsTitle": "Entdecke Reisen",
+
+
+  "addPicture": "Bild hinzufügen",
+  "addPictureSelectImage": "Bitte Bild auswählen",
+  "addPictureNotParticipant": "Sie sind kein Teilnehmer dieser Reise",
+  "addPictureCaption": "Beschriftung hinzufügen",
+  "deletePicture": "Bild löschen",
+  "deletePictureConfirmation": "Möchten Sie dieses Bild wirklich löschen?",
+
+  "anonymousUser": "Anonymer Benutzer",
+  "unknown": "Unbekannt",
+
+  "errorLoadingChat": "Fehler beim Laden des Chats. Bitte versuchen Sie es später erneut.",
+  "tripGroupChat": "Reisegruppen-Chat",
+  "typeMessage": "Nachricht eingeben...",
+  "chatEmptyMessage": "Leere Nachrichten können nicht gesendet werden.",
+  "signInToSendMessage": "Bitte melden Sie sich an und vergeben Sie in Ihrem Profil einen Namen, um Nachrichten zu senden.",
+
+  "signIn": "Anmelden",
+  "tryAsGuest": "Als Gast fortfahren",
+  "or": "oder",
+
+
+  "leaveTrip": "Reise verlassen",
+  "leave": "Verlassen",
+  "confirmLeaveTrip": "Möchten Sie diese Reise wirklich verlassen?",
+  "plan": "Plan",
+  "chat": "Chat",
+  "gallery": "Galerie",
+  "tripFull": "Reise ist voll",
+  "join": "Beitreten",
+  "loadingTrip": "Reise wird geladen...",
+  "tripOverview": "Reiseübersicht",
+  "errorLoadingTrip": "Fehler beim Laden der Reise. Bitte versuchen Sie es später erneut.",
+  "participantsTitle": "Teilnehmer",
+  "activitiesTitle": "Aktivitäten",
+  "mapTitle": "Karte",
+  "checklistTitle": "Checkliste",
+  "noImagesAvailable": "Keine Bilder verfügbar",
+
+  "addUser": "Benutzer hinzufügen",
+  "addParticipant": "Teilnehmer hinzufügen"
 }
