@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:travel_link/src/features/trip_overview/data/user_repository.dart';
 import 'package:travel_link/src/utils/constants/image_strings.dart';
 import 'package:travel_link/src/utils/formatters/formatter.dart';
+import 'package:travel_link/src/utils/helpers/localization.dart';
 
 class ReplyMessageTile extends ConsumerWidget {
   const ReplyMessageTile.first({
@@ -81,14 +82,14 @@ class ReplyMessageTile extends ConsumerWidget {
                       ),
                       child: author!.when(
                         data: (userAccount) => Text(
-                          userAccount?.displayName ?? 'Unknown',
+                          userAccount?.displayName ?? context.loc.unknown,
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: authorColor,
                           ),
                         ),
                         loading: () => const CircularProgressIndicator(),
-                        error: (_, __) => const Text('Error'),
+                        error: (_, __) => Text(context.loc.error),
                       ),
                     ),
                   Padding(

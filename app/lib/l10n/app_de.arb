@@ -134,5 +134,16 @@
   "deletePicture": "Bild löschen",
   "deletePictureConfirmation": "Möchten Sie dieses Bild wirklich löschen?",
 
-  "anonymousUser": "Anonymer Benutzer"
+  "anonymousUser": "Anonymer Benutzer",
+  "unknown": "Unbekannt",
+
+  "errorLoadingChat": "Fehler beim Laden des Chats. Bitte versuchen Sie es später erneut.",
+  "tripGroupChat": "Reisegruppen-Chat",
+  "typeMessage": "Nachricht eingeben...",
+  "chatEmptyMessage": "Leere Nachrichten können nicht gesendet werden.",
+  "signInToSendMessage": "Bitte melden Sie sich an und vergeben Sie in Ihrem Profil einen Namen, um Nachrichten zu senden.",
+
+  "signIn": "Anmelden",
+  "tryAsGuest": "Als Gast",
+  "or": "oder"
 }

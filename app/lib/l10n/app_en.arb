@@ -147,7 +147,18 @@
   "deletePicture": "Delete Picture",
   "deletePictureConfirmation": "Are you sure you want to delete this picture?",
 
-  "anonymousUser": "Anonym User"
+  "anonymousUser": "Anonym User",
+  "unknown": "Unknown",
+
+  "errorLoadingChat": "Error loading chat. Please try again later.",
+  "tripGroupChat": "Trip Group Chat",
+  "typeMessage": "Type message...",
+  "chatEmptyMessage": "Cannot send empty Message.",
+  "signInToSendMessage": "Please sign in and assign yourself a name in your profile to send messages.",
+
+  "signIn": "Sign in",
+  "tryAsGuest": "Try anonymously",
+  "or": "or"
 
 
 }
