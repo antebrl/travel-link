@@ -275,6 +275,7 @@ class _ApiActivitiesDetailsScreenState
               ),
               padding: const EdgeInsets.all(16),
               child: CustomScrollView(
+                physics: const BouncingScrollPhysics(),
                 slivers: [
                   SliverFillRemaining(
                     hasScrollBody: false,
