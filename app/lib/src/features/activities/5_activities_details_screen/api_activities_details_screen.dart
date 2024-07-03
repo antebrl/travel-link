@@ -14,6 +14,7 @@ import 'package:travel_link/src/utils/constants/colors.dart';
 import 'package:travel_link/src/utils/constants/image_strings.dart';
 import 'package:travel_link/src/utils/helpers/localization.dart';
 
+// ignore: must_be_immutable
 class ApiActivitiesDetailsScreen extends ConsumerStatefulWidget {
   ApiActivitiesDetailsScreen({
     required this.activity,

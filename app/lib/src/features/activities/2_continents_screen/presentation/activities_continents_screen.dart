@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:travel_link/src/features/activities/2_continents_screen/data/continent_data.dart';
 import 'package:travel_link/src/features/activities/2_continents_screen/presentation/continent_item.dart';
 import 'package:travel_link/src/features/activities/3_activities_screen/presentation/activities_screen.dart';
@@ -13,7 +12,7 @@ class ActivitiesContinentsScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-         context.loc.exploreActivities,
+          context.loc.exploreActivities,
         ),
       ),
       body: LayoutBuilder(

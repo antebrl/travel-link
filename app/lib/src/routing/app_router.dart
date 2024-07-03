@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:travel_link/src/features/account/presentation/account_screen.dart';
 import 'package:travel_link/src/features/account/presentation/actions/about_screen.dart';
 import 'package:travel_link/src/features/account/presentation/actions/account_information_screen.dart';
-import 'package:travel_link/src/features/account/presentation/account_screen.dart';
 import 'package:travel_link/src/features/account/presentation/actions/help_screen.dart';
 import 'package:travel_link/src/features/account/presentation/actions/settings_screen.dart';
 import 'package:travel_link/src/features/activities/0_activities_tabs_screen/activities_tabs_screen.dart';

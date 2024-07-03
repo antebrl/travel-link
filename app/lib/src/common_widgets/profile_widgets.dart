@@ -5,10 +5,10 @@ class LanguageChip extends StatelessWidget {
     required this.flag,
     required this.language,
     this.onPressed,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
-  Widget flag;
+  final Widget flag;
   final VoidCallback? onPressed;
   final String language;
 
@@ -33,8 +33,8 @@ class InterestsChip extends StatelessWidget {
     required this.icon,
     required this.label,
     this.onPressed,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final Widget icon;
   final String label;
@@ -61,8 +61,8 @@ class CustomChip extends StatelessWidget {
     required this.avatar,
     required this.label,
     this.onPressed,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final Widget avatar;
   final String label;

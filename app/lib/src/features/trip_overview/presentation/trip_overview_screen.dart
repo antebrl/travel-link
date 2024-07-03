@@ -94,8 +94,9 @@ class _TripOverviewScreenState extends ConsumerState<TripOverviewScreen>
                                     onPressed: () async {
                                       // Perform leave trip logic
                                       await ref
-                                          .read(myTripsControllerProvider
-                                              .notifier)
+                                          .read(
+                                            myTripsControllerProvider.notifier,
+                                          )
                                           .leaveTrip(trip: trip);
                                       ref.invalidate(fetchMyTripsProvider);
 
@@ -211,24 +212,24 @@ class _TripOverviewScreenState extends ConsumerState<TripOverviewScreen>
           floatingActionButton:
               userId != null && !trip.participants.contains(userId)
                   ? FloatingActionButton.extended(
-                    onPressed: () async {
-                      if (trip.participants.length >=
-                          (trip.maxParticipants ?? double.infinity)) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(context.loc.tripFull),
-                          ),
-                        );
-                        return;
-                      }
-                      // join Trip
-                      await ref
-                          .read(myTripsControllerProvider.notifier)
-                          .joinTrip(trip: trip);
-                  
-                      ref.invalidate(fetchMyTripsProvider);
-                    },
-                    label: Text(
+                      onPressed: () async {
+                        if (trip.participants.length >=
+                            (trip.maxParticipants ?? double.infinity)) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(context.loc.tripFull),
+                            ),
+                          );
+                          return;
+                        }
+                        // join Trip
+                        await ref
+                            .read(myTripsControllerProvider.notifier)
+                            .joinTrip(trip: trip);
+
+                        ref.invalidate(fetchMyTripsProvider);
+                      },
+                      label: Text(
                         context.loc.join,
                         style: const TextStyle(
                           fontSize: 18,
@@ -236,9 +237,9 @@ class _TripOverviewScreenState extends ConsumerState<TripOverviewScreen>
                         ),
                       ),
                       shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-        ),
-                  )
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                    )
                   : null,
         );
       },

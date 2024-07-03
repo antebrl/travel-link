@@ -1,9 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:flag/flag.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:travel_link/src/common_widgets/boxed_content.dart';
-import 'package:travel_link/src/features/account/data/account_repository.dart';
 import 'package:travel_link/src/features/my_trips/data/my_trips_repository.dart';
 import 'package:travel_link/src/features/my_trips/presentation/my_trips_controller.dart';
 import 'package:travel_link/src/features/trip_overview/data/user_repository.dart';
@@ -15,7 +13,7 @@ import 'package:travel_link/src/utils/theme/widget_themes/boxDecoration_theme.da
 import '../../common_widgets/profile_widgets.dart';
 
 class UserProfileScreen extends ConsumerStatefulWidget {
-  UserProfileScreen({super.key, required this.targetuid});
+  const UserProfileScreen({required this.targetuid, super.key});
 
   final String targetuid;
 
@@ -27,21 +25,21 @@ class _ProfileScreenState extends ConsumerState<UserProfileScreen> {
   @override
   Widget build(BuildContext context) {
     const listTilePadding = EdgeInsets.only(left: 10, right: 10, top: 10);
-    var userData = ref.watch(fetchUserProvider(widget.targetuid));
+    final userData = ref.watch(fetchUserProvider(widget.targetuid));
 
-    var defaultDescription = 'No description';
-    var defaultName = 'No name';
-    final user_name = userData.when(
+    final defaultDescription = 'No description';
+    final defaultName = 'No name';
+    final userName = userData.when(
       data: (userAccount) => userAccount?.publicName ?? defaultName,
       loading: () => 'Loading...',
       error: (_, __) => 'Error',
     );
-    final user_description = userData.when(
+    final userDescription = userData.when(
       data: (userAccount) => userAccount?.description ?? defaultDescription,
       loading: () => 'Loading...',
       error: (_, __) => 'Error',
     );
-    final user_city = userData.when(
+    final userCity = userData.when(
       data: (userAccount) => userAccount?.city ?? 'Unknown',
       loading: () => 'Loading...',
       error: (_, __) => 'Error',
@@ -68,7 +66,7 @@ class _ProfileScreenState extends ConsumerState<UserProfileScreen> {
     );
     return Scaffold(
       appBar: AppBar(
-        title: Center(child: Text(user_name)),
+        title: Center(child: Text(userName)),
       ),
       body: Padding(
         padding: const EdgeInsets.only(bottom: 10),
@@ -95,14 +93,14 @@ class _ProfileScreenState extends ConsumerState<UserProfileScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                user_name,
+                                userName,
                                 style:
                                     Theme.of(context).textTheme.headlineSmall,
                                 overflow: TextOverflow.fade,
                               ),
                               const SizedBox(height: 5),
                               Text(
-                                user_city,
+                                userCity,
                                 style: Theme.of(context).textTheme.bodySmall,
                               ),
                             ],
@@ -110,7 +108,7 @@ class _ProfileScreenState extends ConsumerState<UserProfileScreen> {
                         ),
                         IconButton(
                           onPressed: () {
-                            var myTrips = ref.watch(fetchMyTripsProvider);
+                            final myTrips = ref.watch(fetchMyTripsProvider);
                             showModalBottomSheet<void>(
                               context: context,
                               isScrollControlled: true,
@@ -119,7 +117,7 @@ class _ProfileScreenState extends ConsumerState<UserProfileScreen> {
                                 child: Column(
                                   children: [
                                     Text(
-                                      "Add to trip",
+                                      'Add to trip',
                                       style: Theme.of(context)
                                           .textTheme
                                           .headlineSmall!
@@ -132,8 +130,10 @@ class _ProfileScreenState extends ConsumerState<UserProfileScreen> {
                                     myTrips.when(
                                       data: (trips) {
                                         trips
-                                            .where((trip) => trip.participants
-                                                .contains(widget.targetuid))
+                                            .where(
+                                              (trip) => trip.participants
+                                                  .contains(widget.targetuid),
+                                            )
                                             .toList()
                                             .forEach((trip) {
                                           trips.remove(trip);
@@ -141,7 +141,7 @@ class _ProfileScreenState extends ConsumerState<UserProfileScreen> {
                                         if (trips.isEmpty) {
                                           return Center(
                                             child: Text(
-                                              "No trips available",
+                                              'No trips available',
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .bodySmall!
@@ -173,22 +173,27 @@ class _ProfileScreenState extends ConsumerState<UserProfileScreen> {
                                                 // Handle trip selection
                                                 final mytripsController =
                                                     ref.read(
-                                                        myTripsControllerProvider
-                                                            .notifier);
+                                                  myTripsControllerProvider
+                                                      .notifier,
+                                                );
                                                 // ignore: cascade_invocations
                                                 mytripsController.addToTrip(
-                                                    trip: trips[index],
-                                                    uid: widget.targetuid);
+                                                  trip: trips[index],
+                                                  uid: widget.targetuid,
+                                                );
                                                 ScaffoldMessenger.of(context)
                                                     .showSnackBar(
                                                   SnackBar(
                                                     content: Center(
-                                                      child: Text(context.loc
-                                                          .successfullyAdded),
+                                                      child: Text(
+                                                        context.loc
+                                                            .successfullyAdded,
+                                                      ),
                                                     ),
                                                     duration: const Duration(
-                                                        seconds: 1,
-                                                        milliseconds: 400),
+                                                      seconds: 1,
+                                                      milliseconds: 400,
+                                                    ),
                                                   ),
                                                 );
                                               },
@@ -235,14 +240,17 @@ class _ProfileScreenState extends ConsumerState<UserProfileScreen> {
                         child: Container(
                           height: 100,
                           padding: const EdgeInsets.only(
-                              left: 30, right: 20, bottom: 5),
+                            left: 30,
+                            right: 20,
+                            bottom: 5,
+                          ),
                           child: ListView(
                             physics: const BouncingScrollPhysics(),
                             children: [
                               Wrap(
                                 children: [
                                   Text(
-                                    user_description,
+                                    userDescription,
                                     overflow: TextOverflow.fade,
                                   ),
                                 ],
@@ -263,20 +271,22 @@ class _ProfileScreenState extends ConsumerState<UserProfileScreen> {
               content: Column(
                 children: [
                   Container(
-                      padding: EdgeInsets.only(left: 10, right: 20, bottom: 10),
-                      child: Wrap(
-                        children: languageList.map((language) {
-                          return CustomChip(
-                            avatar: Flag.fromString(language),
-                            onPressed: () {
-                              setState(() {
-                                languageList.remove(language);
-                              });
-                            },
-                            label: language,
-                          );
-                        }).toList(),
-                      )),
+                    padding:
+                        const EdgeInsets.only(left: 10, right: 20, bottom: 10),
+                    child: Wrap(
+                      children: languageList.map((language) {
+                        return CustomChip(
+                          avatar: Flag.fromString(language),
+                          onPressed: () {
+                            setState(() {
+                              languageList.remove(language);
+                            });
+                          },
+                          label: language,
+                        );
+                      }).toList(),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -285,20 +295,21 @@ class _ProfileScreenState extends ConsumerState<UserProfileScreen> {
               boxDecoration: boxDecoration,
               headline: 'Interests',
               content: Container(
-                  padding: EdgeInsets.only(left: 10, right: 20, bottom: 10),
-                  child: Wrap(
-                    children: interestList.map((interest) {
-                      return CustomChip(
-                        avatar: const Icon(Icons.circle),
-                        onPressed: () {
-                          setState(() {
-                            languageList.remove(interest);
-                          });
-                        },
-                        label: interest,
-                      );
-                    }).toList(),
-                  )),
+                padding: const EdgeInsets.only(left: 10, right: 20, bottom: 10),
+                child: Wrap(
+                  children: interestList.map((interest) {
+                    return CustomChip(
+                      avatar: const Icon(Icons.circle),
+                      onPressed: () {
+                        setState(() {
+                          languageList.remove(interest);
+                        });
+                      },
+                      label: interest,
+                    );
+                  }).toList(),
+                ),
+              ),
             ),
           ],
         ),

@@ -1,13 +1,9 @@
-import 'dart:math';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:flag/flag.dart';
-import 'package:flag/flag_enum.dart';
 import 'package:flag/flag_widget.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:toastification/toastification.dart';
@@ -15,8 +11,6 @@ import 'package:travel_link/src/common_widgets/boxed_content.dart';
 import 'package:travel_link/src/common_widgets/profile_widgets.dart';
 import 'package:travel_link/src/features/account/domain/user_account.dart';
 import 'package:travel_link/src/features/account/presentation/account_controller.dart';
-import 'package:travel_link/src/features/authentication/data/firebase_auth_repository.dart';
-import 'package:travel_link/src/features/trip_overview/data/user_repository.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
 import 'package:travel_link/src/utils/theme/widget_themes/boxDecoration_theme.dart';
 
@@ -65,7 +59,6 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
 
   late List<String> languageList = [];
   late List<String> interestsList = [];
-  String _selectedCountry = 'England';
 
   void saveProfileToDatabase() {
     final accountController = ref.read(accountControllerProvider.notifier);
@@ -83,7 +76,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
       context: context,
       type: ToastificationType.success,
       style: ToastificationStyle.flat,
-      title: const Text("Profile updated"),
+      title: const Text('Profile updated'),
       alignment: Alignment.topCenter,
       autoCloseDuration: const Duration(seconds: 3),
       closeButtonShowType: CloseButtonShowType.none,
@@ -98,11 +91,11 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
   }
 
   final defaultAboutMeText =
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. ";
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. ';
 
-  final defaultUsername = "John Doe";
+  final defaultUsername = 'John Doe';
 
-  final defaultCity = "New York";
+  final defaultCity = 'New York';
 
   final nameController = TextEditingController();
 
@@ -136,13 +129,13 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
         icon: const Icon(Icons.save),
       ),
       body: Padding(
-        padding: const EdgeInsets.only(bottom: 8.0),
+        padding: const EdgeInsets.only(bottom: 8),
         child: ListView(
           physics: const BouncingScrollPhysics(),
           children: [
             Column(
               children: [
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 Center(
@@ -157,12 +150,12 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                       if (image == null) return;
                       final Uint8List bytes = await image.readAsBytes();
                       await accountController.updateProfilePicture(
-                          picture: bytes);
+                        picture: bytes,
+                      );
                     },
                     child: SizedBox(
                       height: 100,
                       child: FittedBox(
-                        fit: BoxFit.contain,
                         child: CachedNetworkImage(
                           imageUrl: widget.userAccount.pictureUrl ??
                               'https://picsum.photos/200/300',
@@ -180,18 +173,18 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 5,
                 ),
                 BoxedContent(
                   boxDecoration: boxDecoration,
                   content: Padding(
-                    padding: const EdgeInsets.all(10.0),
+                    padding: const EdgeInsets.all(10),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Personal Information",
+                          'Personal Information',
                           style: Theme.of(context)
                               .textTheme
                               .headlineSmall!
@@ -199,7 +192,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                                 fontWeight: FontWeight.bold,
                               ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         TextFormField(
@@ -210,7 +203,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                             hintStyle: TextStyle(fontSize: 15),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 20,
                         ),
                         TextFormField(
@@ -221,7 +214,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                             hintStyle: TextStyle(fontSize: 15),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 20,
                         ),
                         TextFormField(
@@ -239,7 +232,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                     ),
                   ),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 BoxedContent(
                   boxDecoration: boxDecoration,
                   content: Padding(
@@ -250,7 +243,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                         Row(
                           children: [
                             Text(
-                              "Languages",
+                              'Languages',
                               style: Theme.of(context)
                                   .textTheme
                                   .headlineSmall!
@@ -261,38 +254,37 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                             const Spacer(),
                             if (editMode != EditMode.language)
                               IconButton(
-                                  onPressed: () => showCountryPicker(
-                                        context: context,
-                                        onSelect: (Country country) {
-                                          setState(() {
-                                            languageList
-                                                .add(country.countryCode);
-                                          });
-                                        },
-                                        countryListTheme: CountryListThemeData(
-                                          borderRadius: const BorderRadius.only(
-                                            topLeft: Radius.circular(40),
-                                            topRight: Radius.circular(40),
-                                          ),
-                                          inputDecoration: InputDecoration(
-                                            labelText: 'Search',
-                                            hintText: 'Start typing to search',
-                                            prefixIcon:
-                                                const Icon(Icons.search),
-                                            border: OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                color: const Color(0xFF8C98A8)
-                                                    .withOpacity(0.2),
-                                              ),
-                                            ),
-                                          ),
-                                          searchTextStyle: const TextStyle(
-                                            color: Colors.blue,
-                                            fontSize: 18,
-                                          ),
+                                onPressed: () => showCountryPicker(
+                                  context: context,
+                                  onSelect: (Country country) {
+                                    setState(() {
+                                      languageList.add(country.countryCode);
+                                    });
+                                  },
+                                  countryListTheme: CountryListThemeData(
+                                    borderRadius: const BorderRadius.only(
+                                      topLeft: Radius.circular(40),
+                                      topRight: Radius.circular(40),
+                                    ),
+                                    inputDecoration: InputDecoration(
+                                      labelText: 'Search',
+                                      hintText: 'Start typing to search',
+                                      prefixIcon: const Icon(Icons.search),
+                                      border: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: const Color(0xFF8C98A8)
+                                              .withOpacity(0.2),
                                         ),
                                       ),
-                                  icon: Icon(Icons.add)),
+                                    ),
+                                    searchTextStyle: const TextStyle(
+                                      color: Colors.blue,
+                                      fontSize: 18,
+                                    ),
+                                  ),
+                                ),
+                                icon: const Icon(Icons.add),
+                              ),
                             const VerticalDivider(
                               color: CustomColors.grey,
                               thickness: 1,
@@ -343,7 +335,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                     ),
                   ),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 BoxedContent(
                   boxDecoration: boxDecoration,
                   content: Padding(
@@ -354,7 +346,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                         Row(
                           children: [
                             Text(
-                              "Interests",
+                              'Interests',
                               style: Theme.of(context)
                                   .textTheme
                                   .headlineSmall!
@@ -365,56 +357,55 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                             const Spacer(),
                             if (editMode != EditMode.interest)
                               IconButton(
-                                  onPressed: () => showDialog(
-                                        context: context,
-                                        builder: (context) {
-                                          return AlertDialog(
-                                            title: const Text('Add Interest'),
-                                            content: Column(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                TextFormField(
-                                                  controller:
-                                                      newInterestController,
-                                                  decoration:
-                                                      const InputDecoration(
-                                                    labelText: 'Interest',
-                                                    labelStyle:
-                                                        TextStyle(fontSize: 15),
-                                                    hintStyle:
-                                                        TextStyle(fontSize: 15),
-                                                  ),
-                                                ),
-                                                const SizedBox(height: 10),
-                                                Row(
-                                                  children: [
-                                                    ElevatedButton(
-                                                      onPressed: () {
-                                                        setState(() {
-                                                          interestsList.add(
-                                                              newInterestController
-                                                                  .text);
-                                                        });
-                                                        Navigator.pop(context);
-                                                      },
-                                                      child: const Text('Add'),
-                                                    ),
-                                                    const Spacer(),
-                                                    ElevatedButton(
-                                                      onPressed: () {
-                                                        Navigator.pop(context);
-                                                      },
-                                                      child:
-                                                          const Text('Cancel'),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ],
+                                onPressed: () => showDialog<AlertDialog>(
+                                  context: context,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                      title: const Text('Add Interest'),
+                                      content: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          TextFormField(
+                                            controller: newInterestController,
+                                            decoration: const InputDecoration(
+                                              labelText: 'Interest',
+                                              labelStyle:
+                                                  TextStyle(fontSize: 15),
+                                              hintStyle:
+                                                  TextStyle(fontSize: 15),
                                             ),
-                                          );
-                                        },
+                                          ),
+                                          const SizedBox(height: 10),
+                                          Row(
+                                            children: [
+                                              ElevatedButton(
+                                                onPressed: () {
+                                                  setState(() {
+                                                    interestsList.add(
+                                                      newInterestController
+                                                          .text,
+                                                    );
+                                                  });
+                                                  Navigator.pop(context);
+                                                },
+                                                child: const Text('Add'),
+                                              ),
+                                              const Spacer(),
+                                              ElevatedButton(
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                },
+                                                child: const Text('Cancel'),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
                                       ),
-                                  icon: Icon(Icons.add)),
+                                    );
+                                  },
+                                ),
+                                icon: const Icon(Icons.add),
+                              ),
                             const VerticalDivider(
                               color: CustomColors.grey,
                               thickness: 1,

@@ -192,7 +192,7 @@ class _ActivitiesScreenState extends ConsumerState<ActivitiesScreen> {
                   activity: filteredActivitiesBySearch[index],
                 ),
               ),
-            )
+            ),
         ],
       ),
     );

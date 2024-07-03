@@ -1,4 +1,3 @@
-
 class CustomValidator {
   static String? validateEmail(String? value) {
     if (value == null || value.isEmpty) {
@@ -26,12 +25,12 @@ class CustomValidator {
     }
 
     // Check for uppercase letters
-    if (!value.contains(RegExp(r'[A-Z]'))) {
+    if (!value.contains(RegExp('[A-Z]'))) {
       return 'Password must contain at least one uppercase letter.';
     }
 
     // Check for numbers
-    if (!value.contains(RegExp(r'[0-9]'))) {
+    if (!value.contains(RegExp('[0-9]'))) {
       return 'Password must contain at least one number.';
     }
 

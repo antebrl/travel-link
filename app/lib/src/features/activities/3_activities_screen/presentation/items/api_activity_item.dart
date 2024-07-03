@@ -126,7 +126,8 @@ class _APIActivityItemState extends State<APIActivityItem> {
                   return Image.network(
                     //Wikipedia entry but no picture
                     CustomImages.getPlaceholderImage(
-                        widget.activity.categories),
+                      widget.activity.categories,
+                    ),
                     height: 125,
                     width: double.infinity,
                     fit: BoxFit.contain,

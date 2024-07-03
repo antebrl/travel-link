@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class AccountAboutScreen extends StatelessWidget {
@@ -8,7 +7,7 @@ class AccountAboutScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('About'),
+        title: const Text('About'),
       ),
       body: Center(
         child: Column(
@@ -23,12 +22,12 @@ class AccountAboutScreen extends StatelessWidget {
               'TraveLink',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             Text(
               'Made with ❤️ by the TraveLink team',
               style: Theme.of(context).textTheme.bodyMedium,
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             Text(
               'Version 1.0.0',
               style: Theme.of(context).textTheme.bodyMedium,

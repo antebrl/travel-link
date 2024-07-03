@@ -56,12 +56,11 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
   final String defaultDescription = 'Shine bright like a diamond💎';
 
   Future<void> showQRCodeDialog({required String qrCodeData}) async {
-    ByteData? qrCodeBytes = await QrPainter(
+    final ByteData? qrCodeBytes = await QrPainter(
       data: qrCodeData,
       version: QrVersions.auto,
-      gapless: false,
-    ).toImageData(200.0);
-    showDialog(
+    ).toImageData(200);
+    showDialog<AlertDialog>(
       context: context,
       builder: (context) {
         return AlertDialog(
@@ -85,7 +84,6 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
   Future<void> _showLogoutConfirmation({required FirebaseAuth auth}) async {
     return showDialog<void>(
       context: context,
-      barrierDismissible: true, // user must tap button!
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text('Sign Out'),
@@ -124,8 +122,10 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
     );
   }
 
-  Future<String?> _showEditPopup(
-      {required String label, String intialValue = ''}) async {
+  Future<String?> _showEditPopup({
+    required String label,
+    String intialValue = '',
+  }) async {
     final TextEditingController controller =
         TextEditingController(text: intialValue);
     return showDialog<String>(
@@ -206,7 +206,8 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
                               if (image == null) return;
                               final Uint8List bytes = await image.readAsBytes();
                               await accountController.updateProfilePicture(
-                                  picture: bytes);
+                                picture: bytes,
+                              );
 
                               userData = ref.refresh(
                                 fetchUserProvider(

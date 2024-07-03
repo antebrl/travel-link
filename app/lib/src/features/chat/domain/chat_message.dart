@@ -8,6 +8,14 @@ class ChatMessage extends Equatable {
     required this.timestamp,
   });
 
+  factory ChatMessage.fromMap(Map<dynamic, dynamic> value) {
+    return ChatMessage(
+      uid: value['uid'] as String,
+      message: value['message'] as String,
+      timestamp: (value['timestamp'] as Timestamp).toDate(),
+    );
+  }
+
   final String uid;
   final String message;
   final DateTime timestamp;
@@ -16,19 +24,11 @@ class ChatMessage extends Equatable {
   List<Object?> get props => [
         uid,
         message,
-        timestamp
+        timestamp,
       ];
 
   @override
   bool get stringify => true;
-
-  factory ChatMessage.fromMap(Map<dynamic, dynamic> value) {
-    return ChatMessage(
-      uid: value['uid'] as String,
-      message: value['message'] as String,
-      timestamp: (value['timestamp'] as Timestamp).toDate(),
-    );
-  }
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{

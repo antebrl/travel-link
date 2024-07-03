@@ -1,8 +1,8 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -20,7 +20,7 @@ class CustomDeviceUtils {
   }
 
   // Methode zum Überprüfen, ob sich das Gerät in der Querformatausrichtung befindet
-  static bool isLandscapeOrientation(BuildContext context) { 
+  static bool isLandscapeOrientation(BuildContext context) {
     final viewInsets = View.of(context).viewInsets;
     return viewInsets.bottom == 0;
   }
@@ -33,7 +33,8 @@ class CustomDeviceUtils {
 
   // Methode zum Festlegen des Vollbildmodus
   static void setFullScreen(bool enable) {
-    SystemChrome.setEnabledSystemUIMode(enable ? SystemUiMode.immersiveSticky : SystemUiMode.edgeToEdge);
+    SystemChrome.setEnabledSystemUIMode(
+        enable ? SystemUiMode.immersiveSticky : SystemUiMode.edgeToEdge);
   }
 
   // Methode zur Rückgabe der Bildschirmhöhe
@@ -80,17 +81,19 @@ class CustomDeviceUtils {
 
   // Methode zur Überprüfung, ob es sich um ein physisches Gerät handelt
   static Future<bool> isPhysicalDevice() async {
-    return defaultTargetPlatform == TargetPlatform.android || defaultTargetPlatform == TargetPlatform.iOS;
+    return defaultTargetPlatform == TargetPlatform.android ||
+        defaultTargetPlatform == TargetPlatform.iOS;
   }
 
   // Methode zur Auslösung eines Vibrationsfeedbacks
   static void vibrate(Duration duration) {
     HapticFeedback.vibrate();
-    Future.delayed(duration, () => HapticFeedback.vibrate());
+    Future.delayed(duration, HapticFeedback.vibrate);
   }
 
   // Methode zum Festlegen der bevorzugten Bildschirmausrichtungen
-  static Future<void> setPreferredOrientations(List<DeviceOrientation> orientations) async {
+  static Future<void> setPreferredOrientations(
+      List<DeviceOrientation> orientations) async {
     await SystemChrome.setPreferredOrientations(orientations);
   }
 
@@ -101,7 +104,8 @@ class CustomDeviceUtils {
 
   // Methode zum Anzeigen der Statusleiste
   static void showStatusBar() {
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: SystemUiOverlay.values);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+        overlays: SystemUiOverlay.values);
   }
 
   // Methode zur Überprüfung der Internetverbindung
@@ -125,12 +129,11 @@ class CustomDeviceUtils {
   }
 
   // Methode zum Öffnen einer URL
-  static void launchUrl(String url) async {
+  static Future<void> launchUrl(String url) async {
     if (await canLaunchUrlString(url)) {
       await launchUrlString(url);
     } else {
       throw 'Could not launch $url';
     }
   }
-
 }
