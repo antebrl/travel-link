@@ -68,7 +68,8 @@ class CurrentTripTile extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
                           trip.name,
@@ -86,9 +87,11 @@ class CurrentTripTile extends StatelessWidget {
                           ),
                           textAlign: TextAlign.center,
                         ),
-                        const Spacer(),
-                        ParticipantsAvatarStack(
-                          participants: trip.participants,
+                        const SizedBox(width: 14),
+                        Flexible(
+                          child: ParticipantsAvatarStack(
+                            participants: trip.participants,
+                          ),
                         ),
                       ],
                     ),
