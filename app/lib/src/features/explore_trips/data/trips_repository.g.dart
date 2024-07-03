@@ -21,7 +21,7 @@ final tripsRepositoryProvider = Provider<TripsRepository>.internal(
 );
 
 typedef TripsRepositoryRef = ProviderRef<TripsRepository>;
-String _$fetchPublicTripsHash() => r'22f109881e827a4c50cfec3ff26e6f2ebccb9b50';
+String _$fetchPublicTripsHash() => r'8f5850e634e040103a062d4843375e07b17884aa';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -59,12 +59,14 @@ class FetchPublicTripsFamily extends Family<AsyncValue<List<Trip>>> {
     DateTime? endDate,
     bool? archived,
     String? country,
+    bool worldWide = true,
   }) {
     return FetchPublicTripsProvider(
       startDate: startDate,
       endDate: endDate,
       archived: archived,
       country: country,
+      worldWide: worldWide,
     );
   }
 
@@ -77,6 +79,7 @@ class FetchPublicTripsFamily extends Family<AsyncValue<List<Trip>>> {
       endDate: provider.endDate,
       archived: provider.archived,
       country: provider.country,
+      worldWide: provider.worldWide,
     );
   }
 
@@ -103,6 +106,7 @@ class FetchPublicTripsProvider extends AutoDisposeFutureProvider<List<Trip>> {
     DateTime? endDate,
     bool? archived,
     String? country,
+    bool worldWide = true,
   }) : this._internal(
           (ref) => fetchPublicTrips(
             ref as FetchPublicTripsRef,
@@ -110,6 +114,7 @@ class FetchPublicTripsProvider extends AutoDisposeFutureProvider<List<Trip>> {
             endDate: endDate,
             archived: archived,
             country: country,
+            worldWide: worldWide,
           ),
           from: fetchPublicTripsProvider,
           name: r'fetchPublicTripsProvider',
@@ -124,6 +129,7 @@ class FetchPublicTripsProvider extends AutoDisposeFutureProvider<List<Trip>> {
           endDate: endDate,
           archived: archived,
           country: country,
+          worldWide: worldWide,
         );
 
   FetchPublicTripsProvider._internal(
@@ -137,12 +143,14 @@ class FetchPublicTripsProvider extends AutoDisposeFutureProvider<List<Trip>> {
     required this.endDate,
     required this.archived,
     required this.country,
+    required this.worldWide,
   }) : super.internal();
 
   final DateTime? startDate;
   final DateTime? endDate;
   final bool? archived;
   final String? country;
+  final bool worldWide;
 
   @override
   Override overrideWith(
@@ -161,6 +169,7 @@ class FetchPublicTripsProvider extends AutoDisposeFutureProvider<List<Trip>> {
         endDate: endDate,
         archived: archived,
         country: country,
+        worldWide: worldWide,
       ),
     );
   }
@@ -176,7 +185,8 @@ class FetchPublicTripsProvider extends AutoDisposeFutureProvider<List<Trip>> {
         other.startDate == startDate &&
         other.endDate == endDate &&
         other.archived == archived &&
-        other.country == country;
+        other.country == country &&
+        other.worldWide == worldWide;
   }
 
   @override
@@ -186,6 +196,7 @@ class FetchPublicTripsProvider extends AutoDisposeFutureProvider<List<Trip>> {
     hash = _SystemHash.combine(hash, endDate.hashCode);
     hash = _SystemHash.combine(hash, archived.hashCode);
     hash = _SystemHash.combine(hash, country.hashCode);
+    hash = _SystemHash.combine(hash, worldWide.hashCode);
 
     return _SystemHash.finish(hash);
   }
@@ -203,6 +214,9 @@ mixin FetchPublicTripsRef on AutoDisposeFutureProviderRef<List<Trip>> {
 
   /// The parameter `country` of this provider.
   String? get country;
+
+  /// The parameter `worldWide` of this provider.
+  bool get worldWide;
 }
 
 class _FetchPublicTripsProviderElement
@@ -218,6 +232,8 @@ class _FetchPublicTripsProviderElement
   bool? get archived => (origin as FetchPublicTripsProvider).archived;
   @override
   String? get country => (origin as FetchPublicTripsProvider).country;
+  @override
+  bool get worldWide => (origin as FetchPublicTripsProvider).worldWide;
 }
 
 String _$tripStreamHash() => r'ddc12a6a2980600f6924e0770475bab432e444ab';

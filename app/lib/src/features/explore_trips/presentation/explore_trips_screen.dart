@@ -7,6 +7,7 @@ import 'package:travel_link/src/common_widgets/calendar_popup_view.dart';
 import 'package:travel_link/src/features/explore_trips/data/trips_repository.dart';
 import 'package:travel_link/src/features/explore_trips/presentation/public_trip_card.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
+import 'package:travel_link/src/utils/helpers/localization.dart';
 import 'package:travel_link/src/utils/logging/logger.dart';
 
 class ExploreTripsScreen extends ConsumerStatefulWidget {
@@ -19,15 +20,16 @@ class ExploreTripsScreen extends ConsumerStatefulWidget {
 class _ExploreTripsScreenState extends ConsumerState<ExploreTripsScreen> {
   CarouselController? carouselController = CarouselController();
   // ignore: unused_field
+  // ignore: unused_field
   int _currentIndex = 0;
 
   DateTime? _startDate;
   DateTime? _endDate;
 
-  final String archivedString = 'Archiviert';
-  String _upcomingArchivedSelection = 'Bevorstehend';
+  String? _upcomingArchivedSelection;
 
-  String _selectedCountry = 'World Wide';
+  String? _selectedCountry;
+
 
   @override
   Widget build(BuildContext context) {
@@ -35,10 +37,10 @@ class _ExploreTripsScreenState extends ConsumerState<ExploreTripsScreen> {
     final fetchedTrips = ref.watch(fetchPublicTripsProvider(
       startDate: _startDate,
       endDate: _endDate,
-      archived: _upcomingArchivedSelection == archivedString,
+      archived: _upcomingArchivedSelection == context.loc.archivedTripSelection,
       country: _selectedCountry,
+      worldWide: _selectedCountry == context.loc.countryWorldWide,
     ));
-
 
     return Scaffold(
       appBar: AppBar(
@@ -49,66 +51,68 @@ class _ExploreTripsScreenState extends ConsumerState<ExploreTripsScreen> {
           mainAxisAlignment: MainAxisAlignment.end,
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Text(
-              'Entdecke Reisen',
-              style: TextStyle(
+            const SizedBox(
+              height: 15,
+            ),
+            Text(
+              context.loc.exploreTripsTitle,
+              style: const TextStyle(
                 fontSize: 25,
                 fontWeight: FontWeight.bold,
                 color: Colors.black,
               ),
             ),
-            SizedBox(
-              width: 100,
-              height: 50,
-              child: FittedBox(
-                fit: BoxFit.cover,
-                child: DropdownButton<String>(
-                  value: _upcomingArchivedSelection,
-                  alignment: AlignmentDirectional.topCenter,
-                  focusColor: CustomColors.primaryBackground,
-                  dropdownColor: Colors.white,
-                  underline: Container(
-                    height: 0,
-                    color: CustomColors.primaryBackground,
-                  ),
-                  borderRadius: BorderRadius.circular(16),
-                  iconSize: 0,
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      _upcomingArchivedSelection = newValue!;
-                    });
-                  },
-                  items: <String>['Bevorstehend', 'Archiviert']
-                      .map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                  selectedItemBuilder: (BuildContext context) {
-                    return <String>['Bevorstehend', 'Archiviert']
-                        .map<Widget>((String value) {
-                      return Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Icon(
-                            Icons.keyboard_arrow_down_sharp,
-                            size: 17,
-                            color: Colors.grey[800],
-                          ),
-                          Text(
-                            value,
-                            style: const TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      );
-                    }).toList();
-                  },
-                ),
+            DropdownButton<String>(
+              value: _upcomingArchivedSelection ?? context.loc.upcomingTripsSelection,
+              alignment: AlignmentDirectional.topCenter,
+              focusColor: CustomColors.primaryBackground,
+              dropdownColor: Colors.white,
+              underline: Container(
+                height: 0,
+                color: CustomColors.primaryBackground,
               ),
+              borderRadius: BorderRadius.circular(16),
+              iconSize: 0,
+              onChanged: (String? newValue) {
+                setState(() {
+                  _upcomingArchivedSelection = newValue!;
+                });
+              },
+              items: <String>[context.loc.upcomingTripsSelection, context.loc.archivedTripSelection]
+                  .map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),
+              selectedItemBuilder: (BuildContext context) {
+                return <String>[context.loc.upcomingTripsSelection, context.loc.archivedTripSelection]
+                    .map<Widget>((String value) {
+                  return Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(
+                          top: 3,
+                          right: 1,
+                        ),
+                        child: Icon(
+                          Icons.keyboard_arrow_down_sharp,
+                          size: 17,
+                          color: Colors.grey[800],
+                        ),
+                      ),
+                      Text(
+                        value,
+                        style: const TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  );
+                }).toList();
+              },
             ),
           ],
         ),
@@ -124,7 +128,11 @@ class _ExploreTripsScreenState extends ConsumerState<ExploreTripsScreen> {
                 context: context,
                 onSelect: (Country country) {
                   setState(() {
-                    _selectedCountry = country.name;
+                    if(country.name == 'World Wide') {
+                      _selectedCountry = context.loc.countryWorldWide;
+                    } else {
+                      _selectedCountry = country.name;
+                    }
                   });
                 },
                 showWorldWide: true,
@@ -134,8 +142,8 @@ class _ExploreTripsScreenState extends ConsumerState<ExploreTripsScreen> {
                     topRight: Radius.circular(40),
                   ),
                   inputDecoration: InputDecoration(
-                    labelText: 'Search',
-                    hintText: 'Start typing to search',
+                    labelText: context.loc.searchLabel,
+                    hintText: context.loc.searchHint,
                     prefixIcon: const Icon(Icons.search),
                     border: OutlineInputBorder(
                       borderSide: BorderSide(
@@ -157,7 +165,7 @@ class _ExploreTripsScreenState extends ConsumerState<ExploreTripsScreen> {
                     size: 21,
                   ),
                   Text(
-                    _selectedCountry,
+                    _selectedCountry ?? context.loc.countryWorldWide,
                     textAlign: TextAlign.center,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
@@ -204,7 +212,7 @@ class _ExploreTripsScreenState extends ConsumerState<ExploreTripsScreen> {
                     Text(
                       _startDate != null
                           ? '${DateFormat('dd/MM').format(_startDate!)} - ${DateFormat('dd/MM').format(_endDate!)}'
-                          : 'Flexible',
+                          : context.loc.flexibleLabel,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: Colors.grey[800],
@@ -222,27 +230,27 @@ class _ExploreTripsScreenState extends ConsumerState<ExploreTripsScreen> {
         data: (tripsList) {
           if (tripsList.isNotEmpty) {
             return CarouselSlider(
-            carouselController: carouselController,
-            options: CarouselOptions(
-              viewportFraction: 0.83,
-              enlargeFactor: 0.25,
-              enlargeCenterPage: true,
-              height: 650,
-              onPageChanged: (index, reason) {
-                _currentIndex = index;
-                setState(() {});
-              },
-            ),
-            items: tripsList.map((i) {
-              return PublicTripCard(
-                trip: i,
-              );
-            }).toList(),
-                          );
+              carouselController: carouselController,
+              options: CarouselOptions(
+                viewportFraction: 0.83,
+                enlargeFactor: 0.25,
+                enlargeCenterPage: true,
+                height: 650,
+                onPageChanged: (index, reason) {
+                  _currentIndex = index;
+                  setState(() {});
+                },
+              ),
+              items: tripsList.map((i) {
+                return PublicTripCard(
+                  trip: i,
+                );
+              }).toList(),
+            );
           } else {
-            return const Center(
+            return Center(
               child: Text(
-                'No trips found',
+                context.loc.noTripsFound,
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
             );
@@ -253,8 +261,8 @@ class _ExploreTripsScreenState extends ConsumerState<ExploreTripsScreen> {
         ),
         error: (error, stackTrace) {
           logger.e('Error loading trips', error: error, stackTrace: stackTrace);
-          return const Center(
-            child: Text('Error loading trips. Please try again later.'),
+          return Center(
+            child: Text(context.loc.errorLoadingTrips),
           );
         },
       ),

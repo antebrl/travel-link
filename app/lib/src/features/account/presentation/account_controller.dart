@@ -98,6 +98,7 @@ class AccountController extends _$AccountController {
     required Map<String, dynamic> data,
   }) async {
     final currentUser = ref.read(firebaseAuthProvider).currentUser;
+    if(currentUser == null) return false;
 
     //set state to loading
     state = const AsyncLoading();
@@ -106,12 +107,12 @@ class AccountController extends _$AccountController {
 
     state = await AsyncValue.guard(
       () => repository.updateFirestoreUserData(
-        uid: currentUser!.uid,
+        uid: currentUser.uid,
         data: data,
       ),
     );
 
-    ref.invalidate(fetchUserProvider(currentUser!.uid));
+    ref.invalidate(FetchUserProvider(currentUser.uid));
 
     if (state.hasError) logger.e(state.error);
     return state.hasError == false;

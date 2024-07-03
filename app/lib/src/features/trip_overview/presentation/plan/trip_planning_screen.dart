@@ -5,12 +5,14 @@ import 'package:travel_link/src/features/checklists/presentation/checklists_scre
 import 'package:travel_link/src/features/explore_trips/domain/trip.dart';
 import 'package:travel_link/src/features/map/presentation/trip_map_screen.dart';
 import 'package:travel_link/src/features/trip_overview/presentation/plan/activities/trip_activities_view.dart';
+import 'package:travel_link/src/features/trip_overview/presentation/plan/checklist/checklist_items_preview.dart';
 import 'package:travel_link/src/features/trip_overview/presentation/plan/participants/participant_list_view.dart';
 import 'package:travel_link/src/features/trip_overview/presentation/plan/participants/participants_preview.dart';
 import 'package:travel_link/src/features/trip_overview/presentation/plan/preview_tile.dart';
 import 'package:travel_link/src/routing/app_router.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
 import 'package:travel_link/src/utils/formatters/formatter.dart';
+import 'package:travel_link/src/utils/helpers/localization.dart';
 
 class TripPlanningScreen extends StatefulWidget {
   const TripPlanningScreen({required this.trip, super.key});
@@ -71,7 +73,7 @@ class _TripPlanningScreenState extends State<TripPlanningScreen> {
         ),
         const SizedBox(height: 10),
         PreviewTile(
-          title: 'Participants',
+          title: context.loc.participantsTitle,
           preview: ParticipantsPreview(
             participants: widget.trip.participants,
             maxParticipants: widget.trip.maxParticipants,
@@ -90,7 +92,7 @@ class _TripPlanningScreenState extends State<TripPlanningScreen> {
               Row(
                 children: [
                   Text(
-                    'Activities',
+                    context.loc.activitiesTitle,
                     style: TextStyle(
                       fontSize: 20,
                       color: Colors.grey[700],
@@ -129,23 +131,17 @@ class _TripPlanningScreenState extends State<TripPlanningScreen> {
         ),
         const SizedBox(height: 10),
         PreviewTile(
-          title: 'Map',
+          title: context.loc.mapTitle,
           preview: const Placeholder(fallbackHeight: 100),
-          detailsPageBuilder: (context) => const TripMapScreen(),
+          detailsPageBuilder: (context) => TripMapScreen(participants: widget.trip.participants, destination: widget.trip.destination),
         ),
         const SizedBox(height: 10),
         PreviewTile(
-          title: 'Checklist',
-          preview: const Placeholder(fallbackHeight: 100),
-          detailsPageBuilder: (context) => const ChecklistsScreen(),
+          title: context.loc.checklistTitle,
+          preview: ChecklistPreview(tripId: widget.trip.tripId, maxItems: 3),
+          detailsPageBuilder: (context) => ChecklistsScreen(trip: widget.trip),
         ),
-        const SizedBox(height: 10),
-        PreviewTile(
-          title: 'Costs',
-          preview: const Placeholder(fallbackHeight: 100),
-          detailsPageBuilder: (context) => const Placeholder(),
-        ),
-        const SizedBox(height: 10),
+        const SizedBox(height: 18),
       ],
     );
   }
@@ -156,10 +152,10 @@ class _TripPlanningScreenState extends State<TripPlanningScreen> {
         return Container(
           height: 180,
           color: Colors.grey[300],
-          child: const Center(
+          child: Center(
             child: Text(
-              'No images available',
-              style: TextStyle(
+              context.loc.noImagesAvailable,
+              style: const TextStyle(
                 color: Colors.grey,
                 fontSize: 16,
               ),
@@ -209,7 +205,7 @@ class _TripPlanningScreenState extends State<TripPlanningScreen> {
                                 startDate: widget.trip.startDate!,
                                 endDate: widget.trip.endDate!,
                               )
-                            : 'flexible Dates',
+                            : context.loc.flexibleDates,
                         style: const TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
@@ -318,7 +314,7 @@ class _TripPlanningScreenState extends State<TripPlanningScreen> {
                                 startDate: widget.trip.startDate!,
                                 endDate: widget.trip.endDate!,
                               )
-                            : 'flexible Dates',
+                            : context.loc.flexibleDates,
                         style: const TextStyle(
                           fontSize: 14,
                           color: CustomColors.primary,

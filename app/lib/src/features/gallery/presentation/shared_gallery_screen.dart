@@ -5,6 +5,7 @@ import 'package:travel_link/src/features/gallery/data/shared_gallery_repository.
 import 'package:travel_link/src/features/gallery/presentation/add_picture_screen.dart';
 import 'package:travel_link/src/features/gallery/presentation/images_grid_view.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
+import 'package:travel_link/src/utils/helpers/localization.dart';
 import 'package:travel_link/src/utils/logging/logger.dart';
 
 class SharedGalleryScreen extends ConsumerWidget {
@@ -25,8 +26,7 @@ class SharedGalleryScreen extends ConsumerWidget {
             color: CustomColors.primary,
             strokeWidth: 3,
             onRefresh: () async {
-              // ignore: unused_result
-              ref.refresh(fetchPicturePostsProvider(trip.tripId));
+              ref.invalidate(fetchPicturePostsProvider(trip.tripId));
             },
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 6),
@@ -54,8 +54,8 @@ class SharedGalleryScreen extends ConsumerWidget {
       ),
       error: (error, stackTrace) {
         logger.e('Error loading images', error: error, stackTrace: stackTrace);
-        return const Center(
-          child: Text('Error loading images. Please try again later.'),
+        return Center(
+          child: Text(context.loc.errorLoadingImages),
         );
       },
     );

@@ -15,14 +15,16 @@ import 'package:travel_link/src/utils/constants/image_strings.dart';
 import 'package:travel_link/src/utils/helpers/localization.dart';
 
 class ApiActivitiesDetailsScreen extends ConsumerStatefulWidget {
-  const ApiActivitiesDetailsScreen({
+  ApiActivitiesDetailsScreen({
     required this.activity,
     super.key,
     this.addedTrip,
+    this.hasPlaceholderPicture = false,
   });
 
   final Activity activity;
   final Trip? addedTrip;
+  bool hasPlaceholderPicture;
 
   @override
   ConsumerState<ApiActivitiesDetailsScreen> createState() =>
@@ -107,6 +109,7 @@ class _ApiActivitiesDetailsScreenState
         widget.activity.imagePaths = [
           CustomImages.getPlaceholderImage(widget.activity.categories),
         ];
+        widget.hasPlaceholderPicture = true;
       }
     }
   }
@@ -231,7 +234,9 @@ class _ApiActivitiesDetailsScreenState
                           widget.activity.imagePaths[0],
                           height: 220,
                           width: double.infinity,
-                          fit: BoxFit.cover,
+                          fit: widget.hasPlaceholderPicture
+                              ? BoxFit.contain
+                              : BoxFit.cover,
                         ),
                       ),
           ),
@@ -283,7 +288,8 @@ class _ApiActivitiesDetailsScreenState
                             children: [
                               Center(
                                 child: Text(
-                                  '${context.loc.explore} ' ' ${widget.activity.name}',
+                                  '${context.loc.explore} '
+                                  ' ${widget.activity.name}',
                                   style: Theme.of(context)
                                       .textTheme
                                       .headlineSmall!
@@ -320,6 +326,7 @@ class _ApiActivitiesDetailsScreenState
                                   widget.activity.openingHours!,
                                   style: Theme.of(context).textTheme.bodyLarge,
                                 ),
+                                const SizedBox(height: 10),
                                 const SizedBox(height: 10),
                               ],
                               Text(
@@ -375,6 +382,36 @@ class _ApiActivitiesDetailsScreenState
                                     ),
                                     label: Text(
                                       context.loc.private,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall!
+                                          .copyWith(
+                                            color: CustomColors.primary,
+                                          ),
+                                    ),
+                                  ),
+                                ),
+                              },
+                              if (widget.activity.isPublic == false) ...{
+                                Padding(
+                                  padding: const EdgeInsets.all(10),
+                                  child: Chip(
+                                    side: const BorderSide(
+                                      color: CustomColors.primary,
+                                    ),
+                                    backgroundColor: CustomColors.white,
+                                    labelStyle: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall!
+                                        .copyWith(
+                                          color: CustomColors.primary,
+                                        ),
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 12,
+                                      vertical: 12,
+                                    ),
+                                    label: Text(
+                                      'private',
                                       style: Theme.of(context)
                                           .textTheme
                                           .bodySmall!

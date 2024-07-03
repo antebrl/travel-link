@@ -12,6 +12,7 @@ import 'package:travel_link/src/features/trip_overview/data/user_repository.dart
 import 'package:travel_link/src/routing/app_router.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
 import 'package:travel_link/src/utils/constants/image_strings.dart';
+import 'package:travel_link/src/utils/helpers/localization.dart';
 
 class AddParticipantScreen extends ConsumerStatefulWidget {
   const AddParticipantScreen({required this.trip, super.key});
@@ -55,7 +56,7 @@ class _AddParticipantScreenState extends ConsumerState<AddParticipantScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add User'),
+        title: Text(context.loc.addUser),
       ),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(26, 16, 26, 20),
@@ -109,7 +110,7 @@ class _AddParticipantScreenState extends ConsumerState<AddParticipantScreen> {
                   },
                 ),
                 prefixIcon: const Icon(Icons.group_add),
-                labelText: 'Add Participant',
+                labelText: context.loc.addParticipant,
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
                   borderSide: const BorderSide(
@@ -166,14 +167,14 @@ class _AddParticipantScreenState extends ConsumerState<AddParticipantScreen> {
                           );
                         },
                       ),
-                      title: Text(option.displayName ?? 'Anonymous User'),
+                      title: Text(option.displayName ?? context.loc.anonymousUser),
                       onTap: () async {
                         // Add participant to trip
                         if (widget.trip.participants.length >=
                             (widget.trip.maxParticipants ?? double.infinity)) {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Trip is full'),
+                            SnackBar(
+                              content: Text(context.loc.tripFull),
                             ),
                           );
                           return;

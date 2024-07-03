@@ -51,7 +51,7 @@ class _APIActivitiesScreenState extends ConsumerState<APIActivitiesScreen> {
     double destLat,
     double destLon,
   ) {
-    const double thresholdDistance = 50; // Threshold distance in Kilometers
+    const double thresholdDistance = 40; // Threshold distance in Kilometers
     final double activityLat = activity.location.lat;
     final double activityLon = activity.location.lon;
 
@@ -107,6 +107,7 @@ class _APIActivitiesScreenState extends ConsumerState<APIActivitiesScreen> {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
+
         appBar: AppBar(
           title: Text(context.loc.exploreActivities),
           actions: [
@@ -306,7 +307,12 @@ class _APIActivitiesScreenState extends ConsumerState<APIActivitiesScreen> {
                 ),
               ],
             ),
-            MapScreenWithActivities(fetchedActivities: fetchedActivities),
+            MapScreenWithActivities(
+              fetchedApiActivities: fetchedActivities,
+              fetchedUserActivities: ref.read(
+                  fetchActivitiesProvider(categories: widget.categoryList)
+                      .future),
+            ),
           ],
         ),
       ),

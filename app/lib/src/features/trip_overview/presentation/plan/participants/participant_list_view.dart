@@ -7,6 +7,7 @@ import 'package:travel_link/src/features/trip_overview/data/user_repository.dart
 import 'package:travel_link/src/features/trip_overview/presentation/plan/participants/add_participant_screen.dart';
 import 'package:travel_link/src/routing/app_router.dart';
 import 'package:travel_link/src/utils/constants/image_strings.dart';
+import 'package:travel_link/src/utils/helpers/localization.dart';
 
 class ParticipantListView extends ConsumerWidget {
   const ParticipantListView({required this.trip, super.key});
@@ -56,9 +57,9 @@ class ParticipantListView extends ConsumerWidget {
             ),
           );
         },
-        label: const Text(
-          'Add',
-          style: TextStyle(fontSize: 18),
+        label: Text(
+          context.loc.add,
+          style: const TextStyle(fontSize: 18),
         ),
         icon: const Icon(Icons.add, color: Colors.white, size: 25),
       ),
@@ -88,7 +89,7 @@ class ParticipantListView extends ConsumerWidget {
                             CustomImages.defaultProfilePictureUrl,
                           ),
                         ),
-                  title: Text(users[index].displayName ?? 'Anonymous User'),
+                  title: Text(users[index].displayName ?? context.loc.anonymousUser),
                   onTap: () {
                     // Go to user public profile
                     final uid = users[index].id;

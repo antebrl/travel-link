@@ -46,7 +46,7 @@ class ParticipantsAvatarStack extends ConsumerWidget {
             ),
             totalCount: participants.length,
             itemRadius: 40,
-            itemCount: participants.length > 3 ? 3 : participants.length,
+            itemCount: participants.length > 3 || participants.isEmpty ? 3 : participants.length,
           );
         } else {
           return FlutterImageStack(

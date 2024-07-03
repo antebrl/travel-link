@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:latlong2/latlong.dart';
 
 class UserAccount extends Equatable {
   const UserAccount({
@@ -10,6 +11,7 @@ class UserAccount extends Equatable {
     required this.pictureUrl,
     required this.interests,
     required this.languages,
+    this.position,
   });
 
   final String id;
@@ -21,6 +23,7 @@ class UserAccount extends Equatable {
 
   final List<String> interests;
   final List<String> languages;
+  final LatLng? position;
 
   @override
   List<Object?> get props => [
@@ -43,8 +46,15 @@ class UserAccount extends Equatable {
       publicName: value['publicName'] as String?,
       pictureUrl: value['pictureUrl'] as String?,
       city: value['city'] as String?,
-      interests: value['interests'] != null ? (value['interests'] as List<dynamic>).cast<String>() : [],
-      languages: value['languages'] != null ? (value['languages'] as List<dynamic>).cast<String>() : [],
+      interests: value['interests'] != null
+          ? (value['interests'] as List<dynamic>).cast<String>()
+          : [],
+      languages: value['languages'] != null
+          ? (value['languages'] as List<dynamic>).cast<String>()
+          : [],
+      position: value['position'] != null
+          ? LatLng.fromJson(value['position'] as Map<String, dynamic>)
+          : null,
     );
   }
 
@@ -57,6 +67,7 @@ class UserAccount extends Equatable {
       'pictureUrl': pictureUrl,
       'interests': interests,
       'languages': languages,
+      'position': position?.toJson(),
     };
   }
 }

@@ -8,6 +8,7 @@ import 'package:travel_link/src/features/authentication/data/firebase_auth_repos
 import 'package:travel_link/src/features/explore_trips/domain/trip.dart';
 import 'package:travel_link/src/features/gallery/data/shared_gallery_repository.dart';
 import 'package:travel_link/src/features/gallery/presentation/shared_gallery_controller.dart';
+import 'package:travel_link/src/utils/helpers/localization.dart';
 
 class AddPictureScreen extends ConsumerStatefulWidget {
   const AddPictureScreen({required this.trip, super.key});
@@ -38,8 +39,7 @@ class _AddPictureScreenState extends ConsumerState<AddPictureScreen> {
             );
 
     if (success && mounted) {
-      // ignore: unused_result
-      ref.refresh(
+      ref.invalidate(
         fetchPicturePostsProvider(widget.trip.tripId),
       );
       Navigator.pop(context);
@@ -53,23 +53,23 @@ class _AddPictureScreenState extends ConsumerState<AddPictureScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add a picture'),
+        title: Text(context.loc.addPicture),
         actions: [
           IconButton(
             onPressed: () async {
               if (state.isLoading) return;
               if (tempUploadImg == null) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('Please select an image'),
+                  SnackBar(
+                    content: Text(context.loc.addPictureSelectImage),
                   ),
                 );
                 return;
               }
               if (!widget.trip.participants.contains(auth.currentUser?.uid)) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('You are not a participant of this trip'),
+                  SnackBar(
+                    content: Text(context.loc.addPictureNotParticipant),
                   ),
                 );
                 return;
@@ -144,15 +144,15 @@ class _AddPictureScreenState extends ConsumerState<AddPictureScreen> {
                     controller: _controller,
                     keyboardType: TextInputType.multiline,
                     maxLines: 5,
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
                       filled: true,
                       fillColor: Colors.white,
-                      hintText: 'Add a caption',
-                      focusedBorder: OutlineInputBorder(
+                      hintText: context.loc.addPictureCaption,
+                      focusedBorder: const OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(16)),
                         borderSide: BorderSide(color: Colors.lightBlue),
                       ),
-                      enabledBorder: OutlineInputBorder(
+                      enabledBorder: const OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(16)),
                         borderSide: BorderSide(color: Colors.grey),
                       ),
