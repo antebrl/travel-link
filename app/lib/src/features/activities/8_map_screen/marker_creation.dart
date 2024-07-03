@@ -102,7 +102,7 @@ Marker createEducationActivity(
       valueListenable: colorNotifier,
       builder: (context, color, child) {
         return IconButton(
-          icon: Icon(Icons.museum_rounded, color: color),
+          icon: Icon(Icons.school_rounded, color: color),
           onPressed: () {
             // ignore: inference_failure_on_function_invocation
             showDialog(
@@ -407,7 +407,7 @@ Marker createActivActivity(
   Activity associatedActivity,
 ) {
   final ValueNotifier<Color> colorNotifier =
-      ValueNotifier<Color>(const Color.fromARGB(255, 167, 74, 255));
+      ValueNotifier<Color>(const Color.fromARGB(255, 91, 101, 239));
 
   return Marker(
     point: position,
@@ -417,7 +417,7 @@ Marker createActivActivity(
       valueListenable: colorNotifier,
       builder: (context, color, child) {
         return IconButton(
-          icon: Icon(Icons.attractions_rounded, color: color),
+          icon: Icon(Icons.hiking_rounded, color: color),
           onPressed: () {
             // ignore: inference_failure_on_function_invocation
             showDialog(

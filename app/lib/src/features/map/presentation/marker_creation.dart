@@ -207,7 +207,7 @@ Marker createEducationActivity(
       valueListenable: colorNotifier,
       builder: (context, color, child) {
         return IconButton(
-          icon: Icon(Icons.museum_rounded, color: color),
+          icon: Icon(Icons.school_rounded, color: color),
           onPressed: () {
             // ignore: inference_failure_on_function_invocation
             showDialog(
@@ -804,7 +804,7 @@ Marker createActivActivity(
   String usedMobility = 'Car';
   String mobilityForAPI = 'cycling-regular';
   final ValueNotifier<Color> colorNotifier =
-      ValueNotifier<Color>(Color.fromARGB(255, 252, 255, 58));
+      ValueNotifier<Color>(Color.fromARGB(255, 91, 101, 239));
   final ValueNotifier<Color> starColorNotifier =
       ValueNotifier<Color>(Colors.grey);
   final ValueNotifier<bool> isLoadingNotifier = ValueNotifier<bool>(false);
@@ -817,7 +817,7 @@ Marker createActivActivity(
       valueListenable: colorNotifier,
       builder: (context, color, child) {
         return IconButton(
-          icon: Icon(Icons.attractions_rounded, color: color),
+          icon: Icon(Icons.hiking_rounded, color: color),
           onPressed: () {
             // ignore: inference_failure_on_function_invocation
             showDialog(
