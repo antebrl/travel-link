@@ -8,8 +8,7 @@ class TripActivitiesRepository {
   const TripActivitiesRepository(this._firestore);
   final FirebaseFirestore _firestore;
 
-  static String tripActivitiesPath(String tripId) =>
-      'trips/$tripId/activities';
+  static String tripActivitiesPath(String tripId) => 'trips/$tripId/activities';
 
   // create
 
@@ -17,7 +16,9 @@ class TripActivitiesRepository {
     required String tripId,
     required Activity activity,
   }) =>
-    _firestore.collection(tripActivitiesPath(tripId)).add(activity.toFirebaseMap());
+      _firestore
+          .collection(tripActivitiesPath(tripId))
+          .add(activity.toFirebaseMap());
 
   // read
 
@@ -27,33 +28,37 @@ class TripActivitiesRepository {
   }
 
   //QUERIES
-  Query<Activity> queryTripActivities({required String tripId}) =>
-      _firestore
-          .collection(tripActivitiesPath(tripId))
-          .withConverter(
-            fromFirestore: (snapshot, _) =>
-                Activity.fromFirebaseMap(snapshot.data()!, firebaseId: snapshot.id),
-            toFirestore: (picturePost, _) => picturePost.toFirebaseMap(),
-          );
+  Query<Activity> queryTripActivities({required String tripId}) => _firestore
+      .collection(tripActivitiesPath(tripId))
+      .withConverter(
+        fromFirestore: (snapshot, _) =>
+            Activity.fromFirebaseMap(snapshot.data()!, firebaseId: snapshot.id),
+        toFirestore: (picturePost, _) => picturePost.toFirebaseMap(),
+      );
 
-  // delete 
+  // delete
 
   Future<void> removeActivity({
     required String tripId,
     required String activityId,
   }) =>
-    _firestore.collection(tripActivitiesPath(tripId)).doc(activityId).delete();
-
+      _firestore
+          .collection(tripActivitiesPath(tripId))
+          .doc(activityId)
+          .delete();
 }
 
 @Riverpod(keepAlive: true)
-TripActivitiesRepository tripActivitiesRepository(TripActivitiesRepositoryRef ref) {
+TripActivitiesRepository tripActivitiesRepository(
+    TripActivitiesRepositoryRef ref) {
   return TripActivitiesRepository(FirebaseFirestore.instance);
 }
 
 @riverpod
 Future<List<Activity>> fetchTripActivities(
-    FetchTripActivitiesRef ref, String tripId) {
+  FetchTripActivitiesRef ref,
+  String tripId,
+) {
   final repository = ref.watch(tripActivitiesRepositoryProvider);
   return repository.fetchTripActivities(tripId: tripId);
 }

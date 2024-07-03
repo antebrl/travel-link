@@ -10,6 +10,16 @@ class PicturePost extends Equatable {
     required this.timestamp,
   });
 
+  factory PicturePost.fromMap(Map<dynamic, dynamic> value, String id) {
+    return PicturePost(
+      id: id,
+      description: value['description'] as String,
+      uid: value['uid'] as String,
+      picture: value['picture'] as String,
+      timestamp: (value['timestamp'] as Timestamp).toDate(),
+    );
+  }
+
   final String id;
   final String description;
   final String uid;
@@ -22,21 +32,11 @@ class PicturePost extends Equatable {
         description,
         uid,
         picture,
-        timestamp
+        timestamp,
       ];
 
   @override
   bool get stringify => true;
-
-  factory PicturePost.fromMap(Map<dynamic, dynamic> value, String id) {
-    return PicturePost(
-      id: id,
-      description: value['description'] as String,
-      uid: value['uid'] as String,
-      picture: value['picture'] as String,
-      timestamp: (value['timestamp'] as Timestamp).toDate(),
-    );
-  }
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{

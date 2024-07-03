@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:toastification/toastification.dart';
 import 'package:travel_link/src/common_widgets/boxed_content.dart';
 import 'package:travel_link/src/features/account/presentation/account_controller.dart';
@@ -40,7 +39,7 @@ class _AccountAccountInformationScreenState
       context: context,
       type: ToastificationType.success,
       style: ToastificationStyle.flat,
-      title: const Text("Profile updated"),
+      title: const Text('Profile updated'),
       alignment: Alignment.topCenter,
       autoCloseDuration: const Duration(seconds: 3),
       closeButtonShowType: CloseButtonShowType.none,
@@ -75,89 +74,90 @@ class _AccountAccountInformationScreenState
       error: (_, __) => '',
     );
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Account Information'),
+      appBar: AppBar(
+        title: const Text('Account Information'),
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(40),
         ),
-        floatingActionButton: FloatingActionButton.extended(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(40),
-          ),
-          onPressed: () {
-            setState(saveProfileToDatabase);
-          },
-          label: const Text('Save'),
-          icon: const Icon(Icons.save),
-        ),
-        body: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            children: [
-              BoxedContent(
-                boxDecoration: boxDecoration,
-                content: Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Account Details',
-                        style: Theme.of(context).textTheme.headlineMedium,
+        onPressed: () {
+          setState(saveProfileToDatabase);
+        },
+        label: const Text('Save'),
+        icon: const Icon(Icons.save),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(8),
+        child: Column(
+          children: [
+            BoxedContent(
+              boxDecoration: boxDecoration,
+              content: Padding(
+                padding: const EdgeInsets.all(15),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Account Details',
+                      style: Theme.of(context).textTheme.headlineMedium,
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    TextFormField(
+                      controller: usernameController,
+                      decoration: const InputDecoration(
+                        labelText: 'Username',
+                        hintText: 'Please enter your username',
                       ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      TextFormField(
-                        controller: usernameController,
-                        decoration: const InputDecoration(
-                          labelText: 'Username',
-                          hintText: 'Please enter your username',
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      TextFormField(
-                        keyboardType: TextInputType.text,
-                        controller: passwordController,
-                        decoration: InputDecoration(
-                          labelText: 'Password',
-                          hintText: 'Please enter your password',
-                          suffixIcon: IconButton(
-                            icon: Icon(
-                              // Based on passwordVisible state choose the icon
-                              _passwordVisible
-                                  ? Icons.visibility
-                                  : Icons.visibility_off,
-                              color: Theme.of(context).primaryColorDark,
-                            ),
-                            onPressed: () {
-                              // Update the state i.e. toogle the state of passwordVisible variable
-                              setState(() {
-                                _passwordVisible = !_passwordVisible;
-                              });
-                            },
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    TextFormField(
+                      keyboardType: TextInputType.text,
+                      controller: passwordController,
+                      decoration: InputDecoration(
+                        labelText: 'Password',
+                        hintText: 'Please enter your password',
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            // Based on passwordVisible state choose the icon
+                            _passwordVisible
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                            color: Theme.of(context).primaryColorDark,
                           ),
-                        ),
-                        obscureText: !_passwordVisible,
-                        enableSuggestions: false,
-                        autocorrect: false,
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      TextFormField(
-                        controller: emailController,
-                        decoration: const InputDecoration(
-                          labelText: 'Email',
-                          hintText: 'Please enter your email',
+                          onPressed: () {
+                            // Update the state i.e. toogle the state of passwordVisible variable
+                            setState(() {
+                              _passwordVisible = !_passwordVisible;
+                            });
+                          },
                         ),
                       ),
-                    ],
-                  ),
+                      obscureText: !_passwordVisible,
+                      enableSuggestions: false,
+                      autocorrect: false,
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    TextFormField(
+                      controller: emailController,
+                      decoration: const InputDecoration(
+                        labelText: 'Email',
+                        hintText: 'Please enter your email',
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            ],
-          ),
-        ));
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

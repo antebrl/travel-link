@@ -46,8 +46,10 @@ class _AutoCompleteSearchState extends State<AutoCompleteSearch> {
       final destinations =
           json.decode(response.body)['results'] as List<dynamic>;
 
-      return destinations.map((destination) =>
-          Destination.fromMap(destination as Map<dynamic, dynamic>));
+      return destinations.map(
+        (destination) =>
+            Destination.fromMap(destination as Map<dynamic, dynamic>),
+      );
     } else {
       logger.e(
         'Failed to load and parse destination suggestions',

@@ -1,10 +1,10 @@
 /// Custom exception class to handle various Firebase-related errors.
 class CustomFirebaseException implements Exception {
-  /// The error code associated with the exception.
-  final String code;
-
   /// Constructor that takes an error code.
   CustomFirebaseException(this.code);
+
+  /// The error code associated with the exception.
+  final String code;
 
   /// Get the corresponding error message based on the error code.
   String get message {
@@ -74,17 +74,17 @@ class CustomFirebaseException implements Exception {
       case 'app-deleted':
         return 'This instance of FirebaseApp has been deleted.';
       case 'user-token-mismatch':
-        return 'The provided user\'s token has a mismatch with the authenticated user\'s user ID.';
+        return "The provided user's token has a mismatch with the authenticated user's user ID.";
       case 'invalid-message-payload':
         return 'The email template verification message payload is invalid.';
       case 'invalid-sender':
-        return 'The email template sender is invalid. Please verify the sender\'s email.';
+        return "The email template sender is invalid. Please verify the sender's email.";
       case 'invalid-recipient-email':
         return 'The recipient email address is invalid. Please provide a valid recipient email.';
       case 'missing-action-code':
         return 'The action code is missing. Please provide a valid action code.';
       case 'user-token-expired':
-        return 'The user\'s token has expired, and authentication is required. Please sign in again.';
+        return "The user's token has expired, and authentication is required. Please sign in again.";
       case 'INVALID_LOGIN_CREDENTIALS':
         return 'Invalid login credentials.';
       case 'expired-action-code':

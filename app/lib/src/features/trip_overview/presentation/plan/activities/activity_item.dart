@@ -7,8 +7,11 @@ import 'package:travel_link/src/utils/constants/image_strings.dart';
 import 'package:travel_link/src/utils/theme/widget_themes/text_theme.dart';
 
 class TripActivityItem extends StatefulWidget {
-  const TripActivityItem(
-      {required this.activity, required this.trip, super.key});
+  const TripActivityItem({
+    required this.activity,
+    required this.trip,
+    super.key,
+  });
   final Activity activity;
   final Trip trip;
 

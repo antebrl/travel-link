@@ -19,9 +19,13 @@ final _navigationList = (
   myTrips:
       NavigationItem(icon: Icons.search_outlined, selectedIcon: Icons.search),
   activities: NavigationItem(
-      icon: Icons.add_location_outlined, selectedIcon: Icons.add_location),
+    icon: Icons.add_location_outlined,
+    selectedIcon: Icons.add_location,
+  ),
   profile: NavigationItem(
-      icon: Icons.account_circle_outlined, selectedIcon: Icons.account_circle),
+    icon: Icons.account_circle_outlined,
+    selectedIcon: Icons.account_circle,
+  ),
 );
 
 class ScaffoldWithNavigation extends ConsumerWidget {
@@ -60,24 +64,36 @@ class ScaffoldWithNavigation extends ConsumerWidget {
           onDestinationSelected: _goBranch,
           destinations: [
             NavigationDestination(
-              icon:
-                  Icon(_navigationList.trip.icon, color: CustomColors.darkGrey,),
-              selectedIcon: Icon(_navigationList.trip.selectedIcon,
-                  color: Theme.of(context).primaryColor,),
+              icon: Icon(
+                _navigationList.trip.icon,
+                color: CustomColors.darkGrey,
+              ),
+              selectedIcon: Icon(
+                _navigationList.trip.selectedIcon,
+                color: Theme.of(context).primaryColor,
+              ),
               label: context.loc.home,
             ),
             NavigationDestination(
-              icon: Icon(_navigationList.myTrips.icon,
-                  color: CustomColors.darkGrey,),
-              selectedIcon: Icon(_navigationList.myTrips.selectedIcon,
-                  color: Theme.of(context).primaryColor,),
+              icon: Icon(
+                _navigationList.myTrips.icon,
+                color: CustomColors.darkGrey,
+              ),
+              selectedIcon: Icon(
+                _navigationList.myTrips.selectedIcon,
+                color: Theme.of(context).primaryColor,
+              ),
               label: context.loc.discover,
             ),
             NavigationDestination(
-              icon: Icon(_navigationList.activities.icon,
-                  color: CustomColors.darkGrey,),
-              selectedIcon: Icon(_navigationList.activities.selectedIcon,
-                  color: Theme.of(context).primaryColor,),
+              icon: Icon(
+                _navigationList.activities.icon,
+                color: CustomColors.darkGrey,
+              ),
+              selectedIcon: Icon(
+                _navigationList.activities.selectedIcon,
+                color: Theme.of(context).primaryColor,
+              ),
               label: context.loc.activities,
             ),
             NavigationDestination(
@@ -86,17 +102,22 @@ class ScaffoldWithNavigation extends ConsumerWidget {
                       ? CircleAvatar(
                           backgroundImage:
                               NetworkImage(auth.currentUser!.photoURL!),
-                              maxRadius: 17,
+                          maxRadius: 17,
                         )
-                      : Icon(_navigationList.profile.selectedIcon,
-                          color: CustomColors.darkGrey),
-              selectedIcon: auth.currentUser != null && auth.currentUser!.photoURL != null ?
-              CircleAvatar(
+                      : Icon(
+                          _navigationList.profile.selectedIcon,
+                          color: CustomColors.darkGrey,
+                        ),
+              selectedIcon:
+                  auth.currentUser != null && auth.currentUser!.photoURL != null
+                      ? CircleAvatar(
                           backgroundImage:
                               NetworkImage(auth.currentUser!.photoURL!),
                         )
-              : Icon(_navigationList.profile.selectedIcon,
-                  color: Theme.of(context).primaryColor),
+                      : Icon(
+                          _navigationList.profile.selectedIcon,
+                          color: Theme.of(context).primaryColor,
+                        ),
               label: context.loc.profile,
             ),
           ],

@@ -7,7 +7,7 @@ import 'package:travel_link/src/features/checklists/data/checklist_repository.da
 import 'package:travel_link/src/features/checklists/domain/checklist_item.dart';
 import 'package:travel_link/src/features/checklists/presentation/checklist_controller.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
-import '../lib/checklist_items.dart';
+import 'package:travel_link/src/features/checklists/lib/checklist_items.dart';
 
 class PersonalChecklistView extends ConsumerStatefulWidget {
   const PersonalChecklistView({required this.tripId, super.key});
@@ -20,7 +20,7 @@ class PersonalChecklistView extends ConsumerStatefulWidget {
 }
 
 class _PersonalChecklistViewState extends ConsumerState<PersonalChecklistView> {
-  TextEditingController _textController = TextEditingController();
+  final TextEditingController _textController = TextEditingController();
   final FocusNode _focusNode = FocusNode();
 
   List<ChecklistItem> tasks = [];
@@ -52,8 +52,12 @@ class _PersonalChecklistViewState extends ConsumerState<PersonalChecklistView> {
           data: tasks[index],
           tripId: widget.tripId,
         );
-    ref.invalidate(fetchTripChecklistProvider(
-        tripId: widget.tripId, uid: currentUser?.uid));
+    ref.invalidate(
+      fetchTripChecklistProvider(
+        tripId: widget.tripId,
+        uid: currentUser?.uid,
+      ),
+    );
   }
 
   Future<void> _addTask(String title) async {
@@ -70,8 +74,12 @@ class _PersonalChecklistViewState extends ConsumerState<PersonalChecklistView> {
           tripId: widget.tripId,
         );
 
-    ref.invalidate(fetchTripChecklistProvider(
-        tripId: widget.tripId, uid: currentUser?.uid));
+    ref.invalidate(
+      fetchTripChecklistProvider(
+        tripId: widget.tripId,
+        uid: currentUser?.uid,
+      ),
+    );
   }
 
   Future<void> _addTaskAndClearSuggestions(String suggestion) async {
@@ -94,8 +102,12 @@ class _PersonalChecklistViewState extends ConsumerState<PersonalChecklistView> {
           data: data,
           tripId: widget.tripId,
         );
-    ref.invalidate(fetchTripChecklistProvider(
-        tripId: widget.tripId, uid: currentUser?.uid));
+    ref.invalidate(
+      fetchTripChecklistProvider(
+        tripId: widget.tripId,
+        uid: currentUser?.uid,
+      ),
+    );
   }
 
   Future<void> _toggleTaskCompletion(int index) async {
@@ -119,7 +131,7 @@ class _PersonalChecklistViewState extends ConsumerState<PersonalChecklistView> {
   }
 
   void _editTask(int index) {
-    showDialog(
+    showDialog<EditTaskDialog>(
       context: context,
       builder: (BuildContext context) {
         return EditTaskDialog(
@@ -136,12 +148,17 @@ class _PersonalChecklistViewState extends ConsumerState<PersonalChecklistView> {
 
   @override
   Widget build(BuildContext context) {
-    final fetchedChecklist = ref.watch(fetchTripChecklistProvider(
-        tripId: widget.tripId, uid: currentUser?.uid));
+    final fetchedChecklist = ref.watch(
+      fetchTripChecklistProvider(
+        tripId: widget.tripId,
+        uid: currentUser?.uid,
+      ),
+    );
 
     if (currentUser == null) {
       return const Center(
-          child: Text('You need to log in to view personal Checklist'));
+        child: Text('You need to log in to view personal Checklist'),
+      );
     } else {
       return fetchedChecklist.when(
         data: (checklist) {
@@ -168,10 +185,12 @@ class _PersonalChecklistViewState extends ConsumerState<PersonalChecklistView> {
                     await _addTaskAndClearSuggestions(selection);
                     _focusNode.unfocus();
                   },
-                  fieldViewBuilder: (BuildContext context,
-                      TextEditingController textEditingController,
-                      FocusNode focusNode,
-                      VoidCallback onFieldSubmitted) {
+                  fieldViewBuilder: (
+                    BuildContext context,
+                    TextEditingController textEditingController,
+                    FocusNode focusNode,
+                    VoidCallback onFieldSubmitted,
+                  ) {
                     return TextField(
                       controller: textEditingController,
                       focusNode: focusNode,
@@ -189,9 +208,11 @@ class _PersonalChecklistViewState extends ConsumerState<PersonalChecklistView> {
                       ),
                     );
                   },
-                  optionsViewBuilder: (BuildContext context,
-                      AutocompleteOnSelected<String> onSelected,
-                      Iterable<String> options) {
+                  optionsViewBuilder: (
+                    BuildContext context,
+                    AutocompleteOnSelected<String> onSelected,
+                    Iterable<String> options,
+                  ) {
                     return Align(
                       alignment: Alignment.topLeft,
                       child: Container(
@@ -206,9 +227,10 @@ class _PersonalChecklistViewState extends ConsumerState<PersonalChecklistView> {
                             elevation: 4,
                             child: ConstrainedBox(
                               constraints: BoxConstraints(
-                                  maxHeight: options.length * 50 < 200
-                                      ? options.length * 50
-                                      : 200),
+                                maxHeight: options.length * 50 < 200
+                                    ? options.length * 50
+                                    : 200,
+                              ),
                               child: ListView.builder(
                                 padding: EdgeInsets.zero,
                                 itemCount: options.length,
@@ -283,7 +305,9 @@ class _PersonalChecklistViewState extends ConsumerState<PersonalChecklistView> {
                                 Text(
                                   'Due date: ${DateFormat('dd/MM/yyyy').format(tasks[index].dueDate!)}',
                                   style: const TextStyle(
-                                      fontSize: 12, color: Colors.grey),
+                                    fontSize: 12,
+                                    color: Colors.grey,
+                                  ),
                                 ),
                             ],
                           ),
@@ -326,10 +350,10 @@ class _PersonalChecklistViewState extends ConsumerState<PersonalChecklistView> {
 }
 
 class EditTaskDialog extends StatefulWidget {
+  const EditTaskDialog({required this.task, required this.onSave, super.key});
   final ChecklistItem task;
+  // ignore: inference_failure_on_function_return_type
   final Function(String, DateTime?) onSave;
-
-  EditTaskDialog({required this.task, required this.onSave});
 
   @override
   _EditTaskDialogState createState() => _EditTaskDialogState();
@@ -376,7 +400,7 @@ class _EditTaskDialogState extends State<EditTaskDialog> {
               IconButton(
                 icon: const Icon(Icons.calendar_today),
                 onPressed: () async {
-                  DateTime? pickedDate = await showDatePicker(
+                  final DateTime? pickedDate = await showDatePicker(
                     context: context,
                     initialDate: _selectedDueDate ?? DateTime.now(),
                     firstDate: DateTime.now(),

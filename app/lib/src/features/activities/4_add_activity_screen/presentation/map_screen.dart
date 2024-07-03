@@ -25,13 +25,15 @@ class MapScreen extends StatefulWidget {
 
 class _MapScreenState extends State<MapScreen> {
   LatLng? _pickedLocation;
-   List<Marker> _markers = [];
+  final List<Marker> _markers = [];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(_markers.isEmpty ? context.loc.pickTheLocation : context.loc.locationSelected),
+        title: Text(_markers.isEmpty
+            ? context.loc.pickTheLocation
+            : context.loc.locationSelected),
         actions: [
           if (_markers.isNotEmpty)
             IconButton(

@@ -107,15 +107,17 @@ class _TripMapScreenState extends ConsumerState<TripMapScreen> {
       final double lati = location['lat'] as double;
       final double long = location['lon'] as double;
       final Activity associatedActivity = Activity(
-          name: name,
-          categories: ['categories'],
-          location: PlaceLocation(
-              lat: lati,
-              lon: long,
-              city: 'city',
-              country: 'country',
-              formatted: 'formatted',
-              countryCode: 'countryCode'));
+        name: name,
+        categories: ['categories'],
+        location: PlaceLocation(
+          lat: lati,
+          lon: long,
+          city: 'city',
+          country: 'country',
+          formatted: 'formatted',
+          countryCode: 'countryCode',
+        ),
+      );
 
       allActivitiesInDB.add(
         await _createMarkerBasedOnDescription(

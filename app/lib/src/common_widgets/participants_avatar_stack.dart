@@ -10,7 +10,9 @@ class ParticipantsAvatarStack extends ConsumerWidget {
   final List<String> participants;
 
   Future<List<String>> _fetchAvatars(
-      WidgetRef ref, List<String> participants) async {
+    WidgetRef ref,
+    List<String> participants,
+  ) async {
     final List<String> avatars = [];
     var imagesCount = 0;
     //only load the first 3 user avatars
@@ -46,7 +48,9 @@ class ParticipantsAvatarStack extends ConsumerWidget {
             ),
             totalCount: participants.length,
             itemRadius: 40,
-            itemCount: participants.length > 3 || participants.isEmpty ? 3 : participants.length,
+            itemCount: participants.length > 3 || participants.isEmpty
+                ? 3
+                : participants.length,
           );
         } else {
           return FlutterImageStack(
