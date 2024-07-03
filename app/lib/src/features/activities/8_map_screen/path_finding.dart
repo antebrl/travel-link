@@ -19,8 +19,11 @@ import 'package:location/location.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 Future<List<LatLng>> calculateRoute(
-    String mobility, Coordinates startPunkt, Coordinates endPunkt) async {
-  List<LatLng> way = [];
+  String mobility,
+  Coordinates startPunkt,
+  Coordinates endPunkt,
+) async {
+  final List<LatLng> way = [];
   final PolylinePoints polylinePoints = PolylinePoints();
 
   final url =
@@ -89,7 +92,7 @@ Future<LatLng> getCurrentLocation() async {
     }
 
     // Get the current location
-    loc.LocationData locationData = await location.getLocation();
+    final loc.LocationData locationData = await location.getLocation();
 
     // Return the position as a LatLng
     return LatLng(locationData.latitude!, locationData.longitude!);

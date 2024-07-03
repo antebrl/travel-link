@@ -6,13 +6,13 @@ import 'package:travel_link/src/utils/theme/theme.dart';
 
 class CustomCalendarView extends StatefulWidget {
   const CustomCalendarView({
-    Key? key,
+    super.key,
     this.initialStartDate,
     this.initialEndDate,
     this.startEndDateChange,
     this.minimumDate,
     this.maximumDate,
-  }) : super(key: key);
+  });
 
   final DateTime? minimumDate;
   final DateTime? maximumDate;
@@ -308,7 +308,6 @@ class _CustomCalendarViewState extends State<CustomCalendarView> {
                                     BoxShadow(
                                       color: Colors.grey.withOpacity(0.6),
                                       blurRadius: 4,
-                                      offset: const Offset(0, 0),
                                     ),
                                   ]
                                 : null,

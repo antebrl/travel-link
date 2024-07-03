@@ -47,8 +47,10 @@ class CreateTripScreenState extends ConsumerState<CreateTripScreen> {
       final destinations =
           json.decode(response.body)['results'] as List<dynamic>;
 
-      return destinations.map((destination) =>
-          Destination.fromMap(destination as Map<dynamic, dynamic>));
+      return destinations.map(
+        (destination) =>
+            Destination.fromMap(destination as Map<dynamic, dynamic>),
+      );
     } else {
       logger.e(
         'Failed to load and parse destination suggestions',
@@ -256,7 +258,9 @@ class CreateTripScreenState extends ConsumerState<CreateTripScreen> {
                     ),
                     const SizedBox(width: 8),
                     Text(
-                      _isPublic ? context.loc.publicTrip : context.loc.privateTrip,
+                      _isPublic
+                          ? context.loc.publicTrip
+                          : context.loc.privateTrip,
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
                     IconButton(

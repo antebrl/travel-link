@@ -37,7 +37,7 @@ Marker createEntertainmentActivity(
               IconButton(
                 icon: Icon(Icons.theater_comedy, color: color),
                 onPressed: () {
-                  showDialog(
+                  showDialog<AlertDialog>(
                     context: context,
                     builder: (context) => AlertDialog(
                       title: Text(name),

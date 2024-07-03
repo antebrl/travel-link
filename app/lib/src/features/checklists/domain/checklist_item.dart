@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class ChecklistItem{
+class ChecklistItem {
   ChecklistItem({
     required this.title,
     required this.asignees,
@@ -8,9 +8,23 @@ class ChecklistItem{
     required this.dueDate,
     required this.createdAt,
     required this.id,
-    required this.isPublic, 
+    required this.isPublic,
     this.onlyOneCompletion = false,
   });
+
+  factory ChecklistItem.fromMap(Map<dynamic, dynamic> value, String id) {
+    return ChecklistItem(
+      title: value['title'] as String,
+      asignees: (value['asignees'] as List<dynamic>).cast<String>(),
+      asigneesCompleted:
+          (value['asigneesCompleted'] as List<dynamic>).cast<bool>(),
+      dueDate: (value['dueDate'] as Timestamp?)?.toDate(),
+      createdAt: (value['createdAt'] as Timestamp?)?.toDate(),
+      onlyOneCompletion: value['onlyOneCompletion'] as bool,
+      id: id,
+      isPublic: value['isPublic'] as bool,
+    );
+  }
 
   String title;
   List<String> asignees;
@@ -20,19 +34,6 @@ class ChecklistItem{
   final bool onlyOneCompletion;
   final String id;
   final bool isPublic;
-
-  factory ChecklistItem.fromMap(Map<dynamic, dynamic> value, String id) {
-    return ChecklistItem(
-      title: value['title'] as String,
-      asignees: (value['asignees'] as List<dynamic>).cast<String>(),
-      asigneesCompleted: (value['asigneesCompleted'] as List<dynamic>).cast<bool>(),
-      dueDate: (value['dueDate'] as Timestamp?)?.toDate(),
-      createdAt: (value['createdAt'] as Timestamp?)?.toDate(),
-      onlyOneCompletion: value['onlyOneCompletion'] as bool,
-      id: id,
-      isPublic: value['isPublic'] as bool,
-    );
-  }
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{

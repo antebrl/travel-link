@@ -101,7 +101,9 @@ class AddToTripButton extends ConsumerWidget {
                                     child: Text(context.loc.successfullyAdded),
                                   ),
                                   duration: const Duration(
-                                      seconds: 1, milliseconds: 400),
+                                    seconds: 1,
+                                    milliseconds: 400,
+                                  ),
                                 ),
                               );
                             },

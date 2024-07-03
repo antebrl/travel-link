@@ -40,9 +40,12 @@ class _AddParticipantScreenState extends ConsumerState<AddParticipantScreen> {
   Future<void> _fetchUsers(String textValue) async {
     _queryUser = textValue;
 
-    final fetchedUsers = await ref.read(fetchUsersQueryProvider(
-            query: _queryUser, participants: widget.trip.participants)
-        .future);
+    final fetchedUsers = await ref.read(
+      fetchUsersQueryProvider(
+        query: _queryUser,
+        participants: widget.trip.participants,
+      ).future,
+    );
 
     // If the query has changed, don't update and wait for next options build
     if (_queryUser == textValue) {
@@ -68,8 +71,10 @@ class _AddParticipantScreenState extends ConsumerState<AddParticipantScreen> {
                 fillColor: Colors.white,
                 filled: true,
                 suffixIcon: IconButton(
-                  icon: const Icon(Icons.qr_code_scanner,
-                      color: CustomColors.primary),
+                  icon: const Icon(
+                    Icons.qr_code_scanner,
+                    color: CustomColors.primary,
+                  ),
                   onPressed: () {
                     // Add participant to trip
                     if (widget.trip.participants.length >=
@@ -82,31 +87,32 @@ class _AddParticipantScreenState extends ConsumerState<AddParticipantScreen> {
                       return;
                     }
                     _qrBarCodeScannerDialogPlugin.getScannedQrBarCode(
-                        context: context,
-                        onCode: (code) async {
-                          final uid = code!;
+                      context: context,
+                      onCode: (code) async {
+                        final uid = code!;
 
-                          final isUserInTrip = widget.trip.participants
-                              .any((participant) => participant == uid);
-                          if (isUserInTrip) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text('User is already in the trip'),
-                              ),
-                            );
-                            return;
-                          }
+                        final isUserInTrip = widget.trip.participants
+                            .any((participant) => participant == uid);
+                        if (isUserInTrip) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('User is already in the trip'),
+                            ),
+                          );
+                          return;
+                        }
 
-                          await ref
-                              .read(myTripsControllerProvider.notifier)
-                              .addToTrip(trip: widget.trip, uid: uid);
+                        await ref
+                            .read(myTripsControllerProvider.notifier)
+                            .addToTrip(trip: widget.trip, uid: uid);
 
-                          if (mounted) {
-                            context.pop();
-                          }
-                          // ignore: unused_result
-                          ref.refresh(fetchMyTripsProvider);
-                        });
+                        if (mounted) {
+                          context.pop();
+                        }
+                        // ignore: unused_result
+                        ref.refresh(fetchMyTripsProvider);
+                      },
+                    );
                   },
                 ),
                 prefixIcon: const Icon(Icons.group_add),
@@ -167,7 +173,8 @@ class _AddParticipantScreenState extends ConsumerState<AddParticipantScreen> {
                           );
                         },
                       ),
-                      title: Text(option.displayName ?? context.loc.anonymousUser),
+                      title:
+                          Text(option.displayName ?? context.loc.anonymousUser),
                       onTap: () async {
                         // Add participant to trip
                         if (widget.trip.participants.length >=

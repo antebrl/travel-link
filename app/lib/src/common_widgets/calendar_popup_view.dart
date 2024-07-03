@@ -9,7 +9,7 @@ import 'custom_calendar.dart';
 
 class CalendarPopupView extends StatefulWidget {
   const CalendarPopupView({
-    Key? key,
+    super.key,
     this.initialStartDate,
     this.initialEndDate,
     this.onApplyClick,
@@ -17,7 +17,7 @@ class CalendarPopupView extends StatefulWidget {
     this.barrierDismissible = true,
     this.minimumDate,
     this.maximumDate,
-  }) : super(key: key);
+  });
 
   final DateTime? minimumDate;
   final DateTime? maximumDate;
@@ -210,7 +210,8 @@ class _CalendarPopupViewState extends State<CalendarPopupView>
                                     color:
                                         CustomAppTheme.lightTheme.primaryColor,
                                     borderRadius: const BorderRadius.all(
-                                        Radius.circular(24)),
+                                      Radius.circular(24),
+                                    ),
                                     boxShadow: <BoxShadow>[
                                       BoxShadow(
                                         color: Colors.grey.withOpacity(0.6),
@@ -229,7 +230,9 @@ class _CalendarPopupViewState extends State<CalendarPopupView>
                                       onTap: () {
                                         try {
                                           widget.onApplyClick!(
-                                              startDate!, endDate!);
+                                            startDate,
+                                            endDate,
+                                          );
                                           Navigator.pop(context);
                                         } catch (_) {}
                                       },
@@ -261,36 +264,40 @@ class _CalendarPopupViewState extends State<CalendarPopupView>
                                   height: 35,
                                   decoration: BoxDecoration(
                                     border: Border.all(
-                                      color: CustomAppTheme.lightTheme.primaryColor,
+                                      color: CustomAppTheme
+                                          .lightTheme.primaryColor,
                                     ),
                                     borderRadius: const BorderRadius.all(
-                                        Radius.circular(24)),
+                                      Radius.circular(24),
+                                    ),
                                   ),
                                   child: InkWell(
-                                      borderRadius: const BorderRadius.all(
-                                        Radius.circular(24),
-                                      ),
-                                      highlightColor: Colors.transparent,
-                                      onTap: () {
-                                        try {
-                                          widget.onApplyClick!(
-                                              null, null,);
-                                          Navigator.pop(context);
-                                        } catch (_) {}
-                                      },
-                                      child: Center(
-                                        child: Text(
-                                          'Flexible Dates',
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 18,
-                                            color:  CustomAppTheme.lightTheme.primaryColor,
-                                          ),
+                                    borderRadius: const BorderRadius.all(
+                                      Radius.circular(24),
+                                    ),
+                                    highlightColor: Colors.transparent,
+                                    onTap: () {
+                                      try {
+                                        widget.onApplyClick!(
+                                          null,
+                                          null,
+                                        );
+                                        Navigator.pop(context);
+                                      } catch (_) {}
+                                    },
+                                    child: Center(
+                                      child: Text(
+                                        'Flexible Dates',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 18,
+                                          color: CustomAppTheme
+                                              .lightTheme.primaryColor,
                                         ),
                                       ),
                                     ),
-                                  
                                   ),
+                                ),
                               ),
                             ],
                           ),

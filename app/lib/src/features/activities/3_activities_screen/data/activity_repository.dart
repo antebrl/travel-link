@@ -44,7 +44,8 @@ class ActivityRepository {
           .collection(tripActivitiesPath(tripId))
           .add(activity.toFirebaseMap());
 
-  Future<List<Activity>> fetchActivities({required Set<String> categories}) async {
+  Future<List<Activity>> fetchActivities(
+      {required Set<String> categories}) async {
     final posts = await queryActivities(categories: categories).get();
     return posts.docs.map((doc) => doc.data()).toList();
   }
@@ -68,9 +69,7 @@ class ActivityRepository {
 
   // NOT USED
   Query<Activity> queryActivitiesByTrip({required String tripId}) =>
-      _firestore
-          .collection(tripActivitiesPath(tripId))
-          .withConverter(
+      _firestore.collection(tripActivitiesPath(tripId)).withConverter(
             fromFirestore: (snapshot, _) =>
                 Activity.fromFirebaseMap(snapshot.data()!),
             toFirestore: (activity, _) => activity.toFirebaseMap(),
@@ -80,12 +79,16 @@ class ActivityRepository {
 @Riverpod(keepAlive: true)
 ActivityRepository activityRepository(ActivityRepositoryRef ref) {
   return ActivityRepository(
-      FirebaseFirestore.instance, FirebaseStorage.instance);
+    FirebaseFirestore.instance,
+    FirebaseStorage.instance,
+  );
 }
 
 @riverpod
 Future<List<Activity>> fetchActivities(
-    FetchActivitiesRef ref, {required Set<String> categories}) {
+  FetchActivitiesRef ref, {
+  required Set<String> categories,
+}) {
   final repository = ref.watch(activityRepositoryProvider);
   return repository.fetchActivities(categories: categories);
 }

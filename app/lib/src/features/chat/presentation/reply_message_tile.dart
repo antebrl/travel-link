@@ -32,7 +32,8 @@ class ReplyMessageTile extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final author = isFirstInSequence ? ref.watch(fetchUserProvider(uid!)) : null;
+    final author =
+        isFirstInSequence ? ref.watch(fetchUserProvider(uid!)) : null;
 
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -117,7 +118,7 @@ class ReplyMessageTile extends ConsumerWidget {
                     fontSize: 12,
                   ),
                 ),
-              )
+              ),
           ],
         ),
       ],

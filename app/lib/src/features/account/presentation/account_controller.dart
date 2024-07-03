@@ -1,7 +1,5 @@
 import 'dart:typed_data';
 
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:travel_link/src/features/account/data/account_repository.dart';
 import 'package:travel_link/src/features/authentication/data/firebase_auth_repository.dart';
@@ -46,10 +44,10 @@ class AccountController extends _$AccountController {
     //set state to loading
     state = const AsyncLoading();
 
-    try{
+    try {
       // ignore: deprecated_member_use
       await currentUser!.updateEmail(email);
-    } catch(e){
+    } catch (e) {
       logger.e(e);
     }
 
@@ -98,7 +96,7 @@ class AccountController extends _$AccountController {
     required Map<String, dynamic> data,
   }) async {
     final currentUser = ref.read(firebaseAuthProvider).currentUser;
-    if(currentUser == null) return false;
+    if (currentUser == null) return false;
 
     //set state to loading
     state = const AsyncLoading();

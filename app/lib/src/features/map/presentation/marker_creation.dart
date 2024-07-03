@@ -560,7 +560,7 @@ Marker createCateringActivity(
   String usedMobility = 'Car';
   String mobilityForAPI = 'cycling-regular';
   final ValueNotifier<Color> colorNotifier =
-      ValueNotifier<Color>(Color.fromARGB(255, 204, 193, 41));
+      ValueNotifier<Color>(const Color.fromARGB(255, 204, 193, 41));
   final ValueNotifier<Color> starColorNotifier =
       ValueNotifier<Color>(Colors.grey);
   final ValueNotifier<bool> isLoadingNotifier = ValueNotifier<bool>(false);
@@ -682,7 +682,7 @@ Marker createReligousActivity(
   String usedMobility = 'Car';
   String mobilityForAPI = 'cycling-regular';
   final ValueNotifier<Color> colorNotifier =
-      ValueNotifier<Color>(Color.fromARGB(255, 255, 255, 255));
+      ValueNotifier<Color>(const Color.fromARGB(255, 255, 255, 255));
   final ValueNotifier<Color> starColorNotifier =
       ValueNotifier<Color>(Colors.grey);
   final ValueNotifier<bool> isLoadingNotifier = ValueNotifier<bool>(false);
@@ -804,7 +804,7 @@ Marker createActivActivity(
   String usedMobility = 'Car';
   String mobilityForAPI = 'cycling-regular';
   final ValueNotifier<Color> colorNotifier =
-      ValueNotifier<Color>(Color.fromARGB(255, 91, 101, 239));
+      ValueNotifier<Color>(const Color.fromARGB(255, 91, 101, 239));
   final ValueNotifier<Color> starColorNotifier =
       ValueNotifier<Color>(Colors.grey);
   final ValueNotifier<bool> isLoadingNotifier = ValueNotifier<bool>(false);
@@ -926,7 +926,7 @@ Marker createAccomodationActivity(
   String usedMobility = 'Car';
   String mobilityForAPI = 'cycling-regular';
   final ValueNotifier<Color> colorNotifier =
-      ValueNotifier<Color>(Color.fromARGB(255, 241, 92, 12));
+      ValueNotifier<Color>(const Color.fromARGB(255, 241, 92, 12));
   final ValueNotifier<Color> starColorNotifier =
       ValueNotifier<Color>(Colors.grey);
   final ValueNotifier<bool> isLoadingNotifier = ValueNotifier<bool>(false);
@@ -1048,7 +1048,7 @@ Marker createTourismeActivity(
   String usedMobility = 'Car';
   String mobilityForAPI = 'cycling-regular';
   final ValueNotifier<Color> colorNotifier =
-      ValueNotifier<Color>(Color.fromARGB(255, 255, 213, 0));
+      ValueNotifier<Color>(const Color.fromARGB(255, 255, 213, 0));
   final ValueNotifier<Color> starColorNotifier =
       ValueNotifier<Color>(Colors.grey);
   final ValueNotifier<bool> isLoadingNotifier = ValueNotifier<bool>(false);
@@ -1170,7 +1170,7 @@ Marker createCampingActivity(
   String usedMobility = 'Car';
   String mobilityForAPI = 'cycling-regular';
   final ValueNotifier<Color> colorNotifier =
-      ValueNotifier<Color>(Color.fromARGB(255, 255, 47, 0));
+      ValueNotifier<Color>(const Color.fromARGB(255, 255, 47, 0));
   final ValueNotifier<Color> starColorNotifier =
       ValueNotifier<Color>(Colors.grey);
   final ValueNotifier<bool> isLoadingNotifier = ValueNotifier<bool>(false);
@@ -1292,7 +1292,7 @@ Marker createLeisureActivity(
   String usedMobility = 'Car';
   String mobilityForAPI = 'cycling-regular';
   final ValueNotifier<Color> colorNotifier =
-      ValueNotifier<Color>(Color.fromARGB(255, 94, 85, 83));
+      ValueNotifier<Color>(const Color.fromARGB(255, 94, 85, 83));
   final ValueNotifier<Color> starColorNotifier =
       ValueNotifier<Color>(Colors.grey);
   final ValueNotifier<bool> isLoadingNotifier = ValueNotifier<bool>(false);
