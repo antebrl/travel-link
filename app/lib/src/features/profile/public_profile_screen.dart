@@ -263,8 +263,7 @@ class _ProfileScreenState extends ConsumerState<UserProfileScreen> {
               content: Column(
                 children: [
                   Container(
-                      height: 100,
-                      padding: EdgeInsets.only(left: 10, right: 20),
+                      padding: EdgeInsets.only(left: 10, right: 20, bottom: 10),
                       child: Wrap(
                         children: languageList.map((language) {
                           return CustomChip(
@@ -286,8 +285,7 @@ class _ProfileScreenState extends ConsumerState<UserProfileScreen> {
               boxDecoration: boxDecoration,
               headline: 'Interests',
               content: Container(
-                  height: 100,
-                  padding: EdgeInsets.only(left: 10, right: 20),
+                  padding: EdgeInsets.only(left: 10, right: 20, bottom: 10),
                   child: Wrap(
                     children: interestList.map((interest) {
                       return CustomChip(
