@@ -5,7 +5,6 @@ import 'package:travel_link/src/features/activities/2_continents_screen/domain/c
 
 class CustomHelperFunctions {
   static Color? getColor(String value) {
-    /// Define your product specific colors here and it will match the attribute colors and show specific 🟠🟡🟢🔵🟣🟤
 
     if (value == 'Green') {
       return Colors.green;
