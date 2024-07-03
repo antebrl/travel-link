@@ -119,7 +119,7 @@ A visual representation of completed versus pending tasks. It provides a quick o
   ![Custom item](../assets/images/Progress_bar.svg)
 </figure>
 
-## Example usage - walkthough
+## Example usage
 Right after creating a trip or joining an existing one, you may start to sort your thoughts and have a place to write down all the things you have to prepare for the trip. There might be things you have to worry about multiple months before the trip, like requesting a visa. Some things have to be done some weeks before the trip, like buying a new swimsuit. And some to-dos have to be completed on the day the trip starts, for example, packing your toothbrush into your bag.
 
 Everything can be placed in the checklist for the corresponding trip. Some checklist items are only relevant to you. You can enter things like contact lenses or your favorite book into your personal checklist, only visible to you. Since you may want to read your favorite book before the trip, you can set the due date to the date the trip starts. Other items like the contact lenses can be marked as done right after you put them in your bag. Let's say you finished your book earlier; you have the option to adjust the title of the checklist item to match your new book title. Or let's say you made the decision to take glasses with you instead of contact lenses; you can delete the contact lenses and start typing in the text field, and you should already get a matching suggestion.
