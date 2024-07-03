@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:travel_link/src/features/explore_trips/domain/trip.dart';
@@ -63,38 +64,41 @@ class MyTripsScreen extends ConsumerWidget {
 
         return Scaffold(
           body: CustomScrollView(
+            physics: const BouncingScrollPhysics(),
             slivers: [
               SliverToBoxAdapter(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                      color: CustomColors.primaryBackground,
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 16,
-                        horizontal: 16,
-                      ),
-                      child: Stack(
-                        children: [
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: Image.asset(
-                              'assets/images/my-trips/travel.gif',
-                              fit: BoxFit.cover,
-                              height: 50,
-                            ),
-                          ),
-                          Align(
-                            child: Text(
-                              context.loc.myTripsTitle,
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 34,
-                                color: Colors.black,
+                    SafeArea(
+                      child: Container(
+                        color: CustomColors.primaryBackground,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: kIsWeb ? 16 : 8,
+                        ),
+                        child: Stack(
+                          children: [
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Image.asset(
+                                'assets/images/my-trips/travel.gif',
+                                fit: BoxFit.cover,
+                                height: 50,
                               ),
                             ),
-                          ),
-                        ],
+                            Align(
+                              child: Text(
+                                context.loc.myTripsTitle,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 34,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                     // Current trips

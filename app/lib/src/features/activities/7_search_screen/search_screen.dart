@@ -41,12 +41,13 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
+      physics: const BouncingScrollPhysics(),
       child: Center(
         child: Padding(
           padding: const EdgeInsets.only(
-            top: 15,
-            right: 30,
-            left: 30,
+            top: 30,
+            right: 15,
+            left: 15,
             bottom: 15,
           ),
           child: Column(
@@ -103,7 +104,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                           Row(
                             children: [
                               Text(
-                               context.loc.searchActivitiesIn,
+                                context.loc.searchActivitiesIn,
                                 style: Theme.of(context)
                                     .textTheme
                                     .headlineSmall!
