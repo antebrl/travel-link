@@ -288,6 +288,7 @@ class _ActivitiesFilterScreenState extends State<ActivitiesFilterScreen> {
         title: Text(context.loc.filters),
       ),
       body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
         child: Center(
           child: Padding(
             padding: const EdgeInsets.all(16),

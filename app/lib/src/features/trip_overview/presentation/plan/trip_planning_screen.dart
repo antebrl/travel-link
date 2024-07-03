@@ -30,6 +30,7 @@ class _TripPlanningScreenState extends State<TripPlanningScreen> {
   @override
   Widget build(BuildContext context) {
     return ListView(
+      physics: const BouncingScrollPhysics(),
       children: [
         // pictures of trip/destination
         buildImageSlider(),

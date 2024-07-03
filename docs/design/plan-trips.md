@@ -1,5 +1,3 @@
-![User Flow Diagramm](../assets/images/Plan_Trips_User_Flow.svg)
-
 ## Trip Overview
 !!! info "Explanation"
 	The trip overview page in the app provides a comprehensive view of all essential details related to a specific trip. It typically includes: name, description, date range, participants preview, activities preview, checklist preview, map preview
@@ -31,3 +29,15 @@
 <figure markdown="span">
   ![User Flow Diagramm](../assets/images/gallery.svg)
 </figure>
+
+
+
+## <ins>Data Flow Diagram</ins>
+
+Here you can see the data flow diagram, which shows how data flows through the application.
+There is a **trips collection with several sub-collections**. (Take a look at the [firebase architecture](../4-Implementation.md#firebase-architecture))!
+
+**Sub-Collections**: ChatMessages, GalleryItems, ChecklistItems and Activities.
+
+
+![dataflow](../assets/images/trip_planning_data_flow.svg)

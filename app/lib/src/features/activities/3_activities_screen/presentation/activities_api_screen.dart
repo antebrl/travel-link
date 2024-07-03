@@ -51,7 +51,7 @@ class _APIActivitiesScreenState extends ConsumerState<APIActivitiesScreen> {
     double destLat,
     double destLon,
   ) {
-    const double thresholdDistance = 50; // Threshold distance in Kilometers
+    const double thresholdDistance = 40; // Threshold distance in Kilometers
     final double activityLat = activity.location.lat;
     final double activityLon = activity.location.lon;
 
@@ -134,6 +134,7 @@ class _APIActivitiesScreenState extends ConsumerState<APIActivitiesScreen> {
         body: TabBarView(
           children: [
             CustomScrollView(
+              physics: const BouncingScrollPhysics(),
               slivers: [
                 SliverToBoxAdapter(
                   child: Column(
@@ -212,7 +213,7 @@ class _APIActivitiesScreenState extends ConsumerState<APIActivitiesScreen> {
                             ),
                             ListView.builder(
                               shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
+                              physics: const BouncingScrollPhysics(),
                               itemCount: nearbyActivities.length,
                               itemBuilder: (context, index) {
                                 return APIActivityItem(
