@@ -26,17 +26,6 @@ List<LatLng> locations = [latLng1, latLng2, latLng3];
 
 bool displayRoute = false;
 
-List<Marker> createDummyLocationMarkers(WidgetRef ref) {
-  return [
-    createLeisureActivity(const LatLng(49.690025, 8.463075), '', '', ref),
-    createReligousActivity(const LatLng(49.691430, 8.463370), '', '', ref),
-    createNatureActivity(const LatLng(49.688520, 8.462580), '', '', ref),
-    createSportsActivity(const LatLng(49.71, 8.5), '', '', ref),
-    createActivActivity(const LatLng(49.73, 8.6), '', '', ref),
-    createCampingActivity(const LatLng(49.75, 8.7), '', '', ref),
-  ];
-}
-
 class TripMapScreen extends ConsumerStatefulWidget {
   const TripMapScreen({
     required this.participants,
@@ -336,9 +325,7 @@ class _TripMapScreenState extends ConsumerState<TripMapScreen> {
                         ],
                       ),
                       MarkerLayer(
-                        markers: createDummyLocationMarkers(ref) +
-                            userMarkers +
-                            activitiesMarker,
+                        markers: userMarkers + activitiesMarker,
                       ),
                     ],
                   )
