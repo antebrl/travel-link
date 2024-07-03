@@ -3,11 +3,14 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:qr_bar_code_scanner_dialog/qr_bar_code_scanner_dialog.dart';
 import 'package:travel_link/src/features/account/domain/user_account.dart';
 import 'package:travel_link/src/features/explore_trips/domain/trip.dart';
 import 'package:travel_link/src/features/my_trips/data/my_trips_repository.dart';
 import 'package:travel_link/src/features/my_trips/presentation/my_trips_controller.dart';
 import 'package:travel_link/src/features/trip_overview/data/user_repository.dart';
+import 'package:travel_link/src/routing/app_router.dart';
+import 'package:travel_link/src/utils/constants/colors.dart';
 import 'package:travel_link/src/utils/constants/image_strings.dart';
 import 'package:travel_link/src/utils/helpers/localization.dart';
 
@@ -24,6 +27,7 @@ class AddParticipantScreen extends ConsumerStatefulWidget {
 class _AddParticipantScreenState extends ConsumerState<AddParticipantScreen> {
   String _queryUser = '';
   List<UserAccount> _previousUsers = [];
+  final _qrBarCodeScannerDialogPlugin = QrBarCodeScannerDialog();
 
   final _nameController = TextEditingController();
 
@@ -36,8 +40,9 @@ class _AddParticipantScreenState extends ConsumerState<AddParticipantScreen> {
   Future<void> _fetchUsers(String textValue) async {
     _queryUser = textValue;
 
-    final fetchedUsers =
-        await ref.read(fetchUsersQueryProvider(query: _queryUser, participants: widget.trip.participants).future);
+    final fetchedUsers = await ref.read(fetchUsersQueryProvider(
+            query: _queryUser, participants: widget.trip.participants)
+        .future);
 
     // If the query has changed, don't update and wait for next options build
     if (_queryUser == textValue) {
@@ -62,6 +67,48 @@ class _AddParticipantScreenState extends ConsumerState<AddParticipantScreen> {
               decoration: InputDecoration(
                 fillColor: Colors.white,
                 filled: true,
+                suffixIcon: IconButton(
+                  icon: const Icon(Icons.qr_code_scanner,
+                      color: CustomColors.primary),
+                  onPressed: () {
+                    // Add participant to trip
+                    if (widget.trip.participants.length >=
+                        (widget.trip.maxParticipants ?? double.infinity)) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Trip is full'),
+                        ),
+                      );
+                      return;
+                    }
+                    _qrBarCodeScannerDialogPlugin.getScannedQrBarCode(
+                        context: context,
+                        onCode: (code) async {
+                          final uid = code!;
+
+                          final isUserInTrip = widget.trip.participants
+                              .any((participant) => participant == uid);
+                          if (isUserInTrip) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('User is already in the trip'),
+                              ),
+                            );
+                            return;
+                          }
+
+                          await ref
+                              .read(myTripsControllerProvider.notifier)
+                              .addToTrip(trip: widget.trip, uid: uid);
+
+                          if (mounted) {
+                            context.pop();
+                          }
+                          // ignore: unused_result
+                          ref.refresh(fetchMyTripsProvider);
+                        });
+                  },
+                ),
                 prefixIcon: const Icon(Icons.group_add),
                 labelText: context.loc.addParticipant,
                 enabledBorder: OutlineInputBorder(
@@ -110,7 +157,14 @@ class _AddParticipantScreenState extends ConsumerState<AddParticipantScreen> {
                           color: Colors.grey[700],
                         ),
                         onPressed: () {
-                          //Go to user public profile
+                          //Go to user public
+                          final uid = option.id;
+                          context.pushNamed(
+                            TopLevelDestinations.profile.name,
+                            pathParameters: {
+                              'uid': uid,
+                            },
+                          );
                         },
                       ),
                       title: Text(option.displayName ?? context.loc.anonymousUser),

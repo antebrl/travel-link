@@ -129,20 +129,20 @@ class _ActivitiesMainScreenState extends State<ActivitiesMainScreen> {
         children: [
           CurvedSearchContainer(controller: _controller),
           const SizedBox(height: 10),
-          Center(
-            child: Text(
-              context.loc.exploreTopActivitiesFromAllContinents,
-              style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                    color: CustomColors.primary,
-                  ),
-            ),
+          Text(
+            context.loc.exploreTopActivitiesFromAllContinents,
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                  color: CustomColors.primary,
+                ),
           ),
           const SizedBox(height: 10),
           const CustomContainerWithWorldMap(),
           const SizedBox(height: 10),
           Center(
             child: Text(
-              '${context.loc.activitiesIn} '' ${CustomHelperFunctions.getContinentDisplayName(selectedContinent)}:',
+              '${context.loc.activitiesIn} '
+              ' ${CustomHelperFunctions.getContinentDisplayName(selectedContinent)}:',
               style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                     color: CustomColors.primary,
                   ),

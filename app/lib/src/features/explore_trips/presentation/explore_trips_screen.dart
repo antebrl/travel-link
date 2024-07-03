@@ -49,6 +49,7 @@ class _ExploreTripsScreenState extends ConsumerState<ExploreTripsScreen> {
         centerTitle: true,
         title: Column(
           mainAxisAlignment: MainAxisAlignment.end,
+          mainAxisSize: MainAxisSize.min,
           children: [
             const SizedBox(
               height: 15,

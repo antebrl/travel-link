@@ -107,7 +107,6 @@ class _APIActivitiesScreenState extends ConsumerState<APIActivitiesScreen> {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-
         appBar: AppBar(
           title: Text(context.loc.exploreActivities),
           actions: [
@@ -135,6 +134,7 @@ class _APIActivitiesScreenState extends ConsumerState<APIActivitiesScreen> {
         body: TabBarView(
           children: [
             CustomScrollView(
+              physics: const BouncingScrollPhysics(),
               slivers: [
                 SliverToBoxAdapter(
                   child: Column(
@@ -213,7 +213,7 @@ class _APIActivitiesScreenState extends ConsumerState<APIActivitiesScreen> {
                             ),
                             ListView.builder(
                               shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
+                              physics: const BouncingScrollPhysics(),
                               itemCount: nearbyActivities.length,
                               itemBuilder: (context, index) {
                                 return APIActivityItem(

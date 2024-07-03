@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:travel_link/src/features/account/presentation/actions/about_screen.dart';
+import 'package:travel_link/src/features/account/presentation/actions/account_information_screen.dart';
 import 'package:travel_link/src/features/account/presentation/account_screen.dart';
+import 'package:travel_link/src/features/account/presentation/actions/help_screen.dart';
+import 'package:travel_link/src/features/account/presentation/actions/settings_screen.dart';
 import 'package:travel_link/src/features/activities/0_activities_tabs_screen/activities_tabs_screen.dart';
 import 'package:travel_link/src/features/activities/2_continents_screen/domain/continent.dart';
 import 'package:travel_link/src/features/activities/3_activities_screen/presentation/activities_screen.dart';
 import 'package:travel_link/src/features/authentication/data/firebase_auth_repository.dart';
-import 'package:travel_link/src/features/authentication/presentation/custom_sign_in_screen.dart';
 import 'package:travel_link/src/features/authentication/presentation/onboarding_screen.dart';
 import 'package:travel_link/src/features/explore_trips/presentation/explore_trips_screen.dart';
 import 'package:travel_link/src/features/my_trips/presentation/my_trips_screen.dart';
+import 'package:travel_link/src/features/profile/public_profile_screen.dart';
 import 'package:travel_link/src/features/trip_overview/presentation/trip_overview_screen.dart';
 import 'package:travel_link/src/utils/go_router/go_router_refresh_stream.dart';
 
@@ -21,9 +25,24 @@ part 'app_router.g.dart';
 
 // shell routes, appear in the bottom navigation
 // see https://pub.dev/documentation/go_router/latest/go_router/ShellRoute-class.html
-enum TopLevelDestinations { trips, myTrips, activities, profile, signIn, onboarding }
+enum TopLevelDestinations {
+  trips,
+  myTrips,
+  activities,
+  account,
+  profile,
+  signIn,
+  onboarding
+}
 
-enum AccountRoutes { settings, security, help, about }
+enum AccountRoutes {
+  accountInformation,
+  notifications,
+  security,
+  settings,
+  help,
+  about
+}
 
 enum ActivitiesRoutes { activityDetails, continent }
 
@@ -42,6 +61,8 @@ final _activitiesNavigatorKey =
     GlobalKey<NavigatorState>(debugLabel: TopLevelDestinations.activities.name);
 final _profileNavigatorKey =
     GlobalKey<NavigatorState>(debugLabel: TopLevelDestinations.profile.name);
+final _accountNavigatorKey =
+    GlobalKey<NavigatorState>(debugLabel: TopLevelDestinations.account.name);
 
 //https://github.com/flutter/packages/blob/main/packages/go_router/example/lib/stateful_shell_route.dart
 
@@ -56,17 +77,18 @@ GoRouter goRouter(GoRouterRef ref) {
       final isLoggedIn = authRepository.currentUser != null;
       final path = state.uri.path;
       if (isLoggedIn) {
-        if (path.startsWith('/${TopLevelDestinations.signIn.name}') || path.startsWith('/${TopLevelDestinations.onboarding.name}')) {
+        if (path.startsWith('/${TopLevelDestinations.signIn.name}') ||
+            path.startsWith('/${TopLevelDestinations.onboarding.name}')) {
           return '/${TopLevelDestinations.myTrips.name}';
         }
       } else {
         final onboardingCompleted = ref.read(onboardingCompletedProvider);
-        if(!onboardingCompleted) {
+        if (!onboardingCompleted) {
           return '/${TopLevelDestinations.onboarding.name}';
         }
         if (path.startsWith('/${TopLevelDestinations.myTrips.name}') ||
-            path.startsWith('/${TopLevelDestinations.profile.name}')) {
-          return '/${TopLevelDestinations.signIn.name}';
+            path.startsWith('/${TopLevelDestinations.account.name}')) {
+          return '/${TopLevelDestinations.onboarding.name}';
         }
       }
       return null;
@@ -77,15 +99,7 @@ GoRouter goRouter(GoRouterRef ref) {
         path: '/',
         name: 'root',
         pageBuilder: (context, state) => const NoTransitionPage(
-          child:
-              ExploreTripsScreen(),
-        ),
-      ),
-      GoRoute(
-        path: '/${TopLevelDestinations.signIn.name}',
-        name: TopLevelDestinations.signIn.name,
-        pageBuilder: (context, state) => const NoTransitionPage(
-          child: CustomSignInScreen(),
+          child: ExploreTripsScreen(),
         ),
       ),
       GoRoute(
@@ -94,6 +108,18 @@ GoRouter goRouter(GoRouterRef ref) {
         pageBuilder: (context, state) => const NoTransitionPage(
           child: OnboardingScreen(),
         ),
+      ),
+      GoRoute(
+        path: '/${TopLevelDestinations.profile.name}/:uid',
+        name: TopLevelDestinations.profile.name,
+        pageBuilder: (context, state) {
+          final uid = state.pathParameters['uid']!;
+          return NoTransitionPage(
+            child: UserProfileScreen(
+              targetuid: uid,
+            ),
+          );
+        },
       ),
       // Stateful navigation based on:
       // https://github.com/flutter/packages/blob/main/packages/go_router/example/lib/stateful_shell_route.dart
@@ -154,11 +180,15 @@ GoRouter goRouter(GoRouterRef ref) {
                 path: '/${TopLevelDestinations.activities.name}',
                 name: TopLevelDestinations.activities.name,
                 pageBuilder: (context, state) {
-                  final index = int.tryParse(state.uri.queryParameters['index'] ?? '0');
+                  final index =
+                      int.tryParse(state.uri.queryParameters['index'] ?? '0');
                   return NoTransitionPage(
-                  key: state.pageKey,
-                  child: ActivitiesStartScreen(initialIndex: index ?? 0,),
-                );},
+                    key: state.pageKey,
+                    child: ActivitiesStartScreen(
+                      initialIndex: index ?? 0,
+                    ),
+                  );
+                },
                 routes: <RouteBase>[
                   GoRoute(
                     path: 'continent/:continent',
@@ -174,25 +204,59 @@ GoRouter goRouter(GoRouterRef ref) {
               ),
             ],
           ),
-          //Profile Screen
+          //Account Screen
           StatefulShellBranch(
-            navigatorKey: _profileNavigatorKey,
+            navigatorKey: _accountNavigatorKey,
             routes: [
               //base route
               GoRoute(
-                path: '/${TopLevelDestinations.profile.name}',
-                name: TopLevelDestinations.profile.name,
+                path: '/${TopLevelDestinations.account.name}',
+                name: TopLevelDestinations.account.name,
                 pageBuilder: (context, state) => NoTransitionPage(
-                    key: state.pageKey,
-                    //child: const CustomProfileScreen(),
-                    //child: ProfileScreen(),
-                    child: const AccountScreen()),
+                  key: state.pageKey,
+                  child: const AccountScreen(),
+                ),
                 routes: <RouteBase>[
+                  GoRoute(
+                    path: 'account_information',
+                    name: AccountRoutes.accountInformation.name,
+                    builder: (BuildContext context, GoRouterState state) {
+                      return const AccountAccountInformationScreen();
+                    },
+                  ),
+                  GoRoute(
+                    path: 'notifications',
+                    name: AccountRoutes.notifications.name,
+                    builder: (BuildContext context, GoRouterState state) {
+                      return const Placeholder();
+                    },
+                  ),
+                  GoRoute(
+                    path: 'security',
+                    name: AccountRoutes.security.name,
+                    builder: (BuildContext context, GoRouterState state) {
+                      return const Placeholder();
+                    },
+                  ),
                   GoRoute(
                     path: 'settings',
                     name: AccountRoutes.settings.name,
                     builder: (BuildContext context, GoRouterState state) {
-                      return const Placeholder();
+                      return const AccountSettingsScreen();
+                    },
+                  ),
+                  GoRoute(
+                    path: 'help',
+                    name: AccountRoutes.help.name,
+                    builder: (BuildContext context, GoRouterState state) {
+                      return const AccountHelpScreen();
+                    },
+                  ),
+                  GoRoute(
+                    path: 'about',
+                    name: AccountRoutes.about.name,
+                    builder: (BuildContext context, GoRouterState state) {
+                      return const AccountAboutScreen();
                     },
                   ),
                 ],

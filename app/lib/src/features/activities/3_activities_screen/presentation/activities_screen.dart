@@ -184,6 +184,7 @@ class _ActivitiesScreenState extends ConsumerState<ActivitiesScreen> {
           if (filteredActivitiesBySearch.isNotEmpty)
             Expanded(
               child: ListView.builder(
+                physics: const BouncingScrollPhysics(),
                 itemCount: filteredActivitiesBySearch.length,
                 shrinkWrap: true,
                 itemBuilder: (context, index) => ActivityItem(
