@@ -10,6 +10,7 @@ import 'package:travel_link/src/features/checklists/presentation/checklist_contr
 import 'package:travel_link/src/features/trip_overview/data/user_repository.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
 import 'package:travel_link/src/utils/constants/image_strings.dart';
+import 'package:travel_link/src/utils/helpers/localization.dart';
 import '../lib/checklist_items.dart';
 import 'package:travel_link/src/common_widgets/participants_avatar_stack.dart';
 
@@ -297,7 +298,7 @@ class _ChecklistViewState extends ConsumerState<ChecklistView> {
                       controller: textEditingController,
                       focusNode: focusNode,
                       decoration: InputDecoration(
-                        hintText: 'Add a new item',
+                        hintText: context.loc.addANewItem,
                         suffixIcon: IconButton(
                           padding: const EdgeInsets.only(right: 10),
                           onPressed: () async {
