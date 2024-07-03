@@ -96,8 +96,8 @@ Marker createEducationActivity(
 
   return Marker(
     point: position,
-    width: 20,
-    height: 20,
+    width: 40,
+    height: 40,
     child: ValueListenableBuilder<Color>(
       valueListenable: colorNotifier,
       builder: (context, color, child) {
@@ -159,8 +159,8 @@ Marker createNatureActivity(
 
   return Marker(
     point: position,
-    width: 20,
-    height: 20,
+    width: 40,
+    height: 40,
     child: ValueListenableBuilder<Color>(
       valueListenable: colorNotifier,
       builder: (context, color, child) {
@@ -222,8 +222,8 @@ Marker createSportsActivity(
 
   return Marker(
     point: position,
-    width: 20,
-    height: 20,
+    width: 40,
+    height: 40,
     child: ValueListenableBuilder<Color>(
       valueListenable: colorNotifier,
       builder: (context, color, child) {
@@ -285,8 +285,8 @@ Marker createCateringActivity(
 
   return Marker(
     point: position,
-    width: 20,
-    height: 20,
+    width: 40,
+    height: 40,
     child: ValueListenableBuilder<Color>(
       valueListenable: colorNotifier,
       builder: (context, color, child) {
@@ -348,8 +348,8 @@ Marker createReligousActivity(
 
   return Marker(
     point: position,
-    width: 20,
-    height: 20,
+    width: 40,
+    height: 40,
     child: ValueListenableBuilder<Color>(
       valueListenable: colorNotifier,
       builder: (context, color, child) {
@@ -411,8 +411,8 @@ Marker createActivActivity(
 
   return Marker(
     point: position,
-    width: 20,
-    height: 20,
+    width: 40,
+    height: 40,
     child: ValueListenableBuilder<Color>(
       valueListenable: colorNotifier,
       builder: (context, color, child) {
@@ -474,8 +474,8 @@ Marker createAccomodationActivity(
 
   return Marker(
     point: position,
-    width: 20,
-    height: 20,
+    width: 40,
+    height: 40,
     child: ValueListenableBuilder<Color>(
       valueListenable: colorNotifier,
       builder: (context, color, child) {
@@ -537,8 +537,8 @@ Marker createTourismeActivity(
 
   return Marker(
     point: position,
-    width: 20,
-    height: 20,
+    width: 40,
+    height: 40,
     child: ValueListenableBuilder<Color>(
       valueListenable: colorNotifier,
       builder: (context, color, child) {
@@ -600,8 +600,8 @@ Marker createCampingActivity(
 
   return Marker(
     point: position,
-    width: 20,
-    height: 20,
+    width: 40,
+    height: 40,
     child: ValueListenableBuilder<Color>(
       valueListenable: colorNotifier,
       builder: (context, color, child) {
@@ -663,8 +663,8 @@ Marker createLeisureActivity(
 
   return Marker(
     point: position,
-    width: 20,
-    height: 20,
+    width: 40,
+    height: 40,
     child: ValueListenableBuilder<Color>(
       valueListenable: colorNotifier,
       builder: (context, color, child) {
