@@ -817,7 +817,7 @@ Marker createActivActivity(
       valueListenable: colorNotifier,
       builder: (context, color, child) {
         return IconButton(
-          icon: Icon(Icons.hiking_rounded, color: color),
+          icon: Icon(Icons.location_on_rounded, color: color),
           onPressed: () {
             // ignore: inference_failure_on_function_invocation
             showDialog(
