@@ -17,13 +17,13 @@ class OnboardingScreen extends ConsumerWidget {
         title: Text(context.loc.signIn),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.fromLTRB(16, 16, 16, 5),
         child: Column(
           children: <Widget>[
             Image.asset(
               'assets/images/my-trips/travel.gif',
               fit: BoxFit.cover,
-              height: 170,
+              height: 150,
             ),
             // Sign-in screen
             Expanded(
