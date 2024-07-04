@@ -31,14 +31,3 @@ We incorporated the feedback into our Figma design. This is the result:
 
 The process from initial paper prototypes to the final Figma design was crucial in developing a well-thought-out and user-friendly interface for our app. By iterating on our designs and incorporating feedback at each stage, we ensured that our final design was both functional and aesthetically pleasing. This design process has laid a solid foundation for the implementation phase, where we will bring our Figma prototype to life using Flutter.
 
-## User Flow Diagram
-
-Here is the user flow diagram. We have divided it into multiple images for clarity. Each image focuses on a different section of the navigation bar:
-
-
-
-## Data Flow Diagram
-
-Here is the data flow diagram:
-
-
