@@ -85,9 +85,11 @@ class _APIActivitiesScreenState extends ConsumerState<APIActivitiesScreen> {
       ),
     );
     if (newActivity != null) {
-      ref.invalidate(fetchActivitiesProvider(
-        categories: widget.categoryList,
-      ));
+      ref.invalidate(
+        fetchActivitiesProvider(
+          categories: widget.categoryList,
+        ),
+      );
     }
   }
 
@@ -107,7 +109,6 @@ class _APIActivitiesScreenState extends ConsumerState<APIActivitiesScreen> {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-
         appBar: AppBar(
           title: Text(context.loc.exploreActivities),
           actions: [
@@ -135,6 +136,7 @@ class _APIActivitiesScreenState extends ConsumerState<APIActivitiesScreen> {
         body: TabBarView(
           children: [
             CustomScrollView(
+              physics: const BouncingScrollPhysics(),
               slivers: [
                 SliverToBoxAdapter(
                   child: Column(
@@ -213,7 +215,7 @@ class _APIActivitiesScreenState extends ConsumerState<APIActivitiesScreen> {
                             ),
                             ListView.builder(
                               shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
+                              physics: const BouncingScrollPhysics(),
                               itemCount: nearbyActivities.length,
                               itemBuilder: (context, index) {
                                 return APIActivityItem(
@@ -268,10 +270,11 @@ class _APIActivitiesScreenState extends ConsumerState<APIActivitiesScreen> {
                       );
                     } else if (snapshot.hasError) {
                       return Center(
-                          child: Text(
-                        'Error: ${snapshot.error}',
-                        style: Theme.of(context).textTheme.bodyMedium,
-                      ));
+                        child: Text(
+                          'Error: ${snapshot.error}',
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
+                      );
                     } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                       return SliverToBoxAdapter(
                         child: Center(
@@ -310,8 +313,8 @@ class _APIActivitiesScreenState extends ConsumerState<APIActivitiesScreen> {
             MapScreenWithActivities(
               fetchedApiActivities: fetchedActivities,
               fetchedUserActivities: ref.read(
-                  fetchActivitiesProvider(categories: widget.categoryList)
-                      .future),
+                fetchActivitiesProvider(categories: widget.categoryList).future,
+              ),
             ),
           ],
         ),

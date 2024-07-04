@@ -5,51 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 import 'package:travel_link/src/features/account/presentation/account_controller.dart';
+import 'package:travel_link/src/features/account/presentation/edit_profile_screen.dart';
 import 'package:travel_link/src/features/authentication/data/firebase_auth_repository.dart';
 import 'package:travel_link/src/features/trip_overview/data/user_repository.dart';
 import 'package:travel_link/src/routing/app_router.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
 import 'package:travel_link/src/utils/constants/image_strings.dart';
 import 'package:travel_link/src/utils/theme/widget_themes/boxDecoration_theme.dart';
-
-var menuItems = <Map<String, dynamic>>[
-  {
-    'label': 'Account information',
-    'icon': Icons.account_circle,
-    'color': CustomColors.primary
-  },
-  {
-    'label': 'Notifications',
-    'icon': Icons.notifications,
-    'color': CustomColors.primary
-  },
-  //{'label': 'Privacy', 'icon': Icons.privacy_tip, 'color': Colors.blue},
-  {
-    'option': AccountRoutes.security,
-    'label': 'Security',
-    'icon': Icons.security,
-    'color': CustomColors.primary
-  },
-  {
-    'option': AccountRoutes.settings,
-    'label': 'Settings',
-    'icon': Icons.settings,
-    'color': CustomColors.primary
-  },
-  {
-    'option': AccountRoutes.help,
-    'label': 'Help',
-    'icon': Icons.help,
-    'color': CustomColors.primary
-  },
-  {
-    'option': AccountRoutes.about,
-    'label': 'About',
-    'icon': Icons.info,
-    'color': CustomColors.primary
-  },
-];
 
 class AccountScreen extends ConsumerStatefulWidget {
   const AccountScreen({super.key});
@@ -59,15 +23,67 @@ class AccountScreen extends ConsumerStatefulWidget {
 }
 
 class _AccountScreenState extends ConsumerState<AccountScreen> {
+  final List<Map<String, dynamic>> menuItems = [
+    {
+      'label': 'Account Information',
+      'icon': Icons.person,
+      'color': CustomColors.buttonPrimary,
+      'option': AccountRoutes.accountInformation.name,
+    },
+    {
+      'label': 'Settings',
+      'icon': Icons.settings,
+      'color': CustomColors.buttonPrimary,
+      'option': AccountRoutes.settings.name,
+    },
+    {
+      'label': 'Help',
+      'icon': Icons.help,
+      'color': CustomColors.buttonPrimary,
+      'option': AccountRoutes.help.name,
+    },
+    {
+      'label': 'About',
+      'icon': Icons.info,
+      'color': CustomColors.buttonPrimary,
+      'option': AccountRoutes.about.name,
+    },
+  ];
+
   final double borderRadius = 10;
 
   final String defaultName = 'User Name';
   final String defaultDescription = 'Shine bright like a diamond💎';
 
+  Future<void> showQRCodeDialog({required String qrCodeData}) async {
+    final ByteData? qrCodeBytes = await QrPainter(
+      data: qrCodeData,
+      version: QrVersions.auto,
+    ).toImageData(200);
+    showDialog<AlertDialog>(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Your QR Code', textAlign: TextAlign.center),
+          content: qrCodeBytes != null
+              ? Image.memory(qrCodeBytes.buffer.asUint8List())
+              : const CircularProgressIndicator(),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Close'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   Future<void> _showLogoutConfirmation({required FirebaseAuth auth}) async {
     return showDialog<void>(
       context: context,
-      barrierDismissible: true, // user must tap button!
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text('Sign Out'),
@@ -106,8 +122,10 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
     );
   }
 
-  Future<String?> _showEditPopup(
-      {required String label, String intialValue = ''}) async {
+  Future<String?> _showEditPopup({
+    required String label,
+    String intialValue = '',
+  }) async {
     final TextEditingController controller =
         TextEditingController(text: intialValue);
     return showDialog<String>(
@@ -162,218 +180,161 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
             children: [
               InkWell(
                 borderRadius: BorderRadius.circular(10),
-                onTap: () {},
+                onTap: () {
+                  final uid = auth.currentUser!.uid;
+                  context.pushNamed(
+                    TopLevelDestinations.profile.name,
+                    pathParameters: {
+                      'uid': uid,
+                    },
+                  );
+                },
                 child: Ink(
                   decoration: boxDecoration,
                   child: Container(
                     padding: const EdgeInsets.all(10),
-                    child: Row(
-                      children: [
-                        GestureDetector(
-                          onTap: () async {
-                            final ImagePicker picker = ImagePicker();
-                            final XFile? image = await picker.pickImage(
-                              source: ImageSource.gallery,
-                              imageQuality: 80,
-                            );
-                            if (image == null) return;
-                            final Uint8List bytes = await image.readAsBytes();
-                            await accountController.updateProfilePicture(
-                                picture: bytes);
+                    child: IntrinsicHeight(
+                      child: Row(
+                        children: [
+                          GestureDetector(
+                            onTap: () async {
+                              final ImagePicker picker = ImagePicker();
+                              final XFile? image = await picker.pickImage(
+                                source: ImageSource.gallery,
+                                imageQuality: 80,
+                              );
+                              if (image == null) return;
+                              final Uint8List bytes = await image.readAsBytes();
+                              await accountController.updateProfilePicture(
+                                picture: bytes,
+                              );
 
-                            userData = ref.refresh(
-                              fetchUserProvider(
-                                auth.currentUser!.uid,
-                              ),
-                            );
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.only(right: 5),
-                            child: userData.when(
-                              data: (userAccount) => CircleAvatar(
-                                radius: 40,
-                                backgroundImage: NetworkImage(
-                                  userAccount?.pictureUrl ??
-                                      CustomImages.defaultProfilePictureUrl,
+                              userData = ref.refresh(
+                                fetchUserProvider(
+                                  auth.currentUser!.uid,
                                 ),
+                              );
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.only(right: 5),
+                              child: userData.when(
+                                data: (userAccount) => CircleAvatar(
+                                  radius: 40,
+                                  backgroundImage: NetworkImage(
+                                    userAccount?.pictureUrl ??
+                                        CustomImages.defaultProfilePictureUrl,
+                                  ),
+                                ),
+                                loading: () =>
+                                    const CircularProgressIndicator(),
+                                error: (_, __) => const Text('Error'),
                               ),
-                              loading: () => const CircularProgressIndicator(),
-                              error: (_, __) => const Text('Error'),
                             ),
                           ),
-                        ),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              TextButton.icon(
-                                onPressed: () async {
-                                  final newName = await _showEditPopup(
-                                    label: 'Username',
-                                    intialValue:
-                                        userData.asData?.value?.displayName ??
-                                            defaultName,
-                                  );
-                                  if (newName != null) {
-                                    await accountController.updateDisplayName(
-                                      displayName: newName,
-                                    );
-                                  }
-                                  userData = ref.refresh(
-                                    fetchUserProvider(
-                                      auth.currentUser!.uid,
-                                    ),
-                                  );
-                                },
-                                icon: const Icon(Icons.edit),
-                                label: userData.when(
-                                  data: (userAccount) => Text(
-                                    userAccount?.displayName ?? defaultName,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .headlineSmall,
-                                    overflow: TextOverflow.fade,
+                          Expanded(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  userData.when(
+                                    data: (userAccount) =>
+                                        userAccount?.displayName ?? defaultName,
+                                    loading: () => 'Loading...',
+                                    error: (_, __) => 'Error',
                                   ),
-                                  loading: () =>
-                                      const CircularProgressIndicator(),
-                                  error: (_, __) => const Text('Error'),
-                                ),
-                              ),
-                              const SizedBox(height: 5),
-                              TextButton.icon(
-                                onPressed: () async {
-                                  final newDescription = await _showEditPopup(
-                                    label: 'Description',
-                                    intialValue:
-                                        userData.asData?.value?.description ??
-                                            defaultDescription,
-                                  );
-                                  if (newDescription != null) {
-                                    await accountController.updateDescription(
-                                      description: newDescription,
-                                    );
-                                  }
-                                  userData = ref.refresh(
-                                    fetchUserProvider(
-                                      auth.currentUser!.uid,
-                                    ),
-                                  );
-                                },
-                                icon: const Icon(Icons.edit),
-                                label: userData.when(
-                                  data: (userAccount) => Text(
-                                    userAccount?.description ??
-                                        defaultDescription,
-                                    style:
-                                        Theme.of(context).textTheme.bodySmall,
-                                  ),
-                                  loading: () =>
-                                      const CircularProgressIndicator(),
-                                  error: (_, __) => const Text('Error'),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 20),
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Expanded(
-                    child: SizedBox(
-                      height: 50,
-                      width: 100,
-                      //decoration: boxDecoration,
-                      child: InkWell(
-                        //customBorder: CircleBorder(),
-                        borderRadius: BorderRadius.circular(10),
-                        onTap: () => print("rest"),
-                        child: Ink(
-                          decoration: boxDecoration,
-                          child: Row(
-                            children: [
-                              // Profile Picture
-                              Padding(
-                                padding: const EdgeInsets.only(left: 10),
-                                child: userData.when(
-                              data: (userAccount) => CircleAvatar(
-                                radius: 8,
-                                backgroundImage: NetworkImage(
-                                  userAccount?.pictureUrl ??
-                                      CustomImages.defaultProfilePictureUrl,
-                                ),
-                              ),
-                              loading: () => const CircularProgressIndicator(),
-                              error: (_, __) => const Text('Error'),
-                            ),
-                              ),
-                              Container(
-                                padding: const EdgeInsets.only(left: 5),
-                                child: Text(
-                                  'Edit Profile',
                                   style: Theme.of(context)
                                       .textTheme
-                                      .bodyMedium
-                                      ?.copyWith(),
+                                      .bodyMedium!
+                                      .copyWith(
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                 ),
-                              ),
-                              const Spacer(),
-                              Container(
-                                padding: const EdgeInsets.only(right: 10),
-                                child: const Icon(
-                                  Icons.arrow_forward_ios,
+                                Text(
+                                  auth.currentUser!.email ?? 'Unknown',
+                                  style: Theme.of(context).textTheme.bodySmall,
                                 ),
-                              ),
-                            ],
+                                const SizedBox(height: 5),
+                              ],
+                            ),
                           ),
-                        ),
+                          userData.when(
+                            data: (userAccount) => IconButton(
+                              onPressed: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => EditProfileScreen(
+                                      userAccount: userAccount!,
+                                    ),
+                                  ),
+                                );
+                              },
+                              icon: const Icon(
+                                Icons.edit,
+                                color: CustomColors.buttonPrimary,
+                              ),
+                            ),
+                            loading: () => const CircularProgressIndicator(),
+                            error: (_, __) => const Text('Error'),
+                          ),
+                          const VerticalDivider(
+                            color: CustomColors.grey,
+                            thickness: 1,
+                            endIndent: 25,
+                            indent: 25,
+                            width: 1,
+                          ),
+                          IconButton(
+                            onPressed: () {
+                              showQRCodeDialog(
+                                qrCodeData: auth.currentUser!.uid,
+                              );
+                            },
+                            icon: const Icon(
+                              Icons.qr_code,
+                              color: CustomColors.buttonPrimary,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
-                ],
+                ),
               ),
               const SizedBox(height: 20),
               Ink(
                 decoration: boxDecoration,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
-                  children: [
-                    for (var i = 0; i < menuItems.length; i++) ...[
-                      InkWell(
-                        onTap: () =>
-                            context.goNamed(AccountRoutes.settings.name),
-                        borderRadius: BorderRadius.circular(10),
-                        child: Column(
-                          children: [
-                            ListTile(
-                              title: Text(
-                                menuItems[i]['label'] as String,
-                                style: textTheme.bodySmall?.copyWith(
-                                  color: CustomColors.black,
-                                ),
-                              ),
-                              leading: Icon(
-                                menuItems[i]['icon'] as IconData?,
-                                color: menuItems[i]['color'] as Color?,
+                  children: menuItems.map((item) {
+                    return InkWell(
+                      onTap: () => context.pushNamed(item['option'] as String),
+                      borderRadius: BorderRadius.circular(10),
+                      child: Column(
+                        children: [
+                          ListTile(
+                            title: Text(
+                              item['label'] as String,
+                              style: textTheme.bodySmall?.copyWith(
+                                color: CustomColors.black,
                               ),
                             ),
-                            if (i != menuItems.length - 1)
-                              const Divider(
-                                endIndent: 10,
-                                indent: 10,
-                                thickness: 1,
-                                height: 1,
-                              ),
-                          ],
-                        ),
+                            leading: Icon(
+                              item['icon'] as IconData?,
+                              color: item['color'] as Color?,
+                            ),
+                          ),
+                          if (item != menuItems.last)
+                            const Divider(
+                              endIndent: 10,
+                              indent: 10,
+                              thickness: 1,
+                              height: 1,
+                            ),
+                        ],
                       ),
-                    ],
-                  ],
+                    );
+                  }).toList(),
                 ),
               ),
               const SizedBox(height: 5),

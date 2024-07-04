@@ -94,8 +94,9 @@ class _TripOverviewScreenState extends ConsumerState<TripOverviewScreen>
                                     onPressed: () async {
                                       // Perform leave trip logic
                                       await ref
-                                          .read(myTripsControllerProvider
-                                              .notifier)
+                                          .read(
+                                            myTripsControllerProvider.notifier,
+                                          )
                                           .leaveTrip(trip: trip);
                                       ref.invalidate(fetchMyTripsProvider);
 
@@ -210,34 +211,33 @@ class _TripOverviewScreenState extends ConsumerState<TripOverviewScreen>
           ),
           floatingActionButton:
               userId != null && !trip.participants.contains(userId)
-                  ? SizedBox(
-                      height: 60,
-                      width: 60,
-                      child: FloatingActionButton(
-                        onPressed: () async {
-                          if (trip.participants.length >=
-                              (trip.maxParticipants ?? double.infinity)) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(context.loc.tripFull),
-                              ),
-                            );
-                            return;
-                          }
-                          // join Trip
-                          await ref
-                              .read(myTripsControllerProvider.notifier)
-                              .joinTrip(trip: trip);
+                  ? FloatingActionButton.extended(
+                      onPressed: () async {
+                        if (trip.participants.length >=
+                            (trip.maxParticipants ?? double.infinity)) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(context.loc.tripFull),
+                            ),
+                          );
+                          return;
+                        }
+                        // join Trip
+                        await ref
+                            .read(myTripsControllerProvider.notifier)
+                            .joinTrip(trip: trip);
 
-                          ref.invalidate(fetchMyTripsProvider);
-                        },
-                        child: Text(
-                          context.loc.join,
-                          style: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
+                        ref.invalidate(fetchMyTripsProvider);
+                      },
+                      label: Text(
+                        context.loc.join,
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
                         ),
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
                       ),
                     )
                   : null,

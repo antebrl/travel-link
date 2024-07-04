@@ -21,8 +21,8 @@ Marker createUserMarker(LatLng position) {
 
   final Marker newMarker = Marker(
     point: position,
-    width: 20,
-    height: 20,
+    width: 40,
+    height: 40,
     child: ValueListenableBuilder<Color>(
       valueListenable: colorNotifier,
       builder: (context, color, child) {
@@ -79,8 +79,8 @@ Marker createEntertainmentActivity(
 
   return Marker(
     point: position,
-    width: 20,
-    height: 20,
+    width: 40,
+    height: 40,
     child: ValueListenableBuilder<Color>(
       valueListenable: colorNotifier,
       builder: (context, color, child) {
@@ -201,13 +201,13 @@ Marker createEducationActivity(
 
   return Marker(
     point: position,
-    width: 20,
-    height: 20,
+    width: 40,
+    height: 40,
     child: ValueListenableBuilder<Color>(
       valueListenable: colorNotifier,
       builder: (context, color, child) {
         return IconButton(
-          icon: Icon(Icons.museum_rounded, color: color),
+          icon: Icon(Icons.school_rounded, color: color),
           onPressed: () {
             // ignore: inference_failure_on_function_invocation
             showDialog(
@@ -323,8 +323,8 @@ Marker createNatureActivity(
 
   return Marker(
     point: position,
-    width: 20,
-    height: 20,
+    width: 40,
+    height: 40,
     child: ValueListenableBuilder<Color>(
       valueListenable: colorNotifier,
       builder: (context, color, child) {
@@ -445,8 +445,8 @@ Marker createSportsActivity(
 
   return Marker(
     point: position,
-    width: 20,
-    height: 20,
+    width: 40,
+    height: 40,
     child: ValueListenableBuilder<Color>(
       valueListenable: colorNotifier,
       builder: (context, color, child) {
@@ -560,15 +560,15 @@ Marker createCateringActivity(
   String usedMobility = 'Car';
   String mobilityForAPI = 'cycling-regular';
   final ValueNotifier<Color> colorNotifier =
-      ValueNotifier<Color>(Color.fromARGB(255, 204, 193, 41));
+      ValueNotifier<Color>(const Color.fromARGB(255, 204, 193, 41));
   final ValueNotifier<Color> starColorNotifier =
       ValueNotifier<Color>(Colors.grey);
   final ValueNotifier<bool> isLoadingNotifier = ValueNotifier<bool>(false);
 
   return Marker(
     point: position,
-    width: 20,
-    height: 20,
+    width: 40,
+    height: 40,
     child: ValueListenableBuilder<Color>(
       valueListenable: colorNotifier,
       builder: (context, color, child) {
@@ -682,15 +682,15 @@ Marker createReligousActivity(
   String usedMobility = 'Car';
   String mobilityForAPI = 'cycling-regular';
   final ValueNotifier<Color> colorNotifier =
-      ValueNotifier<Color>(Color.fromARGB(255, 255, 255, 255));
+      ValueNotifier<Color>(const Color.fromARGB(255, 255, 255, 255));
   final ValueNotifier<Color> starColorNotifier =
       ValueNotifier<Color>(Colors.grey);
   final ValueNotifier<bool> isLoadingNotifier = ValueNotifier<bool>(false);
 
   return Marker(
     point: position,
-    width: 20,
-    height: 20,
+    width: 40,
+    height: 40,
     child: ValueListenableBuilder<Color>(
       valueListenable: colorNotifier,
       builder: (context, color, child) {
@@ -804,20 +804,20 @@ Marker createActivActivity(
   String usedMobility = 'Car';
   String mobilityForAPI = 'cycling-regular';
   final ValueNotifier<Color> colorNotifier =
-      ValueNotifier<Color>(Color.fromARGB(255, 252, 255, 58));
+      ValueNotifier<Color>(const Color.fromARGB(255, 91, 101, 239));
   final ValueNotifier<Color> starColorNotifier =
       ValueNotifier<Color>(Colors.grey);
   final ValueNotifier<bool> isLoadingNotifier = ValueNotifier<bool>(false);
 
   return Marker(
     point: position,
-    width: 20,
-    height: 20,
+    width: 40,
+    height: 40,
     child: ValueListenableBuilder<Color>(
       valueListenable: colorNotifier,
       builder: (context, color, child) {
         return IconButton(
-          icon: Icon(Icons.attractions_rounded, color: color),
+          icon: Icon(Icons.hiking_rounded, color: color),
           onPressed: () {
             // ignore: inference_failure_on_function_invocation
             showDialog(
@@ -926,15 +926,15 @@ Marker createAccomodationActivity(
   String usedMobility = 'Car';
   String mobilityForAPI = 'cycling-regular';
   final ValueNotifier<Color> colorNotifier =
-      ValueNotifier<Color>(Color.fromARGB(255, 241, 92, 12));
+      ValueNotifier<Color>(const Color.fromARGB(255, 241, 92, 12));
   final ValueNotifier<Color> starColorNotifier =
       ValueNotifier<Color>(Colors.grey);
   final ValueNotifier<bool> isLoadingNotifier = ValueNotifier<bool>(false);
 
   return Marker(
     point: position,
-    width: 20,
-    height: 20,
+    width: 40,
+    height: 40,
     child: ValueListenableBuilder<Color>(
       valueListenable: colorNotifier,
       builder: (context, color, child) {
@@ -1048,15 +1048,15 @@ Marker createTourismeActivity(
   String usedMobility = 'Car';
   String mobilityForAPI = 'cycling-regular';
   final ValueNotifier<Color> colorNotifier =
-      ValueNotifier<Color>(Color.fromARGB(255, 255, 213, 0));
+      ValueNotifier<Color>(const Color.fromARGB(255, 255, 213, 0));
   final ValueNotifier<Color> starColorNotifier =
       ValueNotifier<Color>(Colors.grey);
   final ValueNotifier<bool> isLoadingNotifier = ValueNotifier<bool>(false);
 
   return Marker(
     point: position,
-    width: 20,
-    height: 20,
+    width: 40,
+    height: 40,
     child: ValueListenableBuilder<Color>(
       valueListenable: colorNotifier,
       builder: (context, color, child) {
@@ -1170,15 +1170,15 @@ Marker createCampingActivity(
   String usedMobility = 'Car';
   String mobilityForAPI = 'cycling-regular';
   final ValueNotifier<Color> colorNotifier =
-      ValueNotifier<Color>(Color.fromARGB(255, 255, 47, 0));
+      ValueNotifier<Color>(const Color.fromARGB(255, 255, 47, 0));
   final ValueNotifier<Color> starColorNotifier =
       ValueNotifier<Color>(Colors.grey);
   final ValueNotifier<bool> isLoadingNotifier = ValueNotifier<bool>(false);
 
   return Marker(
     point: position,
-    width: 20,
-    height: 20,
+    width: 40,
+    height: 40,
     child: ValueListenableBuilder<Color>(
       valueListenable: colorNotifier,
       builder: (context, color, child) {
@@ -1292,15 +1292,15 @@ Marker createLeisureActivity(
   String usedMobility = 'Car';
   String mobilityForAPI = 'cycling-regular';
   final ValueNotifier<Color> colorNotifier =
-      ValueNotifier<Color>(Color.fromARGB(255, 94, 85, 83));
+      ValueNotifier<Color>(const Color.fromARGB(255, 94, 85, 83));
   final ValueNotifier<Color> starColorNotifier =
       ValueNotifier<Color>(Colors.grey);
   final ValueNotifier<bool> isLoadingNotifier = ValueNotifier<bool>(false);
 
   return Marker(
     point: position,
-    width: 20,
-    height: 20,
+    width: 40,
+    height: 40,
     child: ValueListenableBuilder<Color>(
       valueListenable: colorNotifier,
       builder: (context, color, child) {

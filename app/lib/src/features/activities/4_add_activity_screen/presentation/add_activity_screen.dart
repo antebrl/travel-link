@@ -60,7 +60,7 @@ class _AddActivityScreenState extends ConsumerState<AddActivityScreen> {
         _filters.isNotEmpty &&
         _user != null) {
       _formKey.currentState!.save();
-      var activity = Activity(
+      final activity = Activity(
         name: _enteredName,
         categories: _filters.toList(),
         description: _enteredDescription,

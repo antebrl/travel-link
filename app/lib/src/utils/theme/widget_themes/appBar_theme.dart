@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
 
 class CustomAppBarTheme {
-
   CustomAppBarTheme._();
 
   static const lightAppBarTheme = AppBarTheme(
@@ -15,7 +14,10 @@ class CustomAppBarTheme {
     iconTheme: IconThemeData(color: CustomColors.primary, size: 40),
     actionsIconTheme: IconThemeData(color: CustomColors.primary, size: 40),
     titleTextStyle: TextStyle(
-        fontSize: 25.0, fontWeight: FontWeight.w600, color: CustomColors.textPrimary),
+      fontSize: 25,
+      fontWeight: FontWeight.w600,
+      color: CustomColors.textPrimary,
+    ),
   ); // AppBarTheme
 
   static const darkAppBarTheme = AppBarTheme(
@@ -27,6 +29,9 @@ class CustomAppBarTheme {
     iconTheme: IconThemeData(color: Colors.black, size: 24),
     actionsIconTheme: IconThemeData(color: Colors.white, size: 24),
     titleTextStyle: TextStyle(
-        fontSize: 18.0, fontWeight: FontWeight.w600, color: CustomColors.textWhite),
+      fontSize: 18,
+      fontWeight: FontWeight.w600,
+      color: CustomColors.textWhite,
+    ),
   ); // AppBarTheme
 }

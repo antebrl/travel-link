@@ -11,30 +11,34 @@ class ChecklistRepository {
   static String checklistPath(String tripId) => 'trips/$tripId/checklist';
 
   // create
-    Future<void> createChecklistItem(
-      { required String tripId,
-        required String title,
-      required List<String> asignees,
-      required List<bool> asigneesCompleted,
-      required bool onlyOneCompletion,
-      required bool isPublic,
-      DateTime? dueDate,
-      DateTime? createdAt}) =>
+  Future<void> createChecklistItem({
+    required String tripId,
+    required String title,
+    required List<String> asignees,
+    required List<bool> asigneesCompleted,
+    required bool onlyOneCompletion,
+    required bool isPublic,
+    DateTime? dueDate,
+    DateTime? createdAt,
+  }) =>
       _firestore.collection(checklistPath(tripId)).add({
         'title': title,
-      'asignees': asignees,
-      'asigneesCompleted': asigneesCompleted,
-      'dueDate': dueDate != null ? Timestamp.fromDate(dueDate) : null,
-      'createdAt': createdAt != null ? Timestamp.fromDate(createdAt) : null,
-      'onlyOneCompletion': onlyOneCompletion,
-      'isPublic': isPublic,
+        'asignees': asignees,
+        'asigneesCompleted': asigneesCompleted,
+        'dueDate': dueDate != null ? Timestamp.fromDate(dueDate) : null,
+        'createdAt': createdAt != null ? Timestamp.fromDate(createdAt) : null,
+        'onlyOneCompletion': onlyOneCompletion,
+        'isPublic': isPublic,
       });
 
-    Future<void> updateChecklistData({
+  Future<void> updateChecklistData({
     required String tripId,
     required ChecklistItem data,
   }) async {
-    return _firestore.collection(checklistPath(tripId)).doc(data.id).set(data.toMap());
+    return _firestore
+        .collection(checklistPath(tripId))
+        .doc(data.id)
+        .set(data.toMap());
   }
 
   // delete checklist item
@@ -42,20 +46,25 @@ class ChecklistRepository {
     required String tripId,
     required String checklistItemId,
   }) async {
-    return _firestore.collection(checklistPath(tripId)).doc(checklistItemId).delete();
+    return _firestore
+        .collection(checklistPath(tripId))
+        .doc(checklistItemId)
+        .delete();
   }
 
   // read
 
-  Future<List<ChecklistItem>> fetchTripChecklist(
-      { required String tripId, required bool onlyPublic, String? uid}) async {
-
+  Future<List<ChecklistItem>> fetchTripChecklist({
+    required String tripId,
+    required bool onlyPublic,
+    String? uid,
+  }) async {
     var checklist = queryTripChecklist(
       tripId: tripId,
     );
-    if(onlyPublic) {
-       checklist = checklist.where('isPublic', isEqualTo: true);
-    } else if(uid != null) {
+    if (onlyPublic) {
+      checklist = checklist.where('isPublic', isEqualTo: true);
+    } else if (uid != null) {
       checklist = checklist.where('asignees', arrayContains: uid);
     }
 
@@ -68,13 +77,11 @@ class ChecklistRepository {
   Query<ChecklistItem> queryTripChecklist({
     required String tripId,
   }) =>
-     _firestore
-        .collection(checklistPath(tripId))
-        .withConverter(
-          fromFirestore: (snapshot, _) =>
-              ChecklistItem.fromMap(snapshot.data()!, snapshot.id),
-          toFirestore: (checklistItem, _) => checklistItem.toMap(),
-        );
+      _firestore.collection(checklistPath(tripId)).withConverter(
+            fromFirestore: (snapshot, _) =>
+                ChecklistItem.fromMap(snapshot.data()!, snapshot.id),
+            toFirestore: (checklistItem, _) => checklistItem.toMap(),
+          );
 }
 
 @Riverpod(keepAlive: true)

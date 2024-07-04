@@ -29,7 +29,7 @@ nav:
     - Figma Explore Activities: design/explore-activities.md
   - Implementation: 4-Implementation.md
   - Usability Evaluation: 
-    - Cognitive Walkthrough: 6-UsabilityEvaluation.md
+    - Cognitive Walkthrough and Heuristics: 6-UsabilityEvaluation.md
     - Thinking Aloud Test: usability-evaluation/thinking-aloud-test.md
   - Mkdocs Modules: test.md
 

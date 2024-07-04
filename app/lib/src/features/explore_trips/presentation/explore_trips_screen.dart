@@ -30,17 +30,19 @@ class _ExploreTripsScreenState extends ConsumerState<ExploreTripsScreen> {
 
   String? _selectedCountry;
 
-
   @override
   Widget build(BuildContext context) {
     //TODO: Filter trips by country
-    final fetchedTrips = ref.watch(fetchPublicTripsProvider(
-      startDate: _startDate,
-      endDate: _endDate,
-      archived: _upcomingArchivedSelection == context.loc.archivedTripSelection,
-      country: _selectedCountry,
-      worldWide: _selectedCountry == context.loc.countryWorldWide,
-    ));
+    final fetchedTrips = ref.watch(
+      fetchPublicTripsProvider(
+        startDate: _startDate,
+        endDate: _endDate,
+        archived:
+            _upcomingArchivedSelection == context.loc.archivedTripSelection,
+        country: _selectedCountry,
+        worldWide: _selectedCountry == context.loc.countryWorldWide,
+      ),
+    );
 
     return Scaffold(
       appBar: AppBar(
@@ -49,6 +51,7 @@ class _ExploreTripsScreenState extends ConsumerState<ExploreTripsScreen> {
         centerTitle: true,
         title: Column(
           mainAxisAlignment: MainAxisAlignment.end,
+          mainAxisSize: MainAxisSize.min,
           children: [
             const SizedBox(
               height: 15,
@@ -62,7 +65,8 @@ class _ExploreTripsScreenState extends ConsumerState<ExploreTripsScreen> {
               ),
             ),
             DropdownButton<String>(
-              value: _upcomingArchivedSelection ?? context.loc.upcomingTripsSelection,
+              value: _upcomingArchivedSelection ??
+                  context.loc.upcomingTripsSelection,
               alignment: AlignmentDirectional.topCenter,
               focusColor: CustomColors.primaryBackground,
               dropdownColor: Colors.white,
@@ -74,19 +78,23 @@ class _ExploreTripsScreenState extends ConsumerState<ExploreTripsScreen> {
               iconSize: 0,
               onChanged: (String? newValue) {
                 setState(() {
-                  _upcomingArchivedSelection = newValue!;
+                  _upcomingArchivedSelection = newValue;
                 });
               },
-              items: <String>[context.loc.upcomingTripsSelection, context.loc.archivedTripSelection]
-                  .map<DropdownMenuItem<String>>((String value) {
+              items: <String>[
+                context.loc.upcomingTripsSelection,
+                context.loc.archivedTripSelection
+              ].map<DropdownMenuItem<String>>((String value) {
                 return DropdownMenuItem<String>(
                   value: value,
                   child: Text(value),
                 );
               }).toList(),
               selectedItemBuilder: (BuildContext context) {
-                return <String>[context.loc.upcomingTripsSelection, context.loc.archivedTripSelection]
-                    .map<Widget>((String value) {
+                return <String>[
+                  context.loc.upcomingTripsSelection,
+                  context.loc.archivedTripSelection
+                ].map<Widget>((String value) {
                   return Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -127,7 +135,7 @@ class _ExploreTripsScreenState extends ConsumerState<ExploreTripsScreen> {
                 context: context,
                 onSelect: (Country country) {
                   setState(() {
-                    if(country.name == 'World Wide') {
+                    if (country.name == 'World Wide') {
                       _selectedCountry = context.loc.countryWorldWide;
                     } else {
                       _selectedCountry = country.name;
@@ -250,7 +258,8 @@ class _ExploreTripsScreenState extends ConsumerState<ExploreTripsScreen> {
             return Center(
               child: Text(
                 context.loc.noTripsFound,
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                style:
+                    const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
             );
           }

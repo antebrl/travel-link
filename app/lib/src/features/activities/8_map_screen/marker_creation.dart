@@ -37,7 +37,7 @@ Marker createEntertainmentActivity(
               IconButton(
                 icon: Icon(Icons.theater_comedy, color: color),
                 onPressed: () {
-                  showDialog(
+                  showDialog<AlertDialog>(
                     context: context,
                     builder: (context) => AlertDialog(
                       title: Text(name),
@@ -96,13 +96,13 @@ Marker createEducationActivity(
 
   return Marker(
     point: position,
-    width: 20,
-    height: 20,
+    width: 40,
+    height: 40,
     child: ValueListenableBuilder<Color>(
       valueListenable: colorNotifier,
       builder: (context, color, child) {
         return IconButton(
-          icon: Icon(Icons.museum_rounded, color: color),
+          icon: Icon(Icons.school_rounded, color: color),
           onPressed: () {
             // ignore: inference_failure_on_function_invocation
             showDialog(
@@ -159,8 +159,8 @@ Marker createNatureActivity(
 
   return Marker(
     point: position,
-    width: 20,
-    height: 20,
+    width: 40,
+    height: 40,
     child: ValueListenableBuilder<Color>(
       valueListenable: colorNotifier,
       builder: (context, color, child) {
@@ -222,8 +222,8 @@ Marker createSportsActivity(
 
   return Marker(
     point: position,
-    width: 20,
-    height: 20,
+    width: 40,
+    height: 40,
     child: ValueListenableBuilder<Color>(
       valueListenable: colorNotifier,
       builder: (context, color, child) {
@@ -285,8 +285,8 @@ Marker createCateringActivity(
 
   return Marker(
     point: position,
-    width: 20,
-    height: 20,
+    width: 40,
+    height: 40,
     child: ValueListenableBuilder<Color>(
       valueListenable: colorNotifier,
       builder: (context, color, child) {
@@ -348,8 +348,8 @@ Marker createReligousActivity(
 
   return Marker(
     point: position,
-    width: 20,
-    height: 20,
+    width: 40,
+    height: 40,
     child: ValueListenableBuilder<Color>(
       valueListenable: colorNotifier,
       builder: (context, color, child) {
@@ -407,17 +407,17 @@ Marker createActivActivity(
   Activity associatedActivity,
 ) {
   final ValueNotifier<Color> colorNotifier =
-      ValueNotifier<Color>(const Color.fromARGB(255, 167, 74, 255));
+      ValueNotifier<Color>(const Color.fromARGB(255, 91, 101, 239));
 
   return Marker(
     point: position,
-    width: 20,
-    height: 20,
+    width: 40,
+    height: 40,
     child: ValueListenableBuilder<Color>(
       valueListenable: colorNotifier,
       builder: (context, color, child) {
         return IconButton(
-          icon: Icon(Icons.attractions_rounded, color: color),
+          icon: Icon(Icons.hiking_rounded, color: color),
           onPressed: () {
             // ignore: inference_failure_on_function_invocation
             showDialog(
@@ -474,8 +474,8 @@ Marker createAccomodationActivity(
 
   return Marker(
     point: position,
-    width: 20,
-    height: 20,
+    width: 40,
+    height: 40,
     child: ValueListenableBuilder<Color>(
       valueListenable: colorNotifier,
       builder: (context, color, child) {
@@ -537,8 +537,8 @@ Marker createTourismeActivity(
 
   return Marker(
     point: position,
-    width: 20,
-    height: 20,
+    width: 40,
+    height: 40,
     child: ValueListenableBuilder<Color>(
       valueListenable: colorNotifier,
       builder: (context, color, child) {
@@ -600,8 +600,8 @@ Marker createCampingActivity(
 
   return Marker(
     point: position,
-    width: 20,
-    height: 20,
+    width: 40,
+    height: 40,
     child: ValueListenableBuilder<Color>(
       valueListenable: colorNotifier,
       builder: (context, color, child) {
@@ -663,8 +663,8 @@ Marker createLeisureActivity(
 
   return Marker(
     point: position,
-    width: 20,
-    height: 20,
+    width: 40,
+    height: 40,
     child: ValueListenableBuilder<Color>(
       valueListenable: colorNotifier,
       builder: (context, color, child) {

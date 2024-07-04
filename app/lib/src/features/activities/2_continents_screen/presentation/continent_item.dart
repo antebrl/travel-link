@@ -11,7 +11,7 @@ class ContinentItem extends StatelessWidget {
 
   final Continent continent;
   final void Function() onSelectContintent;
-  
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -41,7 +41,7 @@ class ContinentItem extends StatelessWidget {
                 child: Image.asset(
                   continent.imageAssetPath,
                   width: double.infinity,
-                  fit: BoxFit.fill,
+                  fit: BoxFit.contain,
                 ),
               ),
               Center(
