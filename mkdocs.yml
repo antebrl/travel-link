@@ -31,6 +31,7 @@ nav:
   - Usability Evaluation: 
     - Cognitive Walkthrough and Heuristics: 6-UsabilityEvaluation.md
     - Thinking Aloud Test: usability-evaluation/thinking-aloud-test.md
+    - Accessibility Test: usability-evaluation/accessibility-scanner.md
   - Mkdocs Modules: test.md
 
 theme:

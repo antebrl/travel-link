@@ -1,3 +1,7 @@
+The overall architecture of our features heavily depends on the firebase architecture below. It is a good overview how the system is structured.
+
+For the app structure, we used a feature based approach!
+
 ## Firebase Architecture
 We used  
 
