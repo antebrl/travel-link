@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 class BoxedContentBigHeadline extends StatelessWidget {
   const BoxedContentBigHeadline({
-    super.key,
     required this.boxDecoration,
     required this.headline,
     required this.content,
+    super.key,
     this.padding,
     this.onTap,
   });
@@ -49,9 +49,9 @@ class BoxedContentBigHeadline extends StatelessWidget {
 
 class BoxedContent extends StatelessWidget {
   const BoxedContent({
-    super.key,
     required this.boxDecoration,
     required this.content,
+    super.key,
     this.padding,
     this.onTap,
   });

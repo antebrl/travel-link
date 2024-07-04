@@ -38,8 +38,12 @@ class SharedGalleryRepository {
   }
 
   // delete
-  Future<void> deletePicture({required String tripId, required String pictureId}) async {
-    await _firestore.collection(tripGalleryPath(tripId)).doc(pictureId).delete();
+  Future<void> deletePicture(
+      {required String tripId, required String pictureId}) async {
+    await _firestore
+        .collection(tripGalleryPath(tripId))
+        .doc(pictureId)
+        .delete();
     await _storage.ref().child('gallery/$pictureId').delete();
   }
 
@@ -62,14 +66,19 @@ class SharedGalleryRepository {
 
 @Riverpod(keepAlive: true)
 SharedGalleryRepository sharedGalleryRepository(
-    SharedGalleryRepositoryRef ref) {
+  SharedGalleryRepositoryRef ref,
+) {
   return SharedGalleryRepository(
-      FirebaseFirestore.instance, FirebaseStorage.instance);
+    FirebaseFirestore.instance,
+    FirebaseStorage.instance,
+  );
 }
 
 @riverpod
 Future<List<PicturePost>> fetchPicturePosts(
-    FetchPicturePostsRef ref, String tripId) {
+  FetchPicturePostsRef ref,
+  String tripId,
+) {
   final repository = ref.watch(sharedGalleryRepositoryProvider);
   return repository.fetchPicturePosts(tripId: tripId);
 }

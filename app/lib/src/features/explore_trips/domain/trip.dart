@@ -18,6 +18,23 @@ class Trip extends Equatable {
     //required this.activities,
   });
 
+  factory Trip.fromMap(Map<dynamic, dynamic> value, String tripId) {
+    return Trip(
+      tripId: tripId,
+      name: value['name'] as String,
+      description: value['description'] as String?,
+      startDate: (value['startDate'] as Timestamp?)?.toDate(),
+      endDate: (value['endDate'] as Timestamp?)?.toDate(),
+      destination: Destination.fromMap(
+        value['destination'] as Map<dynamic, dynamic>,
+      ),
+      isPublic: value['isPublic'] as bool,
+      images: (value['images'] as List<dynamic>).cast<String>(),
+      participants: (value['participants'] as List<dynamic>).cast<String>(),
+      maxParticipants: value['maxParticipants'] as int?,
+    );
+  }
+
   final String tripId;
   final String name;
   final String? description;
@@ -49,23 +66,6 @@ class Trip extends Equatable {
 
   @override
   bool get stringify => true;
-
-  factory Trip.fromMap(Map<dynamic, dynamic> value, String tripId) {
-    return Trip(
-      tripId: tripId,
-      name: value['name'] as String,
-      description: value['description'] as String?,
-      startDate: (value['startDate'] as Timestamp?)?.toDate(),
-      endDate: (value['endDate'] as Timestamp?)?.toDate(),
-      destination: Destination.fromMap(
-        value['destination'] as Map<dynamic, dynamic>,
-      ),
-      isPublic: value['isPublic'] as bool,
-      images: (value['images'] as List<dynamic>).cast<String>(),
-      participants: (value['participants'] as List<dynamic>).cast<String>(),
-      maxParticipants: value['maxParticipants'] as int?,
-    );
-  }
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{

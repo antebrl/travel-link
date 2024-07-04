@@ -287,9 +287,11 @@ class _TripPlanningScreenState extends State<TripPlanningScreen> {
             Positioned(
               bottom: 20,
               left: 20,
-              child: Flexible(
+              child: Center(
                 child: Container(
-                  width: 280,
+                  constraints: BoxConstraints(
+                    maxWidth: MediaQuery.of(context).size.width - 20,
+                  ),
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
                     color: Colors.white.withOpacity(0.8),
@@ -298,14 +300,16 @@ class _TripPlanningScreenState extends State<TripPlanningScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        widget.trip.destination.formatted,
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
+                      FittedBox(
+                        child: Text(
+                          widget.trip.destination.formatted,
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
                         ),
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
                       ),
                       const SizedBox(height: 5),
                       Text(
@@ -317,6 +321,7 @@ class _TripPlanningScreenState extends State<TripPlanningScreen> {
                             : context.loc.flexibleDates,
                         style: const TextStyle(
                           fontSize: 14,
+                          fontWeight: FontWeight.bold,
                           color: CustomColors.primary,
                         ),
                       ),

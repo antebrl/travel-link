@@ -14,6 +14,26 @@ class UserAccount extends Equatable {
     this.position,
   });
 
+  factory UserAccount.fromMap(Map<dynamic, dynamic> value, String id) {
+    return UserAccount(
+      id: id,
+      description: value['description'] as String?,
+      displayName: value['displayName'] as String?,
+      publicName: value['publicName'] as String?,
+      pictureUrl: value['pictureUrl'] as String?,
+      city: value['city'] as String?,
+      interests: value['interests'] != null
+          ? (value['interests'] as List<dynamic>).cast<String>()
+          : [],
+      languages: value['languages'] != null
+          ? (value['languages'] as List<dynamic>).cast<String>()
+          : [],
+      position: value['position'] != null
+          ? LatLng.fromJson(value['position'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   final String id;
   final String? description;
   final String? displayName;
@@ -37,26 +57,6 @@ class UserAccount extends Equatable {
 
   @override
   bool get stringify => true;
-
-  factory UserAccount.fromMap(Map<dynamic, dynamic> value, String id) {
-    return UserAccount(
-      id: id,
-      description: value['description'] as String?,
-      displayName: value['displayName'] as String?,
-      publicName: value['publicName'] as String?,
-      pictureUrl: value['pictureUrl'] as String?,
-      city: value['city'] as String?,
-      interests: value['interests'] != null
-          ? (value['interests'] as List<dynamic>).cast<String>()
-          : [],
-      languages: value['languages'] != null
-          ? (value['languages'] as List<dynamic>).cast<String>()
-          : [],
-      position: value['position'] != null
-          ? LatLng.fromJson(value['position'] as Map<String, dynamic>)
-          : null,
-    );
-  }
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{

@@ -30,8 +30,8 @@ class ParticipantListView extends ConsumerWidget {
             pictureUrl: CustomImages.defaultProfilePictureUrl,
             description: 'No description',
             id: trip.participants[i],
-            languages: [],
-            interests: [],
+            languages: const [],
+            interests: const [],
           ),
         );
       }
@@ -89,7 +89,8 @@ class ParticipantListView extends ConsumerWidget {
                             CustomImages.defaultProfilePictureUrl,
                           ),
                         ),
-                  title: Text(users[index].displayName ?? context.loc.anonymousUser),
+                  title: Text(
+                      users[index].displayName ?? context.loc.anonymousUser),
                   onTap: () {
                     // Go to user public profile
                     final uid = users[index].id;

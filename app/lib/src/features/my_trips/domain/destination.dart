@@ -9,6 +9,16 @@ class Destination extends Equatable {
     this.country,
   });
 
+  factory Destination.fromMap(Map<dynamic, dynamic> value) {
+    return Destination(
+      formatted: value['formatted'] as String,
+      placeId: value['place_id'] as String?,
+      lon: value['lon'] as double?,
+      lat: value['lat'] as double?,
+      country: value['country'] as String?,
+    );
+  }
+
   final String formatted;
   final String? placeId;
   final double? lon;
@@ -26,16 +36,6 @@ class Destination extends Equatable {
 
   @override
   bool get stringify => true;
-
-  factory Destination.fromMap(Map<dynamic, dynamic> value) {
-    return Destination(
-      formatted: value['formatted'] as String,
-      placeId: value['place_id'] as String?,
-      lon: value['lon'] as double?,
-      lat: value['lat'] as double?,
-      country: value['country'] as String?,
-    );
-  }
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{

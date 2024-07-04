@@ -28,12 +28,13 @@ class TripsRepository {
       .snapshots()
       .map((snapshot) => snapshot.docs.map((doc) => doc.data()).toList());
 
-  Future<List<Trip>> fetchPublicTrips(
-      {DateTime? startDate,
-      DateTime? endDate,
-      bool? archived,
-      String? country,
-      required bool worldWide}) async {
+  Future<List<Trip>> fetchPublicTrips({
+    required bool worldWide,
+    DateTime? startDate,
+    DateTime? endDate,
+    bool? archived,
+    String? country,
+  }) async {
     final trips = await queryPublicTrips(
       startDate: startDate,
       endDate: endDate,
@@ -72,7 +73,7 @@ class TripsRepository {
     if (archived ?? false) {
       query = query.where('endDate', isLessThan: Timestamp.now());
     }
-    
+
     if (!worldWide && country != null) {
       query = query.where('destination.country', isEqualTo: country);
     }
