@@ -15,27 +15,27 @@ class CustomImages {
 
   static const Map<String, String> categoryImages = {
     'entertainment':
-        'https://cdn.discordapp.com/attachments/1231880021287636999/1257678001177624596/EntertainmentActivityIcon.png?ex=6685476a&is=6683f5ea&hm=930bdb0100987756ce07e7c92ce9df487ad311f56cb8307d601e7ec0f7a9a337&',
+        'https://media.discordapp.net/attachments/1231880021287636999/1257678001177624596/EntertainmentActivityIcon.png?ex=6687ea6a&is=668698ea&hm=96ac03ddbb6cde6fcaab97abf981f48e35637c6b5f1853f0100f572b554279cd&=&format=webp&quality=lossless&width=1024&height=1024',
     'activity':
         'https://media.discordapp.net/attachments/1231880021287636999/1258039682152009789/ActivActivityIcon.png?ex=66869841&is=668546c1&hm=93f6591f487293b2b8b80b1c83d9a3b4164cd5c7ae6b5d6d6b0d56659199553c&=&format=webp&quality=lossless&width=1024&height=1024',
     'catering':
-        'https://cdn.discordapp.com/attachments/1231880021287636999/1257678000699342858/CateringActivityIcon.png?ex=66854769&is=6683f5e9&hm=83c122249351c671b6e4733344b5b853618d5a9d24b95642b8198265db4492b1&',
+        'https://media.discordapp.net/attachments/1231880021287636999/1257678000699342858/CateringActivityIcon.png?ex=6687ea69&is=668698e9&hm=dc42c323e0204ab6ee2070b2ec56e343353f64f2608a418dba219bde5e5ecb1f&=&format=webp&quality=lossless&width=1024&height=1024',
     'education':
-        'https://cdn.discordapp.com/attachments/1231880021287636999/1258001155145990164/EducationActivityIcon.png?ex=6686745f&is=668522df&hm=bd35754497ea21f53278b4c8d24ad0f39cffc6190a3aa0d637eab7da8ed0e386&',
-    'leisure':
-        'https://cdn.discordapp.com/attachments/1231880021287636999/1257697485162549371/LeisureActivityIcon.png?ex=6685598f&is=6684080f&hm=3d9b990d6fa3d0f8810b0be0b03c95fb8a9fe647795ee788d066527d37c06211&',
+        'https://media.discordapp.net/attachments/1231880021287636999/1258001155145990164/EducationActivityIcon.png?ex=6687c5df&is=6686745f&hm=b857f5d5460a6655c786fc227342be4cf00dfc2f44c09721d16baac6ebd0ba6e&=&format=webp&quality=lossless&width=1024&height=1024',
+    'leisure': 'https://media.discordapp.net/attachments/1231880021287636999/1257697485162549371/LeisureActivityIcon.png?ex=668753cf&is=6686024f&hm=f99bab93107c0ddee859fdc49622dc05b403ea25d6293bf0af499b3082f8e038&=&format=webp&quality=lossless&width=1024&height=1024'
+      ,
     'natural':
-        'https://cdn.discordapp.com/attachments/1231880021287636999/1257678001399660705/NatureActivityIcon.png?ex=6685476a&is=6683f5ea&hm=197cee85e78d5694bdee0f6a37fb775345062c1e0a701e182b9bd91c426aadb4&',
+        'https://media.discordapp.net/attachments/1231880021287636999/1257678001399660705/NatureActivityIcon.png?ex=6687ea6a&is=668698ea&hm=fbc98cdfc81c07f007bc8d2c7eeb464253a1ea759a76e7ff68c5e80d16515c0c&=&format=webp&quality=lossless&width=1024&height=1024',
     'tourism':
-        'https://cdn.discordapp.com/attachments/1231880021287636999/1257697485489573908/TourismeActivityIcon.png?ex=6685598f&is=6684080f&hm=29fad451e42e894a15a66e9171bf102d7c73cfa5516f2a6586ea19dd95fdfbaa&',
+        'https://media.discordapp.net/attachments/1231880021287636999/1257697485489573908/TourismeActivityIcon.png?ex=668753cf&is=6686024f&hm=8696ba73143509d7870c13c382e59808b237ae9877b3517d396af671ac458506&=&format=webp&quality=lossless&width=1024&height=1024',
     'religion':
-        'https://cdn.discordapp.com/attachments/1231880021287636999/1257678001689071718/ReligousActivityIcon.png?ex=6685476a&is=6683f5ea&hm=890ee4792e9fbfd8022667668314653539b5370883d94dc178f30c9189b0bfab&',
+        'https://media.discordapp.net/attachments/1231880021287636999/1257678001689071718/ReligousActivityIcon.png?ex=6687ea6a&is=668698ea&hm=6c6543ff3023d042a055bd68bf223f93dfe9cf28fdb678a6559e87bdd909187a&=&format=webp&quality=lossless&width=1024&height=1024',
     'camping':
-        'https://cdn.discordapp.com/attachments/1231880021287636999/1257678000405876766/CampingActivityIcon.png?ex=66854769&is=6683f5e9&hm=58f7f1d0f1fc849a5c3fdcc1773693d4ce16c33059f72e5a003014995609c9ed&',
+        'https://media.discordapp.net/attachments/1231880021287636999/1257678000405876766/CampingActivityIcon.png?ex=6687ea69&is=668698e9&hm=68dbbf129ead7f63b419cf2f43efbfec9538ed1199e4bfa1d9191d5bd7ad865d&=&format=webp&quality=lossless&width=1024&height=1024',
     'sport':
-        'https://cdn.discordapp.com/attachments/1231880021287636999/1257678001915826287/SportsActivityIcon.png?ex=6685476a&is=6683f5ea&hm=2d7788282cdaf3f454fd39ef5b221aa83dbaaf4365a2277ec1eb65b0e9f90606&',
+        'https://media.discordapp.net/attachments/1231880021287636999/1257678001915826287/SportsActivityIcon.png?ex=6687ea6a&is=668698ea&hm=a4b6cb7cccb643e2a45c24999e74cc2f349a197e26752c7dcc0eb846d06e5234&=&format=webp&quality=lossless&width=1024&height=1024',
     'accommodation':
-        'https://cdn.discordapp.com/attachments/1231880021287636999/1257677999956951061/AccomodationActivityIcon.png?ex=66854769&is=6683f5e9&hm=31a1aa2b95eadf6db7c9262dc420de1ac1fc2b32a4ef2aa69419417457737f16&',
+        'https://media.discordapp.net/attachments/1231880021287636999/1257677999956951061/AccomodationActivityIcon.png?ex=6687ea69&is=668698e9&hm=cf8ddfcd58017bd34d0792bb680a44e6b51162c1b7d4523d1dfe29b3f0f517ef&=&format=webp&quality=lossless&width=1024&height=1024',
   };
 
   static String getPlaceholderImage(List<String> categories) {
