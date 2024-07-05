@@ -124,9 +124,9 @@
   "tripDescription": "Description",
   "tripDateSelect": "Select Dates",
   "optional": "optional",
-  "publicTrip": "Public Trip",
-  "privateTrip": "Private Trip",
-  "maxParticipants": "Max Particpants",
+  "publicTrip": "Public",
+  "privateTrip": "Private",
+  "maxParticipants": "Max",
   "createTrip": "Create",
 
 

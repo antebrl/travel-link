@@ -112,9 +112,9 @@
   "tripDescription": "Beschreibung",
   "tripDateSelect": "Zeitraum auswählen",
   "optional": "optional",
-  "publicTrip": "Offene Reise",
-  "privateTrip": "Private Reise",
-  "maxParticipants": "Max Teilnehmer",
+  "publicTrip": "Öffentlich",
+  "privateTrip": "Privat",
+  "maxParticipants": "Max",
   "createTrip": "Erstellen",
 
   "countryWorldWide": "Weltweit",
