@@ -12,6 +12,7 @@ import 'package:travel_link/src/common_widgets/profile_widgets.dart';
 import 'package:travel_link/src/features/account/domain/user_account.dart';
 import 'package:travel_link/src/features/account/presentation/account_controller.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
+import 'package:travel_link/src/utils/helpers/localization.dart';
 import 'package:travel_link/src/utils/theme/widget_themes/boxDecoration_theme.dart';
 
 enum EditMode { none, language, interest }
@@ -29,39 +30,16 @@ class EditProfileScreen extends ConsumerStatefulWidget {
 }
 
 class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
-//   List<FlagsCode> languageData = [
-//     FlagsCode.US,
-//     FlagsCode.DE,
-//     FlagsCode.FR,
-//     FlagsCode.ES,
-//     FlagsCode.IT,
-//     FlagsCode.RU,
-//     FlagsCode.CN,
-//     FlagsCode.JP,
-//     FlagsCode.KR,
-//     FlagsCode.IN,
-//   ];
-
-//   List<Map<String, dynamic>> interestsData = [
-//     {"icon": Icons.airplanemode_active, "label": "Travel"},
-//     {"icon": Icons.book, "label": "Reading"},
-//     {"icon": Icons.music_note, "label": "Music"},
-//     {"icon": Icons.sports_soccer, "label": "Sports"},
-//     {"icon": Icons.brush, "label": "Art"},
-//     {"icon": Icons.computer, "label": "Technology"},
-//     {"icon": Icons.fastfood, "label": "Food"},
-//     {"icon": Icons.movie, "label": "Movies"},
-//     {"icon": Icons.local_cafe, "label": "Coffee"},
-//     {"icon": Icons.local_bar, "label": "Drinks"},
-//   ];
-
   EditMode editMode = EditMode.none;
 
   late List<String> languageList = [];
   late List<String> interestsList = [];
 
-  void saveProfileToDatabase() {
+  Future<void> saveProfileToDatabase() async {
     final accountController = ref.read(accountControllerProvider.notifier);
+    accountController.updateProfilePicture(
+      picture: profilePicture!,
+    );
     accountController.updateUserData(
       data: {
         'publicName': nameController.text,
@@ -70,16 +48,6 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
         'languages': languageList,
         'interests': interestsList,
       },
-    );
-
-    toastification.show(
-      context: context,
-      type: ToastificationType.success,
-      style: ToastificationStyle.flat,
-      title: const Text('Profile updated'),
-      alignment: Alignment.topCenter,
-      autoCloseDuration: const Duration(seconds: 3),
-      closeButtonShowType: CloseButtonShowType.none,
     );
   }
 
@@ -96,6 +64,8 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
   final defaultUsername = 'John Doe';
 
   final defaultCity = 'New York';
+
+  Uint8List? profilePicture;
 
   final nameController = TextEditingController();
 
@@ -114,18 +84,27 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
     cityController.text = widget.userAccount.city ?? defaultCity;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Edit Profile'),
+        title: Text(context.loc.editProfileHeading),
       ),
       floatingActionButton: FloatingActionButton.extended(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(40),
         ),
-        onPressed: () {
+        onPressed: () async {
           // Save changes
-          saveProfileToDatabase();
+          await saveProfileToDatabase();
           Navigator.pop(context);
+          toastification.show(
+            context: context,
+            type: ToastificationType.success,
+            style: ToastificationStyle.flat,
+            title: Text(context.loc.accountNotificationProfileSaved),
+            alignment: Alignment.topCenter,
+            autoCloseDuration: const Duration(seconds: 3),
+            closeButtonShowType: CloseButtonShowType.none,
+          );
         },
-        label: const Text('Save'),
+        label: Text(context.loc.editProfileSave),
         icon: const Icon(Icons.save),
       ),
       body: Padding(
@@ -149,9 +128,9 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                       );
                       if (image == null) return;
                       final Uint8List bytes = await image.readAsBytes();
-                      await accountController.updateProfilePicture(
-                        picture: bytes,
-                      );
+                      setState(() {
+                        profilePicture = bytes;
+                      });
                     },
                     child: SizedBox(
                       height: 100,
@@ -162,7 +141,9 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                           imageBuilder: (context, imageProvider) =>
                               CircleAvatar(
                             radius: 50,
-                            backgroundImage: imageProvider,
+                            backgroundImage: profilePicture != null
+                                ? MemoryImage(profilePicture!)
+                                : imageProvider,
                           ),
                           placeholder: (context, url) =>
                               const CircularProgressIndicator(),
@@ -184,7 +165,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Personal Information',
+                          context.loc.editProfilePersonalInformation,
                           style: Theme.of(context)
                               .textTheme
                               .headlineSmall!
@@ -197,10 +178,10 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                         ),
                         TextFormField(
                           controller: nameController,
-                          decoration: const InputDecoration(
-                            labelText: 'Name',
-                            labelStyle: TextStyle(fontSize: 15),
-                            hintStyle: TextStyle(fontSize: 15),
+                          decoration: InputDecoration(
+                            labelText: context.loc.editProfileName,
+                            labelStyle: const TextStyle(fontSize: 15),
+                            hintStyle: const TextStyle(fontSize: 15),
                           ),
                         ),
                         const SizedBox(
@@ -208,10 +189,10 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                         ),
                         TextFormField(
                           controller: cityController,
-                          decoration: const InputDecoration(
-                            labelText: 'City',
-                            labelStyle: TextStyle(fontSize: 15),
-                            hintStyle: TextStyle(fontSize: 15),
+                          decoration: InputDecoration(
+                            labelText: context.loc.editProfileOrigin,
+                            labelStyle: const TextStyle(fontSize: 15),
+                            hintStyle: const TextStyle(fontSize: 15),
                           ),
                         ),
                         const SizedBox(
@@ -222,10 +203,10 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                           maxLines: 3,
                           maxLength: 200,
                           style: Theme.of(context).textTheme.bodyMedium,
-                          decoration: const InputDecoration(
-                            labelText: 'About me',
-                            labelStyle: TextStyle(fontSize: 15),
-                            hintStyle: TextStyle(fontSize: 15),
+                          decoration: InputDecoration(
+                            labelText: context.loc.editProfileAboutMe,
+                            labelStyle: const TextStyle(fontSize: 15),
+                            hintStyle: const TextStyle(fontSize: 15),
                           ),
                         ),
                       ],
@@ -243,7 +224,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                         Row(
                           children: [
                             Text(
-                              'Languages',
+                              context.loc.editProfileLanguages,
                               style: Theme.of(context)
                                   .textTheme
                                   .headlineSmall!
@@ -267,8 +248,10 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                                       topRight: Radius.circular(40),
                                     ),
                                     inputDecoration: InputDecoration(
-                                      labelText: 'Search',
-                                      hintText: 'Start typing to search',
+                                      labelText: context
+                                          .loc.editProfileLanguagesSearch,
+                                      hintText: context
+                                          .loc.editProfileLanguagesSearch,
                                       prefixIcon: const Icon(Icons.search),
                                       border: OutlineInputBorder(
                                         borderSide: BorderSide(
@@ -346,7 +329,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                         Row(
                           children: [
                             Text(
-                              'Interests',
+                              context.loc.editProfileInterests,
                               style: Theme.of(context)
                                   .textTheme
                                   .headlineSmall!
@@ -361,18 +344,20 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                                   context: context,
                                   builder: (context) {
                                     return AlertDialog(
-                                      title: const Text('Add Interest'),
+                                      title: Text(context
+                                          .loc.editProfileInterestsAddInterest),
                                       content: Column(
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
                                           TextFormField(
                                             controller: newInterestController,
-                                            decoration: const InputDecoration(
-                                              labelText: 'Interest',
+                                            decoration: InputDecoration(
+                                              labelText: context.loc
+                                                  .editProfileInterestsAddInterestPlaceholder,
                                               labelStyle:
-                                                  TextStyle(fontSize: 15),
+                                                  const TextStyle(fontSize: 15),
                                               hintStyle:
-                                                  TextStyle(fontSize: 15),
+                                                  const TextStyle(fontSize: 15),
                                             ),
                                           ),
                                           const SizedBox(height: 10),
@@ -388,14 +373,16 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                                                   });
                                                   Navigator.pop(context);
                                                 },
-                                                child: const Text('Add'),
+                                                child: Text(context.loc
+                                                    .editProfileInterestsAddInterestConfirm),
                                               ),
                                               const Spacer(),
                                               ElevatedButton(
                                                 onPressed: () {
                                                   Navigator.pop(context);
                                                 },
-                                                child: const Text('Cancel'),
+                                                child: Text(context.loc
+                                                    .editProfileInterestsAddInterestCancel),
                                               ),
                                             ],
                                           ),

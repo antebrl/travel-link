@@ -27,22 +27,28 @@ class _ProfileScreenState extends ConsumerState<UserProfileScreen> {
     const listTilePadding = EdgeInsets.only(left: 10, right: 10, top: 10);
     final userData = ref.watch(fetchUserProvider(widget.targetuid));
 
-    final defaultDescription = 'No description';
-    final defaultName = 'No name';
-    final userName = userData.when(
+    final defaultDescription = context.loc.accountLabelUnknown;
+    final defaultName = context.loc.accountLabelUnknown;
+    final publicName = userData.when(
       data: (userAccount) => userAccount?.publicName ?? defaultName,
-      loading: () => 'Loading...',
-      error: (_, __) => 'Error',
+      loading: () => context.loc.accountLabelLoading,
+      error: (_, __) => context.loc.accountLabelError,
+    );
+    final userName = userData.when(
+      data: (userAccount) => userAccount?.displayName ?? defaultName,
+      loading: () => context.loc.accountLabelLoading,
+      error: (_, __) => context.loc.accountLabelError,
     );
     final userDescription = userData.when(
       data: (userAccount) => userAccount?.description ?? defaultDescription,
-      loading: () => 'Loading...',
-      error: (_, __) => 'Error',
+      loading: () => context.loc.accountLabelLoading,
+      error: (_, __) => context.loc.accountLabelError,
     );
     final userCity = userData.when(
-      data: (userAccount) => userAccount?.city ?? 'Unknown',
-      loading: () => 'Loading...',
-      error: (_, __) => 'Error',
+      data: (userAccount) =>
+          userAccount?.city ?? context.loc.accountLabelUnknown,
+      loading: () => context.loc.accountLabelLoading,
+      error: (_, __) => context.loc.accountLabelError,
     );
     final userProfilePicture = userData.when(
       data: (userAccount) => CircleAvatar(
@@ -52,7 +58,7 @@ class _ProfileScreenState extends ConsumerState<UserProfileScreen> {
         ),
       ),
       loading: () => const CircularProgressIndicator(),
-      error: (_, __) => const Text('Error'),
+      error: (_, __) => Text(context.loc.accountLabelError),
     );
     final List<String> languageList = userData.when(
       data: (userAccount) => userAccount?.languages ?? [],
@@ -93,7 +99,7 @@ class _ProfileScreenState extends ConsumerState<UserProfileScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                userName,
+                                publicName,
                                 style:
                                     Theme.of(context).textTheme.headlineSmall,
                                 overflow: TextOverflow.fade,
@@ -117,7 +123,7 @@ class _ProfileScreenState extends ConsumerState<UserProfileScreen> {
                                 child: Column(
                                   children: [
                                     Text(
-                                      'Add to trip',
+                                      context.loc.publicProfileAddToTrip,
                                       style: Theme.of(context)
                                           .textTheme
                                           .headlineSmall!
@@ -141,7 +147,8 @@ class _ProfileScreenState extends ConsumerState<UserProfileScreen> {
                                         if (trips.isEmpty) {
                                           return Center(
                                             child: Text(
-                                              'No trips available',
+                                              context.loc
+                                                  .publicProfileNoTripsAvailable,
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .bodySmall!
@@ -230,7 +237,7 @@ class _ProfileScreenState extends ConsumerState<UserProfileScreen> {
             // About me
             BoxedContentBigHeadline(
               boxDecoration: boxDecoration,
-              headline: 'About me',
+              headline: context.loc.editProfileAboutMe,
               content: Column(
                 children: [
                   Row(
@@ -267,7 +274,7 @@ class _ProfileScreenState extends ConsumerState<UserProfileScreen> {
             // Languages
             BoxedContentBigHeadline(
               boxDecoration: boxDecoration,
-              headline: 'Languages',
+              headline: context.loc.editProfileLanguages,
               content: Column(
                 children: [
                   Container(
@@ -293,7 +300,7 @@ class _ProfileScreenState extends ConsumerState<UserProfileScreen> {
             // Interests
             BoxedContentBigHeadline(
               boxDecoration: boxDecoration,
-              headline: 'Interests',
+              headline: context.loc.editProfileInterests,
               content: Container(
                 padding: const EdgeInsets.only(left: 10, right: 20, bottom: 10),
                 child: Wrap(

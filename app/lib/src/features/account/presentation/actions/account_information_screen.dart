@@ -5,6 +5,7 @@ import 'package:travel_link/src/common_widgets/boxed_content.dart';
 import 'package:travel_link/src/features/account/presentation/account_controller.dart';
 import 'package:travel_link/src/features/authentication/data/firebase_auth_repository.dart';
 import 'package:travel_link/src/features/trip_overview/data/user_repository.dart';
+import 'package:travel_link/src/utils/helpers/localization.dart';
 import 'package:travel_link/src/utils/theme/widget_themes/boxDecoration_theme.dart';
 
 class AccountAccountInformationScreen extends ConsumerStatefulWidget {
@@ -20,6 +21,7 @@ class _AccountAccountInformationScreenState
   var _passwordVisible = false;
 
   void saveProfileToDatabase() {
+    final auth = ref.read(firebaseAuthProvider);
     final accountController = ref.read(accountControllerProvider.notifier);
     final username = usernameController.text;
     final email = emailController.text;
@@ -39,11 +41,13 @@ class _AccountAccountInformationScreenState
       context: context,
       type: ToastificationType.success,
       style: ToastificationStyle.flat,
-      title: const Text('Profile updated'),
+      title: Text(context.loc.accountNotificationAccountSaved),
       alignment: Alignment.topCenter,
       autoCloseDuration: const Duration(seconds: 3),
       closeButtonShowType: CloseButtonShowType.none,
     );
+
+    ref.invalidate(fetchUserProvider(auth.currentUser!.uid));
 
     setState(() {
       usernameController.clear();
@@ -64,18 +68,19 @@ class _AccountAccountInformationScreenState
     final userData = ref.watch(fetchUserProvider(auth.currentUser!.uid));
 
     usernameController.text = userData.when(
-      data: (userAccount) => userAccount?.publicName ?? '',
+      data: (userAccount) => userAccount?.displayName ?? '',
       loading: () => '',
       error: (_, __) => '',
     );
     emailController.text = userData.when(
-      data: (userAccount) => auth.currentUser!.email ?? 'Unknown',
+      data: (userAccount) =>
+          auth.currentUser!.email ?? context.loc.accountLabelUnknown,
       loading: () => '',
       error: (_, __) => '',
     );
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Account Information'),
+        title: Text(context.loc.accountInformation),
       ),
       floatingActionButton: FloatingActionButton.extended(
         shape: RoundedRectangleBorder(
@@ -84,7 +89,7 @@ class _AccountAccountInformationScreenState
         onPressed: () {
           setState(saveProfileToDatabase);
         },
-        label: const Text('Save'),
+        label: Text(context.loc.accountLabelSave),
         icon: const Icon(Icons.save),
       ),
       body: Padding(
@@ -99,28 +104,30 @@ class _AccountAccountInformationScreenState
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Account Details',
+                      context.loc.accountInformationAccountDetails,
                       style: Theme.of(context).textTheme.headlineMedium,
                     ),
                     const SizedBox(
-                      height: 10,
+                      height: 20,
                     ),
                     TextFormField(
                       controller: usernameController,
-                      decoration: const InputDecoration(
-                        labelText: 'Username',
-                        hintText: 'Please enter your username',
+                      decoration: InputDecoration(
+                        labelText: context.loc.accountInformationUsername,
+                        hintText:
+                            context.loc.accountInformationUsernamePlaceholder,
                       ),
                     ),
                     const SizedBox(
-                      height: 10,
+                      height: 20,
                     ),
                     TextFormField(
                       keyboardType: TextInputType.text,
                       controller: passwordController,
                       decoration: InputDecoration(
-                        labelText: 'Password',
-                        hintText: 'Please enter your password',
+                        labelText: context.loc.accountInformationPassword,
+                        hintText:
+                            context.loc.accountInformationPasswordPlaceholder,
                         suffixIcon: IconButton(
                           icon: Icon(
                             // Based on passwordVisible state choose the icon
@@ -142,13 +149,14 @@ class _AccountAccountInformationScreenState
                       autocorrect: false,
                     ),
                     const SizedBox(
-                      height: 10,
+                      height: 20,
                     ),
                     TextFormField(
                       controller: emailController,
-                      decoration: const InputDecoration(
-                        labelText: 'Email',
-                        hintText: 'Please enter your email',
+                      decoration: InputDecoration(
+                        labelText: context.loc.accountInformationEmail,
+                        hintText:
+                            context.loc.accountInformationEmailPlaceholder,
                       ),
                     ),
                   ],

@@ -166,5 +166,56 @@
   "noImagesAvailable": "Keine Bilder verfügbar",
 
   "addUser": "Benutzer hinzufügen",
-  "addParticipant": "Teilnehmer hinzufügen"
+  "addParticipant": "Teilnehmer hinzufügen",
+
+  "accountLabelError": "Fehler",
+  "accountLabelSave": "Speichern",
+  "accountLabelCancel": "Abbrechen",
+  "accountLabelLoading": "Laden",
+  "accountLabelUnknown": "Unbekannt",
+
+  "accountNotificationProfileSaved": "Profil gespeichert",
+
+  "accountHeading": "Account",
+  "accountInformation": "Accountverwaltung",
+  "accountSettings": "Einstellungen",
+  "accountHelp": "Hilfe",
+  "accountAbout": "Über uns",
+  "accountShowQrCode": "Dein QR Code",
+  "accountShowQrCodeClose": "Schließen",
+  "accountLogout": "Ausloggen",
+
+  "editProfileHeading": "Profil bearbeiten",
+  "editProfilePersonalInformation": "Persönliche Informationen",
+  "editProfileName": "Name",
+  "editProfileOrigin": "Stadt",
+  "editProfileAboutMe": "Über mich",
+  "editProfileLanguages": "Sprachen",
+  "editProfileLanguagesSearch": "Suchen",
+  "editProfileLanguagesSearchPlaceholder": "Tippe zum suchen...",
+  "editProfileInterests": "Interessen",
+  "editProfileInterestsAddInterest": "Neue Interesse",
+  "editProfileInterestsAddInterestPlaceholder": "Interesse",
+  "editProfileInterestsAddInterestConfirm": "Ok",
+  "editProfileInterestsAddInterestCancel": "Abbrechen",
+  "editProfileSave": "Speichern",
+
+  "accountInformationAccountDetails": "Account Details",
+  "accountInformationUsername": "Benutzername",
+  "accountInformationUsernamePlaceholder": "Bitte gib einen Benutzernamen ein",
+  "accountInformationPassword": "Passwort",
+  "accountInformationPasswordPlaceholder": "Bitte gib ein Passwort ein",
+  "accountInformationEmail": "Email",
+  "accountInformationEmailPlaceholder": "Bitte gib eine Email ein",
+
+  "accountSettingsHeading": "Einstellungen",
+  "accountSettingsPrivateProfile": "Privates Profil",
+  "accountSettingsReceiveNotifications": "Aktiviere Benachrichtigungen",
+  "accountSettingsReceiveNewsletter": "Aktiviere Newsletter",
+
+  "accountHelpDocumentation": "Dokumentation",
+  "accountHelpHdaWebsite": "h_da Website",
+
+  "publicProfileAddToTrip": "Zur Reise hinzufügen",
+  "publicProfileNoTripsAvailable": "Keine Reisen verfügbar"
 }
