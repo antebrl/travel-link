@@ -181,6 +181,9 @@
   "addUser": "Add User",
   "addParticipant": "Add Participant",
 
+  
+  "searchActivities": "Search activities...",
+
   "accountLabelError": "Error",
   "accountLabelSave": "Save",
   "accountLabelCancel": "Cancel",

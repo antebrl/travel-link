@@ -168,6 +168,8 @@
   "addUser": "Benutzer hinzufügen",
   "addParticipant": "Teilnehmer hinzufügen",
 
+  "searchActivities": "Suche Aktivitäten...",
+
   "accountLabelError": "Fehler",
   "accountLabelSave": "Speichern",
   "accountLabelCancel": "Abbrechen",
