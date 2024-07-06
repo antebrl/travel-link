@@ -112,7 +112,7 @@ class _ActivitiesScreenState extends ConsumerState<ActivitiesScreen> {
                   child: TextField(
                     onChanged: filterActivitiesBySearch,
                     decoration: InputDecoration(
-                      labelText: 'Search activities...',
+                      labelText: context.loc.searchActivities,
                       labelStyle:
                           Theme.of(context).textTheme.bodyLarge!.copyWith(
                                 color: CustomColors.primary,

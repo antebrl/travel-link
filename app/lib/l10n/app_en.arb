@@ -179,5 +179,8 @@
   "noImagesAvailable": "No images available",
 
   "addUser": "Add User",
-  "addParticipant": "Add Participant"
+  "addParticipant": "Add Participant",
+
+  
+  "searchActivities": "Search activities..."
 }

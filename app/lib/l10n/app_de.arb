@@ -166,5 +166,7 @@
   "noImagesAvailable": "Keine Bilder verfügbar",
 
   "addUser": "Benutzer hinzufügen",
-  "addParticipant": "Teilnehmer hinzufügen"
+  "addParticipant": "Teilnehmer hinzufügen",
+
+  "searchActivities": "Suche Aktivitäten..."
 }
