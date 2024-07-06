@@ -50,5 +50,21 @@ final authStateChangesProvider = AutoDisposeStreamProvider<User?>.internal(
 );
 
 typedef AuthStateChangesRef = AutoDisposeStreamProviderRef<User?>;
+String _$onboardingCompletedHash() =>
+    r'b6139d2e5802403ea066246e04463d1b5d9f2d3e';
+
+/// See also [onboardingCompleted].
+@ProviderFor(onboardingCompleted)
+final onboardingCompletedProvider = AutoDisposeProvider<bool>.internal(
+  onboardingCompleted,
+  name: r'onboardingCompletedProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$onboardingCompletedHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef OnboardingCompletedRef = AutoDisposeProviderRef<bool>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

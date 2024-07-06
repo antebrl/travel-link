@@ -6,6 +6,7 @@ import 'package:travel_link/src/features/activities/3_activities_screen/presenta
 import 'package:travel_link/src/features/activities/6_activities_filter_screen/activities_filter_screen.dart';
 import 'package:travel_link/src/features/activities/providers/activities_provider.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
+import 'package:travel_link/src/utils/helpers/localization.dart';
 
 class ActivitiesScreen extends ConsumerStatefulWidget {
   ActivitiesScreen({
@@ -111,7 +112,7 @@ class _ActivitiesScreenState extends ConsumerState<ActivitiesScreen> {
                   child: TextField(
                     onChanged: filterActivitiesBySearch,
                     decoration: InputDecoration(
-                      labelText: 'Search activities...',
+                      labelText: context.loc.searchActivities,
                       labelStyle:
                           Theme.of(context).textTheme.bodyLarge!.copyWith(
                                 color: CustomColors.primary,
@@ -173,16 +174,25 @@ class _ActivitiesScreenState extends ConsumerState<ActivitiesScreen> {
               ],
             ),
           ),
-          Expanded(
-            child: ListView.builder(
-              itemCount: filteredActivitiesBySearch.length,
-              shrinkWrap: true,
-              itemBuilder: (context, index) => ActivityItem(
-                key: UniqueKey(),
-                activity: filteredActivitiesBySearch[index],
+          if (filteredActivitiesBySearch.isEmpty)
+            Center(
+              child: Text(
+                context.loc.noActivitiesFound,
+                style: Theme.of(context).textTheme.bodyMedium,
               ),
             ),
-          ),
+          if (filteredActivitiesBySearch.isNotEmpty)
+            Expanded(
+              child: ListView.builder(
+                physics: const BouncingScrollPhysics(),
+                itemCount: filteredActivitiesBySearch.length,
+                shrinkWrap: true,
+                itemBuilder: (context, index) => ActivityItem(
+                  key: UniqueKey(),
+                  activity: filteredActivitiesBySearch[index],
+                ),
+              ),
+            ),
         ],
       ),
     );

@@ -6,14 +6,26 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:travel_link/src/features/activities/3_activities_screen/domain/activity.dart';
+import 'package:travel_link/src/features/activities/5_activities_details_screen/add_to_trip_button.dart';
+import 'package:travel_link/src/features/authentication/data/firebase_auth_repository.dart';
+import 'package:travel_link/src/features/explore_trips/domain/trip.dart';
 import 'package:travel_link/src/features/my_trips/data/my_trips_repository.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
 import 'package:travel_link/src/utils/constants/image_strings.dart';
+import 'package:travel_link/src/utils/helpers/localization.dart';
 
+// ignore: must_be_immutable
 class ApiActivitiesDetailsScreen extends ConsumerStatefulWidget {
-  const ApiActivitiesDetailsScreen({required this.activity, super.key});
+  ApiActivitiesDetailsScreen({
+    required this.activity,
+    super.key,
+    this.addedTrip,
+    this.hasPlaceholderPicture = false,
+  });
 
   final Activity activity;
+  final Trip? addedTrip;
+  bool hasPlaceholderPicture;
 
   @override
   ConsumerState<ApiActivitiesDetailsScreen> createState() =>
@@ -96,8 +108,9 @@ class _ApiActivitiesDetailsScreenState
     } else {
       if (widget.activity.image == null) {
         widget.activity.imagePaths = [
-          CustomImages.destinationImagePlaceholderUrl,
+          CustomImages.getPlaceholderImage(widget.activity.categories),
         ];
+        widget.hasPlaceholderPicture = true;
       }
     }
   }
@@ -110,6 +123,8 @@ class _ApiActivitiesDetailsScreenState
       widget.activity.location.lat,
       widget.activity.location.lon,
     );
+    final myTrips = ref.watch(fetchMyTripsProvider);
+    final currentUser = ref.read(firebaseAuthProvider).currentUser;
 
     return Scaffold(
       appBar: AppBar(
@@ -220,67 +235,25 @@ class _ApiActivitiesDetailsScreenState
                           widget.activity.imagePaths[0],
                           height: 220,
                           width: double.infinity,
-                          fit: BoxFit.cover,
+                          fit: widget.hasPlaceholderPicture
+                              ? BoxFit.contain
+                              : BoxFit.cover,
                         ),
                       ),
           ),
-          Positioned(
-            top: 10,
-            right: 10,
-            child: ElevatedButton(
-              onPressed: () {
-                final myTrips = ref.read(fetchMyTripsProvider);
-                showModalBottomSheet<void>(
-                  context: context,
-                  builder: (BuildContext context) => Column(
-                    children: [
-                      Text(
-                        'Select trip',
-                        style: Theme.of(context)
-                            .textTheme
-                            .headlineSmall!
-                            .copyWith(
-                                color: CustomColors.primary, fontSize: 20),
-                      ),
-                      myTrips.when(
-                        data: (trips) {
-                          return ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: trips.length,
-                            itemBuilder: (context, index) {
-                              //TODO: Design ListTile
-                              return ListTile(
-                                title: Text(trips[index].name),
-                              );
-                            },
-                          );
-                        },
-                        loading: () => const Center(
-                          child: CircularProgressIndicator(),
-                        ),
-                        error: (error, stackTrace) {
-                          return const Center(
-                            child: Text('Log In in order to see your trips!'),
-                          );
-                        },
-                      ),
-                    ],
-                  ),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: CustomColors.primary.withOpacity(0.7),
-                side: BorderSide.none,
-                padding: const EdgeInsets.all(5),
-              ),
-              child: const Text(
-                'Add to trip',
-                style: TextStyle(
-                  color: Colors.white,
-                ),
+          if (currentUser != null &&
+              (widget.addedTrip != null
+                  ? widget.addedTrip!.participants.contains(currentUser.uid)
+                  : true))
+            Positioned(
+              top: 10,
+              right: 10,
+              child: AddToTripButton(
+                myTrips: myTrips,
+                activity: widget.activity,
+                addedTrip: widget.addedTrip?.tripId,
               ),
             ),
-          ),
           Positioned(
             top: 200,
             left: 0,
@@ -303,6 +276,7 @@ class _ApiActivitiesDetailsScreenState
               ),
               padding: const EdgeInsets.all(16),
               child: CustomScrollView(
+                physics: const BouncingScrollPhysics(),
                 slivers: [
                   SliverFillRemaining(
                     hasScrollBody: false,
@@ -316,7 +290,8 @@ class _ApiActivitiesDetailsScreenState
                             children: [
                               Center(
                                 child: Text(
-                                  'Explore: ${widget.activity.name}',
+                                  '${context.loc.explore} '
+                                  ' ${widget.activity.name}',
                                   style: Theme.of(context)
                                       .textTheme
                                       .headlineSmall!
@@ -329,7 +304,7 @@ class _ApiActivitiesDetailsScreenState
                               const SizedBox(height: 20),
                               if (widget.activity.description.isNotEmpty) ...[
                                 Text(
-                                  'Description: ',
+                                  context.loc.description,
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyLarge!
@@ -343,7 +318,7 @@ class _ApiActivitiesDetailsScreenState
                               const SizedBox(height: 10),
                               if (widget.activity.openingHours != null) ...[
                                 Text(
-                                  'Opening hours: ',
+                                  context.loc.openingHours,
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyLarge!
@@ -354,9 +329,10 @@ class _ApiActivitiesDetailsScreenState
                                   style: Theme.of(context).textTheme.bodyLarge,
                                 ),
                                 const SizedBox(height: 10),
+                                const SizedBox(height: 10),
                               ],
                               Text(
-                                'Location: ',
+                                context.loc.location,
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyLarge!
@@ -382,12 +358,42 @@ class _ApiActivitiesDetailsScreenState
                               ),
                               const SizedBox(height: 10),
                               Text(
-                                'Categories: ',
+                                context.loc.categories,
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyLarge!
                                     .copyWith(color: CustomColors.primary),
                               ),
+                              if (widget.activity.isPublic == false) ...{
+                                Padding(
+                                  padding: const EdgeInsets.all(10),
+                                  child: Chip(
+                                    side: const BorderSide(
+                                      color: CustomColors.primary,
+                                    ),
+                                    backgroundColor: CustomColors.white,
+                                    labelStyle: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall!
+                                        .copyWith(
+                                          color: CustomColors.primary,
+                                        ),
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 12,
+                                      vertical: 12,
+                                    ),
+                                    label: Text(
+                                      context.loc.private,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall!
+                                          .copyWith(
+                                            color: CustomColors.primary,
+                                          ),
+                                    ),
+                                  ),
+                                ),
+                              },
                               if (widget.activity.isPublic == false) ...{
                                 Padding(
                                   padding: const EdgeInsets.all(10),

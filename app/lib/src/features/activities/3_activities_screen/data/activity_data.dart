@@ -666,22 +666,6 @@ List<Activity> activityData = [
   ),
   Activity(
     imagePaths: [''],
-    name: 'Sagrada Família',
-    categories: {'tourism', 'religion'}.toList(),
-    continentType: ContinentType.europe,
-    description:
-        'Basilica and iconic masterpiece of Antoni Gaudí in Barcelona, Spain',
-    location: const PlaceLocation(
-      lat: 41.4036,
-      lon: 2.1744,
-      city: 'Barcelona',
-      country: 'Spain',
-      formatted: 'Sagrada Familia, Barcelona, Spain',
-      countryCode: 'ES',
-    ),
-  ),
-  Activity(
-    imagePaths: [''],
     name: 'Louvre',
     categories: {'tourism', 'art'}.toList(),
     continentType: ContinentType.europe,

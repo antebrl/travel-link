@@ -7,6 +7,7 @@ import 'package:travel_link/src/features/gallery/presentation/shared_gallery_scr
 import 'package:travel_link/src/features/my_trips/data/my_trips_repository.dart';
 import 'package:travel_link/src/features/my_trips/presentation/my_trips_controller.dart';
 import 'package:travel_link/src/features/trip_overview/presentation/plan/trip_planning_screen.dart';
+import 'package:travel_link/src/utils/helpers/localization.dart';
 import 'package:travel_link/src/utils/logging/logger.dart';
 
 class TripOverviewScreen extends ConsumerStatefulWidget {
@@ -55,17 +56,17 @@ class _TripOverviewScreenState extends ConsumerState<TripOverviewScreen>
                     return [
                       PopupMenuItem(
                         height: 33,
-                        child: const Row(
+                        child: Row(
                           children: [
-                            Icon(
+                            const Icon(
                               Icons.exit_to_app,
                               color: Colors.red,
                               size: 18,
                             ),
-                            SizedBox(width: 5),
+                            const SizedBox(width: 5),
                             Text(
-                              'Leave Trip',
-                              style: TextStyle(
+                              context.loc.leaveTrip,
+                              style: const TextStyle(
                                 color: Colors.red,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -77,26 +78,29 @@ class _TripOverviewScreenState extends ConsumerState<TripOverviewScreen>
                             context: context,
                             builder: (BuildContext context) {
                               return AlertDialog(
-                                title: const Text('Leave Trip'),
-                                content: const Text(
-                                  'Are you sure you want to leave this trip?',
+                                title: Text(context.loc.leaveTrip),
+                                content: Text(
+                                  context.loc.confirmLeaveTrip,
                                 ),
                                 actions: [
                                   TextButton(
-                                    child: const Text('Cancel'),
+                                    child: Text(context.loc.cancel),
                                     onPressed: () {
                                       Navigator.of(context).pop();
                                     },
                                   ),
                                   TextButton(
-                                    child: const Text('Leave'),
+                                    child: Text(context.loc.leave),
                                     onPressed: () async {
                                       // Perform leave trip logic
-                                      await ref.read(myTripsControllerProvider.notifier).leaveTrip(trip: trip);
+                                      await ref
+                                          .read(
+                                            myTripsControllerProvider.notifier,
+                                          )
+                                          .leaveTrip(trip: trip);
                                       ref.invalidate(fetchMyTripsProvider);
 
-                                      if(mounted)
-                                      Navigator.of(context).pop();
+                                      if (mounted) Navigator.of(context).pop();
                                     },
                                   ),
                                 ],
@@ -149,9 +153,9 @@ class _TripOverviewScreenState extends ConsumerState<TripOverviewScreen>
                           borderRadius: BorderRadius.circular(14),
                           // color: Color(0xffFFFFFF)
                         ),
-                        child: const Center(
+                        child: Center(
                           child: Text(
-                            'Plan',
+                            context.loc.plan,
                           ),
                         ),
                       ),
@@ -163,9 +167,9 @@ class _TripOverviewScreenState extends ConsumerState<TripOverviewScreen>
                           borderRadius: BorderRadius.circular(14),
                           // color: Color(0xffFFFFFF),
                         ),
-                        child: const Center(
+                        child: Center(
                           child: Text(
-                            'Chat',
+                            context.loc.chat,
                           ),
                         ),
                       ),
@@ -177,9 +181,9 @@ class _TripOverviewScreenState extends ConsumerState<TripOverviewScreen>
                           borderRadius: BorderRadius.circular(14),
                           // color: Color(0xffFFFFFF),
                         ),
-                        child: const Center(
+                        child: Center(
                           child: Text(
-                            'Gallery',
+                            context.loc.gallery,
                           ),
                         ),
                       ),
@@ -207,35 +211,33 @@ class _TripOverviewScreenState extends ConsumerState<TripOverviewScreen>
           ),
           floatingActionButton:
               userId != null && !trip.participants.contains(userId)
-                  ? SizedBox(
-                      height: 60,
-                      width: 60,
-                      child: FloatingActionButton(
-                        onPressed: () async {
-                          if (trip.participants.length >=
-                              (trip.maxParticipants ?? double.infinity)) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text('Trip is full'),
-                              ),
-                            );
-                            return;
-                          }
-                          // join Trip
-                          await ref
-                              .read(myTripsControllerProvider.notifier)
-                              .joinTrip(trip: trip);
+                  ? FloatingActionButton.extended(
+                      onPressed: () async {
+                        if (trip.participants.length >=
+                            (trip.maxParticipants ?? double.infinity)) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(context.loc.tripFull),
+                            ),
+                          );
+                          return;
+                        }
+                        // join Trip
+                        await ref
+                            .read(myTripsControllerProvider.notifier)
+                            .joinTrip(trip: trip);
 
-                          // ignore: unused_result
-                          ref.refresh(fetchMyTripsProvider);
-                        },
-                        child: const Text(
-                          'Join',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
+                        ref.invalidate(fetchMyTripsProvider);
+                      },
+                      label: Text(
+                        context.loc.join,
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
                         ),
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
                       ),
                     )
                   : null,
@@ -243,7 +245,7 @@ class _TripOverviewScreenState extends ConsumerState<TripOverviewScreen>
       },
       loading: () => Scaffold(
         appBar: AppBar(
-          title: const Text('Loading Trip...'),
+          title: Text(context.loc.loadingTrip),
         ),
         body: const Center(
           child: CircularProgressIndicator(),
@@ -253,10 +255,10 @@ class _TripOverviewScreenState extends ConsumerState<TripOverviewScreen>
         logger.e('Error loading trip', error: error, stackTrace: stackTrace);
         return Scaffold(
           appBar: AppBar(
-            title: const Text('Trip Overview'),
+            title: Text(context.loc.tripOverview),
           ),
-          body: const Center(
-            child: Text('Error loading trip. Please try again later.'),
+          body: Center(
+            child: Text(context.loc.errorLoadingTrip),
           ),
         );
       },

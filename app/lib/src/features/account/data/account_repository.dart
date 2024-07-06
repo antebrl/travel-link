@@ -4,10 +4,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:travel_link/src/features/account/domain/user_account.dart';
 
 part 'account_repository.g.dart';
-
 
 class AccountRepository {
   const AccountRepository(this._firestore, this._storage);
@@ -22,7 +20,10 @@ class AccountRepository {
     required String uid,
     required Map<String, dynamic> data,
   }) async {
-    return _firestore.collection(usersBasePath).doc(uid).set(data, SetOptions(merge: true));
+    return _firestore
+        .collection(usersBasePath)
+        .doc(uid)
+        .set(data, SetOptions(merge: true));
   }
 
   Future<void> updateProfilePicture({
@@ -39,19 +40,20 @@ class AccountRepository {
     await user.updatePhotoURL(pictureUrl);
 
     return updateFirestoreUserData(
-        uid: user.uid,
-        data: {
-          'pictureUrl': pictureUrl,
-        },
-      );
+      uid: user.uid,
+      data: {
+        'pictureUrl': pictureUrl,
+      },
+    );
   }
-
 }
-
 
 @Riverpod(keepAlive: true)
 AccountRepository accountRepository(
-    AccountRepositoryRef ref,) {
+  AccountRepositoryRef ref,
+) {
   return AccountRepository(
-      FirebaseFirestore.instance, FirebaseStorage.instance,);
+    FirebaseFirestore.instance,
+    FirebaseStorage.instance,
+  );
 }

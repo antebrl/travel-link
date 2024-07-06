@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:travel_link/src/features/activities/2_continents_screen/domain/continent.dart';
 import 'package:travel_link/src/features/activities/3_activities_screen/domain/activity.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
+import 'package:travel_link/src/utils/helpers/localization.dart';
 
 class ActivitiesFilterScreen extends StatefulWidget {
   const ActivitiesFilterScreen({required this.continent, super.key});
@@ -283,8 +284,11 @@ class _ActivitiesFilterScreenState extends State<ActivitiesFilterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Filters')),
+      appBar: AppBar(
+        title: Text(context.loc.filters),
+      ),
       body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
         child: Center(
           child: Padding(
             padding: const EdgeInsets.all(16),
@@ -340,7 +344,7 @@ class _ActivitiesFilterScreenState extends State<ActivitiesFilterScreen> {
                         Row(
                           children: [
                             Text(
-                              'Select country:',
+                              context.loc.selectCountry,
                               style: Theme.of(context)
                                   .textTheme
                                   .headlineSmall!
@@ -360,7 +364,7 @@ class _ActivitiesFilterScreenState extends State<ActivitiesFilterScreen> {
                                 side: const BorderSide(color: Colors.white),
                               ),
                               child: Text(
-                                'Clear',
+                                context.loc.clear,
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodySmall!
@@ -384,7 +388,7 @@ class _ActivitiesFilterScreenState extends State<ActivitiesFilterScreen> {
                             decoration: InputDecoration(
                               fillColor: CustomColors.white,
                               filled: true,
-                              hintText: 'Tap to pick a country',
+                              hintText: context.loc.tapToPickCountry,
                               hintStyle: Theme.of(context)
                                   .textTheme
                                   .bodyMedium!
@@ -410,8 +414,8 @@ class _ActivitiesFilterScreenState extends State<ActivitiesFilterScreen> {
                                     topRight: Radius.circular(40),
                                   ),
                                   inputDecoration: InputDecoration(
-                                    labelText: 'Search',
-                                    hintText: 'Start typing to search',
+                                    labelText: context.loc.search,
+                                    hintText: context.loc.startTypingToSearch,
                                     prefixIcon: const Icon(Icons.search),
                                     border: OutlineInputBorder(
                                       borderSide: BorderSide(
@@ -433,7 +437,7 @@ class _ActivitiesFilterScreenState extends State<ActivitiesFilterScreen> {
                         Row(
                           children: [
                             Text(
-                              'Select categories:',
+                              context.loc.selectCategories,
                               style: Theme.of(context)
                                   .textTheme
                                   .headlineSmall!
@@ -449,8 +453,8 @@ class _ActivitiesFilterScreenState extends State<ActivitiesFilterScreen> {
                               ),
                               child: Text(
                                 _categoryList.length == activityTypes.length
-                                    ? 'Unselect All'
-                                    : 'Select All',
+                                    ? context.loc.unselectAll
+                                    : context.loc.selectAll,
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodySmall!
@@ -518,7 +522,7 @@ class _ActivitiesFilterScreenState extends State<ActivitiesFilterScreen> {
                             side: BorderSide.none,
                           ),
                           child: Text(
-                            'Search',
+                            context.loc.search,
                             style: Theme.of(context)
                                 .textTheme
                                 .headlineSmall!

@@ -21,7 +21,28 @@ class Activity {
     this.image,
     this.imageBytes,
     this.amountVisitors,
+    this.firebaseId,
   });
+
+  // Converts a map to a Place object
+  factory Activity.fromFirebaseMap(Map<String, dynamic> map,
+      {String? firebaseId}) {
+    return Activity(
+      name: map['name'] as String,
+      categories: (map['categories'] as List<dynamic>).cast<String>(),
+      wikidataUrl: map['wikidataUrl'] as String?,
+      openingHours: map['openingHours'] as String?,
+      website: map['website'] as String?,
+      placeId: map['placeId'] as String?,
+      imagePaths: (map['imagePaths'] as List<dynamic>).cast<String>(),
+      description: map['description'] as String,
+      isPublic: map['isPublic'] as bool,
+      isUserCreated: map['isUserCreated'] as bool,
+      creatorId: map['creatorId'] as String?,
+      location: PlaceLocation.fromMap(map['location'] as Map<String, dynamic>),
+      firebaseId: firebaseId,
+    );
+  }
 
   final String name;
 
@@ -48,6 +69,8 @@ class Activity {
   Uint8List? imageBytes;
   File? image;
   String? amountVisitors;
+
+  String? firebaseId;
 
   static Activity? fromMap(Map<String, dynamic> map) {
     if (!(map.containsKey('name') &&
@@ -106,24 +129,6 @@ class Activity {
       'location': location.toMap(),
     };
   }
-
-  // Converts a map to a Place object
-  factory Activity.fromFirebaseMap(Map<String, dynamic> map) {
-    return Activity(
-      name: map['name'] as String,
-      categories: (map['categories'] as List<dynamic>).cast<String>(),
-      wikidataUrl: map['wikidataUrl'] as String?,
-      openingHours: map['openingHours'] as String?,
-      website: map['website'] as String?,
-      placeId: map['placeId'] as String?,
-      imagePaths: (map['imagePaths'] as List<dynamic>).cast<String>(),
-      description: map['description'] as String,
-      isPublic: map['isPublic'] as bool,
-      isUserCreated: map['isUserCreated'] as bool,
-      creatorId: map['creatorId'] as String?,
-      location: PlaceLocation.fromMap(map['location'] as Map<String, dynamic>),
-    );
-  }
 }
 
 Set<String> activityTypes = {
@@ -150,6 +155,18 @@ class PlaceLocation {
     required this.countryCode,
   });
 
+  // Converts a map to a PlaceLocation object
+  factory PlaceLocation.fromMap(Map<String, dynamic> map) {
+    return PlaceLocation(
+      lat: map['lat'] as double,
+      lon: map['lon'] as double,
+      city: map['city'] as String,
+      country: map['country'] as String,
+      formatted: map['formatted'] as String,
+      countryCode: map['countryCode'] as String,
+    );
+  }
+
   final double lat;
   final double lon;
   final String city;
@@ -167,17 +184,5 @@ class PlaceLocation {
       'formatted': formatted,
       'countryCode': countryCode,
     };
-  }
-
-  // Converts a map to a PlaceLocation object
-  factory PlaceLocation.fromMap(Map<String, dynamic> map) {
-    return PlaceLocation(
-      lat: map['lat'] as double,
-      lon: map['lon'] as double,
-      city: map['city'] as String,
-      country: map['country'] as String,
-      formatted: map['formatted'] as String,
-      countryCode: map['countryCode'] as String,
-    );
   }
 }

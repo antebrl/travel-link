@@ -1,5 +1,3 @@
-![User Flow Diagramm](../assets/images/Plan_Trips_User_Flow.svg)
-
 ## Trip Overview
 !!! info "Explanation"
 	The trip overview page in the app provides a comprehensive view of all essential details related to a specific trip. It typically includes: name, description, date range, participants preview, activities preview, checklist preview, map preview
@@ -26,63 +24,126 @@
 
 ## Shared Memories
 !!! info "Explanation"
-    Each trip in the app includes a shared gallery where all participants can upload and view photos and videos from their journey. This feature allows group members to collectively save and cherish memories, creating a visual story of their trip. The shared gallery helps preserve the experiences and highlights of the trip, making it easy for everyone to relive and enjoy those moments.
+	Each trip in the app includes a shared gallery where all participants can upload and view photos and videos from their journey. This feature allows group members to collectively save and cherish memories, creating a visual story of their trip. The shared gallery helps preserve the experiences and highlights of the trip, making it easy for everyone to relive and enjoy those moments.
 
 <figure markdown="span">
   ![User Flow Diagramm](../assets/images/gallery.svg)
 </figure>
 
-## Checklist
-A checklist is essential for planning a trip to ensure a smooth and stress-free experience. It helps organize all necessary tasks, from booking transportation and accommodation to packing essentials. By itemizing everything, you reduce the risk of forgetting important items or details, which can cause delays or inconveniences. A checklist also helps manage time efficiently, allowing you to prioritize tasks and complete them in a logical order. Moreover, it provides peace of mind, knowing that all aspects of the trip are accounted for, and can be referenced to ensure nothing is overlooked. Ultimately, a checklist enhances preparation, enabling a more enjoyable and worry-free journey.
 
 
+## <ins>Data Flow Diagram</ins>
+
+Here you can see the data flow diagram, which shows how data flows through the application.
+There is a **trips collection with several sub-collections**. (Take a look at the [firebase architecture](../4-Implementation.md#firebase-architecture))!
+
+**Sub-Collections**: ChatMessages, GalleryItems, ChecklistItems and Activities.
+
+
+![dataflow](../assets/images/trip_planning_data_flow.svg)
+
+# Checklist
 !!! info "Explanation"
-    The Checklist screen is split into a personal- and a group checklist.
+    Using a checklist to plan a trip is essential for ensuring that nothing important is overlooked, from packing necessary items to making crucial reservations. It helps in organizing tasks systematically, reducing the stress and last-minute rush often associated with travel preparations. A well-structured checklist provides a clear roadmap, allowing travelers to track progress and ensure that all logistics, such as accommodation, transportation, and activities, are accounted for. It also aids in budgeting, as it can include cost estimates and deadlines for various expenses. Ultimately, a checklist enhances the overall travel experience by promoting thorough preparation and peace of mind.
 
 ## Personal Checklist
 !!! info "Explanation"
-    A personal checklist is crucial for individual preparation, ensuring that your unique needs and preferences are met. It allows you to tailor items and tasks specifically to your requirements, such as medications, personal care items, and favorite travel gear. This personalized approach helps avoid last-minute stress and ensures you don't overlook essentials that others might not need or consider. Having a personal checklist enhances your comfort and confidence during the trip.
+    Creating a personal checklist that is only visible to you allows for complete customization to suit your unique needs and preferences, ensuring every detail is accounted for. It keeps sensitive information secure, such as passport numbers and medical details, safeguarding your privacy. This private checklist also offers flexibility, enabling you to make adjustments as plans evolve without external interference. Additionally, it promotes a sense of accountability, helping you stay organized and proactive in managing your travel preparations.
 
+The Personal Checklist provides the following features: [Toggle item state](#toggle-item-state), [Delete item](#delete-item), [Custom items](#custom-items), [Item suggestion](#item-suggestion), [Due date](#due-date), [Edit title](#edit-task).
 
 ## Group Checklist
 !!! info "Explanation"
-    A group checklist is vital for coordinating and organizing tasks and items among all members of the travel group. It helps ensure that shared responsibilities, such as booking accommodations, planning activities, and arranging transportation, are clearly outlined and assigned. This collaborative approach prevents duplication of efforts and gaps in preparation, fostering better communication and teamwork. By having a shared checklist, everyone stays informed and accountable, making the trip more efficient and enjoyable for the entire group.
+    A shared group checklist is essential for coordinating and organizing tasks among multiple travelers, ensuring everyone is on the same page. It promotes clear communication, allowing each member to see and understand their responsibilities and the overall progress of trip preparations. By distributing tasks, a group checklist reduces the workload on any single person, making the planning process more efficient and less stressful. It also helps avoid duplication of efforts, as everyone can see what has already been completed. Ultimately, a shared checklist fosters teamwork and ensures a smoother, more collaborative travel experience.
 
-## Basic features
+The Group Checklist provides the following features: [Toggle item state](#toggle-item-state), [Delete item](#delete-item), [Custom items](#custom-items), [Item suggestion](#item-suggestion), [Due date](#due-date), [Edit title](#edit-task), [Assign users](#assign-users), [Progress bar](#progress-bar).
 
-- Toggle checklist item state
-- Delete checklist item
-- Rename checklist item
+## Features of the Checklist
 
-### Additional features personal checklist
+### Toggle item state
+This feature allows users to mark items as complete or incomplete with a simple toggle. It is necessary for tracking progress and ensuring tasks are visibly completed. 
 
-- word suggestion
-- custom checklist items
-- only visible to you
+The user has two different methods to toggle the item state:
 
-## Additional features group checklist
+1. By clicking on the checkbox
+2. Swiping the item from left to right also toggles the checkbox state
 
-- word suggestion
-- custom checklist items
-- assigning participants
-- progress bar
-- see assignees
-- see all checklist items, even though you are not assigned
 
-**Toggle checklist item state**: This feature allows users to mark checklist items as complete or incomplete. It helps in tracking progress and ensures that users can easily manage and update their tasks.
+<figure markdown="span">
+  ![Toggle item state](../assets/images/Toggle_item_state.svg)
+</figure>
 
-**Delete checklist item**: Users can remove unwanted or irrelevant checklist items using this feature. It keeps the checklist organized and free of unnecessary tasks.
+### Delete item
+Users can remove items from the checklist when they are no longer relevant. This helps maintain an up-to-date and clutter-free list.
 
-**Rename checklist item**: This feature enables users to edit the names of checklist items. It ensures that item descriptions remain clear and accurate as project details evolve.
+The user has two different methods to delete an item:
 
-**Word suggestion**: Provides users with suggested words while creating or editing checklist items. This feature aids in maintaining consistent terminology and helps in quickly formulating task descriptions.
+1. By clicking on the bin icon
+2. Swiping the item from right to left 
 
-**Custom checklist items**: Allows users to create and add personalized items to the checklist. It ensures that the checklist can be tailored to meet specific needs and requirements.
+<figure markdown="span">
+  ![Delete item](../assets/images/Delete_item.svg)
+</figure>
 
-**Assigning participants**: Users can assign specific tasks to team members. This feature promotes accountability and ensures that everyone knows their responsibilities. As soon as an user got assigned the corresponding task will appear in the users personal checklist as well.
+### Custom items
+This feature enables users to add personalized tasks to the checklist. It is essential for tailoring the list to specific needs and preferences.
 
-**Progress bar**: Displays a visual representation of the checklist completion status. It provides an at-a-glance summary of overall progress, motivating users to complete their tasks.
+The User can type text to and add it as a checklist item.
 
-**See assignees**: Users can view which participants are responsible for specific tasks. This feature improves transparency and collaboration within the team.
+<figure markdown="span">
+  ![Custom item](../assets/images/Custom_item.svg)
+</figure>
 
-**See all checklist items, even though you are not assigned**: Allows users to view the entire checklist, regardless of their assignments. It ensures that users have a comprehensive overview of the project and can stay informed about all tasks.
+### Item suggestion
+The system suggests items based on  a predefined templates. This helps users remember common tasks and improves efficiency by reducing manual input.
+
+<figure markdown="span">
+  ![Custom item](../assets/images/Custom_item.svg)
+</figure>
+
+### Due date
+Users can assign due dates to individual tasks. This is crucial for managing deadlines and prioritizing tasks based on urgency.
+
+<figure markdown="span">
+  ![Custom item](../assets/images/Due_date.svg)
+</figure>
+
+### Edit title
+This feature allows users to modify the title of tasks. It is necessary for correcting errors and refining task descriptions to ensure clarity.
+
+<figure markdown="span">
+  ![Custom item](../assets/images/Edit_title.svg)
+</figure>
+
+### Assign users
+Users can delegate tasks to specific individuals within the checklist. This is important for collaboration and accountability in team settings.
+
+<figure markdown="span">
+  ![Custom item](../assets/images/Assign_users.svg)
+</figure>
+
+### Progress bar
+A visual representation of completed versus pending tasks. It provides a quick overview of progress and motivates users to complete all items on the list.
+
+<figure markdown="span">
+  ![Custom item](../assets/images/Progress_bar.svg)
+</figure>
+
+## Example usage
+Right after creating a trip or joining an existing one, you may start to sort your thoughts and have a place to write down all the things you have to prepare for the trip. There might be things you have to worry about multiple months before the trip, like requesting a visa. Some things have to be done some weeks before the trip, like buying a new swimsuit. And some to-dos have to be completed on the day the trip starts, for example, packing your toothbrush into your bag.
+
+Everything can be placed in the checklist for the corresponding trip. Some checklist items are only relevant to you. You can enter things like contact lenses or your favorite book into your personal checklist, only visible to you. Since you may want to read your favorite book before the trip, you can set the due date to the date the trip starts. Other items like the contact lenses can be marked as done right after you put them in your bag. Let's say you finished your book earlier; you have the option to adjust the title of the checklist item to match your new book title. Or let's say you made the decision to take glasses with you instead of contact lenses; you can delete the contact lenses and start typing in the text field, and you should already get a matching suggestion.
+
+If you or other trip participants want to create checklist items that are relevant for all trip participants, they can create them in the group screen. Let's say you and your friends go on a camping trip in the mountains. You probably need just one or two tents, so not everyone has to carry their own while hiking. You can create a custom checklist item and use the edit task option to assign users. You can assign no one if you just want to write it down so it stays in your mind and assign users later, maybe after you discuss in the chat who has a tent and who doesn’t. If you already know that you will be an assignee, you can assign yourself and maybe one more user. The group checklist item will be placed in the group checklist view as well as in your personal checklist view so all to-dos that have to be done by you are in your personal view.
+
+Let's say your mate marks the tent checklist item as done; the progress bar will go to 50 percent to indicate that half of the assignees have already completed this checklist item. If you also mark it as done, the progress bar will rise to 100 percent.
+
+If another user creates a group checklist item and you are not assigned, you can still see this item. This avoids the same item being created by multiple users. But there is a slight difference: you can’t mark the item as done. Only assigned users can toggle the item state.
+
+When you are in the checklist overview screen, you will receive a preview of your personal checklist screen since this one even stores the group checklist items where you have been assigned. This preview of the unchecked items always gives you an idea of what you can do to come a bit closer to a perfectly organized trip.
+
+Lets say your mate makrs the tent checklist item as done ther will go a progress bar to 50 percent to indicate that half of the assignees already compledet this checklist item. If you also mark it as done th progressbar will rise to 100 percent.
+
+If another user creates a group checklist item and you are not assigned. You still can see this item, this avoids that the same item gets created by multiple users. But there is a slightly difference, you cant mark the item as done. Only assigned users can toggle the item state.
+
+When you are in the checklist overview screen you will receive a preview of yor personal checklist screen, since this one even stores the group checklist items where you have been assigned. This preview of thee unckecked items always gives you an idea of what you can do to come a bit closer to a perfect organized trip.

@@ -81,7 +81,7 @@ Here you can see the data flow diagram, which shows how data flows through the a
 The main screen and the screens on the lower part of the diagram use locally stored data to display the activities and continents with the necessary information. 
 The activities list may be filtered by country and categories if filters are applied.
 
-The upper screens and the search bars use an API. The search bars receive autocomplete and suggestions from the API.
+The upper screens and the search bars use an API ([geoapify](https://www.geoapify.com/)). The search bars receive autocomplete and suggestions from the API.
 
 The top screen with the activities list primarily fetches its activities from the API, loading activities that match the provided city and categories. Additionally, activities added by users are also loaded from firebase.
 

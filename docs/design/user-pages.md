@@ -1,3 +1,10 @@
+## Login
+!!! info "Explanation"
+	Create a new account to join our community and enjoy exclusive features like planning your own trips or joining trips. Only `email` and `password` supported so far. For this demo `email`can be invalid. Login to `mail@gmail.com` as email and `Test123` as password for a fed account. For implementation [firebase ui auth](https://pub.dev/packages/firebase_auth) is used!
+
+<figure markdown="span">
+  ![User Flow Diagramm](../assets/images/login.svg){: width="500em"}
+</figure>
 
 ## Discover Public Trips
 !!! info "Explanation"
@@ -13,4 +20,12 @@
 
 <figure markdown="span">
   ![User Flow Diagramm](../assets/images/my_trips.svg)
+</figure>
+
+## Account
+!!! info "Explanation"
+	The account section allows users to manage their personal information and settings. Users can update their profile details, such as their name, email, and profile picture. They can also change their password and update their notification preferences. This section provides a centralized place for users to customize and control their account settings
+
+<figure markdown="span">
+  ![Figma Design](../assets/images/account/account_page.svg)
 </figure>

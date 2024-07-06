@@ -14,6 +14,7 @@ import 'package:travel_link/src/features/my_trips/presentation/trip_information_
 import 'package:travel_link/src/utils/constants/api_constants.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
 import 'package:travel_link/src/utils/formatters/formatter.dart';
+import 'package:travel_link/src/utils/helpers/localization.dart';
 import 'package:travel_link/src/utils/logging/logger.dart';
 
 class CreateTripScreen extends ConsumerStatefulWidget {
@@ -46,8 +47,10 @@ class CreateTripScreenState extends ConsumerState<CreateTripScreen> {
       final destinations =
           json.decode(response.body)['results'] as List<dynamic>;
 
-      return destinations.map((destination) =>
-          Destination.fromMap(destination as Map<dynamic, dynamic>));
+      return destinations.map(
+        (destination) =>
+            Destination.fromMap(destination as Map<dynamic, dynamic>),
+      );
     } else {
       logger.e(
         'Failed to load and parse destination suggestions',
@@ -88,8 +91,7 @@ class CreateTripScreenState extends ConsumerState<CreateTripScreen> {
             );
 
     if (success && mounted) {
-      // ignore: unused_result
-      ref.refresh(fetchMyTripsProvider); //load new Trip into MyTrips List
+      ref.invalidate(fetchMyTripsProvider); //load new Trip into MyTrips List
       context.pop();
     }
   }
@@ -100,7 +102,7 @@ class CreateTripScreenState extends ConsumerState<CreateTripScreen> {
     final state = ref.watch(myTripsControllerProvider);
     return DraggableScrollableSheet(
       expand: false,
-      initialChildSize: 0.68,
+      initialChildSize: 0.7,
       builder: (BuildContext context, ScrollController scrollController) {
         return SingleChildScrollView(
           controller: scrollController,
@@ -108,10 +110,10 @@ class CreateTripScreenState extends ConsumerState<CreateTripScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Center(
+              Center(
                 child: Text(
-                  'Create a Trip',
-                  style: TextStyle(
+                  context.loc.createTrip,
+                  style: const TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
                     color: CustomColors.primary,
@@ -132,9 +134,9 @@ class CreateTripScreenState extends ConsumerState<CreateTripScreen> {
                         maxLengthEnforcement: MaxLengthEnforcement.enforced,
                         validator: (value) => (value ?? '').isNotEmpty
                             ? null
-                            : "Name can't be empty",
-                        decoration: const InputDecoration(
-                          labelText: 'Name',
+                            : context.loc.tripNameEmptyError,
+                        decoration: InputDecoration(
+                          labelText: context.loc.tripName,
                         ),
                       ),
                     ),
@@ -147,10 +149,10 @@ class CreateTripScreenState extends ConsumerState<CreateTripScreen> {
                         validator: (value) => (value ?? '').isNotEmpty
                             ? null
                             : _isPublic
-                                ? "Description can't be empty if the trip is public"
+                                ? context.loc.tripDescriptionEmptyError
                                 : null,
-                        decoration: const InputDecoration(
-                          labelText: 'Description',
+                        decoration: InputDecoration(
+                          labelText: context.loc.tripDescription,
                         ),
                       ),
                     ),
@@ -209,13 +211,13 @@ class CreateTripScreenState extends ConsumerState<CreateTripScreen> {
                                   ),
                                   const SizedBox(width: 8),
                                   Text(
-                                    'Select Dates',
+                                    context.loc.tripDateSelect,
                                     style:
                                         Theme.of(context).textTheme.bodyMedium,
                                   ),
                                   const SizedBox(width: 8),
                                   Text(
-                                    '(optional)',
+                                    '(${context.loc.optional})',
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyMedium!
@@ -256,7 +258,9 @@ class CreateTripScreenState extends ConsumerState<CreateTripScreen> {
                     ),
                     const SizedBox(width: 8),
                     Text(
-                      _isPublic ? 'Public Trip' : 'Private Trip',
+                      _isPublic
+                          ? context.loc.publicTrip
+                          : context.loc.privateTrip,
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
                     IconButton(
@@ -300,7 +304,7 @@ class CreateTripScreenState extends ConsumerState<CreateTripScreen> {
                           ),
                           const SizedBox(width: 8),
                           Text(
-                            'Max Particpants',
+                            context.loc.maxParticipants,
                             style: Theme.of(context).textTheme.bodyMedium,
                           ),
                         ],
@@ -313,7 +317,7 @@ class CreateTripScreenState extends ConsumerState<CreateTripScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: ElevatedButton(
                   onPressed: state.isLoading ? null : _submit,
-                  child: const Text('Create'),
+                  child: Text(context.loc.createTrip),
                 ),
               ),
             ],

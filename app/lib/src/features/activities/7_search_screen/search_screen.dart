@@ -5,6 +5,7 @@ import 'package:travel_link/src/features/activities/3_activities_screen/domain/a
 import 'package:travel_link/src/features/activities/3_activities_screen/presentation/activities_api_screen.dart';
 import 'package:travel_link/src/features/activities/4_add_activity_screen/presentation/add_activity_screen.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
+import 'package:travel_link/src/utils/helpers/localization.dart';
 
 class SearchScreen extends ConsumerStatefulWidget {
   const SearchScreen({super.key});
@@ -40,12 +41,13 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
+      physics: const BouncingScrollPhysics(),
       child: Center(
         child: Padding(
           padding: const EdgeInsets.only(
-            top: 15,
-            right: 30,
-            left: 30,
+            top: 30,
+            right: 15,
+            left: 15,
             bottom: 15,
           ),
           child: Column(
@@ -102,7 +104,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                           Row(
                             children: [
                               Text(
-                                'Search Activities in: ',
+                                context.loc.searchActivitiesIn,
                                 style: Theme.of(context)
                                     .textTheme
                                     .headlineSmall!
@@ -127,7 +129,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                                   ),
                                 ),
                                 child: Text(
-                                  'Clear',
+                                  context.loc.clear,
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodySmall!
@@ -144,7 +146,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                             horizontalPadding: 95,
                             filterByType: 'city',
                             textFieldDecoration: InputDecoration(
-                              hintText: 'City...',
+                              hintText: context.loc.city,
                               fillColor: CustomColors.white,
                               filled: true,
                               border: InputBorder.none,
@@ -176,7 +178,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                           Row(
                             children: [
                               Text(
-                                'Select Categories: ',
+                                context.loc.selectCategories,
                                 style: Theme.of(context)
                                     .textTheme
                                     .headlineSmall!
@@ -196,8 +198,8 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                                 ),
                                 child: Text(
                                   _categoryList.length == activityTypes.length
-                                      ? 'Unselect All'
-                                      : 'Select All',
+                                      ? context.loc.unselectAll
+                                      : context.loc.selectAll,
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodySmall!
@@ -257,18 +259,18 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                               ScaffoldMessenger.of(context).clearSnackBars();
                               if (_controller.selectedDestination == null) {
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
+                                  SnackBar(
                                     content: Text(
-                                      'Please enter a valid city.',
+                                      context.loc.validCityError,
                                       textAlign: TextAlign.center,
                                     ),
                                   ),
                                 );
                               } else if (_categoryList.isEmpty) {
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
+                                  SnackBar(
                                     content: Text(
-                                      'Please select at least one category.',
+                                      context.loc.selectCategoryError,
                                       textAlign: TextAlign.center,
                                     ),
                                   ),
@@ -301,7 +303,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                               side: BorderSide.none,
                             ),
                             child: Text(
-                              'Search',
+                              context.loc.search,
                               style: Theme.of(context)
                                   .textTheme
                                   .headlineSmall!
@@ -327,7 +329,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                         side: BorderSide.none,
                       ),
                       child: Text(
-                        'Add an Activity',
+                        context.loc.addActivity,
                         style:
                             Theme.of(context).textTheme.headlineSmall!.copyWith(
                                   color: CustomColors.white,

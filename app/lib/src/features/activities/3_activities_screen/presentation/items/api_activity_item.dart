@@ -5,6 +5,7 @@ import 'package:travel_link/src/features/activities/3_activities_screen/domain/a
 import 'package:travel_link/src/features/activities/5_activities_details_screen/api_activities_details_screen.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
 import 'package:travel_link/src/utils/constants/image_strings.dart';
+import 'package:travel_link/src/utils/helpers/localization.dart';
 import 'package:travel_link/src/utils/helpers/wikidata.dart';
 import 'package:travel_link/src/utils/theme/widget_themes/text_theme.dart';
 
@@ -20,6 +21,7 @@ class _APIActivityItemState extends State<APIActivityItem> {
   late Future<List<String>?> _imageFuture;
   String formattedLink = '';
   static final Map<String, List<String>> _imageCache = {};
+  late bool hasPlaceholderPicture = false;
 
   @override
   void initState() {
@@ -34,17 +36,21 @@ class _APIActivityItemState extends State<APIActivityItem> {
       if (widget.activity.imagePaths.isNotEmpty) {
         _imageFuture = Future.value(widget.activity.imagePaths);
       } else {
-        _imageFuture = widget.activity.wikidataUrl != null
-            ? fetchImageAndDescription(
-                widget.activity.wikidataUrl!,
-                widget.activity.name,
-                widget.activity.wikidataId!,
-              )
-            : Future.value(
-                [
-                  CustomImages.destinationImagePlaceholderUrl,
-                ],
-              );
+        if (widget.activity.wikidataUrl != null) {
+          hasPlaceholderPicture = false;
+          _imageFuture = fetchImageAndDescription(
+            widget.activity.wikidataUrl!,
+            widget.activity.name,
+            widget.activity.wikidataId!,
+          );
+        } else {
+          hasPlaceholderPicture = true;
+          _imageFuture = Future.value(
+            [
+              CustomImages.getPlaceholderImage(widget.activity.categories),
+            ],
+          );
+        }
       }
     }
   }
@@ -80,13 +86,12 @@ class _APIActivityItemState extends State<APIActivityItem> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        // => context.pushNamed(
-        //   ActivitiesRoutes.ApiActivitiesDetailsScreen.name,
-        //   extra: widget.activity,
         Navigator.of(context).push(
           MaterialPageRoute<ApiActivitiesDetailsScreen>(
-            builder: (BuildContext context) =>
-                ApiActivitiesDetailsScreen(activity: widget.activity),
+            builder: (BuildContext context) => ApiActivitiesDetailsScreen(
+              activity: widget.activity,
+              hasPlaceholderPicture: hasPlaceholderPicture,
+            ),
           ),
         );
       },
@@ -116,14 +121,16 @@ class _APIActivityItemState extends State<APIActivityItem> {
                     color: CustomColors.primary,
                   );
                 } else if (snapshot.hasError) {
-                  return Text('Fehler: ${snapshot.error}');
+                  return Text('${context.loc.error} ${snapshot.error}');
                 } else if (snapshot.data == null || snapshot.data!.isEmpty) {
                   return Image.network(
                     //Wikipedia entry but no picture
-                    CustomImages.destinationImagePlaceholderUrl,
+                    CustomImages.getPlaceholderImage(
+                      widget.activity.categories,
+                    ),
                     height: 125,
                     width: double.infinity,
-                    fit: BoxFit.cover,
+                    fit: BoxFit.contain,
                   );
                 } else {
                   return Stack(
@@ -137,7 +144,9 @@ class _APIActivityItemState extends State<APIActivityItem> {
                           snapshot.data![0],
                           height: 125,
                           width: double.infinity,
-                          fit: BoxFit.cover,
+                          fit: hasPlaceholderPicture
+                              ? BoxFit.contain
+                              : BoxFit.cover,
                         ),
                       ),
                     ],

@@ -28,16 +28,19 @@ class TripsRepository {
       .snapshots()
       .map((snapshot) => snapshot.docs.map((doc) => doc.data()).toList());
 
-  Future<List<Trip>> fetchPublicTrips(
-      {DateTime? startDate,
-      DateTime? endDate,
-      bool? archived,
-      String? country}) async {
+  Future<List<Trip>> fetchPublicTrips({
+    required bool worldWide,
+    DateTime? startDate,
+    DateTime? endDate,
+    bool? archived,
+    String? country,
+  }) async {
     final trips = await queryPublicTrips(
       startDate: startDate,
       endDate: endDate,
       archived: archived,
       country: country,
+      worldWide: worldWide,
     ).get();
     return trips.docs.map((doc) => doc.data()).toList();
   }
@@ -49,6 +52,7 @@ class TripsRepository {
     DateTime? endDate,
     bool? archived,
     String? country,
+    bool worldWide = true,
   }) {
     Query<Trip> query = _firestore
         .collection(tripsBasePath)
@@ -70,7 +74,7 @@ class TripsRepository {
       query = query.where('endDate', isLessThan: Timestamp.now());
     }
 
-    if (country != null && country != 'World Wide') {
+    if (!worldWide && country != null) {
       query = query.where('destination.country', isEqualTo: country);
     }
 
@@ -90,6 +94,7 @@ Future<List<Trip>> fetchPublicTrips(
   DateTime? endDate,
   bool? archived,
   String? country,
+  bool worldWide = true,
 }) {
   final repository = ref.watch(tripsRepositoryProvider);
   return repository.fetchPublicTrips(
@@ -97,6 +102,7 @@ Future<List<Trip>> fetchPublicTrips(
     endDate: endDate,
     archived: archived,
     country: country,
+    worldWide: worldWide,
   );
 }
 

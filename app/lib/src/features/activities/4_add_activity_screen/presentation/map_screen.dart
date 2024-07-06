@@ -3,6 +3,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:travel_link/src/features/activities/3_activities_screen/domain/activity.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
+import 'package:travel_link/src/utils/helpers/localization.dart';
 
 class MapScreen extends StatefulWidget {
   const MapScreen({
@@ -24,13 +25,15 @@ class MapScreen extends StatefulWidget {
 
 class _MapScreenState extends State<MapScreen> {
   LatLng? _pickedLocation;
-   List<Marker> _markers = [];
+  final List<Marker> _markers = [];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(_markers.isEmpty ? 'Pick your Location' : 'Your Location'),
+        title: Text(_markers.isEmpty
+            ? context.loc.pickTheLocation
+            : context.loc.locationSelected),
         actions: [
           if (_markers.isNotEmpty)
             IconButton(

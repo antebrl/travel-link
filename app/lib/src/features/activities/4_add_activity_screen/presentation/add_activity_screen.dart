@@ -8,6 +8,7 @@ import 'package:travel_link/src/features/activities/4_add_activity_screen/presen
 import 'package:travel_link/src/features/activities/4_add_activity_screen/presentation/image_input.dart';
 import 'package:travel_link/src/features/activities/4_add_activity_screen/presentation/location_input.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
+import 'package:travel_link/src/utils/helpers/localization.dart';
 
 class AddActivityScreen extends ConsumerStatefulWidget {
   const AddActivityScreen({super.key});
@@ -47,7 +48,7 @@ class _AddActivityScreenState extends ConsumerState<AddActivityScreen> {
         value.isEmpty ||
         value.trim().isEmpty ||
         value.trim().length > 50) {
-      return 'Must be between 1 and 50 characters.';
+      return context.loc.characterLengthRange;
     }
     return null;
   }
@@ -59,7 +60,7 @@ class _AddActivityScreenState extends ConsumerState<AddActivityScreen> {
         _filters.isNotEmpty &&
         _user != null) {
       _formKey.currentState!.save();
-      var activity = Activity(
+      final activity = Activity(
         name: _enteredName,
         categories: _filters.toList(),
         description: _enteredDescription,
@@ -87,9 +88,9 @@ class _AddActivityScreenState extends ConsumerState<AddActivityScreen> {
     } else {
       ScaffoldMessenger.of(context).clearSnackBars();
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Please fill out all required fields.'),
-          duration: Duration(seconds: 3),
+        SnackBar(
+          content: Text(context.loc.fillOutRequiredFields),
+          duration: const Duration(seconds: 3),
         ),
       );
     }
@@ -97,140 +98,144 @@ class _AddActivityScreenState extends ConsumerState<AddActivityScreen> {
 
   @override
   Widget build(BuildContext context) {
-
-    if(_user == null) {
+    if (_user == null) {
       return Scaffold(
         appBar: AppBar(
-        title: const Text('Add activity'),
-      ),
-        body: const Center(
-          child: Text('You need to log in to add an activity.'),
+          title: Text(context.loc.addActivity),
+        ),
+        body: Center(
+          child: Text(context.loc.loginToAddActivity),
         ),
       );
     }
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add activity'),
+        title: Text(context.loc.addActivity),
       ),
       body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(12),
-          child: Column(
-            children: [
-              Form(
-                key: _formKey,
-                child: Column(
-                  children: [
-                    TextFormField(
-                      maxLength: 50,
-                      decoration: const InputDecoration(
-                        labelText: 'Name',
+        child: ColoredBox(
+          color: CustomColors.white,
+          child: Padding(
+            padding: const EdgeInsets.all(12),
+            child: Column(
+              children: [
+                Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      TextFormField(
+                        maxLength: 50,
+                        decoration: InputDecoration(
+                          labelText: context.loc.name,
+                        ),
+                        validator: stringValidator,
+                        onSaved: (value) {
+                          _enteredName = value!;
+                        },
                       ),
-                      validator: stringValidator,
-                      onSaved: (value) {
-                        _enteredName = value!;
-                      },
-                    ),
-                    const SizedBox(height: 10),
-                    TextFormField(
-                      decoration: const InputDecoration(
-                        labelText: 'Description',
+                      const SizedBox(height: 10),
+                      TextFormField(
+                        decoration: InputDecoration(
+                          labelText: context.loc.description,
+                        ),
+                        validator: stringValidator,
+                        onSaved: (value) {
+                          _enteredDescription = value!;
+                        },
                       ),
-                      validator: stringValidator,
-                      onSaved: (value) {
-                        _enteredDescription = value!;
-                      },
-                    ),
-                    const SizedBox(height: 20),
-                    ImageInput(
-                      onPickImage: (image) {
-                        _selectedImage = image;
-                      },
-                    ),
-                    const SizedBox(height: 20),
-                    LocationInput(
-                      onSelectLocation: (location) {
-                        _selectedLocation = location;
-                      },
-                    ),
-                    const SizedBox(height: 20),
-                    Text(
-                      'Select Categories: ',
-                      style:
-                          Theme.of(context).textTheme.headlineSmall!.copyWith(
-                                color: CustomColors.primary,
+                      const SizedBox(height: 20),
+                      ImageInput(
+                        onPickImage: (image) {
+                          _selectedImage = image;
+                        },
+                      ),
+                      const SizedBox(height: 20),
+                      LocationInput(
+                        onSelectLocation: (location) {
+                          _selectedLocation = location;
+                        },
+                      ),
+                      const SizedBox(height: 20),
+                      Text(
+                        context.loc.selectCategories,
+                        style:
+                            Theme.of(context).textTheme.headlineSmall!.copyWith(
+                                  color: CustomColors.primary,
+                                ),
+                      ),
+                      Row(
+                        children: [
+                          const SizedBox(width: 5),
+                          Switch(
+                            activeColor: Theme.of(context).primaryColor,
+                            inactiveThumbColor: Colors.black.withOpacity(0.7),
+                            inactiveTrackColor: CustomColors.white,
+                            trackOutlineColor:
+                                WidgetStateProperty.all(CustomColors.primary),
+                            value: _isPublic,
+                            onChanged: (value) {
+                              setState(() {
+                                _isPublic = value;
+                              });
+                            },
+                          ),
+                          const SizedBox(width: 8),
+                          Text(
+                            _isPublic
+                                ? context.loc.publicActivity
+                                : context.loc.privateActivity,
+                            style: Theme.of(context).textTheme.bodyMedium,
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 15),
+                      Wrap(
+                        alignment: WrapAlignment.spaceEvenly,
+                        spacing: 40,
+                        runSpacing: 10,
+                        children: activityTypes.map((type) {
+                          return FilterChip(
+                            selectedColor: CustomColors.primary,
+                            backgroundColor: CustomColors.white,
+                            side: const BorderSide(color: CustomColors.primary),
+                            label: Text(
+                              type,
+                              style: TextStyle(
+                                color: _filters.contains(type)
+                                    ? CustomColors.white
+                                    : CustomColors.textPrimary,
                               ),
-                    ),
-                    Row(
-                      children: [
-                        const SizedBox(width: 5),
-                        Switch(
-                          activeColor: Theme.of(context).primaryColor,
-                          inactiveThumbColor: Colors.black.withOpacity(0.7),
-                          inactiveTrackColor: CustomColors.white,
-                          trackOutlineColor:
-                              WidgetStateProperty.all(CustomColors.primary),
-                          value: _isPublic,
-                          onChanged: (value) {
-                            setState(() {
-                              _isPublic = value;
-                            });
-                          },
-                        ),
-                        const SizedBox(width: 8),
-                        Text(
-                          _isPublic ? 'Public Activity' : 'Private Activity',
-                          style: Theme.of(context).textTheme.bodyMedium,
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 15),
-                    Wrap(
-                      alignment: WrapAlignment.spaceEvenly,
-                      spacing: 40,
-                      runSpacing: 10,
-                      children: activityTypes.map((type) {
-                        return FilterChip(
-                          selectedColor: CustomColors.primary,
-                          backgroundColor: CustomColors.white,
-                          side: const BorderSide(color: CustomColors.primary),
-                          label: Text(
-                            type,
-                            style: TextStyle(
-                              color: _filters.contains(type)
-                                  ? CustomColors.white
-                                  : CustomColors.textPrimary,
+                            ),
+                            selected: _filters.contains(type),
+                            onSelected: (bool selected) {
+                              setState(() {
+                                if (selected) {
+                                  _filters.add(type);
+                                } else {
+                                  _filters.remove(type);
+                                }
+                              });
+                            },
+                          );
+                        }).toList(),
+                      ),
+                      const SizedBox(height: 20),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: ElevatedButton(
+                              onPressed: _saveActivity,
+                              child: Text(context.loc.save),
                             ),
                           ),
-                          selected: _filters.contains(type),
-                          onSelected: (bool selected) {
-                            setState(() {
-                              if (selected) {
-                                _filters.add(type);
-                              } else {
-                                _filters.remove(type);
-                              }
-                            });
-                          },
-                        );
-                      }).toList(),
-                    ),
-                    const SizedBox(height: 20),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: ElevatedButton(
-                            onPressed: _saveActivity,
-                            child: const Text('Save'),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
