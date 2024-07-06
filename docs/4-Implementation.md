@@ -141,6 +141,10 @@ namespace Firestore {
 
 ```
 
+## Self reflection
 
+Implementing TraveLink has been a highly rewarding experience, as it provided us with the opportunity to apply the theoretical knowledge of software development we had over the first three semesters in a practical and extended timeframe, unlike many other short-term projects. Throughout the implementation phase, we faced various technical challenges that tested our problem-solving abilities and forced us to think creatively. Collaboration within our team was essential. Discussing challenges together often led to innovative solutions.
 
+One important desicion was to integrating real-time data updates using Firebase as our database model. This required a shift in our approach compared to traditional relational models, and the additional Firebase lecture proved helped to understanding how to architect the Firebase infrastructure effectively. Another significant milestone was optimizing the app for diverse devices and screen sizes. While not all screens were perfectly suited for every resolution, this experience helped us to understand the importance of considering diverse solutions early in the project.
 
+Overall, this implementation journey has not only strengthened our technical skills but also helped us to practice app development and effective teamwork.
