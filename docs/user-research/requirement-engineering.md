@@ -31,7 +31,7 @@ Take also a look at the [survey evaluation of the features](survey-evaluation.md
 
 > The analysis shows a certain similarity between the MVP from personas ranking and the survey results. Since the survey represents a larger group of important users, it will be used as the basis for selecting the features.
 
-[^1]: Shared Expenses are a planned feature. But we decided to priotize other features, because they are essential for our vision and assigning expenses can also be done within the shared checklist feature.
+[^1]: Shared Expenses is a planned feature. But we decided to priotize other features, because they are essential for our vision and assigning expenses can also be done within the shared checklist feature: Create a group checklist item "Pay 10$ to Ante" and assign it someone.
 
 ## Vision Statement
 For **group travelers**, <br>

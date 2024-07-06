@@ -24,17 +24,17 @@ nav:
     - User Evaluation: user-research/user-evaluation.md
   - Design: 
     - Paper Prototypes: 3-Design.md
-    - Figma Main Pages: design/user-pages.md
-    - Figma Plan Trips: design/plan-trips.md
+    - Figma Main Pages: design/main-pages.md
+    - Figma Trip Section: design/trip-section.md
+    - Figma Checklist: design/checklist.md
     - Figma Explore Activities: design/explore-activities.md
     - Figma Account: design/user-account.md
-    - Self reflection: design/self-reflection.md
   - Implementation: 4-Implementation.md
   - Usability Evaluation: 
     - Cognitive Walkthrough and Heuristics: 6-UsabilityEvaluation.md
     - Thinking Aloud Test: usability-evaluation/thinking-aloud-test.md
     - Accessibility Test: usability-evaluation/accessibility-scanner.md
-  - Mkdocs Modules: test.md
+  - Self reflection: self-reflection.md
 
 theme:
   logo: https://fbi.h-da.de/Cms/Resources/Public/Design/i-lgo.svg
