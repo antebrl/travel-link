@@ -13,6 +13,7 @@ import 'package:travel_link/src/features/trip_overview/data/user_repository.dart
 import 'package:travel_link/src/routing/app_router.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
 import 'package:travel_link/src/utils/constants/image_strings.dart';
+import 'package:travel_link/src/utils/helpers/localization.dart';
 import 'package:travel_link/src/utils/theme/widget_themes/boxDecoration_theme.dart';
 
 class AccountScreen extends ConsumerStatefulWidget {
@@ -23,33 +24,6 @@ class AccountScreen extends ConsumerStatefulWidget {
 }
 
 class _AccountScreenState extends ConsumerState<AccountScreen> {
-  final List<Map<String, dynamic>> menuItems = [
-    {
-      'label': 'Account Information',
-      'icon': Icons.person,
-      'color': CustomColors.buttonPrimary,
-      'option': AccountRoutes.accountInformation.name,
-    },
-    {
-      'label': 'Settings',
-      'icon': Icons.settings,
-      'color': CustomColors.buttonPrimary,
-      'option': AccountRoutes.settings.name,
-    },
-    {
-      'label': 'Help',
-      'icon': Icons.help,
-      'color': CustomColors.buttonPrimary,
-      'option': AccountRoutes.help.name,
-    },
-    {
-      'label': 'About',
-      'icon': Icons.info,
-      'color': CustomColors.buttonPrimary,
-      'option': AccountRoutes.about.name,
-    },
-  ];
-
   final double borderRadius = 10;
 
   final String defaultName = 'User Name';
@@ -64,7 +38,8 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text('Your QR Code', textAlign: TextAlign.center),
+          title:
+              Text(context.loc.accountShowQrCode, textAlign: TextAlign.center),
           content: qrCodeBytes != null
               ? Image.memory(qrCodeBytes.buffer.asUint8List())
               : const CircularProgressIndicator(),
@@ -73,7 +48,7 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: const Text('Close'),
+              child: Text(context.loc.accountShowQrCodeClose),
             ),
           ],
         );
@@ -160,6 +135,32 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final List<Map<String, dynamic>> menuItems = [
+      {
+        'label': context.loc.accountInformation,
+        'icon': Icons.person,
+        'color': CustomColors.buttonPrimary,
+        'option': AccountRoutes.accountInformation.name,
+      },
+      {
+        'label': context.loc.accountSettings,
+        'icon': Icons.settings,
+        'color': CustomColors.buttonPrimary,
+        'option': AccountRoutes.settings.name,
+      },
+      {
+        'label': context.loc.accountHelp,
+        'icon': Icons.help,
+        'color': CustomColors.buttonPrimary,
+        'option': AccountRoutes.help.name,
+      },
+      {
+        'label': context.loc.accountAbout,
+        'icon': Icons.info,
+        'color': CustomColors.buttonPrimary,
+        'option': AccountRoutes.about.name,
+      },
+    ];
     final auth = ref.watch(firebaseAuthProvider);
 
     final accountController = ref.watch(accountControllerProvider.notifier);
@@ -170,7 +171,7 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
     return Scaffold(
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
-        title: const Text('Account'),
+        title: Text(context.loc.accountHeading),
       ),
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
@@ -196,39 +197,19 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
                     child: IntrinsicHeight(
                       child: Row(
                         children: [
-                          GestureDetector(
-                            onTap: () async {
-                              final ImagePicker picker = ImagePicker();
-                              final XFile? image = await picker.pickImage(
-                                source: ImageSource.gallery,
-                                imageQuality: 80,
-                              );
-                              if (image == null) return;
-                              final Uint8List bytes = await image.readAsBytes();
-                              await accountController.updateProfilePicture(
-                                picture: bytes,
-                              );
-
-                              userData = ref.refresh(
-                                fetchUserProvider(
-                                  auth.currentUser!.uid,
+                          Padding(
+                            padding: const EdgeInsets.only(right: 5),
+                            child: userData.when(
+                              data: (userAccount) => CircleAvatar(
+                                radius: 40,
+                                backgroundImage: NetworkImage(
+                                  userAccount?.pictureUrl ??
+                                      CustomImages.defaultProfilePictureUrl,
                                 ),
-                              );
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.only(right: 5),
-                              child: userData.when(
-                                data: (userAccount) => CircleAvatar(
-                                  radius: 40,
-                                  backgroundImage: NetworkImage(
-                                    userAccount?.pictureUrl ??
-                                        CustomImages.defaultProfilePictureUrl,
-                                  ),
-                                ),
-                                loading: () =>
-                                    const CircularProgressIndicator(),
-                                error: (_, __) => const Text('Error'),
                               ),
+                              loading: () => const CircularProgressIndicator(),
+                              error: (_, __) =>
+                                  Text(context.loc.accountLabelError),
                             ),
                           ),
                           Expanded(
@@ -240,8 +221,10 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
                                   userData.when(
                                     data: (userAccount) =>
                                         userAccount?.displayName ?? defaultName,
-                                    loading: () => 'Loading...',
-                                    error: (_, __) => 'Error',
+                                    loading: () =>
+                                        context.loc.accountLabelLoading,
+                                    error: (_, __) =>
+                                        context.loc.accountLabelError,
                                   ),
                                   style: Theme.of(context)
                                       .textTheme
@@ -251,7 +234,8 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
                                       ),
                                 ),
                                 Text(
-                                  auth.currentUser!.email ?? 'Unknown',
+                                  auth.currentUser!.email ??
+                                      context.loc.accountLabelUnknown,
                                   style: Theme.of(context).textTheme.bodySmall,
                                 ),
                                 const SizedBox(height: 5),
@@ -275,7 +259,8 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
                               ),
                             ),
                             loading: () => const CircularProgressIndicator(),
-                            error: (_, __) => const Text('Error'),
+                            error: (_, __) =>
+                                Text(context.loc.accountLabelError),
                           ),
                           const VerticalDivider(
                             color: CustomColors.grey,
@@ -340,12 +325,11 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
               const SizedBox(height: 5),
               ListTile(
                 title: Text(
-                  'Logout',
+                  context.loc.accountLogout,
                   style: textTheme.bodyMedium?.copyWith(color: Colors.red),
                 ),
                 leading: const Icon(Icons.logout, color: Colors.red),
                 onTap: () {
-                  print('Logout pressed');
                   //auth.signOut();
                   _showLogoutConfirmation(auth: auth);
                 },

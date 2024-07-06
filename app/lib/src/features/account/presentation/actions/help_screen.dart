@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:travel_link/src/utils/helpers/localization.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AccountHelpScreen extends StatelessWidget {
@@ -8,7 +9,7 @@ class AccountHelpScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Help'),
+        title: Text(context.loc.accountHelp),
       ),
       body: Center(
         child: Column(
@@ -21,7 +22,7 @@ class AccountHelpScreen extends StatelessWidget {
                 final url0 = Uri.parse(url);
                 launchUrl(url0);
               },
-              label: const Text('Documentation'),
+              label: Text(context.loc.accountHelpDocumentation),
               icon: const Icon(Icons.menu_book),
             ),
             const SizedBox(height: 20),
@@ -31,7 +32,7 @@ class AccountHelpScreen extends StatelessWidget {
                 final url0 = Uri.parse(url);
                 launchUrl(url0);
               },
-              label: const Text('h_da Website'),
+              label: Text(context.loc.accountHelpHdaWebsite),
               icon: const Icon(Icons.public),
             ),
           ],

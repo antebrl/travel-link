@@ -182,5 +182,55 @@
   "addParticipant": "Add Participant",
 
   
-  "searchActivities": "Search activities..."
+  "searchActivities": "Search activities...",
+
+  "accountLabelError": "Error",
+  "accountLabelSave": "Save",
+  "accountLabelCancel": "Cancel",
+  "accountLabelLoading": "Loading",
+  "accountLabelUnknown": "Unknown",
+
+  "accountNotificationProfileSaved": "Profile saved",
+  "accountNotificationAccountSaved": "Account saved",
+
+  "accountHeading": "Account",
+  "accountInformation": "Account Management",
+  "accountSettings": "Settings",
+  "accountHelp": "Help",
+  "accountAbout": "About Us",
+  "accountShowQrCode": "Your QR Code",
+  "accountShowQrCodeClose": "Close",
+  "accountLogout": "Logout",
+
+  "editProfileHeading": "Edit Profile",
+  "editProfilePersonalInformation": "Personal Information",
+  "editProfileName": "Name",
+  "editProfileOrigin": "City",
+  "editProfileAboutMe": "About Me",
+  "editProfileLanguages": "Languages",
+  "editProfileLanguagesSearch": "Search",
+  "editProfileLanguagesSearchPlaceholder": "Start typing to search...",
+  "editProfileInterests": "Interests",
+  "editProfileInterestsAddInterest": "Add Interest",
+  "editProfileInterestsAddInterestPlaceholder": "Interest",
+  "editProfileInterestsAddInterestConfirm": "Add",
+  "editProfileInterestsAddInterestCancel": "Cancel",
+  "editProfileSave": "Save",
+
+  "accountInformationAccountDetails": "Account Details",
+  "accountInformationUsername": "Username",
+  "accountInformationUsernamePlaceholder": "Please enter a username",
+  "accountInformationPassword": "Password",
+  "accountInformationPasswordPlaceholder": "Please enter a password",
+  "accountInformationEmail": "Email",
+  "accountInformationEmailPlaceholder": "Please enter an email address",
+
+  "accountSettingsPrivateProfile": "Private Profile",
+  "accountSettingsReceiveNotifications": "Enable Notifications",
+  "accountSettingsReceiveNewsletter": "Enable Newsletter",
+  "accountHelpDocumentation": "Documentation",
+  "accountHelpHdaWebsite": "h_da Website",
+
+  "publicProfileAddToTrip": "Add to Trip",
+  "publicProfileNoTripsAvailable": "No trips available"
 }
