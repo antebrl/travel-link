@@ -129,7 +129,7 @@ class _ChecklistViewState extends ConsumerState<ChecklistView> {
         return StatefulBuilder(
           builder: (context, setState) {
             return AlertDialog(
-              title: const Text('Edit Task'),
+              title: Text(context.loc.editTask),
               content: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -166,7 +166,7 @@ class _ChecklistViewState extends ConsumerState<ChecklistView> {
                     ],
                   ),
                   const SizedBox(height: 16),
-                  const Text('Assign Users'),
+                 Text(context.loc.assignUsers),
                   Wrap(
                     children: widget.participants.map((user) {
                       final isSelected = selectedUsers.contains(user);
@@ -227,13 +227,13 @@ class _ChecklistViewState extends ConsumerState<ChecklistView> {
               ),
               actions: <Widget>[
                 TextButton(
-                  child: const Text('Cancel'),
+                  child: Text(context.loc.cancel),
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
                 ),
                 TextButton(
-                  child: const Text('Save'),
+                  child: Text(context.loc.save),
                   onPressed: () async {
                     tasks[index].title = editController.text;
                     tasks[index].dueDate = selectedDueDate;
@@ -267,8 +267,8 @@ class _ChecklistViewState extends ConsumerState<ChecklistView> {
         fetchTripChecklistProvider(tripId: widget.tripId, onlyPublic: true));
 
     if (currentUser == null) {
-      return const Center(
-        child: Text('You need to log in to view group Checklist'),
+      return Center(
+        child: Text(context.loc.youNeedToLogInToViewGroupChecklist),
       );
     } else {
       return fetchedChecklist.when(
@@ -307,7 +307,7 @@ class _ChecklistViewState extends ConsumerState<ChecklistView> {
                         controller: textEditingController,
                         focusNode: focusNode,
                         decoration: InputDecoration(
-                          hintText: 'Add a new item',
+                          hintText: context.loc.addANewItem,
                           suffixIcon: IconButton(
                             padding: const EdgeInsets.only(right: 10),
                             onPressed: () async {
@@ -471,8 +471,8 @@ class _ChecklistViewState extends ConsumerState<ChecklistView> {
           child: CircularProgressIndicator(),
         ),
         error: (error, stackTrace) {
-          return const Center(
-            child: Text('Error loading trips. Please try again later.'),
+          return Center(
+            child: Text(context.loc.errorLoadingTripsPleaseTryAgainLater),
           );
         },
       );

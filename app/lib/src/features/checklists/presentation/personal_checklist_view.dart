@@ -8,6 +8,7 @@ import 'package:travel_link/src/features/checklists/domain/checklist_item.dart';
 import 'package:travel_link/src/features/checklists/presentation/checklist_controller.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
 import 'package:travel_link/src/features/checklists/lib/checklist_items.dart';
+import 'package:travel_link/src/utils/helpers/localization.dart';
 
 class PersonalChecklistView extends ConsumerStatefulWidget {
   const PersonalChecklistView({required this.tripId, super.key});
@@ -156,8 +157,8 @@ class _PersonalChecklistViewState extends ConsumerState<PersonalChecklistView> {
     );
 
     if (currentUser == null) {
-      return const Center(
-        child: Text('You need to log in to view personal Checklist'),
+      return Center(
+        child: Text(context.loc.youNeedToLogInToViewPersonalChecklist),
       );
     } else {
       return fetchedChecklist.when(
@@ -198,7 +199,7 @@ class _PersonalChecklistViewState extends ConsumerState<PersonalChecklistView> {
                         controller: textEditingController,
                         focusNode: focusNode,
                         decoration: InputDecoration(
-                          hintText: 'Add a new item',
+                          hintText: context.loc.addANewItem,
                           suffixIcon: IconButton(
                             padding: const EdgeInsets.only(right: 10),
                             onPressed: () async {
@@ -347,8 +348,8 @@ class _PersonalChecklistViewState extends ConsumerState<PersonalChecklistView> {
           child: CircularProgressIndicator(),
         ),
         error: (error, stackTrace) {
-          return const Center(
-            child: Text('Error loading trips. Please try again later.'),
+          return Center(
+            child: Text(context.loc.errorLoadingTripsPleaseTryAgainLater),
           );
         },
       );
@@ -359,7 +360,6 @@ class _PersonalChecklistViewState extends ConsumerState<PersonalChecklistView> {
 class EditTaskDialog extends StatefulWidget {
   const EditTaskDialog({required this.task, required this.onSave, super.key});
   final ChecklistItem task;
-  // ignore: inference_failure_on_function_return_type
   final Function(String, DateTime?) onSave;
 
   @override
@@ -386,13 +386,13 @@ class _EditTaskDialogState extends State<EditTaskDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('Edit Task'),
+      title: Text(context.loc.editItem),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           TextField(
             controller: _editController,
-            decoration: const InputDecoration(hintText: 'Edit item'),
+            decoration: InputDecoration(hintText: context.loc.editItem),
           ),
           const SizedBox(height: 16),
           Row(
@@ -426,13 +426,13 @@ class _EditTaskDialogState extends State<EditTaskDialog> {
       ),
       actions: <Widget>[
         TextButton(
-          child: const Text('Cancel'),
+          child: Text(context.loc.cancel),
           onPressed: () {
             Navigator.of(context).pop();
           },
         ),
         TextButton(
-          child: const Text('Save'),
+          child: Text(context.loc.save),
           onPressed: () {
             widget.onSave(_editController.text, _selectedDueDate);
             Navigator.of(context).pop();
