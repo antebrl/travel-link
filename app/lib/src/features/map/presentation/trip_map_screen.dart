@@ -1,6 +1,5 @@
 import 'dart:core';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
@@ -12,6 +11,7 @@ import 'package:travel_link/src/features/account/presentation/account_controller
 import 'package:travel_link/src/features/authentication/data/firebase_auth_repository.dart';
 import 'package:travel_link/src/features/map/presentation/exchanged_way.dart';
 import 'package:travel_link/src/features/my_trips/domain/destination.dart';
+import 'package:travel_link/src/features/trip_overview/data/trip_activities_repository.dart';
 import 'package:travel_link/src/features/trip_overview/data/user_repository.dart';
 import 'package:travel_link/src/utils/constants/image_strings.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -28,6 +28,7 @@ bool displayRoute = false;
 
 class TripMapScreen extends ConsumerStatefulWidget {
   const TripMapScreen({
+    required this.tripId, 
     required this.participants,
     required this.destination,
     super.key,
@@ -35,6 +36,7 @@ class TripMapScreen extends ConsumerStatefulWidget {
 
   final List<String> participants;
   final Destination destination;
+  final String tripId;
 
   Future<List<UserAccount>> _fetchParticipants(WidgetRef ref) async {
     final currentUserId = ref.read(firebaseAuthProvider).currentUser?.uid;
@@ -90,29 +92,18 @@ class _TripMapScreenState extends ConsumerState<TripMapScreen> {
   }
 
   Future<void> _fetchActivities() async {
-    final CollectionReference activities =
-        FirebaseFirestore.instance.collection('activities');
+
+    final activities = await ref.read(fetchTripActivitiesProvider(widget.tripId).future);
     final List<Marker> allActivitiesInDB = [];
 
-    final QuerySnapshot querySnapshot = await activities.limit(100).get();
-
-    for (final QueryDocumentSnapshot doc in querySnapshot.docs) {
-      final Map<String, dynamic> data = doc.data()! as Map<String, dynamic>;
-      final List<dynamic> categories = data['categories'] as List<dynamic>;
-      final String description = data['description'] as String;
-      final String name = data['name'] as String;
-      final Map<String, dynamic> location =
-          data['location'] as Map<String, dynamic>;
-      final double lati = location['lat'] as double;
-      final double long = location['lon'] as double;
-
+    for (final activity in activities) {
       allActivitiesInDB.add(
         await _createMarkerBasedOnDescription(
-          categories,
-          description,
-          name,
-          lati,
-          long,
+          activity.categories,
+          activity.description,
+          activity.name,
+          activity.location.lat,
+          activity.location.lon,
         ),
       );
     }
