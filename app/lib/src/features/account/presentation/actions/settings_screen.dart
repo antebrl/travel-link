@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:travel_link/src/common_widgets/boxed_content.dart';
+import 'package:travel_link/src/utils/helpers/localization.dart';
 import 'package:travel_link/src/utils/theme/widget_themes/boxDecoration_theme.dart';
 
 class AccountSettingsScreen extends StatefulWidget {
@@ -10,17 +11,20 @@ class AccountSettingsScreen extends StatefulWidget {
 }
 
 class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
-  final List<Map<String, dynamic>> _options = [
-    {'option': 'Private Profile', 'value': false},
-    {'option': 'Receive Notifications', 'value': false},
-    {'option': 'Receive Newsletter', 'value': false},
-  ];
-
   @override
   Widget build(BuildContext context) {
+    final List<Map<String, dynamic>> _options = [
+      {'option': context.loc.accountSettingsPrivateProfile, 'value': false},
+      {
+        'option': context.loc.accountSettingsReceiveNotifications,
+        'value': false
+      },
+      {'option': context.loc.accountSettingsReceiveNewsletter, 'value': false},
+    ];
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Settings'),
+        title: Text(context.loc.accountSettings),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8),
