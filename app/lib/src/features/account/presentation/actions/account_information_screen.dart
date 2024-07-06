@@ -37,15 +37,18 @@ class _AccountAccountInformationScreenState
       accountController.updatePassword(password: password);
     }
 
-    toastification.show(
-      context: context,
-      type: ToastificationType.success,
-      style: ToastificationStyle.flat,
-      title: Text(context.loc.accountNotificationAccountSaved),
-      alignment: Alignment.topCenter,
-      autoCloseDuration: const Duration(seconds: 3),
-      closeButtonShowType: CloseButtonShowType.none,
-    );
+    Future.delayed(Duration.zero, () {
+      toastification.show(
+        context: context,
+        type: ToastificationType.success,
+        style: ToastificationStyle.flat,
+        title: Text(context.loc.accountNotificationAccountSaved),
+        alignment: Alignment.topCenter,
+        showProgressBar: false,
+        autoCloseDuration: const Duration(seconds: 2),
+        closeButtonShowType: CloseButtonShowType.none,
+      );
+    });
 
     ref.invalidate(fetchUserProvider(auth.currentUser!.uid));
 

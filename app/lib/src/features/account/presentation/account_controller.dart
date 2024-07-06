@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:travel_link/src/features/account/data/account_repository.dart';
 import 'package:travel_link/src/features/authentication/data/firebase_auth_repository.dart';
@@ -124,5 +125,37 @@ class AccountController extends _$AccountController {
         'description': description,
       },
     );
+  }
+
+  Future<bool> saveProfileToDatabase(
+      {required String publicName,
+      required String description,
+      required String city,
+      required List<String> languageList,
+      required List<String> interestsList,
+      required Uint8List? profilePicture}) async {
+    //set state to loading
+    state = const AsyncLoading();
+
+    state = await AsyncValue.guard(() {
+      if (profilePicture != null) {
+        // Update profile picture
+        updateProfilePicture(
+          picture: profilePicture,
+        );
+      }
+      return updateUserData(
+        data: {
+          'publicName': publicName,
+          'description': description,
+          'city': city,
+          'languages': languageList,
+          'interests': interestsList,
+        },
+      );
+    });
+
+    if (state.hasError) logger.e(state.error);
+    return state.hasError == false;
   }
 }

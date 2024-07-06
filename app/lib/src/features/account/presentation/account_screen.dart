@@ -197,40 +197,19 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
                     child: IntrinsicHeight(
                       child: Row(
                         children: [
-                          GestureDetector(
-                            onTap: () async {
-                              final ImagePicker picker = ImagePicker();
-                              final XFile? image = await picker.pickImage(
-                                source: ImageSource.gallery,
-                                imageQuality: 80,
-                              );
-                              if (image == null) return;
-                              final Uint8List bytes = await image.readAsBytes();
-                              await accountController.updateProfilePicture(
-                                picture: bytes,
-                              );
-
-                              userData = ref.refresh(
-                                fetchUserProvider(
-                                  auth.currentUser!.uid,
+                          Padding(
+                            padding: const EdgeInsets.only(right: 5),
+                            child: userData.when(
+                              data: (userAccount) => CircleAvatar(
+                                radius: 40,
+                                backgroundImage: NetworkImage(
+                                  userAccount?.pictureUrl ??
+                                      CustomImages.defaultProfilePictureUrl,
                                 ),
-                              );
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.only(right: 5),
-                              child: userData.when(
-                                data: (userAccount) => CircleAvatar(
-                                  radius: 40,
-                                  backgroundImage: NetworkImage(
-                                    userAccount?.pictureUrl ??
-                                        CustomImages.defaultProfilePictureUrl,
-                                  ),
-                                ),
-                                loading: () =>
-                                    const CircularProgressIndicator(),
-                                error: (_, __) =>
-                                    Text(context.loc.accountLabelError),
                               ),
+                              loading: () => const CircularProgressIndicator(),
+                              error: (_, __) =>
+                                  Text(context.loc.accountLabelError),
                             ),
                           ),
                           Expanded(

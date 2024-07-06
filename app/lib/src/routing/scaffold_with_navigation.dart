@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:travel_link/src/features/authentication/data/firebase_auth_repository.dart';
+import 'package:travel_link/src/features/trip_overview/data/user_repository.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
 import 'package:travel_link/src/utils/helpers/helper_functions.dart';
 import 'package:travel_link/src/utils/helpers/localization.dart';
@@ -47,6 +48,9 @@ class ScaffoldWithNavigation extends ConsumerWidget {
     final isDarkMode = CustomHelperFunctions.isDarkMode(context);
 
     final auth = ref.watch(firebaseAuthProvider);
+    if (auth.currentUser != null) {
+      final unused = ref.watch(fetchUserProvider(auth.currentUser!.uid));
+    }
 
     return Scaffold(
       body: navigationShell,

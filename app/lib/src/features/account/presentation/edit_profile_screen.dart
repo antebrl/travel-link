@@ -11,7 +11,9 @@ import 'package:travel_link/src/common_widgets/boxed_content.dart';
 import 'package:travel_link/src/common_widgets/profile_widgets.dart';
 import 'package:travel_link/src/features/account/domain/user_account.dart';
 import 'package:travel_link/src/features/account/presentation/account_controller.dart';
+import 'package:travel_link/src/features/authentication/data/firebase_auth_repository.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
+import 'package:travel_link/src/utils/constants/image_strings.dart';
 import 'package:travel_link/src/utils/helpers/localization.dart';
 import 'package:travel_link/src/utils/theme/widget_themes/boxDecoration_theme.dart';
 
@@ -34,22 +36,6 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
 
   late List<String> languageList = [];
   late List<String> interestsList = [];
-
-  Future<void> saveProfileToDatabase() async {
-    final accountController = ref.read(accountControllerProvider.notifier);
-    accountController.updateProfilePicture(
-      picture: profilePicture!,
-    );
-    accountController.updateUserData(
-      data: {
-        'publicName': nameController.text,
-        'description': aboutMeController.text,
-        'city': cityController.text,
-        'languages': languageList,
-        'interests': interestsList,
-      },
-    );
-  }
 
   @override
   void initState() {
@@ -92,17 +78,29 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
         ),
         onPressed: () async {
           // Save changes
-          await saveProfileToDatabase();
-          Navigator.pop(context);
-          toastification.show(
-            context: context,
-            type: ToastificationType.success,
-            style: ToastificationStyle.flat,
-            title: Text(context.loc.accountNotificationProfileSaved),
-            alignment: Alignment.topCenter,
-            autoCloseDuration: const Duration(seconds: 3),
-            closeButtonShowType: CloseButtonShowType.none,
+          final accountController =
+              ref.read(accountControllerProvider.notifier);
+          final response = await accountController.saveProfileToDatabase(
+            publicName: nameController.text,
+            description: aboutMeController.text,
+            city: cityController.text,
+            languageList: languageList,
+            interestsList: interestsList,
+            profilePicture: profilePicture,
           );
+          if (response && mounted) {
+            Navigator.pop(context);
+            toastification.show(
+              context: context,
+              showProgressBar: false,
+              type: ToastificationType.success,
+              style: ToastificationStyle.flat,
+              title: Text(context.loc.accountNotificationProfileSaved),
+              alignment: Alignment.topCenter,
+              autoCloseDuration: const Duration(seconds: 2),
+              closeButtonShowType: CloseButtonShowType.none,
+            );
+          }
         },
         label: Text(context.loc.editProfileSave),
         icon: const Icon(Icons.save),
@@ -137,7 +135,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                       child: FittedBox(
                         child: CachedNetworkImage(
                           imageUrl: widget.userAccount.pictureUrl ??
-                              'https://picsum.photos/200/300',
+                              CustomImages.defaultProfilePictureUrl,
                           imageBuilder: (context, imageProvider) =>
                               CircleAvatar(
                             radius: 50,
