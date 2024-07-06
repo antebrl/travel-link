@@ -4,9 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-import 'package:travel_link/src/features/account/presentation/account_controller.dart';
 import 'package:travel_link/src/features/account/presentation/edit_profile_screen.dart';
 import 'package:travel_link/src/features/authentication/data/firebase_auth_repository.dart';
 import 'package:travel_link/src/features/trip_overview/data/user_repository.dart';
@@ -163,8 +161,7 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
     ];
     final auth = ref.watch(firebaseAuthProvider);
 
-    final accountController = ref.watch(accountControllerProvider.notifier);
-    var userData = ref.watch(fetchUserProvider(auth.currentUser!.uid));
+    final userData = ref.watch(fetchUserProvider(auth.currentUser!.uid));
 
     final textTheme = Theme.of(context).textTheme;
 

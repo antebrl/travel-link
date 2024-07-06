@@ -49,7 +49,7 @@ class ScaffoldWithNavigation extends ConsumerWidget {
 
     final auth = ref.watch(firebaseAuthProvider);
     if (auth.currentUser != null) {
-      final unused = ref.watch(fetchUserProvider(auth.currentUser!.uid));
+      ref.watch(fetchUserProvider(auth.currentUser!.uid));
     }
 
     return Scaffold(

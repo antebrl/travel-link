@@ -11,7 +11,6 @@ import 'package:travel_link/src/common_widgets/boxed_content.dart';
 import 'package:travel_link/src/common_widgets/profile_widgets.dart';
 import 'package:travel_link/src/features/account/domain/user_account.dart';
 import 'package:travel_link/src/features/account/presentation/account_controller.dart';
-import 'package:travel_link/src/features/authentication/data/firebase_auth_repository.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
 import 'package:travel_link/src/utils/constants/image_strings.dart';
 import 'package:travel_link/src/utils/helpers/localization.dart';
@@ -119,8 +118,6 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                   child: InkWell(
                     onTap: () async {
                       final ImagePicker picker = ImagePicker();
-                      final accountController =
-                          ref.read(accountControllerProvider.notifier);
                       final XFile? image = await picker.pickImage(
                         source: ImageSource.gallery,
                       );

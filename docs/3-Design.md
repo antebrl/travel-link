@@ -37,7 +37,7 @@ For example:
 ### Explore Trips Screen
 - Introduced a title for the explore Trips screen in the figma prototype.
 - Introduced a filter by dates in the explore trips screen.
-- Changed the app behavior. The idea of the paper prototype was, that for a displayed trip the images are swipeable (right/left) and to other trips (top/down). This turned to be not ideal when a trip is just created and has no pictures stored. In the figma prototype and implementation the right/left swipe will show other trips (card design) and a image of the destination will be shown instead. [Explore Trips Figma](design/user-pages.md#discover-public-trips).
+- Changed the app behavior. The idea of the paper prototype was, that for a displayed trip the images are swipeable (right/left) and to other trips (top/down). This turned to be not ideal when a trip is just created and has no pictures stored. In the figma prototype and implementation the right/left swipe will show other trips (card design) and a image of the destination will be shown instead. [Explore Trips Figma](design/main-pages.md#discover-public-trips).
 
 
 ### Account Screen

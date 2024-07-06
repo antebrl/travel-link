@@ -65,17 +65,17 @@ This section presents and describes the screens related to exploring activities 
 
 <figure markdown="span">
 ![pages6](../assets/images/activities/pages6.svg){: width="550em"}
-
 </figure>
+
 !!! info "Explanation"
     The App offers the possibility to calculate a Route with different mobilities. If a different mobility has been chosen the displayed Route will try to calculate the Optimal Route for that chosen mobility.
 
 <figure markdown="span">
 ![image_transport_option](../assets/images/activities/image_transport_options.svg){: width="250em"}
+</figure>
 
-##
+
 ### Data Flow Diagram
-
 Here you can see the data flow diagram, which shows how data flows through the application.
 
 The main screen and the screens on the lower part of the diagram use locally stored data to display the activities and continents with the necessary information. 
