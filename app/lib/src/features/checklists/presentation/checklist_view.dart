@@ -268,194 +268,203 @@ class _ChecklistViewState extends ConsumerState<ChecklistView> {
 
     if (currentUser == null) {
       return const Center(
-          child: Text('You need to log in to view group Checklist'));
+        child: Text('You need to log in to view group Checklist'),
+      );
     } else {
       return fetchedChecklist.when(
         data: (checklist) {
           tasks = checklist;
 
-          return Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8),
-                child: RawAutocomplete<String>(
-                  focusNode: _focusNode,
-                  textEditingController: _textController,
-                  optionsBuilder: (TextEditingValue textEditingValue) {
-                    // if (textEditingValue.text.isEmpty) {
-                    //   return const Iterable<String>.empty();
-                    // }
-                    return suggestions.where((String suggestion) {
-                      return suggestion
-                          .toLowerCase()
-                          .contains(textEditingValue.text.toLowerCase());
-                    });
-                  },
-                  onSelected: (String selection) async {
-                    await _addTask(selection);
-                    _focusNode.unfocus();
-                  },
-                  fieldViewBuilder: (BuildContext context,
-                      TextEditingController textEditingController,
-                      FocusNode focusNode,
-                      VoidCallback onFieldSubmitted) {
-                    return TextField(
-                      controller: textEditingController,
-                      focusNode: focusNode,
-                      decoration: InputDecoration(
-                        hintText: context.loc.addANewItem,
-                        suffixIcon: IconButton(
-                          padding: const EdgeInsets.only(right: 10),
-                          onPressed: () async {
-                            _focusNode.unfocus();
-                            await _addTask(textEditingController.text);
-                          },
-                          icon: const Icon(Icons.check),
-                          color: CustomColors.primary,
-                        ),
-                      ),
-                    );
-                  },
-                  optionsViewBuilder: (BuildContext context,
-                      AutocompleteOnSelected<String> onSelected,
-                      Iterable<String> options) {
-                    return Align(
-                      alignment: Alignment.topLeft,
-                      child: Container(
-                        margin: const EdgeInsets.fromLTRB(10, 0, 25, 0),
-                        child: ClipRRect(
-                          borderRadius: const BorderRadius.only(
-                            bottomLeft: Radius.circular(12),
-                            bottomRight: Radius.circular(12),
+          return Container(
+            padding: const EdgeInsets.all(20),
+            color: CustomColors.white,
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: RawAutocomplete<String>(
+                    focusNode: _focusNode,
+                    textEditingController: _textController,
+                    optionsBuilder: (TextEditingValue textEditingValue) {
+                      // if (textEditingValue.text.isEmpty) {
+                      //   return const Iterable<String>.empty();
+                      // }
+                      return suggestions.where((String suggestion) {
+                        return suggestion
+                            .toLowerCase()
+                            .contains(textEditingValue.text.toLowerCase());
+                      });
+                    },
+                    onSelected: (String selection) async {
+                      await _addTask(selection);
+                      _focusNode.unfocus();
+                    },
+                    fieldViewBuilder: (BuildContext context,
+                        TextEditingController textEditingController,
+                        FocusNode focusNode,
+                        VoidCallback onFieldSubmitted) {
+                      return TextField(
+                        controller: textEditingController,
+                        focusNode: focusNode,
+                        decoration: InputDecoration(
+                          hintText: 'Add a new item',
+                          suffixIcon: IconButton(
+                            padding: const EdgeInsets.only(right: 10),
+                            onPressed: () async {
+                              _focusNode.unfocus();
+                              await _addTask(textEditingController.text);
+                            },
+                            icon: const Icon(Icons.check),
+                            color: CustomColors.primary,
                           ),
-                          child: Material(
-                            color: Colors.blue.shade50,
-                            elevation: 4,
-                            child: ConstrainedBox(
-                              constraints: BoxConstraints(
-                                  maxHeight: options.length * 50 < 200
-                                      ? options.length * 50
-                                      : 200),
-                              child: ListView.builder(
-                                padding: EdgeInsets.zero,
-                                itemCount: options.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  final option = options.elementAt(index);
-                                  return Container(
-                                    height: 50,
-                                    color: Colors.blue.shade50,
-                                    child: ListTile(
-                                      leading: Icon(iconMap[option]),
-                                      title: Text(option),
-                                      onTap: () {
-                                        onSelected(option);
-                                      },
-                                    ),
-                                  );
-                                },
+                        ),
+                      );
+                    },
+                    optionsViewBuilder: (BuildContext context,
+                        AutocompleteOnSelected<String> onSelected,
+                        Iterable<String> options) {
+                      return Align(
+                        alignment: Alignment.topLeft,
+                        child: Container(
+                          margin: const EdgeInsets.fromLTRB(10, 0, 25, 0),
+                          child: ClipRRect(
+                            borderRadius: const BorderRadius.only(
+                              bottomLeft: Radius.circular(12),
+                              bottomRight: Radius.circular(12),
+                            ),
+                            child: Material(
+                              color: Colors.blue.shade50,
+                              elevation: 4,
+                              child: ConstrainedBox(
+                                constraints: BoxConstraints(
+                                    maxHeight: options.length * 50 < 200
+                                        ? options.length * 50
+                                        : 200),
+                                child: ListView.builder(
+                                  padding: EdgeInsets.zero,
+                                  itemCount: options.length,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    final option = options.elementAt(index);
+                                    return Container(
+                                      height: 50,
+                                      color: Colors.blue.shade50,
+                                      child: ListTile(
+                                        leading: Icon(iconMap[option]),
+                                        title: Text(option),
+                                        onTap: () {
+                                          onSelected(option);
+                                        },
+                                      ),
+                                    );
+                                  },
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                    );
-                  },
+                      );
+                    },
+                  ),
                 ),
-              ),
-              Expanded(
-                child: ReorderableListView(
-                  onReorder: _reorderTasks,
-                  children: [
-                    for (int index = 0; index < tasks.length; index++)
-                      Dismissible(
-                        key: Key(tasks[index].title),
-                        onDismissed: (direction) {
-                          if (direction == DismissDirection.endToStart) {
-                            _removeTask(index);
-                          } else if (direction == DismissDirection.startToEnd) {
-                            _toggleTaskCompletion(index);
-                          }
-                        },
-                        confirmDismiss: (direction) async {
-                          if (direction == DismissDirection.startToEnd) {
-                            _toggleTaskCompletion(index);
-                            return false;
-                          } else {
-                            return true;
-                          }
-                        },
-                        background: Container(color: Colors.blue),
-                        secondaryBackground: Container(color: Colors.red),
-                        child: ListTile(
-                          key: Key('task_$index'),
-                          leading: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Icon(iconMap[tasks[index].title] ?? Icons.circle),
-                              Checkbox(
-                                value: getUserIndex(index) != -1 &&
-                                    tasks[index]
-                                        .asigneesCompleted[getUserIndex(index)],
-                                onChanged: getUserIndex(index) != -1
-                                    ? (bool? value) {
-                                        _toggleTaskCompletion(index);
-                                      }
-                                    : null,
-                              ),
-                            ],
-                          ),
-                          title: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(tasks[index].title),
-                              if (tasks[index].dueDate != null)
-                                Text(
-                                  'Due date: ${DateFormat('dd/MM/yyyy').format(tasks[index].dueDate!)}',
-                                  style: const TextStyle(
-                                      fontSize: 12, color: Colors.grey),
+                Expanded(
+                  child: ReorderableListView(
+                    onReorder: _reorderTasks,
+                    children: [
+                      for (int index = 0; index < tasks.length; index++)
+                        Dismissible(
+                          key: Key(tasks[index].title),
+                          onDismissed: (direction) {
+                            if (direction == DismissDirection.endToStart) {
+                              _removeTask(index);
+                            } else if (direction ==
+                                DismissDirection.startToEnd) {
+                              _toggleTaskCompletion(index);
+                            }
+                          },
+                          confirmDismiss: (direction) async {
+                            if (direction == DismissDirection.startToEnd) {
+                              _toggleTaskCompletion(index);
+                              return false;
+                            } else {
+                              return true;
+                            }
+                          },
+                          background: Container(color: Colors.blue),
+                          secondaryBackground: Container(color: Colors.red),
+                          child: ListTile(
+                            key: Key('task_$index'),
+                            leading: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(iconMap[tasks[index].title] ??
+                                    Icons.circle),
+                                Checkbox(
+                                  value: getUserIndex(index) != -1 &&
+                                      tasks[index].asigneesCompleted[
+                                          getUserIndex(index)],
+                                  onChanged: getUserIndex(index) != -1
+                                      ? (bool? value) {
+                                          _toggleTaskCompletion(index);
+                                        }
+                                      : null,
                                 ),
-                              if (tasks[index].asignees.isNotEmpty)
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    const SizedBox(height: 4),
-                                    ParticipantsAvatarStack(
-                                      participants: tasks[index].asignees,
-                                    ),
-                                    const SizedBox(height: 8),
-                                    LinearProgressIndicator(
-                                      value: _calculateCompletionPercentage(
-                                          tasks[index]),
-                                      backgroundColor: Colors.grey[200],
-                                      color: Colors.blue,
-                                    ),
-                                  ],
+                              ],
+                            ),
+                            title: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(tasks[index].title),
+                                if (tasks[index].dueDate != null)
+                                  Text(
+                                    'Due date: ${DateFormat('dd/MM/yyyy').format(tasks[index].dueDate!)}',
+                                    style: const TextStyle(
+                                        fontSize: 12, color: Colors.grey),
+                                  ),
+                                if (tasks[index].asignees.isNotEmpty)
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      const SizedBox(height: 4),
+                                      ParticipantsAvatarStack(
+                                        participants: tasks[index].asignees,
+                                      ),
+                                      const SizedBox(height: 8),
+                                      LinearProgressIndicator(
+                                        value: _calculateCompletionPercentage(
+                                            tasks[index]),
+                                        backgroundColor: Colors.grey[200],
+                                        color: Colors.blue,
+                                      ),
+                                    ],
+                                  ),
+                              ],
+                            ),
+                            trailing: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                IconButton(
+                                  icon: const Icon(Icons.edit),
+                                  onPressed: () {
+                                    _editTask(index);
+                                  },
                                 ),
-                            ],
-                          ),
-                          trailing: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              IconButton(
-                                icon: const Icon(Icons.edit),
-                                onPressed: () {
-                                  _editTask(index);
-                                },
-                              ),
-                              IconButton(
-                                icon: const Icon(Icons.delete),
-                                onPressed: () {
-                                  _removeTask(index);
-                                },
-                              ),
-                            ],
+                                IconButton(
+                                  icon: const Icon(Icons.delete),
+                                  onPressed: () {
+                                    _removeTask(index);
+                                  },
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           );
         },
         loading: () => const Center(

@@ -91,6 +91,7 @@ flutter:
       - assets/images/activities/camp-nou.jpg
       - assets/images/my-trips/travel.gif
       - assets/images/continents/ContinentsMap.png
+      - assets/images/continents/map-preview.jpg
       - assets/images/design/
 
   uses-material-design: true

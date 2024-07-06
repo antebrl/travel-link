@@ -131,15 +131,39 @@ class _TripPlanningScreenState extends State<TripPlanningScreen> {
         ),
         const SizedBox(height: 10),
         PreviewTile(
-          title: context.loc.mapTitle,
-          preview: const Placeholder(fallbackHeight: 100),
-          detailsPageBuilder: (context) => TripMapScreen(participants: widget.trip.participants, destination: widget.trip.destination),
-        ),
-        const SizedBox(height: 10),
-        PreviewTile(
           title: context.loc.checklistTitle,
           preview: ChecklistPreview(tripId: widget.trip.tripId, maxItems: 3),
           detailsPageBuilder: (context) => ChecklistsScreen(trip: widget.trip),
+        ),
+        const SizedBox(height: 10),
+        PreviewTile(
+          title: context.loc.mapTitle,
+            preview: Padding(
+              padding: const EdgeInsets.only(right: 20, left: 10),
+              child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.6),
+                  spreadRadius: 4,
+                  blurRadius: 6,
+                  offset: const Offset(0, 2),
+                ),
+                ],
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Image.asset(
+                  'assets/images/continents/map-preview.jpg',
+                  fit: BoxFit.cover,
+                  height: 140,
+                  width: 520,
+                ),
+              ),
+              ),
+            ),
+          detailsPageBuilder: (context) => TripMapScreen(participants: widget.trip.participants, destination: widget.trip.destination),
         ),
         const SizedBox(height: 18),
       ],
