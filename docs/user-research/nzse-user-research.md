@@ -50,7 +50,7 @@ We have decided to quantify the criteria on a scale from 0 to 10 so that it is e
 | Melanie     | 3| 6| 7| 4| 5| 8|10| 8| 4|
 
 ## 4. N-Dimentional Vector Space
-For a three dimentional vector space we choose the criterias: **age**, **adventurousness**
+For a two dimentional vector space we choose the criterias: **age**, **adventurousness**
 
 ![N-Dimentional-Vector-Space-NZSE](../assets/images/nzse.png)
 
