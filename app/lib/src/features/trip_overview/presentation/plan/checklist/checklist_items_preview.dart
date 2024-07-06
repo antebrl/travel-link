@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:travel_link/src/features/authentication/data/firebase_auth_repository.dart';
 import 'package:travel_link/src/features/checklists/data/checklist_repository.dart';
+import 'package:travel_link/src/utils/helpers/localization.dart';
 
 class ChecklistPreview extends ConsumerWidget {
   const ChecklistPreview({
@@ -53,7 +54,7 @@ class ChecklistPreview extends ConsumerWidget {
         },
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (error, stackTrace) =>
-            const Center(child: Text('Error loading checklist')),
+           Center(child: Text(context.loc.errorLoadingChecklist)),
       );
     }
 
@@ -91,7 +92,7 @@ class ChecklistPreview extends ConsumerWidget {
       },
       loading: () => const Center(child: CircularProgressIndicator()),
       error: (error, stackTrace) =>
-          const Center(child: Text('Error loading checklist')),
+         Center(child: Text(context.loc.errorLoadingChecklist)),
     );
   }
 }
