@@ -97,6 +97,90 @@
   "validCityError": "Please enter a valid city.",
   "selectCategoryError": "Please select at least one category.",
   "addActivity": "Add an Activity",
-  "activityHintText": "Activity..."
+  "activityHintText": "Activity...",
   
-  }
+
+
+
+  "myTripsTitle": "My Trips",
+  "upcomingTripsTitle": "Upcoming trips",
+  "noUpcomingTripsFound": "No upcoming trips yet.",
+  "previousTripsTitle": "Previous trips",
+  "noPreviousTripsFound": "No previous trips found",
+  "errorLoadingTrips": "Error loading trips. Please try again later.",
+
+  "tripPrivacyInformation": "Who can join this trip?",
+  "public": "Public",
+  "publicTripDescription": "Meet new people in a public trip. A public trip is visible to all users. Everybody can join if it is not full.",
+  "private": "Private",
+  "privateTripDescription": "A private trip is only accessible to invited participants. It is not visible to other users unless they are invited.",
+
+  "flexibleDates": "Flexible Dates",
+
+  "createTrip": "Create a Trip",
+  "tripName": "Name",
+  "tripNameEmptyError": "Name can't be empty",
+  "tripDescriptionEmptyError": "Description can't be empty if the trip is public",
+  "tripDescription": "Description",
+  "tripDateSelect": "Select Dates",
+  "optional": "optional",
+  "publicTrip": "Public",
+  "privateTrip": "Private",
+  "maxParticipants": "Max",
+  "createTrip": "Create",
+
+
+  "countryWorldWide": "World Wide",
+  "archivedTripSelection": "Archived",
+  "upcomingTripsSelection": "Upcoming",
+  "searchLabel": "Search",
+  "searchHint": "Start typing to search",
+  "flexibleLabel": "Flexible",
+  "noTripsFound": "No trips found",
+  "exploreTripsTitle": "Explore Trips",
+
+
+  "addPicture": "Add a picture",
+  "addPictureSelectImage": "Please select an image",
+  "addPictureNotParticipant": "You are not a participant of this trip",
+  "addPictureCaption": "Add a caption",
+  "deletePicture": "Delete Picture",
+  "deletePictureConfirmation": "Are you sure you want to delete this picture?",
+
+  "anonymousUser": "Anonym User",
+  "unknown": "Unknown",
+
+  "errorLoadingChat": "Error loading chat. Please try again later.",
+  "tripGroupChat": "Trip Group Chat",
+  "typeMessage": "Type message...",
+  "chatEmptyMessage": "Cannot send empty Message.",
+  "signInToSendMessage": "Please sign in and assign yourself a name in your profile to send messages.",
+
+  "signIn": "Sign in",
+  "tryAsGuest": "Try anonymously",
+  "or": "or",
+
+
+  "leaveTrip": "Leave Trip",
+  "leave": "Leave",
+  "confirmLeaveTrip": "Are you sure you want to leave this trip?",
+  "plan": "Plan",
+  "chat": "Chat",
+  "gallery": "Gallery",
+  "tripFull": "Trip is full",
+  "join": "Join",
+  "loadingTrip": "Loading Trip...",
+  "tripOverview": "Trip Overview",
+  "errorLoadingTrip": "Error loading trip. Please try again later.",
+  "participantsTitle": "Participants",
+  "activitiesTitle": "Activities",
+  "mapTitle": "Map",
+  "checklistTitle": "Checklist",
+  "noImagesAvailable": "No images available",
+
+  "addUser": "Add User",
+  "addParticipant": "Add Participant",
+
+  
+  "searchActivities": "Search activities..."
+}

@@ -9,6 +9,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:travel_link/src/features/account/domain/user_account.dart';
 import 'package:travel_link/src/features/account/presentation/account_controller.dart';
+import 'package:travel_link/src/features/activities/3_activities_screen/domain/activity.dart';
 import 'package:travel_link/src/features/authentication/data/firebase_auth_repository.dart';
 import 'package:travel_link/src/features/map/presentation/exchanged_way.dart';
 import 'package:travel_link/src/features/my_trips/domain/destination.dart';
@@ -25,17 +26,6 @@ LatLng latLng3 = const LatLng(49.688520, 8.462580);
 List<LatLng> locations = [latLng1, latLng2, latLng3];
 
 bool displayRoute = false;
-
-List<Marker> createDummyLocationMarkers(WidgetRef ref) {
-  return [
-    createLeisureActivity(const LatLng(49.690025, 8.463075), '', '', ref),
-    createReligousActivity(const LatLng(49.691430, 8.463370), '', '', ref),
-    createNatureActivity(const LatLng(49.688520, 8.462580), '', '', ref),
-    createSportsActivity(const LatLng(49.71, 8.5), '', '', ref),
-    createActivActivity(const LatLng(49.73, 8.6), '', '', ref),
-    createCampingActivity(const LatLng(49.75, 8.7), '', '', ref),
-  ];
-}
 
 class TripMapScreen extends ConsumerStatefulWidget {
   const TripMapScreen({
@@ -116,6 +106,18 @@ class _TripMapScreenState extends ConsumerState<TripMapScreen> {
           data['location'] as Map<String, dynamic>;
       final double lati = location['lat'] as double;
       final double long = location['lon'] as double;
+      final Activity associatedActivity = Activity(
+        name: name,
+        categories: ['categories'],
+        location: PlaceLocation(
+          lat: lati,
+          lon: long,
+          city: 'city',
+          country: 'country',
+          formatted: 'formatted',
+          countryCode: 'countryCode',
+        ),
+      );
 
       allActivitiesInDB.add(
         await _createMarkerBasedOnDescription(
@@ -124,6 +126,7 @@ class _TripMapScreenState extends ConsumerState<TripMapScreen> {
           name,
           lati,
           long,
+          associatedActivity,
         ),
       );
     }
@@ -140,21 +143,35 @@ class _TripMapScreenState extends ConsumerState<TripMapScreen> {
     String name,
     double latitude,
     double longitude,
+    Activity associatedActivity,
   ) async {
     final typeOfActivity = categories[0];
     final LatLng positionOfActivity = LatLng(latitude, longitude);
 
     switch (typeOfActivity) {
       case ('natural'):
-        return createNatureActivity(positionOfActivity, name, description, ref);
+        return createNatureActivity(
+          positionOfActivity,
+          name,
+          description,
+          ref,
+          associatedActivity,
+        );
       case ('sport'):
-        return createSportsActivity(positionOfActivity, name, description, ref);
+        return createSportsActivity(
+          positionOfActivity,
+          name,
+          description,
+          ref,
+          associatedActivity,
+        );
       case ('accommodation'):
         return createAccomodationActivity(
           positionOfActivity,
           name,
           description,
           ref,
+          associatedActivity,
         );
       case ('camping'):
         return createCampingActivity(
@@ -162,6 +179,7 @@ class _TripMapScreenState extends ConsumerState<TripMapScreen> {
           name,
           description,
           ref,
+          associatedActivity,
         );
       case ('entertainment'):
         return createEntertainmentActivity(
@@ -169,6 +187,7 @@ class _TripMapScreenState extends ConsumerState<TripMapScreen> {
           name,
           description,
           ref,
+          associatedActivity,
         );
       case ('tourism'):
         return createTourismeActivity(
@@ -176,15 +195,23 @@ class _TripMapScreenState extends ConsumerState<TripMapScreen> {
           name,
           description,
           ref,
+          associatedActivity,
         );
       case ('activity'):
-        return createActivActivity(positionOfActivity, name, description, ref);
+        return createActivActivity(
+          positionOfActivity,
+          name,
+          description,
+          ref,
+          associatedActivity,
+        );
       case ('catering'):
         return createCateringActivity(
           positionOfActivity,
           name,
           description,
           ref,
+          associatedActivity,
         );
       case ('education'):
         return createEducationActivity(
@@ -192,6 +219,7 @@ class _TripMapScreenState extends ConsumerState<TripMapScreen> {
           name,
           description,
           ref,
+          associatedActivity,
         );
       case ('leisure'):
         return createLeisureActivity(
@@ -199,6 +227,7 @@ class _TripMapScreenState extends ConsumerState<TripMapScreen> {
           name,
           description,
           ref,
+          associatedActivity,
         );
       case ('religion'):
         return createReligousActivity(
@@ -206,6 +235,7 @@ class _TripMapScreenState extends ConsumerState<TripMapScreen> {
           name,
           description,
           ref,
+          associatedActivity,
         );
       default:
         return createLeisureActivity(
@@ -213,6 +243,7 @@ class _TripMapScreenState extends ConsumerState<TripMapScreen> {
           name,
           description,
           ref,
+          associatedActivity,
         );
     }
   }
@@ -336,9 +367,7 @@ class _TripMapScreenState extends ConsumerState<TripMapScreen> {
                         ],
                       ),
                       MarkerLayer(
-                        markers: createDummyLocationMarkers(ref) +
-                            userMarkers +
-                            activitiesMarker,
+                        markers: userMarkers + activitiesMarker,
                       ),
                     ],
                   )

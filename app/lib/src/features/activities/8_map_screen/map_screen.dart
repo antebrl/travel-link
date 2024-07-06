@@ -28,7 +28,7 @@ class MapScreenWithActivities extends ConsumerStatefulWidget {
 
 class _MapScreenWithActivitiesState
     extends ConsumerState<MapScreenWithActivities> {
-  LatLng firstView = LatLng(49.8728, 8.6512); // Initial center
+  LatLng firstView = const LatLng(49.8728, 8.6512); // Initial center
   List<Marker> allActivityMarkers = [];
   bool activitiesFetched = false;
 
@@ -36,7 +36,9 @@ class _MapScreenWithActivitiesState
   Widget build(BuildContext context) {
     return FutureBuilder<List<Activity>>(
       future: combineFutureLists(
-          widget.fetchedApiActivities, widget.fetchedUserActivities),
+        widget.fetchedApiActivities,
+        widget.fetchedUserActivities,
+      ),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(
@@ -59,56 +61,106 @@ class _MapScreenWithActivitiesState
             final double lat = activities[i].location.lat;
             final double long = activities[i].location.lon;
             final LatLng position = LatLng(lat, long);
+            final Activity associatedActivity = activities[i];
             firstView = position; // Update firstView
 
             switch (typeOfActivity) {
               case 'natural':
-                createdActivity =
-                    createNatureActivity(position, name, description, ref);
-                break;
+                createdActivity = createNatureActivity(
+                  position,
+                  name,
+                  description,
+                  ref,
+                  associatedActivity,
+                );
               case 'sport':
-                createdActivity =
-                    createSportsActivity(position, name, description, ref);
-                break;
+                createdActivity = createSportsActivity(
+                  position,
+                  name,
+                  description,
+                  ref,
+                  associatedActivity,
+                );
               case 'accommodation':
                 createdActivity = createAccomodationActivity(
-                    position, name, description, ref);
-                break;
+                  position,
+                  name,
+                  description,
+                  ref,
+                  associatedActivity,
+                );
               case 'camping':
-                createdActivity =
-                    createCampingActivity(position, name, description, ref);
-                break;
+                createdActivity = createCampingActivity(
+                  position,
+                  name,
+                  description,
+                  ref,
+                  associatedActivity,
+                );
               case 'entertainment':
                 createdActivity = createEntertainmentActivity(
-                    position, name, description, ref);
-                break;
+                  position,
+                  name,
+                  description,
+                  ref,
+                  associatedActivity,
+                );
               case 'tourism':
-                createdActivity =
-                    createTourismeActivity(position, name, description, ref);
-                break;
+                createdActivity = createTourismeActivity(
+                  position,
+                  name,
+                  description,
+                  ref,
+                  associatedActivity,
+                );
               case 'activity':
-                createdActivity =
-                    createActivActivity(position, name, description, ref);
-                break;
+                createdActivity = createActivActivity(
+                  position,
+                  name,
+                  description,
+                  ref,
+                  associatedActivity,
+                );
               case 'catering':
-                createdActivity =
-                    createCateringActivity(position, name, description, ref);
-                break;
+                createdActivity = createCateringActivity(
+                  position,
+                  name,
+                  description,
+                  ref,
+                  associatedActivity,
+                );
               case 'education':
-                createdActivity =
-                    createEducationActivity(position, name, description, ref);
-                break;
+                createdActivity = createEducationActivity(
+                  position,
+                  name,
+                  description,
+                  ref,
+                  associatedActivity,
+                );
               case 'leisure':
-                createdActivity =
-                    createLeisureActivity(position, name, description, ref);
-                break;
+                createdActivity = createLeisureActivity(
+                  position,
+                  name,
+                  description,
+                  ref,
+                  associatedActivity,
+                );
               case 'religion':
-                createdActivity =
-                    createReligousActivity(position, name, description, ref);
-                break;
+                createdActivity = createReligousActivity(
+                  position,
+                  name,
+                  description,
+                  ref,
+                  associatedActivity,
+                );
               default:
                 createdActivity = createEntertainmentActivity(
-                    position, name, description, ref);
+                  position,
+                  name,
+                  description,
+                  ref,
+                  associatedActivity,
+                );
                 break;
             }
             allActivityMarkers.add(createdActivity);
@@ -207,8 +259,10 @@ class _MapScreenWithActivitiesState
   }
 
   Future<List<T>> combineFutureLists<T>(
-      Future<List<T>> futureList1, Future<List<T>> futureList2) async {
-    List<T> list1 = await futureList1;
+    Future<List<T>> futureList1,
+    Future<List<T>> futureList2,
+  ) async {
+    final List<T> list1 = await futureList1;
     //List<T> list2 = await futureList2;
     return [
       ...list1, /*...list2*/

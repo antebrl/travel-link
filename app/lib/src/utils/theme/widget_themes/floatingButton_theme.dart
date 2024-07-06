@@ -6,7 +6,7 @@ class CustomFloatingButtonTheme {
   CustomFloatingButtonTheme._();
 
   /// Light Theme
-  static final lightFloatingButtonTheme = const FloatingActionButtonThemeData(
+  static const lightFloatingButtonTheme = FloatingActionButtonThemeData(
     elevation: 8, // Adjust the elevation as needed
     foregroundColor: CustomColors.white,
     backgroundColor: CustomColors.primary,

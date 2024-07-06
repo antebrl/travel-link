@@ -112,7 +112,7 @@ class _ActivitiesScreenState extends ConsumerState<ActivitiesScreen> {
                   child: TextField(
                     onChanged: filterActivitiesBySearch,
                     decoration: InputDecoration(
-                      labelText: 'Search activities...',
+                      labelText: context.loc.searchActivities,
                       labelStyle:
                           Theme.of(context).textTheme.bodyLarge!.copyWith(
                                 color: CustomColors.primary,
@@ -184,6 +184,7 @@ class _ActivitiesScreenState extends ConsumerState<ActivitiesScreen> {
           if (filteredActivitiesBySearch.isNotEmpty)
             Expanded(
               child: ListView.builder(
+                physics: const BouncingScrollPhysics(),
                 itemCount: filteredActivitiesBySearch.length,
                 shrinkWrap: true,
                 itemBuilder: (context, index) => ActivityItem(
@@ -191,7 +192,7 @@ class _ActivitiesScreenState extends ConsumerState<ActivitiesScreen> {
                   activity: filteredActivitiesBySearch[index],
                 ),
               ),
-            )
+            ),
         ],
       ),
     );

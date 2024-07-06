@@ -9,6 +9,7 @@ import 'package:travel_link/src/features/trip_overview/data/user_repository.dart
 import 'package:travel_link/src/utils/constants/colors.dart';
 import 'package:travel_link/src/utils/constants/image_strings.dart';
 import 'package:travel_link/src/utils/formatters/formatter.dart';
+import 'package:travel_link/src/utils/helpers/localization.dart';
 
 class FullscreenPicture extends ConsumerWidget {
   const FullscreenPicture({required this.tripId, required this.picturePost, super.key});
@@ -75,9 +76,9 @@ class FullscreenPicture extends ConsumerWidget {
                         Text(
                           author.when(
                             data: (userAccount) =>
-                                userAccount?.displayName ?? 'Anonym User',
-                            loading: () => 'Anonym User',
-                            error: (_, __) => 'Anonym User',
+                                userAccount?.displayName ?? context.loc.anonymousUser,
+                            loading: () => context.loc.anonymousUser,
+                            error: (_, __) => context.loc.anonymousUser,
                           ),
                           style: context.textTheme.bodyLarge?.copyWith(
                             color: CustomColors.primary,
@@ -139,17 +140,17 @@ class FullscreenPicture extends ConsumerWidget {
                       return [
                         PopupMenuItem(
                           height: 33,
-                          child: const Row(
+                          child: Row(
                             children: [
-                              Icon(
+                              const Icon(
                                 Icons.delete,
                                 color: Colors.red,
                                 size: 18,
                               ),
-                              SizedBox(width: 5),
+                              const SizedBox(width: 5),
                               Text(
-                                'Delete',
-                                style: TextStyle(
+                                context.loc.delete,
+                                style: const TextStyle(
                                   color: Colors.red,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -161,19 +162,19 @@ class FullscreenPicture extends ConsumerWidget {
                               context: context,
                               builder: (BuildContext context) {
                                 return AlertDialog(
-                                  title: const Text('Delete Picture'),
-                                  content: const Text(
-                                    'Are you sure you want to delete this picture?',
+                                  title: Text(context.loc.deletePicture),
+                                  content: Text(
+                                    context.loc.deletePictureConfirmation,
                                   ),
                                   actions: [
                                     TextButton(
-                                      child: const Text('Cancel'),
+                                      child: Text(context.loc.cancel),
                                       onPressed: () {
                                         Navigator.of(context).pop();
                                       },
                                     ),
                                     TextButton(
-                                      child: const Text('Delete'),
+                                      child: Text(context.loc.delete),
                                       onPressed: () async {
                                         await ref.read(sharedGalleryControllerProvider.notifier).deletePicture(pictureId: picturePost.id, tripId: tripId);
                   

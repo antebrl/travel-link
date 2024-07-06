@@ -6,7 +6,7 @@ import 'package:travel_link/src/features/gallery/domain/picture_post.dart';
 import 'package:travel_link/src/features/gallery/presentation/fullscreen_picture.dart';
 
 class ImagesGridView extends StatelessWidget {
-  const ImagesGridView({super.key, required this.images, required this.tripId});
+  const ImagesGridView({required this.images, required this.tripId, super.key});
 
   final List<PicturePost> images;
   final String tripId;
@@ -15,7 +15,8 @@ class ImagesGridView extends StatelessWidget {
   Widget build(BuildContext context) {
     return AnimationLimiter(
       child: MasonryGridView.count(
-        crossAxisCount: MediaQuery.of(context).orientation == Orientation.portrait ? 2 : 3,
+        crossAxisCount:
+            MediaQuery.of(context).orientation == Orientation.portrait ? 2 : 3,
         mainAxisSpacing: 8,
         crossAxisSpacing: 8,
         itemCount: images.length,
@@ -27,16 +28,16 @@ class ImagesGridView extends StatelessWidget {
               child: FadeInAnimation(
                 child: GestureDetector(
                   onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute<FullscreenPicture>(
-                          builder: (context) => FullscreenPicture(
-                            picturePost: images[index],
-                            tripId: tripId,
-                          ),
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute<FullscreenPicture>(
+                        builder: (context) => FullscreenPicture(
+                          picturePost: images[index],
+                          tripId: tripId,
                         ),
-                      );
-                    },
+                      ),
+                    );
+                  },
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(15),
                     child: CachedNetworkImage(

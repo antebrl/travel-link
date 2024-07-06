@@ -21,6 +21,7 @@ class _APIActivityItemState extends State<APIActivityItem> {
   late Future<List<String>?> _imageFuture;
   String formattedLink = '';
   static final Map<String, List<String>> _imageCache = {};
+  late bool hasPlaceholderPicture = false;
 
   @override
   void initState() {
@@ -35,17 +36,21 @@ class _APIActivityItemState extends State<APIActivityItem> {
       if (widget.activity.imagePaths.isNotEmpty) {
         _imageFuture = Future.value(widget.activity.imagePaths);
       } else {
-        _imageFuture = widget.activity.wikidataUrl != null
-            ? fetchImageAndDescription(
-                widget.activity.wikidataUrl!,
-                widget.activity.name,
-                widget.activity.wikidataId!,
-              )
-            : Future.value(
-                [
-                  CustomImages.getPlaceholderImage(widget.activity.categories),
-                ],
-              );
+        if (widget.activity.wikidataUrl != null) {
+          hasPlaceholderPicture = false;
+          _imageFuture = fetchImageAndDescription(
+            widget.activity.wikidataUrl!,
+            widget.activity.name,
+            widget.activity.wikidataId!,
+          );
+        } else {
+          hasPlaceholderPicture = true;
+          _imageFuture = Future.value(
+            [
+              CustomImages.getPlaceholderImage(widget.activity.categories),
+            ],
+          );
+        }
       }
     }
   }
@@ -81,13 +86,12 @@ class _APIActivityItemState extends State<APIActivityItem> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        // => context.pushNamed(
-        //   ActivitiesRoutes.ApiActivitiesDetailsScreen.name,
-        //   extra: widget.activity,
         Navigator.of(context).push(
           MaterialPageRoute<ApiActivitiesDetailsScreen>(
-            builder: (BuildContext context) =>
-                ApiActivitiesDetailsScreen(activity: widget.activity),
+            builder: (BuildContext context) => ApiActivitiesDetailsScreen(
+              activity: widget.activity,
+              hasPlaceholderPicture: hasPlaceholderPicture,
+            ),
           ),
         );
       },
@@ -122,10 +126,11 @@ class _APIActivityItemState extends State<APIActivityItem> {
                   return Image.network(
                     //Wikipedia entry but no picture
                     CustomImages.getPlaceholderImage(
-                        widget.activity.categories),
+                      widget.activity.categories,
+                    ),
                     height: 125,
                     width: double.infinity,
-                    fit: BoxFit.cover,
+                    fit: BoxFit.contain,
                   );
                 } else {
                   return Stack(
@@ -139,7 +144,9 @@ class _APIActivityItemState extends State<APIActivityItem> {
                           snapshot.data![0],
                           height: 125,
                           width: double.infinity,
-                          fit: BoxFit.cover,
+                          fit: hasPlaceholderPicture
+                              ? BoxFit.contain
+                              : BoxFit.cover,
                         ),
                       ),
                     ],

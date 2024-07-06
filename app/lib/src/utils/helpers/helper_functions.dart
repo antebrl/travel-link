@@ -5,7 +5,6 @@ import 'package:travel_link/src/features/activities/2_continents_screen/domain/c
 
 class CustomHelperFunctions {
   static Color? getColor(String value) {
-    /// Define your product specific colors here and it will match the attribute colors and show specific 🟠🟡🟢🔵🟣🟤
 
     if (value == 'Green') {
       return Colors.green;
@@ -89,8 +88,10 @@ class CustomHelperFunctions {
     return MediaQuery.of(Get.context!).size.width;
   }
 
-  static String getFormattedDate(DateTime date,
-      {String format = 'dd MMM yyyy'}) {
+  static String getFormattedDate(
+    DateTime date, {
+    String format = 'dd MMM yyyy',
+  }) {
     return DateFormat(format).format(date);
   }
 
@@ -102,7 +103,9 @@ class CustomHelperFunctions {
     final wrappedList = <Widget>[];
     for (var i = 0; i < widgets.length; i += rowSize) {
       final rowChildren = widgets.sublist(
-          i, i + rowSize > widgets.length ? widgets.length : i + rowSize);
+        i,
+        i + rowSize > widgets.length ? widgets.length : i + rowSize,
+      );
       wrappedList.add(Row(children: rowChildren));
     }
     return wrappedList;
@@ -126,6 +129,4 @@ class CustomHelperFunctions {
         return '';
     }
   }
-
-  
 }

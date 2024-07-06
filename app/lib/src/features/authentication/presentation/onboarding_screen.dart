@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:travel_link/src/features/authentication/presentation/auth_providers.dart';
 import 'package:travel_link/src/routing/app_router.dart';
+import 'package:travel_link/src/utils/helpers/localization.dart';
 
 class OnboardingScreen extends ConsumerWidget {
   const OnboardingScreen({super.key});
@@ -13,16 +14,16 @@ class OnboardingScreen extends ConsumerWidget {
     final authProviders = ref.watch(authProvidersProvider);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Sign in'),
+        title: Text(context.loc.signIn),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.fromLTRB(16, 16, 16, 5),
         child: Column(
           children: <Widget>[
             Image.asset(
               'assets/images/my-trips/travel.gif',
               fit: BoxFit.cover,
-              height: 170,
+              height: 150,
             ),
             // Sign-in screen
             Expanded(
@@ -47,19 +48,19 @@ class SignInAnonymouslyFooter extends ConsumerWidget {
     return Column(
       children: [
         const SizedBox(height: 8),
-        const Row(
+        Row(
           children: [
-            Expanded(child: Divider()),
+            const Expanded(child: Divider()),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8),
-              child: Text('or'),
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: Text(context.loc.or),
             ),
-            Expanded(child: Divider()),
+            const Expanded(child: Divider()),
           ],
         ),
         TextButton(
           onPressed: () => context.goNamed(TopLevelDestinations.trips.name),
-          child: const Text('Try anonymously'),
+          child: Text(context.loc.tryAsGuest),
         ),
       ],
     );

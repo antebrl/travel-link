@@ -12,39 +12,35 @@ class ActivitiesContinentsScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-         context.loc.exploreActivities,
+          context.loc.exploreActivities,
         ),
       ),
       body: LayoutBuilder(
         builder: (context, constraints) {
           return Center(
-            child: Column(
-              children: [
-                SizedBox(
-                  height: constraints.maxHeight,
-                  width: 450,
-                  child: GridView.count(
-                    crossAxisSpacing: 10,
-                    mainAxisSpacing: 10,
-                    crossAxisCount: 2,
-                    padding: const EdgeInsets.all(20),
-                    children: <Widget>[
-                      for (final continent in continentData)
-                        ContinentItem(
-                          continent: continent,
-                          onSelectContintent: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    ActivitiesScreen(continent: continent),
-                              ),
-                            );
-                          },
-                        ),
-                    ],
-                  ),
-                ),
-              ],
+            child: SizedBox(
+              width: 450,
+              child: GridView.count(
+                crossAxisSpacing: 10,
+                mainAxisSpacing: 10,
+                crossAxisCount: 2,
+                childAspectRatio: 1 / .9,
+                padding: const EdgeInsets.all(20),
+                children: <Widget>[
+                  for (final continent in continentData)
+                    ContinentItem(
+                      continent: continent,
+                      onSelectContintent: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                ActivitiesScreen(continent: continent),
+                          ),
+                        );
+                      },
+                    ),
+                ],
+              ),
             ),
           );
         },

@@ -1,34 +1,6 @@
-# Implementation
-Document your app with a rough [class diagram in mermaid]()
+The overall architecture of our features heavily depends on the firebase architecture below. It is a good overview how the system is structured.
 
-``` mermaid
-classDiagram
-    note "From Duck till Zebra"
-    Animal <|-- Duck
-    note for Duck "can fly\ncan swim\ncan dive\ncan help in debugging"
-    Animal <|-- Fish
-    Animal <|-- Zebra
-    Animal : +int age
-    Animal : +String gender
-    Animal: +isMammal()
-    Animal: +mate()
-    class Duck{
-        +String beakColor
-        +swim()
-        +quack()
-    }
-    class Fish{
-        -int sizeInFeet
-        -canEat()
-    }
-    class Zebra{
-        +bool is_wild
-        +run()
-    }
-```
-
-
-
+For the app structure, we used a feature based approach!
 
 ## Firebase Architecture
 We used  

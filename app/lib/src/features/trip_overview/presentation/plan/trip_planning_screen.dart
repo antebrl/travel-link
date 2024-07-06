@@ -12,6 +12,7 @@ import 'package:travel_link/src/features/trip_overview/presentation/plan/preview
 import 'package:travel_link/src/routing/app_router.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
 import 'package:travel_link/src/utils/formatters/formatter.dart';
+import 'package:travel_link/src/utils/helpers/localization.dart';
 
 class TripPlanningScreen extends StatefulWidget {
   const TripPlanningScreen({required this.trip, super.key});
@@ -29,6 +30,7 @@ class _TripPlanningScreenState extends State<TripPlanningScreen> {
   @override
   Widget build(BuildContext context) {
     return ListView(
+      physics: const BouncingScrollPhysics(),
       children: [
         // pictures of trip/destination
         buildImageSlider(),
@@ -71,7 +73,7 @@ class _TripPlanningScreenState extends State<TripPlanningScreen> {
         ),
         const SizedBox(height: 10),
         PreviewTile(
-          title: 'Participants',
+          title: context.loc.participantsTitle,
           preview: ParticipantsPreview(
             participants: widget.trip.participants,
             maxParticipants: widget.trip.maxParticipants,
@@ -90,7 +92,7 @@ class _TripPlanningScreenState extends State<TripPlanningScreen> {
               Row(
                 children: [
                   Text(
-                    'Activities',
+                    context.loc.activitiesTitle,
                     style: TextStyle(
                       fontSize: 20,
                       color: Colors.grey[700],
@@ -129,29 +131,41 @@ class _TripPlanningScreenState extends State<TripPlanningScreen> {
         ),
         const SizedBox(height: 10),
         PreviewTile(
-          title: 'Map',
-          preview: const Placeholder(fallbackHeight: 100),
-          detailsPageBuilder: (context) => TripMapScreen(participants: widget.trip.participants, destination: widget.trip.destination),
-        ),
-        const SizedBox(height: 10),
-        PreviewTile(
-          title: 'Map',
-          preview: const Placeholder(fallbackHeight: 100),
-          detailsPageBuilder: (context) => TripMapScreen(participants: widget.trip.participants, destination: widget.trip.destination),
-        ),
-        const SizedBox(height: 10),
-        PreviewTile(
-          title: 'Checklist',
+          title: context.loc.checklistTitle,
           preview: ChecklistPreview(tripId: widget.trip.tripId, maxItems: 3),
           detailsPageBuilder: (context) => ChecklistsScreen(trip: widget.trip),
         ),
         const SizedBox(height: 10),
         PreviewTile(
-          title: 'Costs',
-          preview: const Placeholder(fallbackHeight: 100),
-          detailsPageBuilder: (context) => const Placeholder(),
+          title: context.loc.mapTitle,
+            preview: Padding(
+              padding: const EdgeInsets.only(right: 20, left: 10),
+              child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.6),
+                  spreadRadius: 4,
+                  blurRadius: 6,
+                  offset: const Offset(0, 2),
+                ),
+                ],
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Image.asset(
+                  'assets/images/continents/map-preview.jpg',
+                  fit: BoxFit.cover,
+                  height: 140,
+                  width: 520,
+                ),
+              ),
+              ),
+            ),
+          detailsPageBuilder: (context) => TripMapScreen(participants: widget.trip.participants, destination: widget.trip.destination),
         ),
-        const SizedBox(height: 10),
+        const SizedBox(height: 18),
       ],
     );
   }
@@ -162,10 +176,10 @@ class _TripPlanningScreenState extends State<TripPlanningScreen> {
         return Container(
           height: 180,
           color: Colors.grey[300],
-          child: const Center(
+          child: Center(
             child: Text(
-              'No images available',
-              style: TextStyle(
+              context.loc.noImagesAvailable,
+              style: const TextStyle(
                 color: Colors.grey,
                 fontSize: 16,
               ),
@@ -215,7 +229,7 @@ class _TripPlanningScreenState extends State<TripPlanningScreen> {
                                 startDate: widget.trip.startDate!,
                                 endDate: widget.trip.endDate!,
                               )
-                            : 'flexible Dates',
+                            : context.loc.flexibleDates,
                         style: const TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
@@ -297,9 +311,11 @@ class _TripPlanningScreenState extends State<TripPlanningScreen> {
             Positioned(
               bottom: 20,
               left: 20,
-              child: Flexible(
+              child: Center(
                 child: Container(
-                  width: 280,
+                  constraints: BoxConstraints(
+                    maxWidth: MediaQuery.of(context).size.width - 20,
+                  ),
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
                     color: Colors.white.withOpacity(0.8),
@@ -308,14 +324,16 @@ class _TripPlanningScreenState extends State<TripPlanningScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        widget.trip.destination.formatted,
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
+                      FittedBox(
+                        child: Text(
+                          widget.trip.destination.formatted,
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
                         ),
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
                       ),
                       const SizedBox(height: 5),
                       Text(
@@ -324,9 +342,10 @@ class _TripPlanningScreenState extends State<TripPlanningScreen> {
                                 startDate: widget.trip.startDate!,
                                 endDate: widget.trip.endDate!,
                               )
-                            : 'flexible Dates',
+                            : context.loc.flexibleDates,
                         style: const TextStyle(
                           fontSize: 14,
+                          fontWeight: FontWeight.bold,
                           color: CustomColors.primary,
                         ),
                       ),
