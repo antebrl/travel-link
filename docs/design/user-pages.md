@@ -21,3 +21,11 @@
 <figure markdown="span">
   ![User Flow Diagramm](../assets/images/my_trips.svg)
 </figure>
+
+## Account
+!!! info "Explanation"
+	The account section allows users to manage their personal information and settings. Users can update their profile details, such as their name, email, and profile picture. They can also change their password and update their notification preferences. This section provides a centralized place for users to customize and control their account settings
+
+<figure markdown="span">
+  ![Figma Design](../assets/images/account/account_page.svg)
+</figure>
