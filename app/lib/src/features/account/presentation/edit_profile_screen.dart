@@ -44,13 +44,6 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
     interestsList = widget.userAccount.interests;
   }
 
-  final defaultAboutMeText =
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. ';
-
-  final defaultUsername = 'John Doe';
-
-  final defaultCity = 'New York';
-
   Uint8List? profilePicture;
 
   final nameController = TextEditingController();
@@ -68,11 +61,6 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
       accountControllerProvider,
       (_, state) => state.showSnackbarOnError(context),
     );
-
-    nameController.text = widget.userAccount.publicName ?? defaultUsername;
-    aboutMeController.text =
-        widget.userAccount.description ?? defaultAboutMeText;
-    cityController.text = widget.userAccount.city ?? defaultCity;
     return Scaffold(
       appBar: AppBar(
         title: Text(context.loc.editProfileHeading),
@@ -181,6 +169,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                           controller: nameController,
                           decoration: InputDecoration(
                             labelText: context.loc.editProfileName,
+                            hintText: context.loc.editProfileNamePlaceholder,
                             labelStyle: const TextStyle(fontSize: 15),
                             hintStyle: const TextStyle(fontSize: 15),
                           ),
@@ -192,6 +181,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                           controller: cityController,
                           decoration: InputDecoration(
                             labelText: context.loc.editProfileOrigin,
+                            hintText: context.loc.editProfileOriginPlaceholder,
                             labelStyle: const TextStyle(fontSize: 15),
                             hintStyle: const TextStyle(fontSize: 15),
                           ),
@@ -206,6 +196,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                           style: Theme.of(context).textTheme.bodyMedium,
                           decoration: InputDecoration(
                             labelText: context.loc.editProfileAboutMe,
+                            hintText: context.loc.editProfileAboutMePlaceholder,
                             labelStyle: const TextStyle(fontSize: 15),
                             hintStyle: const TextStyle(fontSize: 15),
                           ),
@@ -305,7 +296,9 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                                         : Flag.fromString(language),
                                     onPressed: () {
                                       setState(() {
-                                        languageList.remove(language);
+                                        if (editMode == EditMode.language) {
+                                          languageList.remove(language);
+                                        }
                                       });
                                     },
                                     label: language,
@@ -431,7 +424,9 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                                         : const Icon(Icons.circle),
                                     onPressed: () {
                                       setState(() {
-                                        interestsList.removeAt(index);
+                                        if (editMode == EditMode.interest) {
+                                          interestsList.removeAt(index);
+                                        }
                                       });
                                     },
                                     label: interest,
