@@ -284,11 +284,7 @@ class _ProfileScreenState extends ConsumerState<UserProfileScreen> {
                       children: languageList.map((language) {
                         return CustomChip(
                           avatar: Flag.fromString(language),
-                          onPressed: () {
-                            setState(() {
-                              languageList.remove(language);
-                            });
-                          },
+                          onPressed: () {},
                           label: language,
                         );
                       }).toList(),
@@ -307,11 +303,7 @@ class _ProfileScreenState extends ConsumerState<UserProfileScreen> {
                   children: interestList.map((interest) {
                     return CustomChip(
                       avatar: const Icon(Icons.circle),
-                      onPressed: () {
-                        setState(() {
-                          languageList.remove(interest);
-                        });
-                      },
+                      onPressed: () {},
                       label: interest,
                     );
                   }).toList(),
