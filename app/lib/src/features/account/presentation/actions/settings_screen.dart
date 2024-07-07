@@ -11,16 +11,18 @@ class AccountSettingsScreen extends StatefulWidget {
 }
 
 class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
+  final _settings = {
+    'privateProfile': false,
+    'receiveNotifications': false,
+    'receiveNewsletter': false,
+  };
   @override
   Widget build(BuildContext context) {
-    final List<Map<String, dynamic>> _options = [
-      {'option': context.loc.accountSettingsPrivateProfile, 'value': false},
-      {
-        'option': context.loc.accountSettingsReceiveNotifications,
-        'value': false
-      },
-      {'option': context.loc.accountSettingsReceiveNewsletter, 'value': false},
-    ];
+    final settingsLabels = {
+      'privateProfile': context.loc.accountSettingsPrivateProfile,
+      'receiveNotifications': context.loc.accountSettingsReceiveNotifications,
+      'receiveNewsletter': context.loc.accountSettingsReceiveNewsletter,
+    };
 
     return Scaffold(
       appBar: AppBar(
@@ -35,22 +37,19 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
             padding: const EdgeInsets.all(8),
             child: Column(
               mainAxisSize: MainAxisSize.min,
-              children: _options.map((option) {
-                return Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(option['option'] as String),
-                    Switch(
-                      value: option['value'] as bool,
+              children: _settings.keys
+                  .map(
+                    (key) => SwitchListTile(
+                      title: Text(settingsLabels[key]!),
+                      value: _settings[key]!,
                       onChanged: (value) {
                         setState(() {
-                          option['value'] = value;
+                          _settings[key] = value;
                         });
                       },
                     ),
-                  ],
-                );
-              }).toList(),
+                  )
+                  .toList(),
             ),
           ),
         ),
