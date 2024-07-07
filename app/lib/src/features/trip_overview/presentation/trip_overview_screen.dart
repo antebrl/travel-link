@@ -7,6 +7,7 @@ import 'package:travel_link/src/features/gallery/presentation/shared_gallery_scr
 import 'package:travel_link/src/features/my_trips/data/my_trips_repository.dart';
 import 'package:travel_link/src/features/my_trips/presentation/my_trips_controller.dart';
 import 'package:travel_link/src/features/trip_overview/presentation/plan/trip_planning_screen.dart';
+import 'package:travel_link/src/utils/helpers/async_value.dart';
 import 'package:travel_link/src/utils/helpers/localization.dart';
 import 'package:travel_link/src/utils/logging/logger.dart';
 
@@ -37,6 +38,12 @@ class _TripOverviewScreenState extends ConsumerState<TripOverviewScreen>
 
   @override
   Widget build(BuildContext context) {
+    //Catch state errors when joining, leaving a trip or adding a participant
+    ref.listen<AsyncValue>(
+      myTripsControllerProvider,
+      (_, state) => state.showSnackbarOnError(context),
+    );
+
     final fetchedTrip = ref.watch(tripStreamProvider(widget.tripId));
 
     final userId = ref.watch(firebaseAuthProvider).currentUser?.uid;

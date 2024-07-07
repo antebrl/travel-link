@@ -121,6 +121,7 @@ class MyTripsController extends _$MyTripsController {
   Future<void> leaveTrip({required Trip trip}) async {
     final currentUser = ref.read(firebaseAuthProvider).currentUser;
 
+
     //set state to loading
     state = const AsyncLoading();
 

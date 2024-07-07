@@ -13,6 +13,7 @@ import 'package:travel_link/src/features/account/domain/user_account.dart';
 import 'package:travel_link/src/features/account/presentation/account_controller.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
 import 'package:travel_link/src/utils/constants/image_strings.dart';
+import 'package:travel_link/src/utils/helpers/async_value.dart';
 import 'package:travel_link/src/utils/helpers/localization.dart';
 import 'package:travel_link/src/utils/theme/widget_themes/boxDecoration_theme.dart';
 
@@ -63,6 +64,11 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    ref.listen<AsyncValue>(
+      accountControllerProvider,
+      (_, state) => state.showSnackbarOnError(context),
+    );
+
     nameController.text = widget.userAccount.publicName ?? defaultUsername;
     aboutMeController.text =
         widget.userAccount.description ?? defaultAboutMeText;

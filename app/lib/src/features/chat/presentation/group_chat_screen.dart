@@ -8,6 +8,7 @@ import 'package:travel_link/src/features/chat/presentation/my_message_tile.dart'
 import 'package:travel_link/src/features/chat/presentation/reply_message_tile.dart';
 import 'package:travel_link/src/features/explore_trips/domain/trip.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
+import 'package:travel_link/src/utils/helpers/async_value.dart';
 import 'package:travel_link/src/utils/helpers/localization.dart';
 import 'package:travel_link/src/utils/logging/logger.dart';
 
@@ -36,6 +37,10 @@ class _GroupChatScreenState extends ConsumerState<GroupChatScreen> {
 
   @override
   Widget build(BuildContext context) {
+    ref.listen<AsyncValue>(
+      groupChatControllerProvider,
+      (_, state) => state.showSnackbarOnError(context),
+    );
     final chatMessages = ref.watch(tripChatStreamProvider(widget.trip.tripId));
 
     return chatMessages.when(

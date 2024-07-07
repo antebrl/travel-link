@@ -8,6 +8,7 @@ import 'package:travel_link/src/features/checklists/domain/checklist_item.dart';
 import 'package:travel_link/src/features/checklists/presentation/checklist_controller.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
 import 'package:travel_link/src/features/checklists/lib/checklist_items.dart';
+import 'package:travel_link/src/utils/helpers/async_value.dart';
 
 class PersonalChecklistView extends ConsumerStatefulWidget {
   const PersonalChecklistView({required this.tripId, super.key});
@@ -148,6 +149,10 @@ class _PersonalChecklistViewState extends ConsumerState<PersonalChecklistView> {
 
   @override
   Widget build(BuildContext context) {
+    ref.listen<AsyncValue>(
+      checklistControllerProvider,
+      (_, state) => state.showSnackbarOnError(context),
+    );
     final fetchedChecklist = ref.watch(
       fetchTripChecklistProvider(
         tripId: widget.tripId,
@@ -385,6 +390,7 @@ class _EditTaskDialogState extends State<EditTaskDialog> {
 
   @override
   Widget build(BuildContext context) {
+    
     return AlertDialog(
       title: const Text('Edit Task'),
       content: Column(
