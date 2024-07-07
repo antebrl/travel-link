@@ -192,6 +192,7 @@
 
   "accountNotificationProfileSaved": "Profile saved",
   "accountNotificationAccountSaved": "Account saved",
+  "accountNotificationProfileError": "Profile incomplete. Please make sure that you have a valid username.",
 
   "accountHeading": "Account",
   "accountInformation": "Account Management",
@@ -205,8 +206,11 @@
   "editProfileHeading": "Edit Profile",
   "editProfilePersonalInformation": "Personal Information",
   "editProfileName": "Name",
+  "editProfileNamePlaceholder": "Please enter your name",
   "editProfileOrigin": "City",
+  "editProfileOriginPlaceholder": "Please enter your city",
   "editProfileAboutMe": "About Me",
+  "editProfileAboutMePlaceholder": "Please tell us something about yourself",
   "editProfileLanguages": "Languages",
   "editProfileLanguagesSearch": "Search",
   "editProfileLanguagesSearchPlaceholder": "Start typing to search...",

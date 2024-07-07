@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:toastification/toastification.dart';
 import 'package:travel_link/src/features/account/presentation/edit_profile_screen.dart';
 import 'package:travel_link/src/features/authentication/data/firebase_auth_repository.dart';
 import 'package:travel_link/src/features/trip_overview/data/user_repository.dart';
@@ -242,10 +243,29 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
                           userData.when(
                             data: (userAccount) => IconButton(
                               onPressed: () {
+                                if (userAccount == null) {
+                                  toastification.show(
+                                    context: context,
+                                    showProgressBar: false,
+                                    type: ToastificationType.error,
+                                    style: ToastificationStyle.flat,
+                                    title: Text(context
+                                        .loc.accountNotificationProfileError),
+                                    alignment: Alignment.topCenter,
+                                    autoCloseDuration:
+                                        const Duration(seconds: 4),
+                                    closeButtonShowType:
+                                        CloseButtonShowType.none,
+                                  );
+
+                                  context.pushNamed(
+                                      AccountRoutes.accountInformation.name);
+                                  return;
+                                }
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
                                     builder: (context) => EditProfileScreen(
-                                      userAccount: userAccount!,
+                                      userAccount: userAccount,
                                     ),
                                   ),
                                 );
