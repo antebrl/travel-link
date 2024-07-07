@@ -57,6 +57,9 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    nameController.text = widget.userAccount.publicName ?? '';
+    aboutMeController.text = widget.userAccount.description ?? '';
+    cityController.text = widget.userAccount.city ?? '';
     ref.listen<AsyncValue>(
       accountControllerProvider,
       (_, state) => state.showSnackbarOnError(context),
