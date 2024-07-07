@@ -8,6 +8,7 @@ import 'package:travel_link/src/features/authentication/data/firebase_auth_repos
 import 'package:travel_link/src/features/explore_trips/domain/trip.dart';
 import 'package:travel_link/src/features/gallery/data/shared_gallery_repository.dart';
 import 'package:travel_link/src/features/gallery/presentation/shared_gallery_controller.dart';
+import 'package:travel_link/src/utils/helpers/async_value.dart';
 import 'package:travel_link/src/utils/helpers/localization.dart';
 
 class AddPictureScreen extends ConsumerStatefulWidget {
@@ -48,6 +49,10 @@ class _AddPictureScreenState extends ConsumerState<AddPictureScreen> {
 
   @override
   Widget build(BuildContext context) {
+    ref.listen<AsyncValue>(
+      sharedGalleryControllerProvider,
+      (_, state) => state.showSnackbarOnError(context),
+    );
     final state = ref.watch(sharedGalleryControllerProvider);
     final auth = ref.watch(authRepositoryProvider);
 
@@ -100,12 +105,11 @@ class _AddPictureScreenState extends ConsumerState<AddPictureScreen> {
                       );
 
                       if (image != null) {
-                          final Uint8List imageBytes =
-                              await image.readAsBytes();
-                          setState(() {
-                            tempUploadImg = imageBytes;
-                            tempImg = image.path;
-                          });
+                        final Uint8List imageBytes = await image.readAsBytes();
+                        setState(() {
+                          tempUploadImg = imageBytes;
+                          tempImg = image.path;
+                        });
                       }
                     },
                     child: tempImg != null

@@ -7,6 +7,7 @@ import 'package:travel_link/src/features/explore_trips/domain/trip.dart';
 import 'package:travel_link/src/routing/app_router.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
 import 'package:travel_link/src/utils/constants/image_strings.dart';
+import 'package:travel_link/src/utils/helpers/async_value.dart';
 import 'package:travel_link/src/utils/helpers/localization.dart';
 
 class AddToTripButton extends ConsumerWidget {
@@ -22,6 +23,10 @@ class AddToTripButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    ref.listen<AsyncValue>(
+      addActivityControllerProvider,
+      (_, state) => state.showSnackbarOnError(context),
+    );
     if (addedTrip != null) {
       return ElevatedButton(
         onPressed: () {

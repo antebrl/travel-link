@@ -14,6 +14,7 @@ import 'package:travel_link/src/features/my_trips/presentation/trip_information_
 import 'package:travel_link/src/utils/constants/api_constants.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
 import 'package:travel_link/src/utils/formatters/formatter.dart';
+import 'package:travel_link/src/utils/helpers/async_value.dart';
 import 'package:travel_link/src/utils/helpers/localization.dart';
 import 'package:travel_link/src/utils/logging/logger.dart';
 
@@ -98,8 +99,12 @@ class CreateTripScreenState extends ConsumerState<CreateTripScreen> {
 
   @override
   Widget build(BuildContext context) {
-    //final textTheme = Theme.of(context).textTheme;
+    ref.listen<AsyncValue>(
+      myTripsControllerProvider,
+      (_, state) => state.showSnackbarOnError(context),
+    );
     final state = ref.watch(myTripsControllerProvider);
+
     return DraggableScrollableSheet(
       expand: false,
       initialChildSize: 0.7,

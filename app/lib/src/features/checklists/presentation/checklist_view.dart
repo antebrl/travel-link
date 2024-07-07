@@ -10,6 +10,7 @@ import 'package:travel_link/src/features/checklists/presentation/checklist_contr
 import 'package:travel_link/src/features/trip_overview/data/user_repository.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
 import 'package:travel_link/src/utils/constants/image_strings.dart';
+import 'package:travel_link/src/utils/helpers/async_value.dart';
 
 import '../lib/checklist_items.dart';
 
@@ -263,6 +264,11 @@ class _ChecklistViewState extends ConsumerState<ChecklistView> {
 
   @override
   Widget build(BuildContext context) {
+    ref.listen<AsyncValue>(
+      checklistControllerProvider,
+      (_, state) => state.showSnackbarOnError(context),
+    );
+    
     final fetchedChecklist = ref.watch(
         fetchTripChecklistProvider(tripId: widget.tripId, onlyPublic: true));
 

@@ -8,6 +8,7 @@ import 'package:travel_link/src/features/activities/4_add_activity_screen/presen
 import 'package:travel_link/src/features/activities/4_add_activity_screen/presentation/image_input.dart';
 import 'package:travel_link/src/features/activities/4_add_activity_screen/presentation/location_input.dart';
 import 'package:travel_link/src/utils/constants/colors.dart';
+import 'package:travel_link/src/utils/helpers/async_value.dart';
 import 'package:travel_link/src/utils/helpers/localization.dart';
 
 class AddActivityScreen extends ConsumerStatefulWidget {
@@ -98,6 +99,10 @@ class _AddActivityScreenState extends ConsumerState<AddActivityScreen> {
 
   @override
   Widget build(BuildContext context) {
+    ref.listen<AsyncValue>(
+      activitiesControllerProvider,
+      (_, state) => state.showSnackbarOnError(context),
+    );
     if (_user == null) {
       return Scaffold(
         appBar: AppBar(
