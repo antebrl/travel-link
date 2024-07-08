@@ -1,5 +1,5 @@
 <div style="text-align: center;">
-    <img src="/assets/images/travel.gif" alt="app-logo" style="width: 200px;">
+    <img src="assets/images/travel.gif" alt="app-logo" style="width: 200px;">
 </div>
 
 Creating the TraveLink App has been an interesting journey. Through the process, we gained a much better understanding of design principles. We learned the real challenge of balancing aesthetics with functionality. We aimed to make thoughtful decisions for all design aspects, such as color schemes and user flow. Often, we encountered situations where we had multiple solutions. In those cases, we trusted our instincts and are very happy with how the design turned out.
@@ -9,4 +9,4 @@ Of course, we faced challenges, but by discussing these problems within our grou
 
 
 ## Presentation
-[Download Presentation](/assets/HCI_Abschlusspräsentation_TraveLink.pdf){ .md-button }
+[Download Presentation](assets/HCI_Abschlusspräsentation_TraveLink.pdf){ .md-button }
