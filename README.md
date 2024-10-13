@@ -1,4 +1,5 @@
-# Vision Statement
+# TraveLink App
+## Vision Statement
 For **group travelers**, <br>
 Who are **overwhelmed** by trip planning complexities <br>
 Our travel-app is a **comprehensive travel organization tool** <br>
